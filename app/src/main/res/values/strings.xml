@@ -5,4 +5,9 @@
     <string name="intro_text_description">Collaborate and Plan Together Across Multiple Devices on Flaam’s Minimalist Interface.</string>
     <string name="sign_in">SIGN IN</string>
     <string name="register">REGISTER</string>
+    <string name="sign_in_description_text">Enter your name, email id and password, to register with us.</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Password</string>
+    <string name="register_description_text">Enter your name, email id and password, to register with us.</string>
+    <string name="name">Name</string>
 </resources>

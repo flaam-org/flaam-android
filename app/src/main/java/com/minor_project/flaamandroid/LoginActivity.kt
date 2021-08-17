@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.widget.Toolbar
 
-class SignInActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_register)
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -16,12 +16,11 @@ class SignInActivity : AppCompatActivity() {
         )
 
         setUpActionBar()
-
     }
 
     private fun setUpActionBar() {
-        val toolbarSignInActivity = findViewById<Toolbar>(R.id.toolbar_sign_in_activity)
-        setSupportActionBar(toolbarSignInActivity)
+        val toolbarSignUpActivity = findViewById<Toolbar>(R.id.toolbar_sign_up_activity)
+        setSupportActionBar(toolbarSignUpActivity)
 
         val actionBar = supportActionBar
         if (actionBar != null) {
@@ -29,7 +28,7 @@ class SignInActivity : AppCompatActivity() {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_black_color_back_24dp)
         }
 
-        toolbarSignInActivity.setNavigationOnClickListener {
+        toolbarSignUpActivity.setNavigationOnClickListener {
             onBackPressed()
         }
     }

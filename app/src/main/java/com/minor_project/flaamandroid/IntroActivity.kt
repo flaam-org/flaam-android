@@ -21,7 +21,7 @@ class IntroActivity : AppCompatActivity() {
         val btnRegisterIntro = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.btn_register_intro)
 
         btnRegisterIntro.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
 
         btnSignInIntro.setOnClickListener {
