@@ -130,9 +130,10 @@ jobs:
           -F chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
           -F parse_mode=HTML \
           -F caption=\
-          "📱 <b>Debug Apk released</b> \
+          "📱 <b>Debug Apk released</b>" \
           -F document=@"./app/build/outputs/apk/debug/app-debug.apk" \
           https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendDocument
+
       - name: Send a message if build fails
         if: failure()
         run: |
