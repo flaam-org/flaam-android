@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -29,6 +32,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
 }
 
 dependencies {
@@ -37,7 +45,51 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+
+    // networking
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    def okhttp = "4.9.1"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+
+    // dependency injection
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-android-compiler:2.38.1"
+
+    // image parse
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+
+    // local data
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+
+    //json parser
+    def version_moshi = "1.12.0"
+    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$version_moshi"
+
+
+    // Lifecycle
+    def version_lifecycle = "2.3.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$version_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$version_lifecycle"
+
+    // Navigation
+    def version_navigation = "2.3.5"
+    implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
+
+    // Logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+
+
+
+
 }
