@@ -60,7 +60,7 @@ jobs:
       - name: Extract debug.keystore
         run: |
           mkdir -p ~/.android
-          echo ${{ secrets.TELEGRAM_CHAT_ID }} | base64 -d > ~/.android/debug.keystore
+          echo ${{ secrets.DEBUG_KEYSTORE }} | base64 -d > ~/.android/debug.keystore
 
       - name: Build app
         uses: eskatos/gradle-command-action@v1
