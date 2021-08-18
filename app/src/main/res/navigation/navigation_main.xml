@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation_main">
+    android:id="@+id/navigation_main"
+    app:startDestination="@id/spashFragment">
 
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.minor_project.flaamandroid.ui.fragments.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.minor_project.flaamandroid.ui.fragments.SignInFragment"
+        android:label="SignInFragment" />
+    <fragment
+        android:id="@+id/introFragment"
+        android:name="com.minor_project.flaamandroid.ui.fragments.IntroFragment"
+        android:label="IntroFragment" >
+        <action
+            android:id="@+id/action_introFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_introFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/spashFragment"
+        android:name="com.minor_project.flaamandroid.ui.fragments.SplashFragment"
+        android:label="SpashFragment" >
+        <action
+            android:id="@+id/action_spashFragment_to_introFragment"
+            app:destination="@id/introFragment" />
+    </fragment>
 </navigation>

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FlaamAndroid">
         <activity
-            android:name=".SplashActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.FlaamAndroid.NoActionBar">
@@ -38,10 +38,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.FlaamAndroid.NoActionBar" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+
     </application>
 
 </manifest>
