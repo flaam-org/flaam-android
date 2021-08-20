@@ -30,6 +30,7 @@ jobs:
           echo ::set-output name=files_changed::$FILES_CHANGED
 
       - name: Send a message about the latest commit
+        if:  "!(github.event_name == 'workflow_dispatch')"
         run: |
           curl \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
@@ -65,10 +66,10 @@ jobs:
           echo "${{ secrets.DEBUG_KEYSTORE }}" | base64 -d > ~/.android/debug.keystore
 
       - name: Build app
-        uses: eskatos/gradle-command-action@v1
+        uses: gradle/gradle-command-action@v1
         with:
           arguments: assembleDebug
-          wrapper-cache-enabled: true
+          distributions-cache-enabled: true
           dependencies-cache-enabled: true
           configuration-cache-enabled: true
 
@@ -128,11 +129,11 @@ jobs:
       #     "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
 
       - name: Send apk to chat
-        if: "contains(github.event.head_commit.message, '#genapk')"
+        if: contains(github.event.head_commit.message, 'tgapk') || github.event_name == 'workflow_dispatch'
         run: |
           curl \
           -F chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d disable_notification=true \
+          -F disable_notification=true \
           -F parse_mode=HTML \
           -F caption=\
           "📱 <b>Debug Apk released</b>" \
