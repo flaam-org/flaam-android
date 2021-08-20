@@ -19,10 +19,7 @@ class SplashFragment : Fragment(R.layout.fragment_intro_temp) {
         savedInstanceState: Bundle?
     ): View? {
 
-
-        Handler().postDelayed({
-            findNavController().navigate(R.id.introFragment)
-        }, 2000)
+        findNavController().navigate(R.id.introFragment)
 
 
         // Inflate the layout for this fragment
