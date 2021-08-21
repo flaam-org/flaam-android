@@ -1,8 +1,6 @@
 package com.minor_project.flaamandroid.ui.fragments
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,11 +25,11 @@ class SplashFragment : Fragment(R.layout.fragment_intro_temp) {
 
         lifecycleScope.launch(Dispatchers.Main) {
             delay(2000L)
-            findNavController().navigate(R.id.introFragment)
+            findNavController().navigate(SplashFragmentDirections.actionSpashFragmentToIntroFragment())
         }
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_spash, container, false)
+        return inflater.inflate(R.layout.fragment_splash, container, false)
     }
 
 

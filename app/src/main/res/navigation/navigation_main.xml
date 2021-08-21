@@ -29,6 +29,8 @@
         android:label="SpashFragment" >
         <action
             android:id="@+id/action_spashFragment_to_introFragment"
-            app:destination="@id/introFragment" />
+            app:destination="@id/introFragment"
+            app:popUpTo="@id/spashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
