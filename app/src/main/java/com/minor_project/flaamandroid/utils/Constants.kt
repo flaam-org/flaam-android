@@ -1,4 +1,5 @@
 package com.minor_project.flaamandroid.utils
 
-class Constants {
+object Constants {
+    const val BASE_URL = ""
 }
