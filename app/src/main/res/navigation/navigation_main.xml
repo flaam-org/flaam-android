@@ -6,11 +6,11 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.minor_project.flaamandroid.ui.fragments.LoginFragment"
+        android:name="com.minor_project.flaamandroid.ui.fragments.auth.LoginFragment"
         android:label="LoginFragment" />
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.minor_project.flaamandroid.ui.fragments.SignInFragment"
+        android:name="com.minor_project.flaamandroid.ui.fragments.auth.SignUpFragment"
         android:label="SignInFragment" />
     <fragment
         android:id="@+id/introFragment"
