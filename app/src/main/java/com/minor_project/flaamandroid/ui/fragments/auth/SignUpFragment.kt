@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.request.LoginRequest
-import com.minor_project.flaamandroid.databinding.FragmentSignInBinding
+import com.minor_project.flaamandroid.databinding.FragmentSignUpBinding
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,14 +18,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class SignUpFragment : Fragment() {
 
 
-    private lateinit var binding: FragmentSignInBinding
+    private lateinit var binding: FragmentSignUpBinding
     private val viewModel: SignUpViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSignInBinding.inflate(inflater)
+        binding = FragmentSignUpBinding.inflate(inflater)
 
         initObservers()
         initOnClick()

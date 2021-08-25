@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_main"
     app:startDestination="@id/spashFragment">
 
@@ -17,7 +18,7 @@
         android:name="com.minor_project.flaamandroid.ui.fragments.IntroFragment"
         android:label="IntroFragment" >
         <action
-            android:id="@+id/action_introFragment_to_signInFragment"
+            android:id="@+id/action_introFragment_to_signUpFragment"
             app:destination="@id/signInFragment" />
         <action
             android:id="@+id/action_introFragment_to_loginFragment"

@@ -22,10 +22,10 @@ class IntroFragment : Fragment() {
 
         binding.apply {
             btnRegisterIntro.setOnClickListener {
-                findNavController().navigate(IntroFragmentDirections.actionIntroFragmentToSignInFragment())
+                findNavController().navigate(IntroFragmentDirections.actionIntroFragmentToSignUpFragment())
             }
             btnSignInIntro.setOnClickListener {
-                findNavController().navigate(IntroFragmentDirections.actionIntroFragmentToSignInFragment())
+                findNavController().navigate(IntroFragmentDirections.actionIntroFragmentToLoginFragment())
             }
         }
 
