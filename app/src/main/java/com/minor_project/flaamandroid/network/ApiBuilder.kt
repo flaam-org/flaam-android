@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 class ApiBuilder(private val context: Context) {
 
-    val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
+    private val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
@@ -26,6 +26,7 @@ class ApiBuilder(private val context: Context) {
             .readTimeout(100, TimeUnit.SECONDS)
             .addInterceptor {
                 val request = it.request()
+
                 request.newBuilder().apply {
                     addHeader("Content-Type", "application/json")
 
