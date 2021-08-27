@@ -2,9 +2,7 @@ package com.minor_project.flaamandroid.di
 
 import android.content.Context
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.network.ApiBuilder
-import com.minor_project.flaamandroid.network.FlaamApi
-import com.minor_project.flaamandroid.network.FlaamRepository
+import com.minor_project.flaamandroid.network.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,16 +24,34 @@ class HiltModule {
     fun providePreferences(@ApplicationContext context: Context) = UserPreferences(context)
 
 
+
     @Provides
     @Singleton
-    fun provideApi(
-        @ApplicationContext context: Context,
-        userPreferences: UserPreferences
-    ): FlaamApi {
-        return runBlocking {
-            ApiBuilder(context).getFlaamApi(userPreferences)
-        }
+    fun provideAuthApi(
+        @ApplicationContext context: Context
+    ): AuthApi {
+        return ApiBuilder(context).getFlaamApiForAuthRepo()
     }
+
+
+
+    @Provides
+    @Singleton
+    fun providesAuthRepo(authApi: AuthApi) = AuthRepository(authApi)
+
+    @Provides
+    @Singleton
+    fun provideFlaamApi(
+        @ApplicationContext context: Context,
+        userPreferences: UserPreferences,
+        authRepo: AuthRepository
+    ): FlaamApi = ApiBuilder(context).getFlaamApi(userPreferences, authRepo)
+
+
+
+
+
+
 
     @Provides
     @Singleton

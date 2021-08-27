@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minor_project.flaamandroid.data.request.LoginRequest
 import com.minor_project.flaamandroid.data.response.RegisterUserResponse
+import com.minor_project.flaamandroid.network.AuthRepository
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.handlePostResponse
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val repo: FlaamRepository): ViewModel() {
+class SignUpViewModel @Inject constructor(private val repo: AuthRepository): ViewModel() {
 
     private val _registerUserResult = MutableLiveData<ApiException<RegisterUserResponse>>()
     val registerUserResult: LiveData<ApiException<RegisterUserResponse>> = _registerUserResult
