@@ -44,7 +44,7 @@ class SignUpFragment : Fragment() {
                     ))
                 }
                 else{
-                    makeToast("missing required fields!")
+                    makeToast("Missing Required Fields!")
                 }
             }
 
@@ -67,6 +67,15 @@ class SignUpFragment : Fragment() {
                 tilPassFragmentSignIn.error = emptyFieldError
                 return false
             }
+            if(etFnameSignUp.text.isNullOrEmpty()){
+                tilFnameFragmentSignUp.error = emptyFieldError
+                return false
+            }
+            if(etLnameSignUp.text.isNullOrEmpty()){
+                tilLnameFragmentSignUp.error = emptyFieldError
+                return false
+            }
+
             return true
         }
     }
