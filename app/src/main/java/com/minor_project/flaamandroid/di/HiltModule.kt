@@ -8,21 +8,15 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 class HiltModule {
-
-
-
     @Provides
     @Singleton
     fun providePreferences(@ApplicationContext context: Context) = UserPreferences(context)
-
 
 
     @Provides
@@ -34,10 +28,10 @@ class HiltModule {
     }
 
 
-
     @Provides
     @Singleton
     fun providesAuthRepo(authApi: AuthApi) = AuthRepository(authApi)
+
 
     @Provides
     @Singleton
@@ -48,14 +42,8 @@ class HiltModule {
     ): FlaamApi = ApiBuilder(context).getFlaamApi(userPreferences, authRepo)
 
 
-
-
-
-
-
     @Provides
     @Singleton
     fun provideRepo(flaamApi: FlaamApi): FlaamRepository = FlaamRepository(flaamApi)
-
 
 }

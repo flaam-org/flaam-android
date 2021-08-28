@@ -5,14 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.LoginRequest
 import com.minor_project.flaamandroid.databinding.FragmentLoginBinding
-import com.minor_project.flaamandroid.ui.fragments.IntroFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +20,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
+
 
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
@@ -45,8 +43,6 @@ class LoginFragment : Fragment() {
             btnSignIn.setOnClickListener {
                 if(validate()){
                     viewModel.postLoginRequest(LoginRequest(etPasswordSignIn.text.toString(), etEmailSignIn.text.toString(), null))
-
-                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToFeedFragment())
                 }else{
                     makeToast("missing fields!")
                 }
@@ -63,6 +59,7 @@ class LoginFragment : Fragment() {
                     runBlocking {
                         preferences.updateTokens(it.body)
                         makeToast("user logged in! ${preferences.getToken().first()}")
+                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToFeedFragment())
                     }
 
                 }

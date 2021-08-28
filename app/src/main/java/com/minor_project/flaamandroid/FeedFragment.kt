@@ -25,5 +25,4 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 
-
 }
