@@ -73,6 +73,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="@string/register"
+        android:textColor="@color/primaryTextColor"
         android:textSize="18sp" />
 
 </LinearLayout>

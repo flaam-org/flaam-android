@@ -9,7 +9,7 @@
     <string name="email">E-Mail</string>
     <string name="password">Password</string>
     <string name="register_description_text">Enter your name, email id and password, to register with us.</string>
-    <string name="name">Name</string>
+    <string name="name">Username</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sample_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ipsum tellus, cursus eget sem nec, sagittis placerat felis. Quisque eu congue nisl, ut sodales risus. Donec fringilla rutrum odio, et eleifend dolor mollis eget.</string>
