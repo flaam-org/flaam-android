@@ -54,7 +54,7 @@
                 android:padding="16dp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_name_fragment_sign_in"
+                    android:id="@+id/til_username_fragment_sign_up"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -63,7 +63,7 @@
                     app:boxBackgroundColor="@android:color/transparent">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/et_username"
+                        android:id="@+id/et_username_sign_up"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name"

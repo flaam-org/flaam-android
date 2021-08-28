@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
         binding.apply {
             btnSignIn.setOnClickListener {
                 if(validate()){
-                    viewModel.postLoginRequest(LoginRequest(etPasswordSignIn.text.toString(), etEmailSignIn.text.toString(), null))
+                    viewModel.postLoginRequest(LoginRequest(null, null, null, etPasswordSignIn.text.toString(), etUsernameSignIn.text.toString()))
                 }else{
                     makeToast("missing fields!")
                 }
@@ -71,7 +71,7 @@ class LoginFragment : Fragment() {
     private fun validate(): Boolean {
         val emptyFieldError = "This Field Is Required!"
         binding.apply {
-            if(etEmailSignIn.text.isNullOrEmpty()){
+            if(etUsernameSignIn.text.isNullOrEmpty()){
                 tilUsernameLogin.error = emptyFieldError
                 return false
             }

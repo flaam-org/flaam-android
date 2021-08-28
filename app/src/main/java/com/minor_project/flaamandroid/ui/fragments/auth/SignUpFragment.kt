@@ -40,7 +40,7 @@ class SignUpFragment : Fragment() {
             btnSignUp.setOnClickListener {
                 if(validate()){
                     viewModel.postRegisterUser(LoginRequest(
-                        etPasswordSignIn.text.toString(), etUsername.text.toString(), etEmailSignIn.text.toString()
+                        etEmailSignIn.text.toString(), etFnameSignUp.text.toString(), etLnameSignUp.text.toString(), etPasswordSignIn.text.toString(), etUsernameSignUp.text.toString()
                     ))
                 }
                 else{
@@ -59,8 +59,8 @@ class SignUpFragment : Fragment() {
                 tilEmailFragmentSignIn.error = emptyFieldError
                 return false
             }
-            if(etUsername.text.isNullOrEmpty()){
-                tilNameFragmentSignIn.error = emptyFieldError
+            if(etUsernameSignUp.text.isNullOrEmpty()){
+                tilUsernameFragmentSignUp.error = emptyFieldError
                 return false
             }
             if(etPasswordSignIn.text.isNullOrEmpty()){
