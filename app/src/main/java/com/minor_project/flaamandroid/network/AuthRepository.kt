@@ -9,7 +9,6 @@ class AuthRepository(private val api: AuthApi) {
 
     suspend fun postLogin(body: LoginRequest) = api.postLogin(body)
 
-
     suspend fun registerUser(body: LoginRequest) = api.registerUser(body)
 
 }
