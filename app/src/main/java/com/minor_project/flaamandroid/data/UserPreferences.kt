@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.minor_project.flaamandroid.data.request.LoginRequest
 import com.minor_project.flaamandroid.data.response.LoginResponse
+import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -20,6 +22,17 @@ class UserPreferences(private val context: Context) {
         context.dataStore.edit {
             it[ACCESS_TOKEN] = tokens.access.toString()
             it[REFRESH_TOKEN] = tokens.access.toString()
+        }
+    }
+
+    suspend fun registerUser(registerUser: ViewProfileResponse){
+        context.dataStore.edit {
+        registerUser.apply {
+            it[FIRST_NAME] = firstName.toString()
+            it[LAST_NAME] = lastName.toString()
+            it[MAIL] = email.toString()
+            it[USER_NAME] = username.toString()
+        }
         }
     }
 
