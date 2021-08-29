@@ -2,12 +2,40 @@ package com.minor_project.flaamandroid
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.findNavController
+import com.minor_project.flaamandroid.data.UserPreferences
+import com.minor_project.flaamandroid.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var userPrefs: UserPreferences
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
+
+        val navController = findNavController(R.id.fragmentContainerView)
+
+        navController.navigate(R.id.splashFragment)
+
+        runBlocking {
+            delay(2000L)
+            if(userPrefs.getToken().first() == null){
+                navController.navigate(R.id.introFragment)
+            }else{
+
+                navController.navigate(R.id.feedFragment)
+            }
+        }
     }
 }

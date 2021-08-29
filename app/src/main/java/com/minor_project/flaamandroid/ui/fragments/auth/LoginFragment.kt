@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.LoginRequest
+import com.minor_project.flaamandroid.data.response.LoginResponse
 import com.minor_project.flaamandroid.databinding.FragmentLoginBinding
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.makeToast
@@ -59,9 +60,26 @@ class LoginFragment : Fragment() {
                     runBlocking {
                         preferences.updateTokens(it.body)
                         makeToast("user logged in! ${preferences.getToken().first()}")
-                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToFeedFragment())
+                        viewModel.getUserProfile()
                     }
 
+                }
+            }
+        }
+
+        viewModel.userProfile.observe(viewLifecycleOwner){
+            when(it){
+                is ApiException.Error -> {
+                    runBlocking { preferences.updateTokens(LoginResponse(null, null)) }
+
+                }
+
+                is ApiException.Success -> {
+                    runBlocking {
+                        preferences.registerUser(it.body)
+                    }
+
+                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToFeedFragment())
                 }
             }
         }

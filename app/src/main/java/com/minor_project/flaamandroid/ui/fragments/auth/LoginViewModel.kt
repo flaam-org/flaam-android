@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minor_project.flaamandroid.data.request.LoginRequest
 import com.minor_project.flaamandroid.data.response.LoginResponse
+import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.AuthRepository
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiException
@@ -16,15 +17,25 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val repo: AuthRepository): ViewModel() {
+class LoginViewModel @Inject constructor(private val repo: AuthRepository, private val flaamRepo: FlaamRepository): ViewModel() {
 
     private val _loginResult = MutableLiveData<ApiException<LoginResponse>>()
     val loginResult: LiveData<ApiException<LoginResponse>> = _loginResult
+
+    private val _userProfile = MutableLiveData<ApiException<ViewProfileResponse>>()
+    val userProfile: LiveData<ApiException<ViewProfileResponse>> = _userProfile
 
     fun postLoginRequest(data: LoginRequest){
         viewModelScope.launch {
             val res = repo.postLogin(data)
             _loginResult.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun getUserProfile(){
+        viewModelScope.launch {
+            val res = flaamRepo.getUserProfile()
+            _userProfile.postValue(handleGetResponse(res))
         }
     }
 }

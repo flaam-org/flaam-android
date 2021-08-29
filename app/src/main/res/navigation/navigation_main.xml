@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_main"
-    app:startDestination="@id/spashFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -29,13 +29,13 @@
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/spashFragment"
+        android:id="@+id/splashFragment"
         android:name="com.minor_project.flaamandroid.ui.fragments.SplashFragment"
-        android:label="SpashFragment" >
+        android:label="SplashFragment">
         <action
             android:id="@+id/action_spashFragment_to_introFragment"
             app:destination="@id/introFragment"
-            app:popUpTo="@id/spashFragment"
+            app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

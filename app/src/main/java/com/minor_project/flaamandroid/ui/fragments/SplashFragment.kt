@@ -22,12 +22,9 @@ class SplashFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSplashBinding.inflate(inflater)
-        lifecycleScope.launch(Dispatchers.Main) {
-            delay(2000L)
-            findNavController().navigate(SplashFragmentDirections.actionSpashFragmentToIntroFragment())
-        }
+
 
         // Inflate the layout for this fragment
         return binding.root
