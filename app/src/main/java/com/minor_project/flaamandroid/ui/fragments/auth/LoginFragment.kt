@@ -58,10 +58,11 @@ class LoginFragment : Fragment() {
                 is ApiException.Error -> makeToast(it.message.toString())
                 is ApiException.Success -> {
                     runBlocking {
-                        preferences.updateTokens(it.body)
+                        runBlocking {
+                            preferences.updateTokens(it.body)
+                        }
                         makeToast("user logged in! ${preferences.getToken().first()}")
                         viewModel.getUserProfile()
-                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToFeedFragment())
                     }
 
                 }
@@ -72,7 +73,6 @@ class LoginFragment : Fragment() {
             when(it){
                 is ApiException.Error -> {
                     runBlocking { preferences.updateTokens(LoginResponse(null, null)) }
-
                 }
 
                 is ApiException.Success -> {

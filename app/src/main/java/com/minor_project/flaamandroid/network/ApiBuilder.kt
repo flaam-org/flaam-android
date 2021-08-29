@@ -10,11 +10,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 class ApiBuilder(private val context: Context) {
 
@@ -24,13 +25,18 @@ class ApiBuilder(private val context: Context) {
 
     fun getFlaamApi(userPreferences: UserPreferences, authRepo: AuthRepository): FlaamApi {
 
+        Timber.e("getflaamapi")
+
         val client = OkHttpClient().newBuilder()
             .connectTimeout(100, TimeUnit.SECONDS)
             .readTimeout(100, TimeUnit.SECONDS)
             .addInterceptor {
-                val request = it.request()
 
-                request.newBuilder().apply {
+                Timber.e("intercepted")
+
+                val originalRequest: Request = it.request()
+
+                var newRequest = originalRequest.newBuilder().apply {
                     addHeader("Content-Type", "application/json")
 
                     val token = runBlocking { userPreferences.getToken().first() }
@@ -38,24 +44,26 @@ class ApiBuilder(private val context: Context) {
                     if(token != null){
                         addHeader("Authorization", "Bearer $token")
                     }
-                }
+                }.build()
 
-                val res = it.proceed(request)
+                val res = it.proceed(newRequest)
 
                 if(res.code == 401){
                     runBlocking {
                         val response = authRepo.refreshToken(LoginResponse(null, userPreferences.getToken().last()))
                         if(response.code() == 201){
-                            request.newBuilder().addHeader("Authorization", "Bearer ${userPreferences.getToken().first()}")
+                            newRequest = newRequest.newBuilder().addHeader("Authorization", "Bearer ${userPreferences.getToken().first()}").build()
                         }else{
-                            // TODO: logout user
                         }
                     }
                 }
 
+                Timber.e(originalRequest.headers.toString() + "headers here")
+
                 return@addInterceptor res
             }.addNetworkInterceptor(httpLoggingInterceptor)
             .build()
+
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
         val retrofit = Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi)).client(client).baseUrl(Constants.BASE_URL).build()
@@ -66,6 +74,8 @@ class ApiBuilder(private val context: Context) {
 
     fun getFlaamApiForAuthRepo(): AuthApi {
 
+        Timber.e("authapi")
+
         val client = OkHttpClient().newBuilder()
             .connectTimeout(100, TimeUnit.SECONDS)
             .readTimeout(100, TimeUnit.SECONDS)
@@ -74,7 +84,7 @@ class ApiBuilder(private val context: Context) {
 
                 request.newBuilder().apply {
                     addHeader("Content-Type", "application/json")
-                }
+                }.build()
 
                 return@addInterceptor it.proceed(request)
             }.addNetworkInterceptor(httpLoggingInterceptor)

@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             if(userPrefs.getToken().first() == null){
                 navController.navigate(R.id.introFragment)
             }else{
-
+                Timber.e(userPrefs.getToken().first())
                 navController.navigate(R.id.feedFragment)
             }
         }
