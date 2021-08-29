@@ -61,6 +61,7 @@ class LoginFragment : Fragment() {
                         preferences.updateTokens(it.body)
                         makeToast("user logged in! ${preferences.getToken().first()}")
                         viewModel.getUserProfile()
+                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToFeedFragment())
                     }
 
                 }
