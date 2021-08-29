@@ -14,10 +14,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sample_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ipsum tellus, cursus eget sem nec, sagittis placerat felis. Quisque eu congue nisl, ut sodales risus. Donec fringilla rutrum odio, et eleifend dolor mollis eget.</string>
     <string name="view_more">view more …</string>
-    <string name="add_an_idea">ADD AN IDEA</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="username">Username</string>
     <string name="votes">Votes</string>
     <string name="implementations">Implementations</string>
+    <string name="post_idea">POST IDEA</string>
+    <string name="add_title">Add Title</string>
+    <string name="add_description">Add Description…</string>
+    <string name="search_ideas_to_implement">Search Ideas to Implement</string>
 </resources>

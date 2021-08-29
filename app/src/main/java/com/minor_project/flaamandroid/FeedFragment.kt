@@ -24,6 +24,10 @@ class FeedFragment : Fragment() {
 
         binding.apply {
 
+            binding.efabPostIdea.setOnClickListener {
+                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostIdeaFragment())
+            }
+
         }
         // Inflate the layout for this fragment
         return binding.root
@@ -34,7 +38,7 @@ class FeedFragment : Fragment() {
 
         val feedPostList = ArrayList<FeedPostModel>()
 
-        val n = FeedPostModel(R.drawable.ic_add_24dp,"soumya jain", 2, 4, "fjgntyhj frvktjtyb", "ejfnerjtn")
+        val n = FeedPostModel(R.drawable.ic_add_24dp,"soumya jain", 2, 4, resources.getString(R.string.sample_text))
 
         feedPostList.add(n)
         binding.rvFeedPosts.layoutManager = LinearLayoutManager(context)

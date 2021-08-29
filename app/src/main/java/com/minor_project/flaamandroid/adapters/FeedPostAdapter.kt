@@ -1,6 +1,7 @@
 package com.minor_project.flaamandroid.adapters
 
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,9 +39,8 @@ open class FeedPostAdapter(
 
 
             holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description).text = model.description
-            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_view_more).text = model.viewMore
 
-
+            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_view_more).paintFlags = Paint.UNDERLINE_TEXT_FLAG
         }
     }
 

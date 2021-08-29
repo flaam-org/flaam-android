@@ -7,5 +7,4 @@ data class FeedPostModel(
     val votes: Int,
     val implementations: Int,
     val description: String,
-    val viewMore: String,
 )
