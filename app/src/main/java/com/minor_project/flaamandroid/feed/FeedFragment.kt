@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid
+package com.minor_project.flaamandroid.feed
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.adapters.FeedPostAdapter
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.models.FeedPostModel
@@ -28,6 +28,10 @@ class FeedFragment : Fragment() {
                 findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostIdeaFragment())
             }
 
+            binding.civFeedFragmentMyProfile.setOnClickListener {
+                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToMyProfileFragment())
+            }
+
         }
         // Inflate the layout for this fragment
         return binding.root
@@ -38,7 +42,10 @@ class FeedFragment : Fragment() {
 
         val feedPostList = ArrayList<FeedPostModel>()
 
-        val n = FeedPostModel(R.drawable.ic_add_24dp,"soumya jain", 2, 4, resources.getString(R.string.sample_text))
+        val n = FeedPostModel(
+            R.drawable.ic_profile_image_place_holder,"soumya jain", 2, 4, resources.getString(
+                R.string.sample_text
+            ))
 
         feedPostList.add(n)
         binding.rvFeedPosts.layoutManager = LinearLayoutManager(context)

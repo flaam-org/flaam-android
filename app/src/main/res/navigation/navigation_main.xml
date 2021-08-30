@@ -41,16 +41,19 @@
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
-        android:name="com.minor_project.flaamandroid.FeedFragment"
+        android:name="com.minor_project.flaamandroid.feed.FeedFragment"
         android:label="fragment_feed"
         tools:layout="@layout/fragment_feed" >
         <action
             android:id="@+id/action_feedFragment_to_postIdeaFragment"
             app:destination="@id/postIdeaFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/postIdeaFragment"
-        android:name="com.minor_project.flaamandroid.ui.fragments.PostIdeaFragment"
+        android:name="com.minor_project.flaamandroid.feed.PostIdeaFragment"
         android:label="fragment_post_idea"
         tools:layout="@layout/fragment_post_idea" />
     <action
@@ -58,6 +61,11 @@
         app:destination="@id/feedFragment"
         app:popUpTo="@id/splashFragment"
         app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.minor_project.flaamandroid.feed.MyProfileFragment"
+        android:label="fragment_my_profile"
+        tools:layout="@layout/fragment_my_profile" />
 
 
 </navigation>

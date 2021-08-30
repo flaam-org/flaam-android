@@ -23,4 +23,6 @@
     <string name="add_title">Add Title</string>
     <string name="add_description">Add Description…</string>
     <string name="search_ideas_to_implement">Search Ideas to Implement</string>
+    <string name="update">UPDATE</string>
+    <string name="date_joined">Date Joined : </string>
 </resources>
