@@ -6,6 +6,7 @@ import com.minor_project.flaamandroid.data.response.LoginResponse
 import com.minor_project.flaamandroid.utils.Constants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
@@ -39,20 +40,27 @@ class ApiBuilder(private val context: Context) {
                 var newRequest = originalRequest.newBuilder().apply {
                     addHeader("Content-Type", "application/json")
 
-                    val token = runBlocking { userPreferences.getToken().first() }
+                    val token = runBlocking { userPreferences.accessToken.first() }
 
                     if(token != null){
                         addHeader("Authorization", "Bearer $token")
                     }
                 }.build()
 
-                val res = it.proceed(newRequest)
-
+                var res = it.proceed(newRequest)
+                Timber.e(res.code.toString())
                 if(res.code == 401){
                     runBlocking {
-                        val response = authRepo.refreshToken(LoginResponse(null, userPreferences.getToken().last()))
-                        if(response.code() == 201){
-                            newRequest = newRequest.newBuilder().addHeader("Authorization", "Bearer ${userPreferences.getToken().first()}").build()
+                        Timber.e("runblocking init")
+
+                        val response = authRepo.refreshToken(LoginResponse(null, userPreferences.refreshToken.first()))
+
+                        Timber.e(response.toString() + "body here")
+                        if(response.code() == 200){
+                            userPreferences.updateTokens(response.body()!!)
+                            newRequest = newRequest.newBuilder().addHeader("Authorization", "Bearer ${userPreferences.accessToken.first()}").build()
+                            res = it.proceed(newRequest)
+                            Timber.e(res.code.toString())
                         }else{
                         }
                     }

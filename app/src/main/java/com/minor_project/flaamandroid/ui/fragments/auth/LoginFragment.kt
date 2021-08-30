@@ -61,7 +61,7 @@ class LoginFragment : Fragment() {
                         runBlocking {
                             preferences.updateTokens(it.body)
                         }
-                        makeToast("user logged in! ${preferences.getToken().first()}")
+                        makeToast("user logged in! ${preferences.accessToken.first()}")
                         viewModel.getUserProfile()
                     }
 

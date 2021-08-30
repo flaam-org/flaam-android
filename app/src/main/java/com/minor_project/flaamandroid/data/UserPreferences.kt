@@ -20,8 +20,14 @@ class UserPreferences(private val context: Context) {
 
     suspend fun updateTokens(tokens: LoginResponse){
         context.dataStore.edit {
-            it[ACCESS_TOKEN] = tokens.access.toString()
-            it[REFRESH_TOKEN] = tokens.access.toString()
+            tokens.apply {
+                access?.let { str ->
+                    it[ACCESS_TOKEN] = str
+                }
+                refresh?.let { str ->
+                    it[REFRESH_TOKEN] = str
+                }
+            }
         }
     }
 
@@ -36,8 +42,9 @@ class UserPreferences(private val context: Context) {
         }
     }
 
-    suspend fun getToken(): Flow<String?> = context.dataStore.data.map{ it[ACCESS_TOKEN] }
+    val accessToken: Flow<String?> = context.dataStore.data.map{ it[ACCESS_TOKEN] }
 
+    val refreshToken: Flow<String?> = context.dataStore.data.map{ it[REFRESH_TOKEN]}
 
     companion object {
         val ACCESS_TOKEN = stringPreferencesKey("auth_token")

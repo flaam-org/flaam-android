@@ -30,10 +30,10 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             delay(2000L)
-            if(userPrefs.getToken().first() == null){
+            if(userPrefs.accessToken.first() == null){
                 navController.navigate(R.id.introFragment)
             }else{
-                Timber.e(userPrefs.getToken().first())
+                Timber.e(userPrefs.accessToken.first())
                 navController.navigate(R.id.action_global_feedFragment)
             }
         }
