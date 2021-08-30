@@ -31,7 +31,8 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.minor_project.flaamandroid.ui.fragments.SplashFragment"
-        android:label="SplashFragment">
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_spashFragment_to_introFragment"
             app:destination="@id/introFragment"
@@ -51,11 +52,12 @@
         android:id="@+id/postIdeaFragment"
         android:name="com.minor_project.flaamandroid.ui.fragments.PostIdeaFragment"
         android:label="fragment_post_idea"
-        tools:layout="@layout/fragment_post_idea" >
-        <action
-            android:id="@+id/action_postIdeaFragment_to_feedFragment"
-            app:destination="@id/feedFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_post_idea" />
+    <action
+        android:id="@+id/action_global_feedFragment"
+        app:destination="@id/feedFragment"
+        app:popUpTo="@id/splashFragment"
+        app:popUpToInclusive="true" />
 
 
 </navigation>

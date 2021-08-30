@@ -18,14 +18,14 @@ class PostIdeaFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentPostIdeaBinding.inflate(inflater)
 
         binding.apply {
 
             binding.ivPostIdeaClose.setOnClickListener {
-                findNavController().navigate(PostIdeaFragmentDirections.actionPostIdeaFragmentToFeedFragment())
+                findNavController().popBackStack()
             }
         }
         // Inflate the layout for this fragment

@@ -8,13 +8,19 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.databinding.FragmentSplashBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class SplashFragment : Fragment() {
 
 
