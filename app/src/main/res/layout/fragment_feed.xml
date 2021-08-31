@@ -35,7 +35,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_search_24dp" />
+                    android:src="@drawable/ic_search_24dp"
+                    tools:ignore="ContentDescription" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_search"
@@ -55,7 +56,8 @@
                         android:hint="@string/search_ideas_to_implement"
                         android:imeOptions="actionSearch"
                         android:paddingBottom="20dp"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        tools:ignore="RtlCompat" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,7 +68,8 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_profile_image_place_holder" />
+                    android:src="@drawable/ic_profile_image_place_holder"
+                    tools:ignore="ContentDescription" />
 
 
             </LinearLayout>

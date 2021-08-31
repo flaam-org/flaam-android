@@ -5,15 +5,15 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Example(
+data class UpdateProfileResponse(
     @Json(name = "description")
     val description: String?,
     @Json(name = "email")
     val email: String?,
     @Json(name = "first_name")
-    val firstName: String?,
+    var firstName: String?,
     @Json(name = "last_name")
-    val lastName: String?,
+    var lastName: String?,
     @Json(name = "password")
     val password: String?,
     @Json(name = "status")

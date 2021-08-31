@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.data.UserPreferences
+import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.databinding.FragmentMyProfileBinding
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.makeToast
@@ -28,7 +31,7 @@ class MyProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMyProfileBinding.inflate(inflater)
 
         viewModel.getUserProfile()
@@ -55,10 +58,35 @@ class MyProfileFragment : Fragment() {
         }
 
 
+        viewModel.updateUserProfile.observe(viewLifecycleOwner){
+            when(it){
+                is ApiException.Error -> {
+                    makeToast("Unable to Update Data")
+                }
+
+                is ApiException.Success -> {
+                    makeToast("Updated Profile Successfully")
+                }
+            }
+        }
+
+
+
+        binding.apply {
+            btnUpdateMyProfile.setOnClickListener {
+                updateUserProfile()
+                findNavController().popBackStack()
+            }
+        }
+
+
 
         return binding.root
     }
 
+    private fun updateUserProfile() {
+        viewModel.updateUserProfile(UpdateProfileRequest(binding.etFnameMyProfile.text.toString(), binding.etLnameMyProfile.text.toString()))
+    }
 
 
 }
