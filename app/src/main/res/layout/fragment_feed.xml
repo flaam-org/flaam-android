@@ -12,67 +12,71 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:elevation="10dp"
-        app:cardCornerRadius="5dp">
-
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|clip_vertical"
-            android:orientation="horizontal">
+            android:layout_margin="10dp"
+            android:elevation="10dp"
+            app:cardCornerRadius="6dp">
 
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_search_24dp" />
+                android:gravity="center|clip_vertical"
+                android:orientation="horizontal"
+                android:weightSum="10">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_search"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:layout_margin="6dp"
-                android:background="@android:color/transparent"
-                android:elevation="10dp"
-                app:boxBackgroundColor="@android:color/transparent"
-                app:boxBackgroundMode="none">
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/search_ideas_to_implement" />
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_search_24dp" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_search"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:background="@android:color/transparent"
+                    android:elevation="10dp"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    app:boxBackgroundMode="none"
+                    app:hintEnabled="false">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civ_feed_fragment_my_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_weight="2"
-                android:src="@drawable/ic_profile_image_place_holder" />
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:hint="@string/search_ideas_to_implement"
+                        android:imeOptions="actionSearch"
+                        android:paddingBottom="20dp"
+                        android:textAlignment="center" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/civ_feed_fragment_my_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_profile_image_place_holder" />
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_feed_posts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_feed_posts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
     </LinearLayout>
