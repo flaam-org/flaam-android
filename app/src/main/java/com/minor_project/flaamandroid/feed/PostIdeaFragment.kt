@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.databinding.FragmentPostIdeaBinding
+import com.minor_project.flaamandroid.utils.makeToast
 
 class PostIdeaFragment : Fragment() {
 
@@ -21,9 +23,17 @@ class PostIdeaFragment : Fragment() {
 
         binding.apply {
 
-            binding.ivPostIdeaClose.setOnClickListener {
+            ivPostIdeaClose.setOnClickListener {
                 findNavController().popBackStack()
             }
+
+            btnPostIdea.setOnClickListener {
+                //TODO Add the functionality
+                makeToast("Your Idea is Posted Successfully!")
+                findNavController().popBackStack()
+            }
+
+
         }
         // Inflate the layout for this fragment
         return binding.root

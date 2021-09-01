@@ -106,6 +106,16 @@
 
         </LinearLayout>
 
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_post_idea"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_button_rounded_gradient3"
+            android:text="@string/post_idea"/>
+
     </LinearLayout>
 
 </FrameLayout>
