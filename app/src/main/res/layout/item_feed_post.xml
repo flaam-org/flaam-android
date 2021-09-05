@@ -132,16 +132,6 @@
                     android:layout_height="wrap_content"
                     tools:text="@string/sample_text" />
 
-                <TextView
-                    android:id="@+id/tv_feed_post_view_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:layout_gravity="end"
-                    android:text="@string/view_more" />
-
-
             </LinearLayout>
 
 
@@ -154,6 +144,7 @@
             android:layout_gravity="end">
 
             <ImageView
+                android:id="@+id/iv_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

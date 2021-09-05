@@ -39,7 +39,7 @@ class FeedFragment : Fragment() {
             }
 
             binding.civFeedFragmentMyProfile.setOnClickListener {
-                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToMyProfileFragment())
+                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToUserProfileFragment())
             }
 
         }
@@ -168,7 +168,7 @@ class FeedFragment : Fragment() {
         val feedPostList = ArrayList<FeedPostModel>()
 
         val n = FeedPostModel(
-            R.drawable.ic_profile_image_place_holder,"soumya jain", 2, 4, resources.getString(
+            R.drawable.ic_profile_image_place_holder,"Idea/Post Title", 2, 4, resources.getString(
                 R.string.sample_text
             ))
 
