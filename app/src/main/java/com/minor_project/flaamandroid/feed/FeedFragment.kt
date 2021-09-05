@@ -18,7 +18,7 @@ class FeedFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentFeedBinding.inflate(inflater)
 
@@ -43,7 +43,7 @@ class FeedFragment : Fragment() {
         val feedPostList = ArrayList<FeedPostModel>()
 
         val n = FeedPostModel(
-            R.drawable.ic_profile_image_place_holder,"soumya jain", 2, 4, resources.getString(
+            R.drawable.ic_profile_image_place_holder,"Idea/Post Title", 2, 4, resources.getString(
                 R.string.sample_text
             ))
 
