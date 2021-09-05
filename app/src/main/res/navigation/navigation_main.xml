@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/myProfileFragment"
-        android:name="com.minor_project.flaamandroid.feed.MyProfileFragment"
+        android:name="com.minor_project.flaamandroid.feed.userprofile.MyProfileFragment"
         android:label="fragment_my_profile"
         tools:layout="@layout/fragment_my_profile" />
 

@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.feed
+package com.minor_project.flaamandroid.feed.userprofile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -30,6 +30,17 @@ class MyProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMyProfileBinding.inflate(inflater)
+        binding.apply {
+            btnUpdateMyProfile.setOnClickListener {
+                updateUserProfile()
+                findNavController().popBackStack()
+            }
+        }
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel.getUserProfile()
 
@@ -67,18 +78,6 @@ class MyProfileFragment : Fragment() {
             }
         }
 
-
-
-        binding.apply {
-            btnUpdateMyProfile.setOnClickListener {
-                updateUserProfile()
-                findNavController().popBackStack()
-            }
-        }
-
-
-
-        return binding.root
     }
 
     private fun updateUserProfile() {

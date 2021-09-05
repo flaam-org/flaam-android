@@ -11,7 +11,6 @@ import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.feed.MyProfileViewModel
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,9 +31,46 @@ class UserProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentUserProfileBinding.inflate(inflater)
+
+        val tabLayout = binding.tabLayoutUserProfile
+        tabLayout.addTab(tabLayout.newTab().setText("My Bookmarks"))
+        tabLayout.addTab(tabLayout.newTab().setText("My Ideas"))
+        tabLayout.addTab(tabLayout.newTab().setText("My Implementations"))
+
+        val adapter = UserProfileViewPagerAdapter(childFragmentManager, tabLayout.tabCount)
+        binding.viewPagerUserProfile.adapter = adapter
+        binding.viewPagerUserProfile.addOnPageChangeListener(TabLayoutOnPageChangeListener(tabLayout))
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                binding.viewPagerUserProfile.currentItem = tab.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+
+            }
+        })
+
+        binding.apply {
+
+            fabUserProfileEditProfile.setOnClickListener {
+                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToMyProfileFragment())
+            }
+        }
+
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel.getUserProfile()
 
@@ -56,38 +92,6 @@ class UserProfileFragment : Fragment() {
                 }
             }
         }
-
-        val tabLayout = binding.tabLayoutUserProfile
-        tabLayout.addTab(tabLayout.newTab().setText("My Bookmarks"))
-        tabLayout.addTab(tabLayout.newTab().setText("My Ideas"))
-        tabLayout.addTab(tabLayout.newTab().setText("My Implementations"))
-
-        val adapter = UserProfileViewPagerAdapter(childFragmentManager, tabLayout.tabCount)
-        binding.viewPagerUserProfile.adapter = adapter
-        binding.viewPagerUserProfile.addOnPageChangeListener(TabLayoutOnPageChangeListener(tabLayout))
-
-        tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.viewPagerUserProfile!!.currentItem = tab.position
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-
-            }
-        })
-
-        binding.apply {
-
-            fabUserProfileEditProfile.setOnClickListener {
-                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToMyProfileFragment())
-            }
-        }
-
-        return binding.root
     }
 
 
