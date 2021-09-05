@@ -31,6 +31,12 @@ class UserPreferences(private val context: Context) {
         }
     }
 
+    suspend fun logoutUser(){
+        context.dataStore.edit {
+            it.clear()
+        }
+    }
+
     suspend fun registerUser(registerUser: ViewProfileResponse){
         context.dataStore.edit {
         registerUser.apply {

@@ -43,6 +43,8 @@ class FeedFragment : Fragment() {
                 findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToUserProfileFragment())
             }
 
+
+
         }
 
 

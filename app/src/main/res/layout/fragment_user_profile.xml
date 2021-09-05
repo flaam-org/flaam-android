@@ -15,15 +15,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civ_user_profile_user_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="top"
+                android:layout_margin="8dp"
                 android:src="@drawable/ic_profile_image_place_holder" />
 
             <LinearLayout
@@ -32,13 +34,28 @@
                 android:layout_marginStart="20dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_user_profile_fname_lname"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    tools:text="Soumya Jain" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_user_profile_fname_lname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        tools:text="Soumya Jain" />
+
+                    <ImageView
+                        android:id="@+id/iv_menu_user_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|end"
+                        android:src="@drawable/ic_more_vert_black_24dp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -49,19 +66,26 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/date_joined" />
+                        android:fontFamily="@font/roboto"
+                        android:text="joined   -  "
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_user_profile_doj"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
                         tools:text="14-June-2021" />
 
                 </LinearLayout>
 
                 <com.google.android.material.chip.ChipGroup
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
 
                     <com.google.android.material.chip.Chip
                         android:layout_width="wrap_content"

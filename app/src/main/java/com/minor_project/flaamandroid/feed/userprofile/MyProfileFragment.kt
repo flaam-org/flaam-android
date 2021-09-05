@@ -55,6 +55,8 @@ class MyProfileFragment : Fragment() {
         }
 
 
+
+
         viewModel.updateUserProfile.observe(viewLifecycleOwner){
             when(it){
                 is ApiException.Error -> {
