@@ -1,11 +1,10 @@
-package com.minor_project.flaamandroid.feed
+package com.minor_project.flaamandroid.feed.userprofile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.data.UserPreferences
@@ -15,8 +14,6 @@ import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint

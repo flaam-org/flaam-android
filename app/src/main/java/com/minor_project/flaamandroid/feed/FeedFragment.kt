@@ -25,6 +25,7 @@ class FeedFragment : Fragment() {
 
     private lateinit var binding : FragmentFeedBinding
     private var initialId = R.id.step1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,7 +78,7 @@ class FeedFragment : Fragment() {
 
                 if(initialId == R.id.step2 && currentId == R.id.step3){
 
-                    val animation = ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y, 180F)
+                    val animation = ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y, 380F)
 
                     animation.duration = 200
                     animation.addListener(object: Animator.AnimatorListener{
@@ -86,7 +87,9 @@ class FeedFragment : Fragment() {
                         }
 
                         override fun onAnimationEnd(animation: Animator?) {
+
                             motionLayout?.transitionToState(R.id.step4, 200)
+                            animation?.removeAllListeners()
                         }
 
                         override fun onAnimationCancel(animation: Animator?) {
@@ -115,7 +118,7 @@ class FeedFragment : Fragment() {
 
                 if(initialId == R.id.step4 && currentId == R.id.step3){
 
-                    val animation = ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y, -180F)
+                    val animation = ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y, 0F)
 
                     animation.duration = 200
                     animation.addListener(object: Animator.AnimatorListener{
