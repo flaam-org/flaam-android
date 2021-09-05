@@ -29,7 +29,7 @@ class FeedFragment : Fragment() {
             }
 
             binding.civFeedFragmentMyProfile.setOnClickListener {
-                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToMyProfileFragment())
+                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToUserProfileFragment())
             }
 
         }

@@ -48,8 +48,8 @@
             android:id="@+id/action_feedFragment_to_postIdeaFragment"
             app:destination="@id/postIdeaFragment" />
         <action
-            android:id="@+id/action_feedFragment_to_myProfileFragment"
-            app:destination="@id/myProfileFragment" />
+            android:id="@+id/action_feedFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/postIdeaFragment"
@@ -61,6 +61,15 @@
         app:destination="@id/feedFragment"
         app:popUpTo="@id/splashFragment"
         app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.minor_project.flaamandroid.feed.userprofile.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myProfileFragment"
         android:name="com.minor_project.flaamandroid.feed.MyProfileFragment"
