@@ -66,6 +66,7 @@ class MyProfileFragment : Fragment() {
 
                 is ApiException.Success -> {
                     makeToast("Updated Profile Successfully")
+                    findNavController().popBackStack()
                 }
             }
         }
@@ -75,7 +76,6 @@ class MyProfileFragment : Fragment() {
         binding.apply {
             btnUpdateMyProfile.setOnClickListener {
                 updateUserProfile()
-                findNavController().popBackStack()
             }
         }
 
