@@ -1,6 +1,7 @@
 package com.minor_project.flaamandroid.network
 
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
+import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import retrofit2.Response
@@ -15,5 +16,9 @@ interface FlaamApi {
 
     @PUT("user/profile")
     suspend fun updateUserProfile(@Body body: UpdateProfileRequest) : Response<UpdateProfileResponse>
+
+
+    @GET("/tags")
+    suspend fun getTagsList() : Response<TagsResponse>
 
 }

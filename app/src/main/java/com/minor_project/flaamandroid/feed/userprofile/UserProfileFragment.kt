@@ -8,14 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
-import android.widget.PopupMenu
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
@@ -156,8 +154,38 @@ class UserProfileFragment : Fragment() {
                 }
             }
         }
-    }
 
+//        viewModel.getTagsList()
+
+//        viewModel.tagsList.observe(viewLifecycleOwner) {
+//            when(it) {
+//                is ApiException.Error -> {
+//                    makeToast("Unable to fetch Tags")
+//                }
+//
+//                is ApiException.Success -> {
+//                    runBlocking {
+//                        binding.apply {
+//                            if(it.body.size > 0)
+//                            {
+//                                for(tag in it.body)
+//                                {
+//                                    val chip = Chip(requireContext())
+//                                    chip.text = it.body.toString()
+//                                    chipGroupTags.addView(chip)
+//                                }
+//                            }
+//                            else
+//                            {
+//                                makeToast("No Tags on your profile, add Tags!")
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+
+    }
 
 }
 

@@ -10,7 +10,7 @@ fun Fragment.makeToast(msg: String){
     Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show()
 }
 
-fun View.makeSnackbar(msg: String){
+fun View.makeSnackBar(msg: String){
     Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).show()
 }
 

@@ -8,4 +8,7 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun updateUserProfile(body: UpdateProfileRequest) = api.updateUserProfile(body)
 
+
+    suspend fun getTagsList() = api.getTagsList()
+
 }
