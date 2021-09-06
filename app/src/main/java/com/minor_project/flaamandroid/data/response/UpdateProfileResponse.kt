@@ -10,10 +10,12 @@ data class UpdateProfileResponse(
     val description: String?,
     @Json(name = "email")
     val email: String?,
+    @Json(name = "favourite_tags")
+    val favouriteTags: List<Int>?,
     @Json(name = "first_name")
-    var firstName: String?,
+    val firstName: String?,
     @Json(name = "last_name")
-    var lastName: String?,
+    val lastName: String?,
     @Json(name = "password")
     val password: String?,
     @Json(name = "status")

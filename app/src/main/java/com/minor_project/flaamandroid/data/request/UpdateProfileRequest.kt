@@ -6,8 +6,10 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class UpdateProfileRequest(
+    @Json(name = "favourite_tags")
+    val favouriteTags: List<Int>?,
     @Json(name = "first_name")
-    var firstName: String,
+    val firstName: String,
     @Json(name = "last_name")
-    var lastName: String
+    val lastName: String
 )

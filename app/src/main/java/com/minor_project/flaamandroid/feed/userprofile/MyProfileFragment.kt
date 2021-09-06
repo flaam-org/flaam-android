@@ -84,7 +84,7 @@ class MyProfileFragment : Fragment() {
     }
 
     private fun updateUserProfile() {
-        viewModel.updateUserProfile(UpdateProfileRequest(binding.etFnameMyProfile.text.toString(), binding.etLnameMyProfile.text.toString()))
+        viewModel.updateUserProfile(UpdateProfileRequest(null, binding.etFnameMyProfile.text.toString(), binding.etLnameMyProfile.text.toString()))
     }
 
 
