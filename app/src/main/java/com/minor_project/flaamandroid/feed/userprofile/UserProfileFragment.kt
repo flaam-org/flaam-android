@@ -1,18 +1,26 @@
 package com.minor_project.flaamandroid.feed.userprofile
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
 import android.widget.PopupMenu
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
 import com.minor_project.flaamandroid.MainActivity
+import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.getDaysDiff
@@ -68,7 +76,7 @@ class UserProfileFragment : Fragment() {
     }
 
 
-    private fun initClick(){
+    private fun initClick() {
         binding.apply {
 
             fabUserProfileEditProfile.setOnClickListener {
@@ -81,11 +89,16 @@ class UserProfileFragment : Fragment() {
 
                 menuPopup.setOnMenuItemClickListener {
 
-                    if(it.title == "Log Out!"){
+                    if (it.title == "Log Out!") {
                         runBlocking {
                             preferences.logoutUser()
                         }
-                        requireContext().startActivity(Intent(requireContext(), MainActivity::class.java))
+                        requireContext().startActivity(
+                            Intent(
+                                requireContext(),
+                                MainActivity::class.java
+                            )
+                        )
 
                         activity?.finish()
 
@@ -96,7 +109,26 @@ class UserProfileFragment : Fragment() {
 
                 menuPopup.show()
             }
+
+            chipEdit.setOnClickListener {
+                openAddEditTagsDialog()
+            }
         }
+    }
+
+    private fun openAddEditTagsDialog() {
+
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.layout_add_edit_tags)
+        val createBtn = dialog.findViewById(R.id.btn_create_tag) as AppCompatTextView
+        val cancelBtn = dialog.findViewById(R.id.btn_cancel_tag) as AppCompatTextView
+        createBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+        cancelBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
     }
 
 
@@ -116,7 +148,8 @@ class UserProfileFragment : Fragment() {
                         binding.apply {
                             tvUserProfileFnameLname.text =
                                 it.body.firstName.toString() + " " + it.body.lastName.toString()
-                            tvUserProfileDoj.text = it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
+                            tvUserProfileDoj.text =
+                                it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
                         }
                     }
 

@@ -29,4 +29,7 @@
     <string name="repository_link">Repository Link</string>
     <string name="add_implementation">Add Implementation</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="add_tag">Add Tag</string>
+    <string name="create_tag">CREATE TAG</string>
+    <string name="cancel_tag">CANCEL TAG</string>
 </resources>

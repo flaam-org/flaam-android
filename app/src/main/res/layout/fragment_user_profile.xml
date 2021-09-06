@@ -98,6 +98,7 @@
                         tools:text="Tag-2" />
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:chipBackgroundColor="@color/secondaryColor"
@@ -114,8 +115,6 @@
                     android:layout_margin="4dp"
                     android:text="@string/edit_profile"
                     app:icon="@drawable/ic_edit_24dp" />
-
-
             </LinearLayout>
 
 
@@ -131,10 +130,10 @@
                 android:id="@+id/tab_layout_user_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabTextColor="@color/primaryDarkColor"
                 app:tabIndicatorColor="@color/secondaryColor"
                 app:tabIndicatorHeight="3dp"
-                app:tabMode="fixed" />
+                app:tabMode="fixed"
+                app:tabTextColor="@color/primaryDarkColor" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager.widget.ViewPager
