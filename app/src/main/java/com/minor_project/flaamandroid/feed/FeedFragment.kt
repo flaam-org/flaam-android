@@ -4,27 +4,37 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
+import android.widget.PopupMenu
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.adapters.FeedPostAdapter
+import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.models.FeedPostModel
+import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.gone
+import com.minor_project.flaamandroid.utils.makeToast
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-
+@AndroidEntryPoint
 class FeedFragment : Fragment() {
 
     private lateinit var binding : FragmentFeedBinding
     private var initialId = R.id.step1
+    private val viewModel: FeedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +42,8 @@ class FeedFragment : Fragment() {
     ): View {
 
         binding = FragmentFeedBinding.inflate(inflater)
+
+        initObservers()
 
         binding.apply {
 
@@ -166,6 +178,55 @@ class FeedFragment : Fragment() {
         // Inflate the layout for this fragment
         return binding.root
     }
+
+
+    private fun initObservers(){
+        binding.include.editTextTextPersonName.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.getTagsForKeyword(s.toString())
+            }
+
+        })
+
+
+        viewModel.tags.observe(viewLifecycleOwner){
+            when(it){
+                is ApiException.Error -> makeToast(it.message.toString())
+                is ApiException.Success -> showTagsMenuPopup(it.body)
+            }
+        }
+
+    }
+
+    private fun showTagsMenuPopup(data: TagsResponse){
+
+        val menuPopup = PopupMenu(requireContext(), binding.include.editTextTextPersonName)
+
+        data.forEach {
+            menuPopup.menu.add(it.name)
+        }
+
+        menuPopup.setOnMenuItemClickListener {
+            val chip = Chip(requireContext())
+            chip.text = it.title
+
+            binding.include.cgTags.addView(chip)
+
+            return@setOnMenuItemClickListener true
+        }
+
+        menuPopup.show()
+    }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
