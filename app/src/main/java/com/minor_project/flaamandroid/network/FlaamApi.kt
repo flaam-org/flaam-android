@@ -9,10 +9,10 @@ import retrofit2.http.*
 
 interface FlaamApi {
 
-    @GET("account/user/profile")
+    @GET("accounts/user/profile")
     suspend fun getUserProfile(): Response<ViewProfileResponse>
 
-    @PUT("account/user/profile")
+    @PUT("accounts/user/profile")
     suspend fun updateUserProfile(@Body body: UpdateProfileRequest) : Response<UpdateProfileResponse>
 
     @GET("tags")
