@@ -1,25 +1,27 @@
 package com.minor_project.flaamandroid.feed.userprofile
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.*
-import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.get
+import androidx.core.view.size
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
+import com.minor_project.flaamandroid.databinding.LayoutAddEditTagsBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
 import com.minor_project.flaamandroid.MainActivity
-import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
+import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
+import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.getDaysDiff
 import com.minor_project.flaamandroid.utils.makeToast
@@ -30,12 +32,15 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class UserProfileFragment : Fragment() {
 
+    var chipCount : Int = 1
+
     private val viewModel: MyProfileViewModel by viewModels()
 
     @Inject
     lateinit var preferences: UserPreferences
 
     private lateinit var binding: FragmentUserProfileBinding
+    private lateinit var bindingAddEditTags: LayoutAddEditTagsBinding
 
 
     override fun onCreateView(
@@ -44,6 +49,8 @@ class UserProfileFragment : Fragment() {
     ): View {
 
         binding = FragmentUserProfileBinding.inflate(inflater)
+
+        bindingAddEditTags = LayoutAddEditTagsBinding.inflate(inflater)
 
         val tabLayout = binding.tabLayoutUserProfile
         tabLayout.addTab(tabLayout.newTab().setText("My Bookmarks"))
@@ -108,25 +115,53 @@ class UserProfileFragment : Fragment() {
                 menuPopup.show()
             }
 
-            chipEdit.setOnClickListener {
-                openAddEditTagsDialog()
-            }
         }
     }
 
-    private fun openAddEditTagsDialog() {
+//    private fun openAddEditTagsDialog() {
+//
+//        val dialog = Dialog(requireContext())
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        dialog.setCancelable(false)
+//        dialog.setContentView(R.layout.layout_add_edit_tags)
+//        val createBtn = dialog.findViewById(R.id.btn_create_tag) as AppCompatTextView
+//        val cancelBtn = dialog.findViewById(R.id.btn_cancel_tag) as AppCompatTextView
+//        createBtn.setOnClickListener {
+//            dialog.dismiss()
+//        }
+//        cancelBtn.setOnClickListener { dialog.dismiss() }
+//        dialog.show()
+//    }
 
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.layout_add_edit_tags)
-        val createBtn = dialog.findViewById(R.id.btn_create_tag) as AppCompatTextView
-        val cancelBtn = dialog.findViewById(R.id.btn_cancel_tag) as AppCompatTextView
-        createBtn.setOnClickListener {
-            dialog.dismiss()
+
+    private fun showTagsMenuPopup(data: TagsResponse) {
+
+        val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
+
+
+        for (tag in data.tagsResponseItems!!) {
+            menuPopup.menu.add(tag.name.toString())
         }
-        cancelBtn.setOnClickListener { dialog.dismiss() }
-        dialog.show()
+
+
+        menuPopup.setOnMenuItemClickListener {
+
+            if(chipCount <=5) {
+                chipCount++
+                val chip = Chip(requireContext())
+                chip.text = it.title
+
+                binding.chipGroupTags.addView(chip)
+            }
+            else
+            {
+                binding.includeAddEditTags.root.visibility = View.GONE
+                binding.chipEdit.isClickable = false
+            }
+            return@setOnMenuItemClickListener true
+        }
+
+        menuPopup.show()
     }
 
 
@@ -134,7 +169,6 @@ class UserProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getUserProfile()
-
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiException.Error -> {
@@ -148,6 +182,17 @@ class UserProfileFragment : Fragment() {
                                 it.body.firstName.toString() + " " + it.body.lastName.toString()
                             tvUserProfileDoj.text =
                                 it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
+
+                            if (it.body.favouriteTags!!.isNotEmpty()) {
+                                for (tag in it.body.favouriteTags) {
+                                    val chip = Chip(requireContext())
+                                    chip.text = tag.toString()
+                                    chipGroupTags.addView(chip)
+                                }
+                            } else {
+                                makeToast("No Tags Added in your Profile, Add Tags!")
+                            }
+
                         }
                     }
 
@@ -155,35 +200,67 @@ class UserProfileFragment : Fragment() {
             }
         }
 
-//        viewModel.getTagsList()
+        viewModel.getTags()
+        viewModel.tagsList.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiException.Error -> {
+                    makeToast("Unable to fetch tags!")
+                }
 
-//        viewModel.tagsList.observe(viewLifecycleOwner) {
-//            when(it) {
-//                is ApiException.Error -> {
-//                    makeToast("Unable to fetch Tags")
-//                }
-//
-//                is ApiException.Success -> {
-//                    runBlocking {
-//                        binding.apply {
-//                            if(it.body.size > 0)
-//                            {
-//                                for(tag in it.body)
-//                                {
-//                                    val chip = Chip(requireContext())
-//                                    chip.text = it.body.toString()
-//                                    chipGroupTags.addView(chip)
-//                                }
-//                            }
-//                            else
-//                            {
-//                                makeToast("No Tags on your profile, add Tags!")
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
+                is ApiException.Success -> {
+                    runBlocking {
+                        binding.apply {
+
+                            val allTagsResponse = it.body
+                            chipEdit.setOnClickListener {
+                                binding.includeAddEditTags.root.visibility = View.VISIBLE
+                                showTagsMenuPopup(allTagsResponse)
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+
+        binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.getTagsForKeyword(s.toString())
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.getTagsForKeyword(s.toString())
+            }
+
+        })
+
+
+        viewModel.tagsListFiltered.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiException.Error -> makeToast(it.message.toString())
+                is ApiException.Success -> showTagsMenuPopup(it.body)
+            }
+        }
+
+
+//        viewModel.updateUserProfile(UpdateProfileRequest(List<>, binding.etFnameMyProfile.text.toString(), binding.etLnameMyProfile.text.toString()))
+
+        viewModel.updateUserProfile.observe(viewLifecycleOwner){
+            when(it){
+                is ApiException.Error -> {
+                    makeToast("Unable to Update Data")
+                }
+
+                is ApiException.Success -> {
+                    makeToast("Updated Profile Successfully")
+                }
+            }
+        }
 
     }
 

@@ -2,15 +2,12 @@ package com.minor_project.flaamandroid.feed
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
 import android.widget.PopupMenu
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
@@ -24,7 +21,6 @@ import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.models.FeedPostModel
 import com.minor_project.flaamandroid.utils.ApiException
-import com.minor_project.flaamandroid.utils.gone
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -181,7 +177,7 @@ class FeedFragment : Fragment() {
 
 
     private fun initObservers(){
-        binding.include.editTextTextPersonName.addTextChangedListener(object: TextWatcher{
+        binding.include.etTagName.addTextChangedListener(object: TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
@@ -200,31 +196,31 @@ class FeedFragment : Fragment() {
         viewModel.tags.observe(viewLifecycleOwner){
             when(it){
                 is ApiException.Error -> makeToast(it.message.toString())
-                is ApiException.Success -> showTagsMenuPopup(it.body)
+                is ApiException.Success -> makeToast("success")
             }
         }
 
     }
 
-    private fun showTagsMenuPopup(data: TagsResponse){
-
-        val menuPopup = PopupMenu(requireContext(), binding.include.editTextTextPersonName)
-
-        data.forEach {
-            menuPopup.menu.add(it.name)
-        }
-
-        menuPopup.setOnMenuItemClickListener {
-            val chip = Chip(requireContext())
-            chip.text = it.title
-
-            binding.include.cgTags.addView(chip)
-
-            return@setOnMenuItemClickListener true
-        }
-
-        menuPopup.show()
-    }
+//    private fun showTagsMenuPopup(data: TagsResponse){
+//
+//        val menuPopup = PopupMenu(requireContext(), binding.include.etTagName)
+//
+//        data.forEach {
+//            menuPopup.menu.add(it.name)
+//        }
+//
+//        menuPopup.setOnMenuItemClickListener {
+//            val chip = Chip(requireContext())
+//            chip.text = it.title
+//
+//            binding.include.cgTags.addView(chip)
+//
+//            return@setOnMenuItemClickListener true
+//        }
+//
+//        menuPopup.show()
+//    }
 
 
 

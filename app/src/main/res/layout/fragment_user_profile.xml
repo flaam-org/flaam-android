@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp">
-                    
+
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_edit"
                         android:layout_width="wrap_content"
@@ -98,6 +98,13 @@
 
                 </com.google.android.material.chip.ChipGroup>
 
+                <include
+                    android:id="@+id/include_add_edit_tags"
+                    layout="@layout/layout_add_edit_tags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                     android:id="@+id/fab_user_profile_edit_profile"

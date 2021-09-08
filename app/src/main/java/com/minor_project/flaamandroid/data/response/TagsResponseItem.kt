@@ -6,8 +6,14 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class TagsResponseItem(
+    @Json(name = "created_at")
+    val createdAt: String?,
+    @Json(name = "description")
+    val description: String?,
     @Json(name = "id")
-    val id: Int,
+    val id: Int?,
     @Json(name = "name")
-    val name: String
+    val name: String?,
+    @Json(name = "updated_at")
+    val updatedAt: String?
 )

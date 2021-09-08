@@ -96,7 +96,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/et_tag_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="6"

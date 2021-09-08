@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
+import com.minor_project.flaamandroid.data.response.TagsResponseItem
 import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
@@ -27,6 +28,11 @@ class MyProfileViewModel @Inject constructor(private val flaamRepo: FlaamReposit
     private val _tagsList = MutableLiveData<ApiException<TagsResponse>>()
     val tagsList: LiveData<ApiException<TagsResponse>> = _tagsList
 
+
+    private val _tagsListFiltered = MutableLiveData<ApiException<TagsResponse>>()
+    val tagsListFiltered: LiveData<ApiException<TagsResponse>> = _tagsListFiltered
+
+
     fun getUserProfile()
     {
         viewModelScope.launch {
@@ -44,11 +50,17 @@ class MyProfileViewModel @Inject constructor(private val flaamRepo: FlaamReposit
     }
 
 
-    fun getTagsList()
-    {
+    fun getTags() {
         viewModelScope.launch {
             val res = flaamRepo.getTagsList()
             _tagsList.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun getTagsForKeyword(keyword: String){
+        viewModelScope.launch {
+            val res = flaamRepo.getTagsForKeyword(keyword)
+            _tagsListFiltered.postValue(handleGetResponse(res))
         }
     }
 }
