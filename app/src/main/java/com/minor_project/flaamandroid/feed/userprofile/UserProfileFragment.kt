@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -31,8 +32,6 @@ import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class UserProfileFragment : Fragment() {
-
-    var chipCount: Int = 1
 
     var userTagsList: ArrayList<Int>? = ArrayList<Int>()
 
@@ -147,8 +146,7 @@ class UserProfileFragment : Fragment() {
 
         menuPopup.setOnMenuItemClickListener { menuItem ->
 
-            if (chipCount <= 5) {
-                chipCount++
+            if (binding.chipGroupTags.size <= 6) {
                 val chip = Chip(requireContext())
                 chip.text = menuItem.title
                 binding.chipGroupTags.addView(chip)
@@ -192,6 +190,16 @@ class UserProfileFragment : Fragment() {
     }
 
     fun initObservers() {
+        UpdateProfileRequest(
+            null,
+            null,
+            userTagsList,
+            null,
+            null,
+            null,
+            null,
+            null
+        )
         viewModel.getUserProfile()
         viewModel.tagsListFromIds.observe(viewLifecycleOwner)
         {
@@ -218,19 +226,19 @@ class UserProfileFragment : Fragment() {
 
                 is ApiException.Success -> {
 
-                        binding.apply {
-                            tvUserProfileFnameLname.text =
-                                it.body.firstName.toString() + " " + it.body.lastName.toString()
-                            tvUserProfileDoj.text =
-                                it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
+                    binding.apply {
+                        tvUserProfileFnameLname.text =
+                            it.body.firstName.toString() + " " + it.body.lastName.toString()
+                        tvUserProfileDoj.text =
+                            it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
 
-                            if (!it.body.favouriteTags.isNullOrEmpty()) {
-                                viewModel.getTagsForId(it.body.favouriteTags as List<Int>?)
-                            } else {
-                                makeToast("No Tags Added in your Profile, Add Tags!")
-                            }
-
+                        if (!it.body.favouriteTags.isNullOrEmpty()) {
+                            viewModel.getTagsForId(it.body.favouriteTags as List<Int>?)
+                        } else {
+                            makeToast("No Tags Added in your Profile, Add Tags!")
                         }
+
+                    }
 
 
                 }
@@ -246,14 +254,14 @@ class UserProfileFragment : Fragment() {
 
                 is ApiException.Success -> {
 
-                        binding.apply {
+                    binding.apply {
 
-                            val allTagsResponse = it.body
-                            chipEdit.setOnClickListener {
-                                binding.includeAddEditTags.root.visibility = View.VISIBLE
-                                showTagsMenuPopup(allTagsResponse)
-                            }
+                        val allTagsResponse = it.body
+                        chipEdit.setOnClickListener {
+                            binding.includeAddEditTags.root.visibility = View.VISIBLE
+                            showTagsMenuPopup(allTagsResponse)
                         }
+                    }
 
 
                 }
@@ -277,7 +285,7 @@ class UserProfileFragment : Fragment() {
 
                 timer = Timer()
                 timer.schedule(
-                    object: TimerTask() {
+                    object : TimerTask() {
                         override fun run() {
                             viewModel.getTagsForKeyword(s.toString())
                         }
