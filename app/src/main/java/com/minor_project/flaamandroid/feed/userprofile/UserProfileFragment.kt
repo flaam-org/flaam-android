@@ -32,7 +32,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class UserProfileFragment : Fragment() {
 
-    var chipCount : Int = 1
+    var chipCount: Int = 1
+
+    var userTagsList: ArrayList<Int>? = ArrayList<Int>()
 
     private val viewModel: MyProfileViewModel by viewModels()
 
@@ -135,7 +137,6 @@ class UserProfileFragment : Fragment() {
 
 
     private fun showTagsMenuPopup(data: TagsResponse) {
-
         val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
 
 
@@ -146,18 +147,37 @@ class UserProfileFragment : Fragment() {
 
         menuPopup.setOnMenuItemClickListener {
 
-            if(chipCount <=5) {
+            if (chipCount <= 5) {
                 chipCount++
                 val chip = Chip(requireContext())
                 chip.text = it.title
-
                 binding.chipGroupTags.addView(chip)
-            }
-            else
-            {
+
+                userTagsList!!.add(data.tagsResponseItems.filter {
+                    it.name == chip.text
+                }.first().id!!)
+
+
+                makeToast("" + data.tagsResponseItems.filter {
+                    it.name == chip.text
+                }.first().id!!)
+            } else {
                 binding.includeAddEditTags.root.visibility = View.GONE
                 binding.chipEdit.isClickable = false
             }
+
+            viewModel.updateUserProfile(
+                UpdateProfileRequest(
+                    null,
+                    null,
+                    userTagsList,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                )
+            )
             return@setOnMenuItemClickListener true
         }
 
@@ -168,7 +188,28 @@ class UserProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initObservers()
+    }
+
+    fun initObservers() {
         viewModel.getUserProfile()
+        viewModel.tagsListFromIds.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is ApiException.Error -> {
+                    makeToast("error")
+                }
+
+                is ApiException.Success -> {
+                    for (tag in it.body.tagsResponseItems!!) {
+                        val chip = Chip(requireContext())
+                        chip.text = tag.name
+                        binding.chipGroupTags.addView(chip)
+                    }
+
+                }
+            }
+        }
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiException.Error -> {
@@ -184,11 +225,7 @@ class UserProfileFragment : Fragment() {
                                 it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
 
                             if (it.body.favouriteTags!!.isNotEmpty()) {
-                                for (tag in it.body.favouriteTags) {
-                                    val chip = Chip(requireContext())
-                                    chip.text = tag.toString()
-                                    chipGroupTags.addView(chip)
-                                }
+                                viewModel.getTagsForId(it.body.favouriteTags as List<Int>?)
                             } else {
                                 makeToast("No Tags Added in your Profile, Add Tags!")
                             }
@@ -248,20 +285,29 @@ class UserProfileFragment : Fragment() {
         }
 
 
-//        viewModel.updateUserProfile(UpdateProfileRequest(List<>, binding.etFnameMyProfile.text.toString(), binding.etLnameMyProfile.text.toString()))
 
-        viewModel.updateUserProfile.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.updateUserProfile.observe(viewLifecycleOwner) {
+            when (it) {
                 is ApiException.Error -> {
-                    makeToast("Unable to Update Data")
+                    makeToast("Unable to Update Tags!")
                 }
 
                 is ApiException.Success -> {
-                    makeToast("Updated Profile Successfully")
+                    viewModel.updateUserProfile(
+                        UpdateProfileRequest(
+                            null,
+                            null,
+                            userTagsList,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null
+                        )
+                    )
                 }
             }
         }
-
     }
 
 }

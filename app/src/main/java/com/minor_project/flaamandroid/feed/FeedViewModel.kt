@@ -28,7 +28,7 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository): View
 
     fun getTagsForKeyword(keyword: String){
         viewModelScope.launch {
-            val res = repo.getTagsForKeyword(keyword)
+            val res = repo.getTagsForKeyword(keyword, null)
             _tags.postValue(handleGetResponse(res))
         }
     }

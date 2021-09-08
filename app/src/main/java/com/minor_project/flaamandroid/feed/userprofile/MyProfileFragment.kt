@@ -19,6 +19,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MyProfileFragment : Fragment() {
     private val viewModel: MyProfileViewModel by viewModels()
+
     @Inject
     lateinit var preferences: UserPreferences
 
@@ -33,8 +34,8 @@ class MyProfileFragment : Fragment() {
 
         viewModel.getUserProfile()
 
-        viewModel.userProfile.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.userProfile.observe(viewLifecycleOwner) {
+            when (it) {
                 is ApiException.Error -> {
                     makeToast("Unable to fetch Data!")
                 }
@@ -57,8 +58,8 @@ class MyProfileFragment : Fragment() {
 
 
 
-        viewModel.updateUserProfile.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.updateUserProfile.observe(viewLifecycleOwner) {
+            when (it) {
                 is ApiException.Error -> {
                     makeToast("Unable to Update Data")
                 }
@@ -84,7 +85,13 @@ class MyProfileFragment : Fragment() {
     }
 
     private fun updateUserProfile() {
-        viewModel.updateUserProfile(UpdateProfileRequest(null, binding.etFnameMyProfile.text.toString(), binding.etLnameMyProfile.text.toString()))
+        viewModel.updateUserProfile(
+            UpdateProfileRequest(
+                null, null, null,
+                binding.etFnameMyProfile.text.toString(), binding.etLnameMyProfile.text.toString(),
+                null, null, null
+            )
+        )
     }
 
 

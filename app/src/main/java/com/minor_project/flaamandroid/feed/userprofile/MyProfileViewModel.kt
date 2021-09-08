@@ -32,6 +32,10 @@ class MyProfileViewModel @Inject constructor(private val flaamRepo: FlaamReposit
     private val _tagsListFiltered = MutableLiveData<ApiException<TagsResponse>>()
     val tagsListFiltered: LiveData<ApiException<TagsResponse>> = _tagsListFiltered
 
+    private val _tagsListFromIds = MutableLiveData<ApiException<TagsResponse>>()
+    val tagsListFromIds: LiveData<ApiException<TagsResponse>> = _tagsListFromIds
+
+
 
     fun getUserProfile()
     {
@@ -57,10 +61,19 @@ class MyProfileViewModel @Inject constructor(private val flaamRepo: FlaamReposit
         }
     }
 
-    fun getTagsForKeyword(keyword: String){
+    fun getTagsForKeyword(keyword: String?){
         viewModelScope.launch {
-            val res = flaamRepo.getTagsForKeyword(keyword)
+            val res = flaamRepo.getTagsForKeyword(keyword, null)
             _tagsListFiltered.postValue(handleGetResponse(res))
         }
     }
+
+    fun getTagsForId(ids : List<Int>?){
+        viewModelScope.launch {
+            val res = flaamRepo.getTagsForKeyword(null, ids)
+            _tagsListFromIds.postValue(handleGetResponse(res))
+        }
+    }
+
+
 }
