@@ -146,7 +146,7 @@ class UserProfileFragment : Fragment() {
 
         menuPopup.setOnMenuItemClickListener { menuItem ->
 
-            if (binding.chipGroupTags.size <= 6) {
+            if (binding.chipGroupTags.size < 6) {
                 val chip = Chip(requireContext())
                 chip.text = menuItem.title
                 binding.chipGroupTags.addView(chip)
@@ -164,18 +164,6 @@ class UserProfileFragment : Fragment() {
                 binding.chipEdit.isClickable = false
             }
 
-            viewModel.updateUserProfile(
-                UpdateProfileRequest(
-                    null,
-                    null,
-                    userTagsList,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                )
-            )
             return@setOnMenuItemClickListener true
         }
 
