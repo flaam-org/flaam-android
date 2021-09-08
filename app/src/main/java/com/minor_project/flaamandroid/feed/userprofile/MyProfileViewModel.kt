@@ -13,7 +13,9 @@ import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.handleGetResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,7 +41,7 @@ class MyProfileViewModel @Inject constructor(private val flaamRepo: FlaamReposit
 
     fun getUserProfile()
     {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getUserProfile()
             _userProfile.postValue(handleGetResponse(res))
         }
@@ -47,7 +49,7 @@ class MyProfileViewModel @Inject constructor(private val flaamRepo: FlaamReposit
 
     fun updateUserProfile(data : UpdateProfileRequest)
     {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.updateUserProfile(data)
             _updateUserProfile.postValue(handleGetResponse(res))
         }
@@ -55,21 +57,25 @@ class MyProfileViewModel @Inject constructor(private val flaamRepo: FlaamReposit
 
 
     fun getTags() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getTagsList()
             _tagsList.postValue(handleGetResponse(res))
         }
     }
 
     fun getTagsForKeyword(keyword: String?){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getTagsForKeyword(keyword, null)
             _tagsListFiltered.postValue(handleGetResponse(res))
         }
     }
 
-    fun getTagsForId(ids : List<Int>?){
-        viewModelScope.launch {
+    fun getTagsForId(idList : List<Int>?){
+
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val ids = idList.toString().substring(1, idList.toString().length - 1)
+            Timber.e(idList.toString() +" | " + ids.toString())
             val res = flaamRepo.getTagsForKeyword(null, ids)
             _tagsListFromIds.postValue(handleGetResponse(res))
         }

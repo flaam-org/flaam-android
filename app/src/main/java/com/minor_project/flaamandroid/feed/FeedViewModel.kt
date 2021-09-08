@@ -9,6 +9,7 @@ import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.handleGetResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +28,7 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository): View
     }
 
     fun getTagsForKeyword(keyword: String){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = repo.getTagsForKeyword(keyword, null)
             _tags.postValue(handleGetResponse(res))
         }

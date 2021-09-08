@@ -15,7 +15,7 @@ data class ViewProfileResponse(
     @Json(name = "email")
     val email: String?,
     @Json(name = "favourite_tags")
-    val favouriteTags: List<Any>?,
+    val favouriteTags: List<Int>?,
     @Json(name = "first_name")
     val firstName: String?,
     @Json(name = "id")

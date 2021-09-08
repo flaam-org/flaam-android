@@ -10,7 +10,7 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun getTagsList() = api.getTagsList(null, null)
 
-    suspend fun getTagsForKeyword(keyword: String?, ids: List<Int>?) = api.getTagsList(keyword,ids)
+    suspend fun getTagsForKeyword(keyword: String?, ids: String?) = api.getTagsList(keyword,ids)
 
 
 

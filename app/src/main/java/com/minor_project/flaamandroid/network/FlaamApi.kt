@@ -17,7 +17,7 @@ interface FlaamApi {
     suspend fun updateUserProfile(@Body body: UpdateProfileRequest) : Response<UpdateProfileResponse>
 
     @GET("tags")
-    suspend fun getTagsList(@Query("name") keyword: String?, @Query("id") ids : List<Int>?) : Response<TagsResponse>
+    suspend fun getTagsList(@Query("name") keyword: String?, @Query("ids") ids : String?) : Response<TagsResponse>
 
 
 //    @GET("tags/{name}")
