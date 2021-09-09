@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.constraintlayout.motion.widget.TransitionBuilder.validate
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,7 +17,10 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
 import com.minor_project.flaamandroid.MainActivity
+import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
+import com.minor_project.flaamandroid.data.request.LoginRequest
+import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
@@ -116,6 +120,16 @@ class UserProfileFragment : Fragment() {
                 menuPopup.show()
             }
 
+        }
+
+        binding.includeAddEditTags.btnCreateTag.setOnClickListener {
+            if (validate()) {
+                viewModel.createNewTag(
+                    TagsRequest(null, binding.includeAddEditTags.etAddSelectTag.text.toString())
+                )
+            } else {
+                makeToast("Missing Required Fields!")
+            }
         }
     }
 
@@ -316,6 +330,55 @@ class UserProfileFragment : Fragment() {
                     )
                 }
             }
+        }
+
+
+        viewModel.createNewTag.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiException.Error -> {
+                    makeToast(it.message.toString())
+                }
+                is ApiException.Success -> {
+                    if (binding.chipGroupTags.size < 6) {
+                        val chip = Chip(requireContext())
+                        chip.text = binding.includeAddEditTags.etAddSelectTag.text.toString()
+                        binding.chipGroupTags.addView(chip)
+
+                        userTagsList!!.add(it.body.id!!)
+
+                        viewModel.updateUserProfile(
+                            UpdateProfileRequest(
+                                null,
+                                null,
+                                userTagsList,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null
+                            )
+                        )
+
+                    } else {
+                        makeToast("You cannot add more than 5 Tags!")
+                        binding.includeAddEditTags.root.visibility = View.GONE
+                        binding.chipEdit.isClickable = false
+                    }
+                    makeToast("Tag Created!")
+                }
+            }
+        }
+    }
+
+
+    private fun validate(): Boolean {
+        val emptyFieldError = "This Field Can't Be Empty!"
+        binding.includeAddEditTags.apply {
+            if (etAddSelectTag.text.isNullOrEmpty()) {
+                etAddSelectTag.error = emptyFieldError
+                return false
+            }
+            return true
         }
     }
 

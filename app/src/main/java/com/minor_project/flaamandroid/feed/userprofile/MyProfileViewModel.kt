@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.minor_project.flaamandroid.data.request.LoginRequest
+import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.data.response.TagsResponseItem
@@ -12,6 +14,7 @@ import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.handleGetResponse
+import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,6 +39,13 @@ class MyProfileViewModel @Inject constructor(private val flaamRepo: FlaamReposit
 
     private val _tagsListFromIds = MutableLiveData<ApiException<TagsResponse>>()
     val tagsListFromIds: LiveData<ApiException<TagsResponse>> = _tagsListFromIds
+
+
+    private val _createNewTag = MutableLiveData<ApiException<TagsResponseItem>>()
+    val createNewTag: LiveData<ApiException<TagsResponseItem>> = _createNewTag
+
+
+
 
 
 
@@ -78,6 +88,13 @@ class MyProfileViewModel @Inject constructor(private val flaamRepo: FlaamReposit
             Timber.e(idList.toString() +" | " + ids.toString())
             val res = flaamRepo.getTagsForKeyword(null, ids)
             _tagsListFromIds.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun createNewTag(body: TagsRequest){
+        viewModelScope.launch {
+            val res = flaamRepo.createNewTag(body)
+            _createNewTag.postValue(handlePostResponse(res))
         }
     }
 

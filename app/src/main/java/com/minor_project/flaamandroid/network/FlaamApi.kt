@@ -1,5 +1,6 @@
 package com.minor_project.flaamandroid.network
 
+import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.data.response.TagsResponseItem
@@ -20,7 +21,6 @@ interface FlaamApi {
     suspend fun getTagsList(@Query("name") keyword: String?, @Query("ids") ids : String?) : Response<TagsResponse>
 
 
-//    @GET("tags/{name}")
-//    suspend fun getTagsForKeyword(@Path("name") keyword: String): Response<TagsResponse>
-
+    @POST("tags")
+    suspend fun createNewTag(@Body body : TagsRequest) : Response<TagsResponseItem>
 }
