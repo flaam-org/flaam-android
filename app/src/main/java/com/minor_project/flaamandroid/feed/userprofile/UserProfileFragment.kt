@@ -45,7 +45,6 @@ class UserProfileFragment : Fragment() {
     lateinit var preferences: UserPreferences
 
     private lateinit var binding: FragmentUserProfileBinding
-    private lateinit var bindingAddEditTags: LayoutAddEditTagsBinding
 
 
     override fun onCreateView(
@@ -55,7 +54,6 @@ class UserProfileFragment : Fragment() {
 
         binding = FragmentUserProfileBinding.inflate(inflater)
 
-        bindingAddEditTags = LayoutAddEditTagsBinding.inflate(inflater)
 
         val tabLayout = binding.tabLayoutUserProfile
         tabLayout.addTab(tabLayout.newTab().setText("My Bookmarks"))
@@ -130,6 +128,10 @@ class UserProfileFragment : Fragment() {
             } else {
                 makeToast("Missing Required Fields!")
             }
+        }
+
+        binding.includeAddEditTags.btnCancelTag.setOnClickListener {
+            binding.includeAddEditTags.root.visibility = View.GONE
         }
     }
 

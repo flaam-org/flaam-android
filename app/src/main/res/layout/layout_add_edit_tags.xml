@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="10dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="10dp"
+    android:padding="5dp">
 
     <RelativeLayout
         android:id="@+id/rl_add_edit_ags"
@@ -24,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/add_tag"
+                android:textColor="@color/secondaryColor"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -31,7 +33,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:layout_below="@id/til_add_select_tag"
             android:orientation="horizontal">
 
@@ -40,8 +44,8 @@
             android:id="@+id/btn_create_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
-            android:padding="8dp"
+            android:layout_marginEnd="10dp"
+            android:textStyle="bold"
             android:textColor="@color/secondaryDarkColor"
             android:text="@string/create_tag" />
 
@@ -49,8 +53,8 @@
             android:id="@+id/btn_cancel_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:padding="8dp"
+            android:layout_marginStart="10dp"
+            android:textStyle="bold"
             android:textColor="@color/secondaryDarkColor"
             android:text="@string/cancel_tag" />
 
