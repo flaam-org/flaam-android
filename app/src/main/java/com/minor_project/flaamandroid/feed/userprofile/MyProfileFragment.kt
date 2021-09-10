@@ -32,6 +32,32 @@ class MyProfileFragment : Fragment() {
     ): View {
         binding = FragmentMyProfileBinding.inflate(inflater)
 
+        initObserver()
+        initOnClick()
+
+        return binding.root
+    }
+
+    private fun updateUserProfile() {
+        viewModel.updateUserProfile(
+            UpdateProfileRequest(
+                null, null, null,
+                binding.etFnameMyProfile.text.toString(), binding.etLnameMyProfile.text.toString(),
+                null, null, null
+            )
+        )
+    }
+
+    private fun initOnClick() {
+        binding.apply {
+            btnUpdateMyProfile.setOnClickListener {
+                updateUserProfile()
+            }
+        }
+
+    }
+
+    private fun initObserver() {
         viewModel.getUserProfile()
 
         viewModel.userProfile.observe(viewLifecycleOwner) {
@@ -71,27 +97,6 @@ class MyProfileFragment : Fragment() {
             }
         }
 
-
-
-        binding.apply {
-            btnUpdateMyProfile.setOnClickListener {
-                updateUserProfile()
-            }
-        }
-
-
-
-        return binding.root
-    }
-
-    private fun updateUserProfile() {
-        viewModel.updateUserProfile(
-            UpdateProfileRequest(
-                null, null, null,
-                binding.etFnameMyProfile.text.toString(), binding.etLnameMyProfile.text.toString(),
-                null, null, null
-            )
-        )
     }
 
 

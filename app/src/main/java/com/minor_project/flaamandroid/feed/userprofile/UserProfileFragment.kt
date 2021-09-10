@@ -27,11 +27,8 @@ import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-import com.google.android.material.tabs.TabLayout
 
 import com.google.android.material.tabs.TabLayoutMediator
-
-
 
 
 @AndroidEntryPoint
@@ -62,15 +59,17 @@ class UserProfileFragment : Fragment() {
         binding.viewPagerUserProfile.adapter = adapter
 
 
-            TabLayoutMediator(tabLayout, binding.viewPagerUserProfile
-            ) { tab, position ->
-                when (position) {
-                    0 -> tab.text = "My Bookmarks"
-                    1 -> tab.text = "My Ideas"
-                    2 -> tab.text = "My Implementations"
-                }
-            }.attach()
+        TabLayoutMediator(
+            tabLayout, binding.viewPagerUserProfile
+        ) { tab, position ->
+            when (position) {
+                0 -> tab.text = "My Bookmarks"
+                1 -> tab.text = "My Ideas"
+                2 -> tab.text = "My Implementations"
+            }
+        }.attach()
 
+        initObservers()
         initClick()
 
         return binding.root
@@ -113,6 +112,35 @@ class UserProfileFragment : Fragment() {
 
         }
 
+        var timer = Timer()
+        val DELAY = 800L
+
+        binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                timer.cancel()
+
+                timer = Timer()
+                timer.schedule(
+                    object : TimerTask() {
+                        override fun run() {
+                            viewModel.getTagsForKeyword(s.toString())
+                        }
+
+                    }, DELAY
+                )
+
+            }
+
+        })
+
         binding.includeAddEditTags.btnCreateTag.setOnClickListener {
             if (validate()) {
                 viewModel.createNewTag(
@@ -128,76 +156,8 @@ class UserProfileFragment : Fragment() {
         }
     }
 
-//    private fun openAddEditTagsDialog() {
-//
-//        val dialog = Dialog(requireContext())
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        dialog.setCancelable(false)
-//        dialog.setContentView(R.layout.layout_add_edit_tags)
-//        val createBtn = dialog.findViewById(R.id.btn_create_tag) as AppCompatTextView
-//        val cancelBtn = dialog.findViewById(R.id.btn_cancel_tag) as AppCompatTextView
-//        createBtn.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//        cancelBtn.setOnClickListener { dialog.dismiss() }
-//        dialog.show()
-//    }
 
-
-    private fun showTagsMenuPopup(data: TagsResponse) {
-        val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
-
-
-        for (tag in data.tagsResponseItems!!) {
-            menuPopup.menu.add(tag.name.toString())
-        }
-
-
-        menuPopup.setOnMenuItemClickListener { menuItem ->
-
-            if (binding.chipGroupTags.size < 6) {
-                val chip = Chip(requireContext())
-                chip.text = menuItem.title
-                binding.chipGroupTags.addView(chip)
-
-                userTagsList!!.add(data.tagsResponseItems.first {
-                    it.name == chip.text
-                }.id!!)
-
-                updateTags()
-
-                makeToast("" + data.tagsResponseItems.first {
-                    it.name == chip.text
-                }.id!!)
-            } else {
-                binding.includeAddEditTags.root.visibility = View.GONE
-                binding.chipEdit.isClickable = false
-            }
-
-            return@setOnMenuItemClickListener true
-        }
-
-        menuPopup.show()
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        initObservers()
-    }
-
-    fun initObservers() {
-        UpdateProfileRequest(
-            null,
-            null,
-            userTagsList,
-            null,
-            null,
-            null,
-            null,
-            null
-        )
+    private fun initObservers() {
         viewModel.getUserProfile()
         viewModel.tagsListFromIds.observe(viewLifecycleOwner)
         {
@@ -266,34 +226,6 @@ class UserProfileFragment : Fragment() {
             }
         }
 
-        var timer = Timer()
-        val DELAY = 800L
-
-        binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                timer.cancel()
-
-                timer = Timer()
-                timer.schedule(
-                    object : TimerTask() {
-                        override fun run() {
-                            viewModel.getTagsForKeyword(s.toString())
-                        }
-
-                    }, DELAY
-                )
-
-            }
-
-        })
 
 
         viewModel.tagsListFiltered.observe(viewLifecycleOwner) {
@@ -344,7 +276,44 @@ class UserProfileFragment : Fragment() {
         }
     }
 
-    private fun updateTags(){
+
+    private fun showTagsMenuPopup(data: TagsResponse) {
+        val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
+
+
+        for (tag in data.tagsResponseItems!!) {
+            menuPopup.menu.add(tag.name.toString())
+        }
+
+        menuPopup.setOnMenuItemClickListener { menuItem ->
+
+            if (binding.chipGroupTags.size < 6) {
+                val chip = Chip(requireContext())
+                chip.text = menuItem.title
+                binding.chipGroupTags.addView(chip)
+
+                userTagsList!!.add(data.tagsResponseItems.first {
+                    it.name == chip.text
+                }.id!!)
+
+                updateTags()
+
+                makeToast("" + data.tagsResponseItems.first {
+                    it.name == chip.text
+                }.id!!)
+            } else {
+                binding.includeAddEditTags.root.visibility = View.GONE
+                binding.chipEdit.isClickable = false
+            }
+
+            return@setOnMenuItemClickListener true
+        }
+
+        menuPopup.show()
+    }
+
+
+    private fun updateTags() {
         viewModel.updateUserProfile(
             UpdateProfileRequest(
                 null,
