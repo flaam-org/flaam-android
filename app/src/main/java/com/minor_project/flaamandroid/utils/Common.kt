@@ -4,6 +4,7 @@ import retrofit2.Response
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 
 
 fun <T> handleGetResponse(response: Response<T>): ApiException<T> {
@@ -39,8 +40,7 @@ fun String.getDaysDiff(): Int {
     val date = sdf.parse(this.substring(0, this.length - 13) + this.substring(this.length - 6))
     val today = Date()
 
-    return (((date!!.time - today.time) / (1000 * 60 * 60 * 24) % 7)).toInt()
-
-
+    val diff = (((date!!.time - today.time) / (1000 * 60 * 60 * 24) % 7)).toInt()
+    return abs(diff)
 
 }

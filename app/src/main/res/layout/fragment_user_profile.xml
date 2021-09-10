@@ -37,6 +37,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -53,7 +54,7 @@
                         android:id="@+id/iv_menu_user_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center|end"
+                        android:layout_gravity="center|top|end"
                         android:src="@drawable/ic_more_vert_black_24dp" />
                 </LinearLayout>
 
@@ -67,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:text="joined   -  "
+                        android:text="joined   -   "
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -81,42 +82,38 @@
 
                 </LinearLayout>
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chip_group_tags"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:chipBackgroundColor="@color/secondaryColor"
-                        app:chipIcon="@drawable/ic_edit_24dp"
-                        app:chipIconTint="@color/white" />
-
-                </com.google.android.material.chip.ChipGroup>
-
-                <include
-                    android:id="@+id/include_add_edit_tags"
-                    layout="@layout/layout_add_edit_tags"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-
-                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                    android:id="@+id/fab_user_profile_edit_profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
-                    android:text="@string/edit_profile"
-                    app:icon="@drawable/ic_edit_24dp" />
             </LinearLayout>
 
 
         </LinearLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="6dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/secondaryColor"
+                app:chipIcon="@drawable/ic_edit_24dp"
+                app:chipIconTint="@color/white" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <include
+            android:id="@+id/include_add_edit_tags"
+            layout="@layout/layout_add_edit_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar_user_profile"

@@ -1,6 +1,8 @@
 package com.minor_project.flaamandroid.feed.userprofile
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -27,8 +29,11 @@ import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import com.google.android.material.tabs.TabLayout
 
 import com.google.android.material.tabs.TabLayoutMediator
+import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.utils.gone
 
 
 @AndroidEntryPoint
@@ -69,7 +74,6 @@ class UserProfileFragment : Fragment() {
             }
         }.attach()
 
-        initObservers()
         initClick()
 
         return binding.root
@@ -79,7 +83,7 @@ class UserProfileFragment : Fragment() {
     private fun initClick() {
         binding.apply {
 
-            fabUserProfileEditProfile.setOnClickListener {
+            civUserProfileUserImage.setOnClickListener {
                 findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToMyProfileFragment())
             }
 
@@ -112,35 +116,6 @@ class UserProfileFragment : Fragment() {
 
         }
 
-        var timer = Timer()
-        val DELAY = 800L
-
-        binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                timer.cancel()
-
-                timer = Timer()
-                timer.schedule(
-                    object : TimerTask() {
-                        override fun run() {
-                            viewModel.getTagsForKeyword(s.toString())
-                        }
-
-                    }, DELAY
-                )
-
-            }
-
-        })
-
         binding.includeAddEditTags.btnCreateTag.setOnClickListener {
             if (validate()) {
                 viewModel.createNewTag(
@@ -156,8 +131,85 @@ class UserProfileFragment : Fragment() {
         }
     }
 
+//    private fun openAddEditTagsDialog() {
+//
+//        val dialog = Dialog(requireContext())
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        dialog.setCancelable(false)
+//        dialog.setContentView(R.layout.layout_add_edit_tags)
+//        val createBtn = dialog.findViewById(R.id.btn_create_tag) as AppCompatTextView
+//        val cancelBtn = dialog.findViewById(R.id.btn_cancel_tag) as AppCompatTextView
+//        createBtn.setOnClickListener {
+//            dialog.dismiss()
+//        }
+//        cancelBtn.setOnClickListener { dialog.dismiss() }
+//        dialog.show()
+//    }
 
-    private fun initObservers() {
+
+    private fun showTagsMenuPopup(data: TagsResponse) {
+        val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
+
+
+        for (tag in data.tagsResponseItems!!) {
+            menuPopup.menu.add(tag.name.toString())
+        }
+
+
+        menuPopup.setOnMenuItemClickListener { menuItem ->
+
+            if (binding.chipGroupTags.size < 6) {
+                val chip = Chip(requireContext())
+                chip.text = menuItem.title
+                binding.chipGroupTags.addView(chip)
+                chip.isCloseIconVisible = true
+                chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
+                chip.setOnCloseIconClickListener {
+                    userTagsList?.remove(data.tagsResponseItems.first {
+                        it.name == chip.text
+                    }.id!!)
+                    updateTags()
+                    chip.gone()
+                }
+
+                userTagsList!!.add(data.tagsResponseItems.first {
+                    it.name == chip.text
+                }.id!!)
+
+                updateTags()
+
+                makeToast("" + data.tagsResponseItems.first {
+                    it.name == chip.text
+                }.id!!)
+            } else {
+                binding.includeAddEditTags.root.visibility = View.GONE
+                binding.chipEdit.isClickable = false
+            }
+
+            return@setOnMenuItemClickListener true
+        }
+
+        menuPopup.show()
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initObservers()
+    }
+
+    fun initObservers() {
+        UpdateProfileRequest(
+            null,
+            null,
+            userTagsList,
+            null,
+            null,
+            null,
+            null,
+            null
+        )
         viewModel.getUserProfile()
         viewModel.tagsListFromIds.observe(viewLifecycleOwner)
         {
@@ -170,6 +222,14 @@ class UserProfileFragment : Fragment() {
                     for (tag in it.body.tagsResponseItems!!) {
                         val chip = Chip(requireContext())
                         chip.text = tag.name
+                        chip.isCloseIconVisible = true
+
+                        chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
+                        chip.setOnCloseIconClickListener {
+                            chip.gone()
+                            userTagsList?.remove(tag.id)
+                            updateTags()
+                        }
                         binding.chipGroupTags.addView(chip)
                     }
 
@@ -183,17 +243,19 @@ class UserProfileFragment : Fragment() {
                 }
 
                 is ApiException.Success -> {
-                    userTagsList?.addAll(it.body.favouriteTags!!)
+
                     binding.apply {
                         tvUserProfileFnameLname.text =
                             it.body.firstName.toString() + " " + it.body.lastName.toString()
                         tvUserProfileDoj.text =
                             it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
 
-                        if (!it.body.favouriteTags.isNullOrEmpty()) {
+                        if (!it.body.favouriteTags.isNullOrEmpty() && userTagsList?.isEmpty() == true) {
+                            userTagsList?.addAll(it.body.favouriteTags!!)
                             viewModel.getTagsForId(it.body.favouriteTags as List<Int>?)
-                        } else {
-                            makeToast("No Tags Added in your Profile, Add Tags!")
+                        }
+                        if(userTagsList?.isEmpty() == true){
+                                makeToast("No Tags Added in your Profile, Add Tags!")
                         }
 
                     }
@@ -226,6 +288,34 @@ class UserProfileFragment : Fragment() {
             }
         }
 
+        var timer = Timer()
+        val DELAY = 800L
+
+        binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                timer.cancel()
+
+                timer = Timer()
+                timer.schedule(
+                    object : TimerTask() {
+                        override fun run() {
+                            viewModel.getTagsForKeyword(s.toString())
+                        }
+
+                    }, DELAY
+                )
+
+            }
+
+        })
 
 
         viewModel.tagsListFiltered.observe(viewLifecycleOwner) {
@@ -250,18 +340,25 @@ class UserProfileFragment : Fragment() {
         }
 
 
-        viewModel.createNewTag.observe(viewLifecycleOwner) {
-            when (it) {
+        viewModel.createNewTag.observe(viewLifecycleOwner) { res ->
+            when (res) {
                 is ApiException.Error -> {
-                    makeToast(it.message.toString())
+                    makeToast(res.message.toString())
                 }
                 is ApiException.Success -> {
                     if (binding.chipGroupTags.size < 6) {
                         val chip = Chip(requireContext())
                         chip.text = binding.includeAddEditTags.etAddSelectTag.text.toString()
+                        chip.isCloseIconVisible = true
+                        chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
+                        chip.setOnCloseIconClickListener {
+                            userTagsList?.remove(res.body.id!!)
+                            chip.gone()
+                            updateTags()
+                        }
                         binding.chipGroupTags.addView(chip)
 
-                        userTagsList!!.add(it.body.id!!)
+                        userTagsList!!.add(res.body.id!!)
 
                         updateTags()
 
@@ -276,44 +373,7 @@ class UserProfileFragment : Fragment() {
         }
     }
 
-
-    private fun showTagsMenuPopup(data: TagsResponse) {
-        val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
-
-
-        for (tag in data.tagsResponseItems!!) {
-            menuPopup.menu.add(tag.name.toString())
-        }
-
-        menuPopup.setOnMenuItemClickListener { menuItem ->
-
-            if (binding.chipGroupTags.size < 6) {
-                val chip = Chip(requireContext())
-                chip.text = menuItem.title
-                binding.chipGroupTags.addView(chip)
-
-                userTagsList!!.add(data.tagsResponseItems.first {
-                    it.name == chip.text
-                }.id!!)
-
-                updateTags()
-
-                makeToast("" + data.tagsResponseItems.first {
-                    it.name == chip.text
-                }.id!!)
-            } else {
-                binding.includeAddEditTags.root.visibility = View.GONE
-                binding.chipEdit.isClickable = false
-            }
-
-            return@setOnMenuItemClickListener true
-        }
-
-        menuPopup.show()
-    }
-
-
-    private fun updateTags() {
+    private fun updateTags(){
         viewModel.updateUserProfile(
             UpdateProfileRequest(
                 null,
