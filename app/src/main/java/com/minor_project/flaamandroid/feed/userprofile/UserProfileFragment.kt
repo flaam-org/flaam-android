@@ -74,11 +74,12 @@ class UserProfileFragment : Fragment() {
             }
         }.attach()
 
+        initObservers()
+
         initClick()
 
         return binding.root
     }
-
 
     private fun initClick() {
         binding.apply {
@@ -116,6 +117,35 @@ class UserProfileFragment : Fragment() {
 
         }
 
+        var timer = Timer()
+        val DELAY = 800L
+
+        binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                timer.cancel()
+
+                timer = Timer()
+                timer.schedule(
+                    object : TimerTask() {
+                        override fun run() {
+                            viewModel.getTagsForKeyword(s.toString())
+                        }
+
+                    }, DELAY
+                )
+
+            }
+
+        })
+
         binding.includeAddEditTags.btnCreateTag.setOnClickListener {
             if (validate()) {
                 viewModel.createNewTag(
@@ -131,21 +161,141 @@ class UserProfileFragment : Fragment() {
         }
     }
 
-//    private fun openAddEditTagsDialog() {
-//
-//        val dialog = Dialog(requireContext())
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        dialog.setCancelable(false)
-//        dialog.setContentView(R.layout.layout_add_edit_tags)
-//        val createBtn = dialog.findViewById(R.id.btn_create_tag) as AppCompatTextView
-//        val cancelBtn = dialog.findViewById(R.id.btn_cancel_tag) as AppCompatTextView
-//        createBtn.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//        cancelBtn.setOnClickListener { dialog.dismiss() }
-//        dialog.show()
-//    }
+    private fun initObservers() {
+        viewModel.getUserProfile()
+        viewModel.tagsListFromIds.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is ApiException.Error -> {
+                    makeToast("error")
+                }
 
+                is ApiException.Success -> {
+                    for (tag in it.body.tagsResponseItems!!) {
+                        val chip = Chip(requireContext())
+                        chip.text = tag.name
+                        chip.isCloseIconVisible = true
+
+                        chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
+                        chip.setOnCloseIconClickListener {
+                            chip.gone()
+                            userTagsList?.remove(tag.id)
+                            updateTags()
+                        }
+                        binding.chipGroupTags.addView(chip)
+                    }
+
+                }
+            }
+        }
+        viewModel.userProfile.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiException.Error -> {
+                    makeToast("Unable to fetch Data!")
+                }
+
+                is ApiException.Success -> {
+
+                    binding.apply {
+                        tvUserProfileFnameLname.text =
+                            it.body.firstName.toString() + " " + it.body.lastName.toString()
+                        tvUserProfileDoj.text =
+                            it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
+
+                        if (!it.body.favouriteTags.isNullOrEmpty() && userTagsList?.isEmpty() == true) {
+                            userTagsList?.addAll(it.body.favouriteTags!!)
+                            viewModel.getTagsForId(it.body.favouriteTags as List<Int>?)
+                        }
+                        if (userTagsList?.isEmpty() == true) {
+                            makeToast("No Tags Added in your Profile, Add Tags!")
+                        }
+
+                    }
+
+
+                }
+            }
+        }
+
+        viewModel.getTags()
+        viewModel.tagsList.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiException.Error -> {
+                    makeToast("Unable to fetch tags!")
+                }
+
+                is ApiException.Success -> {
+
+                    binding.apply {
+
+                        val allTagsResponse = it.body
+                        chipEdit.setOnClickListener {
+                            binding.includeAddEditTags.root.visibility = View.VISIBLE
+                            showTagsMenuPopup(allTagsResponse)
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+
+
+        viewModel.tagsListFiltered.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiException.Error -> makeToast(it.message.toString())
+                is ApiException.Success -> showTagsMenuPopup(it.body)
+            }
+        }
+
+
+
+        viewModel.updateUserProfile.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiException.Error -> {
+                    makeToast("Unable to Update Profile!")
+                }
+
+                is ApiException.Success -> {
+                    makeToast("Profile Updated!")
+                }
+            }
+        }
+
+
+        viewModel.createNewTag.observe(viewLifecycleOwner) { res ->
+            when (res) {
+                is ApiException.Error -> {
+                    makeToast(res.message.toString())
+                }
+                is ApiException.Success -> {
+                    if (binding.chipGroupTags.size < 6) {
+                        val chip = Chip(requireContext())
+                        chip.text = binding.includeAddEditTags.etAddSelectTag.text.toString()
+                        chip.isCloseIconVisible = true
+                        chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
+                        chip.setOnCloseIconClickListener {
+                            userTagsList?.remove(res.body.id!!)
+                            chip.gone()
+                            updateTags()
+                        }
+                        binding.chipGroupTags.addView(chip)
+
+                        userTagsList!!.add(res.body.id!!)
+
+                        updateTags()
+
+                    } else {
+                        makeToast("You cannot add more than 5 Tags!")
+                        binding.includeAddEditTags.root.visibility = View.GONE
+                        binding.chipEdit.isClickable = false
+                    }
+                    makeToast("Tag Created!")
+                }
+            }
+        }
+    }
 
     private fun showTagsMenuPopup(data: TagsResponse) {
         val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
@@ -192,188 +342,7 @@ class UserProfileFragment : Fragment() {
         menuPopup.show()
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        initObservers()
-    }
-
-    fun initObservers() {
-        UpdateProfileRequest(
-            null,
-            null,
-            userTagsList,
-            null,
-            null,
-            null,
-            null,
-            null
-        )
-        viewModel.getUserProfile()
-        viewModel.tagsListFromIds.observe(viewLifecycleOwner)
-        {
-            when (it) {
-                is ApiException.Error -> {
-                    makeToast("error")
-                }
-
-                is ApiException.Success -> {
-                    for (tag in it.body.tagsResponseItems!!) {
-                        val chip = Chip(requireContext())
-                        chip.text = tag.name
-                        chip.isCloseIconVisible = true
-
-                        chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
-                        chip.setOnCloseIconClickListener {
-                            chip.gone()
-                            userTagsList?.remove(tag.id)
-                            updateTags()
-                        }
-                        binding.chipGroupTags.addView(chip)
-                    }
-
-                }
-            }
-        }
-        viewModel.userProfile.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiException.Error -> {
-                    makeToast("Unable to fetch Data!")
-                }
-
-                is ApiException.Success -> {
-
-                    binding.apply {
-                        tvUserProfileFnameLname.text =
-                            it.body.firstName.toString() + " " + it.body.lastName.toString()
-                        tvUserProfileDoj.text =
-                            it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
-
-                        if (!it.body.favouriteTags.isNullOrEmpty() && userTagsList?.isEmpty() == true) {
-                            userTagsList?.addAll(it.body.favouriteTags!!)
-                            viewModel.getTagsForId(it.body.favouriteTags as List<Int>?)
-                        }
-                        if(userTagsList?.isEmpty() == true){
-                                makeToast("No Tags Added in your Profile, Add Tags!")
-                        }
-
-                    }
-
-
-                }
-            }
-        }
-
-        viewModel.getTags()
-        viewModel.tagsList.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiException.Error -> {
-                    makeToast("Unable to fetch tags!")
-                }
-
-                is ApiException.Success -> {
-
-                    binding.apply {
-
-                        val allTagsResponse = it.body
-                        chipEdit.setOnClickListener {
-                            binding.includeAddEditTags.root.visibility = View.VISIBLE
-                            showTagsMenuPopup(allTagsResponse)
-                        }
-                    }
-
-
-                }
-            }
-        }
-
-        var timer = Timer()
-        val DELAY = 800L
-
-        binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                timer.cancel()
-
-                timer = Timer()
-                timer.schedule(
-                    object : TimerTask() {
-                        override fun run() {
-                            viewModel.getTagsForKeyword(s.toString())
-                        }
-
-                    }, DELAY
-                )
-
-            }
-
-        })
-
-
-        viewModel.tagsListFiltered.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiException.Error -> makeToast(it.message.toString())
-                is ApiException.Success -> showTagsMenuPopup(it.body)
-            }
-        }
-
-
-
-        viewModel.updateUserProfile.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiException.Error -> {
-                    makeToast("Unable to Update Tags!")
-                }
-
-                is ApiException.Success -> {
-                    makeToast("Profile Updated!")
-                }
-            }
-        }
-
-
-        viewModel.createNewTag.observe(viewLifecycleOwner) { res ->
-            when (res) {
-                is ApiException.Error -> {
-                    makeToast(res.message.toString())
-                }
-                is ApiException.Success -> {
-                    if (binding.chipGroupTags.size < 6) {
-                        val chip = Chip(requireContext())
-                        chip.text = binding.includeAddEditTags.etAddSelectTag.text.toString()
-                        chip.isCloseIconVisible = true
-                        chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
-                        chip.setOnCloseIconClickListener {
-                            userTagsList?.remove(res.body.id!!)
-                            chip.gone()
-                            updateTags()
-                        }
-                        binding.chipGroupTags.addView(chip)
-
-                        userTagsList!!.add(res.body.id!!)
-
-                        updateTags()
-
-                    } else {
-                        makeToast("You cannot add more than 5 Tags!")
-                        binding.includeAddEditTags.root.visibility = View.GONE
-                        binding.chipEdit.isClickable = false
-                    }
-                    makeToast("Tag Created!")
-                }
-            }
-        }
-    }
-
-    private fun updateTags(){
+    private fun updateTags() {
         viewModel.updateUserProfile(
             UpdateProfileRequest(
                 null,
