@@ -37,9 +37,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 @AndroidEntryPoint
 class UserProfileFragment : Fragment() {
 
-    var userTagsList: ArrayList<Int>? = ArrayList<Int>()
+    var userTagsList: ArrayList<Int>? = ArrayList()
 
-    private val viewModel: MyProfileViewModel by viewModels()
+    private val viewModel: UserProfileViewModel by viewModels()
 
     @Inject
     lateinit var preferences: UserPreferences
@@ -62,16 +62,14 @@ class UserProfileFragment : Fragment() {
         binding.viewPagerUserProfile.adapter = adapter
 
 
-            TabLayoutMediator(tabLayout, binding.viewPagerUserProfile, object: TabLayoutMediator.TabConfigurationStrategy{
-                override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
-                    when(position){
-                        0 -> tab.text = "My Bookmarks"
-                        1 -> tab.text = "My Ideas"
-                        2 -> tab.text = "My Implementations"
-                    }
+            TabLayoutMediator(tabLayout, binding.viewPagerUserProfile
+            ) { tab, position ->
+                when (position) {
+                    0 -> tab.text = "My Bookmarks"
+                    1 -> tab.text = "My Ideas"
+                    2 -> tab.text = "My Implementations"
                 }
-
-            } ).attach()
+            }.attach()
 
         initClick()
 
@@ -162,14 +160,15 @@ class UserProfileFragment : Fragment() {
                 chip.text = menuItem.title
                 binding.chipGroupTags.addView(chip)
 
-                userTagsList!!.add(data.tagsResponseItems.filter {
+                userTagsList!!.add(data.tagsResponseItems.first {
                     it.name == chip.text
-                }.first().id!!)
+                }.id!!)
 
+                updateTags()
 
-                makeToast("" + data.tagsResponseItems.filter {
+                makeToast("" + data.tagsResponseItems.first {
                     it.name == chip.text
-                }.first().id!!)
+                }.id!!)
             } else {
                 binding.includeAddEditTags.root.visibility = View.GONE
                 binding.chipEdit.isClickable = false
@@ -224,7 +223,7 @@ class UserProfileFragment : Fragment() {
                 }
 
                 is ApiException.Success -> {
-
+                    userTagsList?.addAll(it.body.favouriteTags!!)
                     binding.apply {
                         tvUserProfileFnameLname.text =
                             it.body.firstName.toString() + " " + it.body.lastName.toString()
@@ -313,18 +312,7 @@ class UserProfileFragment : Fragment() {
                 }
 
                 is ApiException.Success -> {
-                    viewModel.updateUserProfile(
-                        UpdateProfileRequest(
-                            null,
-                            null,
-                            userTagsList,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null
-                        )
-                    )
+                    makeToast("Profile Updated!")
                 }
             }
         }
@@ -343,18 +331,7 @@ class UserProfileFragment : Fragment() {
 
                         userTagsList!!.add(it.body.id!!)
 
-                        viewModel.updateUserProfile(
-                            UpdateProfileRequest(
-                                null,
-                                null,
-                                userTagsList,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null
-                            )
-                        )
+                        updateTags()
 
                     } else {
                         makeToast("You cannot add more than 5 Tags!")
@@ -365,6 +342,21 @@ class UserProfileFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun updateTags(){
+        viewModel.updateUserProfile(
+            UpdateProfileRequest(
+                null,
+                null,
+                userTagsList,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+        )
     }
 
 
