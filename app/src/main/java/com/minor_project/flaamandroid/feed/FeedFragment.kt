@@ -33,6 +33,7 @@ class FeedFragment : Fragment() {
     private lateinit var binding : FragmentFeedBinding
     private var initialId = R.id.step1
     private val viewModel: FeedViewModel by viewModels()
+    private var isFilterLayoutVisible: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +45,16 @@ class FeedFragment : Fragment() {
         initObservers()
 
         binding.apply {
+
+            binding.llCardview.setOnClickListener {
+                if(isFilterLayoutVisible){
+                    Timber.e(binding.motionLayout.currentState.toString())
+                    if(binding.motionLayout.currentState == R.id.step4){
+                        motionLayout.transitionToState(R.id.step3,500)
+                    }
+
+                }
+            }
 
             binding.efabPostIdea.setOnClickListener {
                 findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostIdeaFragment())
@@ -86,6 +97,7 @@ class FeedFragment : Fragment() {
 
                 if(initialId == R.id.step1 && currentId == R.id.step2){
                     motionLayout?.transitionToState(R.id.step3, 500)
+
                 }
 
                 if(initialId == R.id.step2 && currentId == R.id.step3){
@@ -101,6 +113,8 @@ class FeedFragment : Fragment() {
                         override fun onAnimationEnd(animation: Animator?) {
 
                             motionLayout?.transitionToState(R.id.step4, 200)
+                            isFilterLayoutVisible = true
+                            binding.efabPostIdea.isEnabled = false
                             animation?.removeAllListeners()
                         }
 
@@ -121,11 +135,13 @@ class FeedFragment : Fragment() {
                     Timber.e("click init")
                     binding.imageView.setOnClickListener {
                         motionLayout?.transitionToState(R.id.step3,500)
+
                     }
                 }
 
                 if(initialId == R.id.step3 && currentId == R.id.step2){
                     motionLayout?.transitionToState(R.id.step1, 200)
+                    isFilterLayoutVisible = false
                 }
 
                 if(initialId == R.id.step4 && currentId == R.id.step3){
@@ -140,6 +156,7 @@ class FeedFragment : Fragment() {
 
                         override fun onAnimationEnd(animation: Animator?) {
                             motionLayout?.transitionToState(R.id.step2, 200)
+                            binding.efabPostIdea.isEnabled = true
                         }
 
                         override fun onAnimationCancel(animation: Animator?) {
@@ -198,10 +215,7 @@ class FeedFragment : Fragment() {
                     override fun run() {
                         viewModel.getTagsForKeyword(s.toString())
                     }
-
                 }, DELAY)
-
-
             }
 
         })

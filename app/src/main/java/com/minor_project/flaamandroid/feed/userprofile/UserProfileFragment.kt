@@ -8,23 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.constraintlayout.motion.widget.TransitionBuilder.validate
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
 import com.minor_project.flaamandroid.MainActivity
-import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.request.LoginRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
-import com.minor_project.flaamandroid.databinding.LayoutAddEditTagsBinding
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.getDaysDiff
 import com.minor_project.flaamandroid.utils.makeToast
@@ -33,6 +27,12 @@ import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import com.google.android.material.tabs.TabLayout
+
+import com.google.android.material.tabs.TabLayoutMediator
+
+
+
 
 @AndroidEntryPoint
 class UserProfileFragment : Fragment() {
@@ -56,27 +56,22 @@ class UserProfileFragment : Fragment() {
 
 
         val tabLayout = binding.tabLayoutUserProfile
-        tabLayout.addTab(tabLayout.newTab().setText("My Bookmarks"))
-        tabLayout.addTab(tabLayout.newTab().setText("My Ideas"))
-        tabLayout.addTab(tabLayout.newTab().setText("My Implementations"))
 
-        val adapter = UserProfileViewPagerAdapter(childFragmentManager, tabLayout.tabCount)
+
+        val adapter = UserProfileViewPagerAdapter(this)
         binding.viewPagerUserProfile.adapter = adapter
-        binding.viewPagerUserProfile.addOnPageChangeListener(TabLayoutOnPageChangeListener(tabLayout))
 
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.viewPagerUserProfile.currentItem = tab.position
-            }
 
-            override fun onTabUnselected(tab: TabLayout.Tab) {
+            TabLayoutMediator(tabLayout, binding.viewPagerUserProfile, object: TabLayoutMediator.TabConfigurationStrategy{
+                override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
+                    when(position){
+                        0 -> tab.text = "My Bookmarks"
+                        1 -> tab.text = "My Ideas"
+                        2 -> tab.text = "My Implementations"
+                    }
+                }
 
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-
-            }
-        })
+            } ).attach()
 
         initClick()
 
