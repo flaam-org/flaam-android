@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_feedFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_postDetailsFragment"
+            app:destination="@id/postDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/postIdeaFragment"
@@ -75,6 +78,11 @@
         android:name="com.minor_project.flaamandroid.feed.userprofile.MyProfileFragment"
         android:label="fragment_my_profile"
         tools:layout="@layout/fragment_my_profile" />
+    <fragment
+        android:id="@+id/postDetailsFragment"
+        android:name="com.minor_project.flaamandroid.feed.post.PostDetailsFragment"
+        android:label="fragment_post_details"
+        tools:layout="@layout/fragment_post_details" />
 
 
 </navigation>

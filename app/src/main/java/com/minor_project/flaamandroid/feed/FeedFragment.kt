@@ -30,7 +30,7 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class FeedFragment : Fragment() {
 
-    private lateinit var binding : FragmentFeedBinding
+    private lateinit var binding: FragmentFeedBinding
     private var initialId = R.id.step1
     private val viewModel: FeedViewModel by viewModels()
     private var isFilterLayoutVisible: Boolean = false
@@ -47,10 +47,10 @@ class FeedFragment : Fragment() {
         binding.apply {
 
             binding.llCardview.setOnClickListener {
-                if(isFilterLayoutVisible){
+                if (isFilterLayoutVisible) {
                     Timber.e(binding.motionLayout.currentState.toString())
-                    if(binding.motionLayout.currentState == R.id.step4){
-                        motionLayout.transitionToState(R.id.step3,500)
+                    if (binding.motionLayout.currentState == R.id.step4) {
+                        motionLayout.transitionToState(R.id.step3, 500)
                     }
 
                 }
@@ -65,11 +65,10 @@ class FeedFragment : Fragment() {
             }
 
 
-
         }
 
 
-        binding.motionLayout.addTransitionListener(object: MotionLayout.TransitionListener{
+        binding.motionLayout.addTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(
                 motionLayout: MotionLayout?,
                 startId: Int,
@@ -95,17 +94,18 @@ class FeedFragment : Fragment() {
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
 
-                if(initialId == R.id.step1 && currentId == R.id.step2){
+                if (initialId == R.id.step1 && currentId == R.id.step2) {
                     motionLayout?.transitionToState(R.id.step3, 500)
 
                 }
 
-                if(initialId == R.id.step2 && currentId == R.id.step3){
+                if (initialId == R.id.step2 && currentId == R.id.step3) {
 
-                    val animation = ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y, 380F)
+                    val animation =
+                        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y, 380F)
 
                     animation.duration = 200
-                    animation.addListener(object: Animator.AnimatorListener{
+                    animation.addListener(object : Animator.AnimatorListener {
                         override fun onAnimationStart(animation: Animator?) {
 
                         }
@@ -130,26 +130,27 @@ class FeedFragment : Fragment() {
 
                 }
 
-                if(currentId == R.id.step4){
+                if (currentId == R.id.step4) {
 
                     Timber.e("click init")
                     binding.imageView.setOnClickListener {
-                        motionLayout?.transitionToState(R.id.step3,500)
+                        motionLayout?.transitionToState(R.id.step3, 500)
 
                     }
                 }
 
-                if(initialId == R.id.step3 && currentId == R.id.step2){
+                if (initialId == R.id.step3 && currentId == R.id.step2) {
                     motionLayout?.transitionToState(R.id.step1, 200)
                     isFilterLayoutVisible = false
                 }
 
-                if(initialId == R.id.step4 && currentId == R.id.step3){
+                if (initialId == R.id.step4 && currentId == R.id.step3) {
 
-                    val animation = ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y, 0F)
+                    val animation =
+                        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y, 0F)
 
                     animation.duration = 200
-                    animation.addListener(object: Animator.AnimatorListener{
+                    animation.addListener(object : Animator.AnimatorListener {
                         override fun onAnimationStart(animation: Animator?) {
 
                         }
@@ -173,9 +174,6 @@ class FeedFragment : Fragment() {
                 }
 
 
-
-
-
             }
 
             override fun onTransitionTrigger(
@@ -195,10 +193,10 @@ class FeedFragment : Fragment() {
     }
 
 
-    private fun initObservers(){
+    private fun initObservers() {
         var timer = Timer()
         val DELAY = 800L
-        binding.include.etTagName.addTextChangedListener(object: TextWatcher{
+        binding.include.etTagName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
@@ -211,7 +209,7 @@ class FeedFragment : Fragment() {
                 timer.cancel()
 
                 timer = Timer()
-                timer.schedule(object: TimerTask(){
+                timer.schedule(object : TimerTask() {
                     override fun run() {
                         viewModel.getTagsForKeyword(s.toString())
                     }
@@ -221,8 +219,8 @@ class FeedFragment : Fragment() {
         })
 
 
-        viewModel.tags.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.tags.observe(viewLifecycleOwner) {
+            when (it) {
                 is ApiException.Error -> makeToast(it.message.toString())
                 is ApiException.Success -> showTagsMenuPopup(it.body)
             }
@@ -230,7 +228,7 @@ class FeedFragment : Fragment() {
 
     }
 
-    private fun showTagsMenuPopup(data: TagsResponse){
+    private fun showTagsMenuPopup(data: TagsResponse) {
 
         val menuPopup = PopupMenu(requireContext(), binding.include.etTagName)
 
@@ -251,16 +249,16 @@ class FeedFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val feedPostList = ArrayList<FeedPostModel>()
 
         val n = FeedPostModel(
-            R.drawable.ic_profile_image_place_holder,"Idea/Post Title", 2, 4, resources.getString(
+            R.drawable.ic_profile_image_place_holder, "Idea/Post Title", 2, 4, resources.getString(
                 R.string.sample_text
-            ))
+            )
+        )
 
         feedPostList.add(n)
         binding.rvFeedPosts.layoutManager = LinearLayoutManager(context)
@@ -270,5 +268,13 @@ class FeedFragment : Fragment() {
 
         val feedPostAdapter = FeedPostAdapter(requireContext(), feedPostList)
         binding.rvFeedPosts.adapter = feedPostAdapter
+
+
+        feedPostAdapter.setOnClickListener(object : FeedPostAdapter.OnClickListener {
+            override fun onClick(position: Int, model: FeedPostModel) {
+                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostDetailsFragment())
+            }
+
+        })
     }
 }

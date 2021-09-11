@@ -14,10 +14,11 @@ import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.models.FeedPostModel
 
 open class FeedPostAdapter(
-    private val context : Context,
-    private var list : ArrayList<FeedPostModel>
+    private val context: Context,
+    private var list: ArrayList<FeedPostModel>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 ) {
+    private var onClickListener: OnClickListener? = null
     var bookmark = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(
@@ -33,26 +34,55 @@ open class FeedPostAdapter(
         val model = list[position]
 
         if (holder is MyViewHolder) {
-            holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_user_image).setImageResource(model.userImage)
+            holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_user_image)
+                .setImageResource(model.userImage)
             holder.itemView.findViewById<TextView>(R.id.tv_feed_post_title).text = model.title
 
-            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_votes).text = model.votes.toString()
-            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_implementations).text = model.implementations.toString()
+            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_votes).text =
+                model.votes.toString()
+            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_implementations).text =
+                model.implementations.toString()
 
 
-            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description).text = model.description
+            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description).text =
+                model.description
 
             holder.itemView.findViewById<ImageView>(R.id.iv_bookmark).setOnClickListener {
                 toggleBookmark(holder.itemView.findViewById<ImageView>(R.id.iv_bookmark))
             }
 
             holder.itemView.findViewById<ImageView>(R.id.iv_share).setOnClickListener {
-                shareIdea(holder.itemView.findViewById<TextView>(R.id.tv_feed_post_title), holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description))
+                shareIdea(
+                    holder.itemView.findViewById<TextView>(R.id.tv_feed_post_title),
+                    holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description)
+                )
+            }
+
+            holder.itemView.setOnClickListener {
+
+                if (onClickListener != null) {
+                    onClickListener!!.onClick(position, model)
+                }
+
             }
         }
     }
 
-    private fun shareIdea(title : TextView, description: TextView) {
+
+    override fun getItemCount(): Int {
+        return list.size
+    }
+
+    interface OnClickListener {
+        fun onClick(position: Int, model: FeedPostModel)
+    }
+
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+
+
+    private fun shareIdea(title: TextView, description: TextView) {
 
         val intent = Intent(Intent.ACTION_SEND)
             .setType("text/plain")
@@ -63,23 +93,16 @@ open class FeedPostAdapter(
 
     }
 
-    private fun toggleBookmark(ivBookmark : ImageView) {
-        if(!bookmark)
-        {
+    private fun toggleBookmark(ivBookmark: ImageView) {
+        if (!bookmark) {
             ivBookmark.setImageResource(R.drawable.ic_bookmark_check)
             Toast.makeText(this.context, "Idea Added to Bookmarks", Toast.LENGTH_SHORT).show()
             bookmark = true
-        }
-        else
-        {
+        } else {
             ivBookmark.setImageResource(R.drawable.ic_bookmark_uncheck)
             Toast.makeText(this.context, "Idea Removed from Bookmarks", Toast.LENGTH_SHORT).show()
             bookmark = false
         }
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
     }
 
     private class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
