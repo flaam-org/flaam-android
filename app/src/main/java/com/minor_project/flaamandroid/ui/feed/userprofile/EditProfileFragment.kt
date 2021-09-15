@@ -48,15 +48,7 @@ class EditProfileFragment : Fragment() {
     ): View {
         binding = FragmentEditProfileBinding.inflate(inflater)
 
-
-        binding.rvEditProfileTags.layoutManager = GridLayoutManager(context, 2)
-
-        binding.rvEditProfileTags.setHasFixedSize(true)
-
-        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!)
-        binding.rvEditProfileTags.adapter = userTagsAdapter
-
-
+        populateTagsInRecyclerView()
         initObserver()
         initOnClick()
 
@@ -79,6 +71,7 @@ class EditProfileFragment : Fragment() {
         binding.btnAddTagsEditProfile.setOnClickListener {
             showAddEditTagPopup()
             userTagsAdapter.updateUserTagsList(userTagsListNames!!)
+            populateTagsInRecyclerView()
         }
 
         binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
@@ -116,6 +109,7 @@ class EditProfileFragment : Fragment() {
                 )
 
                 userTagsAdapter.updateUserTagsList(userTagsListNames!!)
+                populateTagsInRecyclerView()
             } else {
                 makeToast("Missing Required Fields!")
             }
@@ -174,6 +168,7 @@ class EditProfileFragment : Fragment() {
                         binding.rvEditProfileTags.visibility = View.VISIBLE
 
                         userTagsAdapter.updateUserTagsList(userTagsListNames!!)
+                        populateTagsInRecyclerView()
                     }
 
                 }
@@ -235,6 +230,7 @@ class EditProfileFragment : Fragment() {
                     userTagsList!!.add(res.body.id!!)
                     updateTags()
                     userTagsAdapter.updateUserTagsList(userTagsListNames!!)
+                    populateTagsInRecyclerView()
                     makeToast("Tag Created!")
                 }
             }
@@ -278,6 +274,7 @@ class EditProfileFragment : Fragment() {
 
             updateTags()
             userTagsAdapter.updateUserTagsList(userTagsListNames!!)
+            populateTagsInRecyclerView()
 
             makeToast("" + data.tagsResponseItems.first {
                 it.name == selectedTag
@@ -318,6 +315,16 @@ class EditProfileFragment : Fragment() {
                 null
             )
         )
+    }
+
+
+    private fun populateTagsInRecyclerView() {
+        binding.rvEditProfileTags.layoutManager = GridLayoutManager(context, 2)
+
+        binding.rvEditProfileTags.setHasFixedSize(true)
+
+        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!)
+        binding.rvEditProfileTags.adapter = userTagsAdapter
     }
 
 
