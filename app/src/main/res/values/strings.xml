@@ -32,4 +32,7 @@
     <string name="add_tag">Add Tag</string>
     <string name="create_tag">CREATE TAG</string>
     <string name="cancel_tag">CANCEL TAG</string>
+    <string name="edit_profile_toolbar_title">EDIT PROFILE</string>
+    <string name="tags">Tags</string>
+    <string name="no_tags_to_display">No Tags To Display!</string>
 </resources>
