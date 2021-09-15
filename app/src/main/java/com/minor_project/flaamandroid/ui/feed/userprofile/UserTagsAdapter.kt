@@ -69,8 +69,19 @@ open class UserTagsAdapter(
     }
 
 
-    private class TagsViewHolder(val binding: ItemUserTagBinding) : RecyclerView.ViewHolder(binding.root)
+    fun updateUserTagsList(newTagsList : ArrayList<String>)
+    {
+        list = newTagsList
+        notifyDataSetChanged()
+    }
 
-    private class AddTagViewHolder(val binding: ItemUserAddTagBinding) : RecyclerView.ViewHolder(binding.root)
+
+
+
+    private class TagsViewHolder(val binding: ItemUserTagBinding) :
+        RecyclerView.ViewHolder(binding.root) {}
+
+    private class AddTagViewHolder(val binding: ItemUserAddTagBinding) :
+        RecyclerView.ViewHolder(binding.root) {}
 
 }

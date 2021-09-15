@@ -56,29 +56,6 @@ class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
         }
     }
 
-    fun updateUserProfile(data : UpdateProfileRequest)
-    {
-        viewModelScope.launch(Dispatchers.IO) {
-            val res = flaamRepo.updateUserProfile(data)
-            _updateUserProfile.postValue(handleGetResponse(res))
-        }
-    }
-
-
-    fun getTags() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val res = flaamRepo.getTagsList()
-            _tagsList.postValue(handleGetResponse(res))
-        }
-    }
-
-    fun getTagsForKeyword(keyword: String?){
-        viewModelScope.launch(Dispatchers.IO) {
-            val res = flaamRepo.getTagsForKeyword(keyword, null)
-            _tagsListFiltered.postValue(handleGetResponse(res))
-        }
-    }
-
     fun getTagsForId(idList : List<Int>?){
 
 
@@ -87,13 +64,6 @@ class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
             Timber.e(idList.toString() +" | " + ids.toString())
             val res = flaamRepo.getTagsForKeyword(null, ids)
             _tagsListFromIds.postValue(handleGetResponse(res))
-        }
-    }
-
-    fun createNewTag(body: TagsRequest){
-        viewModelScope.launch {
-            val res = flaamRepo.createNewTag(body)
-            _createNewTag.postValue(handlePostResponse(res))
         }
     }
 
