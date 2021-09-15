@@ -9,23 +9,23 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.request.LoginRequest
-import com.minor_project.flaamandroid.databinding.FragmentSignUpBinding
+import com.minor_project.flaamandroid.databinding.FragmentRegisterBinding
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignUpFragment : Fragment() {
+class RegisterFragment : Fragment() {
 
 
-    private lateinit var binding: FragmentSignUpBinding
-    private val viewModel: SignUpViewModel by viewModels()
+    private lateinit var binding: FragmentRegisterBinding
+    private val viewModel: RegisterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSignUpBinding.inflate(inflater)
+        binding = FragmentRegisterBinding.inflate(inflater)
 
         initObservers()
         initOnClick()
@@ -34,16 +34,21 @@ class SignUpFragment : Fragment() {
         return binding.root
     }
 
-    private fun initOnClick(){
+    private fun initOnClick() {
         binding.apply {
 
             btnSignUp.setOnClickListener {
-                if(validate()){
-                    viewModel.postRegisterUser(LoginRequest(
-                        etEmailSignIn.text.toString(), etFnameSignUp.text.toString(), etLnameSignUp.text.toString(), etPasswordSignIn.text.toString(), etUsernameSignUp.text.toString()
-                    ))
-                }
-                else{
+                if (validate()) {
+                    viewModel.postRegisterUser(
+                        LoginRequest(
+                            etEmailSignIn.text.toString(),
+                            etFnameSignUp.text.toString(),
+                            etLnameSignUp.text.toString(),
+                            etPasswordSignIn.text.toString(),
+                            etUsernameSignUp.text.toString()
+                        )
+                    )
+                } else {
                     makeToast("Missing Required Fields!")
                 }
             }
@@ -52,26 +57,26 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun validate(): Boolean{
+    private fun validate(): Boolean {
         val emptyFieldError = "This Field Can't Be Empty!"
         binding.apply {
-            if(etEmailSignIn.text.isNullOrEmpty()){
+            if (etEmailSignIn.text.isNullOrEmpty()) {
                 tilEmailFragmentSignIn.error = emptyFieldError
                 return false
             }
-            if(etUsernameSignUp.text.isNullOrEmpty()){
+            if (etUsernameSignUp.text.isNullOrEmpty()) {
                 tilUsernameFragmentSignUp.error = emptyFieldError
                 return false
             }
-            if(etPasswordSignIn.text.isNullOrEmpty()){
+            if (etPasswordSignIn.text.isNullOrEmpty()) {
                 tilPassFragmentSignIn.error = emptyFieldError
                 return false
             }
-            if(etFnameSignUp.text.isNullOrEmpty()){
+            if (etFnameSignUp.text.isNullOrEmpty()) {
                 tilFnameFragmentSignUp.error = emptyFieldError
                 return false
             }
-            if(etLnameSignUp.text.isNullOrEmpty()){
+            if (etLnameSignUp.text.isNullOrEmpty()) {
                 tilLnameFragmentSignUp.error = emptyFieldError
                 return false
             }
@@ -80,9 +85,9 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun initObservers(){
-        viewModel.registerUserResult.observe(viewLifecycleOwner){
-            when(it){
+    private fun initObservers() {
+        viewModel.registerUserResult.observe(viewLifecycleOwner) {
+            when (it) {
                 is ApiException.Error -> {
                     makeToast(it.message.toString())
                 }
@@ -93,7 +98,6 @@ class SignUpFragment : Fragment() {
             }
         }
     }
-
 
 
 }

@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
-import com.minor_project.flaamandroid.databinding.FragmentMyProfileBinding
+import com.minor_project.flaamandroid.databinding.FragmentEditProfileBinding
 import com.minor_project.flaamandroid.utils.ApiException
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,20 +17,20 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MyProfileFragment : Fragment() {
-    private val viewModel: MyProfileViewModel by viewModels()
+class EditProfileFragment : Fragment() {
+    private val viewModel: EditProfileViewModel by viewModels()
 
     @Inject
     lateinit var preferences: UserPreferences
 
-    private lateinit var binding: FragmentMyProfileBinding
+    private lateinit var binding: FragmentEditProfileBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMyProfileBinding.inflate(inflater)
+        binding = FragmentEditProfileBinding.inflate(inflater)
 
         initObserver()
         initOnClick()

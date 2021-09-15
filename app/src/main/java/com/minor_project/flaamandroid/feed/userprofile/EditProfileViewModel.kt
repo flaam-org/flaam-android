@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepository): ViewModel() {
+class EditProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepository): ViewModel() {
 
     private val _userProfile = MutableLiveData<ApiException<ViewProfileResponse>>()
     val userProfile: LiveData<ApiException<ViewProfileResponse>> = _userProfile

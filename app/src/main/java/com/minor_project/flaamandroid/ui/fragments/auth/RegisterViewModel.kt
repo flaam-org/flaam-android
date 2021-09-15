@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val repo: AuthRepository): ViewModel() {
+class RegisterViewModel @Inject constructor(private val repo: AuthRepository): ViewModel() {
 
     private val _registerUserResult = MutableLiveData<ApiException<RegisterUserResponse>>()
     val registerUserResult: LiveData<ApiException<RegisterUserResponse>> = _registerUserResult

@@ -85,7 +85,7 @@ class UserProfileFragment : Fragment() {
         binding.apply {
 
             civUserProfileUserImage.setOnClickListener {
-                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToMyProfileFragment())
+                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToEditProfileFragment())
             }
 
             ivMenuUserProfile.setOnClickListener {
