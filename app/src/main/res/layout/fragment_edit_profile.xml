@@ -206,6 +206,17 @@
                         android:visibility="gone"
                         tools:visibility="visible" />
 
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_add_tags_edit_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/shape_button_rounded_gradient2"
+                        android:padding="8dp"
+                        android:text="@string/add_tags" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

@@ -47,34 +47,22 @@ class EditProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEditProfileBinding.inflate(inflater)
+
+
+        binding.rvEditProfileTags.layoutManager = GridLayoutManager(context, 2)
+
+        binding.rvEditProfileTags.setHasFixedSize(true)
+
+        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!)
+        binding.rvEditProfileTags.adapter = userTagsAdapter
+
+
         initObserver()
         initOnClick()
-
-
-
-        userTagsAdapter =
-            UserTagsAdapter(requireContext(), userTagsListNames!!) {
-                showAddEditTagPopup()
-            }
-        binding.rvEditProfileTags.adapter = userTagsAdapter
 
         return binding.root
     }
 
-    private fun updateUserProfile() {
-        viewModel.updateUserProfile(
-            UpdateProfileRequest(
-                null,
-                null,
-                null,
-                binding.etFnameEditProfile.text.toString(),
-                binding.etLnameEditProfile.text.toString(),
-                null,
-                null,
-                null
-            )
-        )
-    }
 
     private fun initOnClick() {
 
@@ -86,6 +74,11 @@ class EditProfileFragment : Fragment() {
                 updateUserProfile()
                 findNavController().popBackStack()
             }
+        }
+
+        binding.btnAddTagsEditProfile.setOnClickListener {
+            showAddEditTagPopup()
+            userTagsAdapter.updateUserTagsList(userTagsListNames!!)
         }
 
         binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
@@ -121,6 +114,8 @@ class EditProfileFragment : Fragment() {
                 viewModel.createNewTag(
                     TagsRequest(null, binding.includeAddEditTags.etAddSelectTag.text.toString())
                 )
+
+                userTagsAdapter.updateUserTagsList(userTagsListNames!!)
             } else {
                 makeToast("Missing Required Fields!")
             }
@@ -164,9 +159,8 @@ class EditProfileFragment : Fragment() {
         {
             when (it) {
                 is ApiResponse.Error -> {
-                    makeToast("error")
+                    makeToast("Unable to fetch User Tags!")
                 }
-
                 is ApiResponse.Success -> {
                     for (tag in it.body.tagsResponseItems!!) {
                         userTagsListNames!!.add(tag.name!!)
@@ -178,11 +172,6 @@ class EditProfileFragment : Fragment() {
                     } else {
                         binding.tvNoTagsToDisplayEditProfile.visibility = View.GONE
                         binding.rvEditProfileTags.visibility = View.VISIBLE
-
-
-                        binding.rvEditProfileTags.layoutManager = GridLayoutManager(context, 2)
-
-                        binding.rvEditProfileTags.setHasFixedSize(true)
 
                         userTagsAdapter.updateUserTagsList(userTagsListNames!!)
                     }
@@ -210,7 +199,7 @@ class EditProfileFragment : Fragment() {
         viewModel.tagsList.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    makeToast("Unable to fetch tags list!")
+                    makeToast("Unable to fetch Tags List!")
                 }
 
                 is ApiResponse.Success -> {
@@ -245,6 +234,7 @@ class EditProfileFragment : Fragment() {
                 is ApiResponse.Success -> {
                     userTagsList!!.add(res.body.id!!)
                     updateTags()
+                    userTagsAdapter.updateUserTagsList(userTagsListNames!!)
                     makeToast("Tag Created!")
                 }
             }
@@ -287,6 +277,7 @@ class EditProfileFragment : Fragment() {
             }.id!!)
 
             updateTags()
+            userTagsAdapter.updateUserTagsList(userTagsListNames!!)
 
             makeToast("" + data.tagsResponseItems.first {
                 it.name == selectedTag
@@ -299,6 +290,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun updateTags() {
+
         viewModel.updateUserProfile(
             UpdateProfileRequest(
                 null,
@@ -306,6 +298,21 @@ class EditProfileFragment : Fragment() {
                 userTagsList,
                 null,
                 null,
+                null,
+                null,
+                null
+            )
+        )
+    }
+
+    private fun updateUserProfile() {
+        viewModel.updateUserProfile(
+            UpdateProfileRequest(
+                null,
+                null,
+                userTagsList,
+                binding.etFnameEditProfile.text.toString(),
+                binding.etLnameEditProfile.text.toString(),
                 null,
                 null,
                 null
