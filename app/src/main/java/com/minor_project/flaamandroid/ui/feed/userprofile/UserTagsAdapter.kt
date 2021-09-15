@@ -38,7 +38,7 @@ open class UserTagsAdapter(
             // add tag view
 
             (holder as AddTagViewHolder).also {
-            it.binding.btnItemUserTag.setOnClickListener {
+            it.binding.root.setOnClickListener {
                 showPopup.invoke()
 
             }
@@ -49,7 +49,7 @@ open class UserTagsAdapter(
             val model = list[position]
             (holder as TagsViewHolder).also {
 
-                it.binding.btnItemUserTag.findViewById<TextView>(R.id.btn_item_user_tag).text = model
+                it.binding.textView3.text = model
 
             }
         }
@@ -69,8 +69,8 @@ open class UserTagsAdapter(
     }
 
 
-    private class TagsViewHolder(val binding: ItemUserTagBinding) : RecyclerView.ViewHolder(binding.root){}
+    private class TagsViewHolder(val binding: ItemUserTagBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private class AddTagViewHolder(val binding: ItemUserAddTagBinding) : RecyclerView.ViewHolder(binding.root){}
+    private class AddTagViewHolder(val binding: ItemUserAddTagBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

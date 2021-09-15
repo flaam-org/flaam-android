@@ -117,7 +117,7 @@ class EditProfileFragment : Fragment() {
 
 //                        val userTagsList = ArrayList<FeedPostModel>()
 
-                        binding.rvEditProfileTags.layoutManager = GridLayoutManager(context, 2)
+                        binding.rvEditProfileTags.layoutManager = GridLayoutManager(context, 1)
 
                         binding.rvEditProfileTags.setHasFixedSize(true)
 
