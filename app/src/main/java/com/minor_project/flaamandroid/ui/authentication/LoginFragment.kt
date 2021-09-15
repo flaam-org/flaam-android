@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.authentication
+package com.minor_project.flaamandroid.ui.authentication
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,7 +11,7 @@ import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.LoginRequest
 import com.minor_project.flaamandroid.data.response.LoginResponse
 import com.minor_project.flaamandroid.databinding.FragmentLoginBinding
-import com.minor_project.flaamandroid.utils.ApiException
+import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
@@ -55,8 +55,8 @@ class LoginFragment : Fragment() {
     private fun initObservers(){
         viewModel.loginResult.observe(viewLifecycleOwner){
             when(it){
-                is ApiException.Error -> makeToast(it.message.toString())
-                is ApiException.Success -> {
+                is ApiResponse.Error -> makeToast(it.message.toString())
+                is ApiResponse.Success -> {
                     runBlocking {
                         runBlocking {
                             preferences.updateTokens(it.body)
@@ -71,11 +71,11 @@ class LoginFragment : Fragment() {
 
         viewModel.userProfile.observe(viewLifecycleOwner){
             when(it){
-                is ApiException.Error -> {
+                is ApiResponse.Error -> {
                     runBlocking { preferences.updateTokens(LoginResponse(null, null)) }
                 }
 
-                is ApiException.Success -> {
+                is ApiResponse.Success -> {
                     runBlocking {
                         preferences.registerUser(it.body)
                     }

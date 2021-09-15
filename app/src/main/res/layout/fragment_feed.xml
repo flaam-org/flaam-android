@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feed.FeedFragment"
+    tools:context=".ui.feed.FeedFragment"
     app:layoutDescription="@xml/fragment_feed_scene">
 
 

@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.feed.userprofile
+package com.minor_project.flaamandroid.ui.feed.userprofile
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -15,31 +15,28 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.google.android.material.tabs.TabLayoutMediator
 import com.minor_project.flaamandroid.MainActivity
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
-import com.minor_project.flaamandroid.utils.ApiException
+import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.getDaysDiff
+import com.minor_project.flaamandroid.utils.gone
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-import com.google.android.material.tabs.TabLayout
-
-import com.google.android.material.tabs.TabLayoutMediator
-import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.utils.gone
 
 
 @AndroidEntryPoint
 class UserProfileFragment : Fragment() {
 
-    var userTagsList: ArrayList<Int>? = ArrayList()
+    private var userTagsList: ArrayList<Int>? = ArrayList()
 
     private val viewModel: UserProfileViewModel by viewModels()
 
@@ -166,11 +163,11 @@ class UserProfileFragment : Fragment() {
         viewModel.tagsListFromIds.observe(viewLifecycleOwner)
         {
             when (it) {
-                is ApiException.Error -> {
+                is ApiResponse.Error -> {
                     makeToast("error")
                 }
 
-                is ApiException.Success -> {
+                is ApiResponse.Success -> {
                     for (tag in it.body.tagsResponseItems!!) {
                         val chip = Chip(requireContext())
                         chip.text = tag.name
@@ -190,11 +187,11 @@ class UserProfileFragment : Fragment() {
         }
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
-                is ApiException.Error -> {
+                is ApiResponse.Error -> {
                     makeToast("Unable to fetch Data!")
                 }
 
-                is ApiException.Success -> {
+                is ApiResponse.Success -> {
 
                     binding.apply {
                         tvUserProfileFnameLname.text =
@@ -202,7 +199,7 @@ class UserProfileFragment : Fragment() {
 
                         //TODO Add the functionality of date joined in number of days format.
                         tvUserProfileDoj.text =
-//                            it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
+                            it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
                             it.body.dateJoined.toString()
 
                         if (!it.body.favouriteTags.isNullOrEmpty() && userTagsList?.isEmpty() == true) {
@@ -223,11 +220,11 @@ class UserProfileFragment : Fragment() {
         viewModel.getTags()
         viewModel.tagsList.observe(viewLifecycleOwner) {
             when (it) {
-                is ApiException.Error -> {
+                is ApiResponse.Error -> {
                     makeToast("Unable to fetch tags!")
                 }
 
-                is ApiException.Success -> {
+                is ApiResponse.Success -> {
 
                     binding.apply {
 
@@ -247,8 +244,8 @@ class UserProfileFragment : Fragment() {
 
         viewModel.tagsListFiltered.observe(viewLifecycleOwner) {
             when (it) {
-                is ApiException.Error -> makeToast(it.message.toString())
-                is ApiException.Success -> showTagsMenuPopup(it.body)
+                is ApiResponse.Error -> makeToast(it.message.toString())
+                is ApiResponse.Success -> showTagsMenuPopup(it.body)
             }
         }
 
@@ -256,11 +253,11 @@ class UserProfileFragment : Fragment() {
 
         viewModel.updateUserProfile.observe(viewLifecycleOwner) {
             when (it) {
-                is ApiException.Error -> {
+                is ApiResponse.Error -> {
                     makeToast("Unable to Update Profile!")
                 }
 
-                is ApiException.Success -> {
+                is ApiResponse.Success -> {
                     makeToast("Profile Updated!")
                 }
             }
@@ -269,10 +266,10 @@ class UserProfileFragment : Fragment() {
 
         viewModel.createNewTag.observe(viewLifecycleOwner) { res ->
             when (res) {
-                is ApiException.Error -> {
+                is ApiResponse.Error -> {
                     makeToast(res.message.toString())
                 }
-                is ApiException.Success -> {
+                is ApiResponse.Success -> {
                     if (binding.chipGroupTags.size < 6) {
                         val chip = Chip(requireContext())
                         chip.text = binding.includeAddEditTags.etAddSelectTag.text.toString()

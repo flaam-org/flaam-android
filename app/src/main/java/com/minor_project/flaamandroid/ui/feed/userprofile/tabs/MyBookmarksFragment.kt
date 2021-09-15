@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.feed.userprofile
+package com.minor_project.flaamandroid.ui.feed.userprofile.tabs
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.minor_project.flaamandroid.R
 
-class MyIdeasFragment : Fragment() {
+
+class MyBookmarksFragment : Fragment() {
 
 
     override fun onCreateView(
@@ -15,7 +16,8 @@ class MyIdeasFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_ideas, container, false)
+        return inflater.inflate(R.layout.fragment_my_bookmarks, container, false)
     }
+
 
 }

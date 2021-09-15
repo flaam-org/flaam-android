@@ -1,10 +1,9 @@
-package com.minor_project.flaamandroid.feed.userprofile
+package com.minor_project.flaamandroid.ui.feed.userprofile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.minor_project.flaamandroid.data.request.LoginRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
@@ -12,7 +11,7 @@ import com.minor_project.flaamandroid.data.response.TagsResponseItem
 import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
-import com.minor_project.flaamandroid.utils.ApiException
+import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
 import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,25 +23,25 @@ import javax.inject.Inject
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepository): ViewModel() {
 
-    private val _userProfile = MutableLiveData<ApiException<ViewProfileResponse>>()
-    val userProfile: LiveData<ApiException<ViewProfileResponse>> = _userProfile
+    private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
+    val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
 
-    private val _updateUserProfile = MutableLiveData<ApiException<UpdateProfileResponse>>()
-    val updateUserProfile: LiveData<ApiException<UpdateProfileResponse>> = _updateUserProfile
+    private val _updateUserProfile = MutableLiveData<ApiResponse<UpdateProfileResponse>>()
+    val updateUserProfile: LiveData<ApiResponse<UpdateProfileResponse>> = _updateUserProfile
 
-    private val _tagsList = MutableLiveData<ApiException<TagsResponse>>()
-    val tagsList: LiveData<ApiException<TagsResponse>> = _tagsList
-
-
-    private val _tagsListFiltered = MutableLiveData<ApiException<TagsResponse>>()
-    val tagsListFiltered: LiveData<ApiException<TagsResponse>> = _tagsListFiltered
-
-    private val _tagsListFromIds = MutableLiveData<ApiException<TagsResponse>>()
-    val tagsListFromIds: LiveData<ApiException<TagsResponse>> = _tagsListFromIds
+    private val _tagsList = MutableLiveData<ApiResponse<TagsResponse>>()
+    val tagsList: LiveData<ApiResponse<TagsResponse>> = _tagsList
 
 
-    private val _createNewTag = MutableLiveData<ApiException<TagsResponseItem>>()
-    val createNewTag: LiveData<ApiException<TagsResponseItem>> = _createNewTag
+    private val _tagsListFiltered = MutableLiveData<ApiResponse<TagsResponse>>()
+    val tagsListFiltered: LiveData<ApiResponse<TagsResponse>> = _tagsListFiltered
+
+    private val _tagsListFromIds = MutableLiveData<ApiResponse<TagsResponse>>()
+    val tagsListFromIds: LiveData<ApiResponse<TagsResponse>> = _tagsListFromIds
+
+
+    private val _createNewTag = MutableLiveData<ApiResponse<TagsResponseItem>>()
+    val createNewTag: LiveData<ApiResponse<TagsResponseItem>> = _createNewTag
 
 
 

@@ -1,7 +1,10 @@
-package com.minor_project.flaamandroid.feed.userprofile
+package com.minor_project.flaamandroid.ui.feed.userprofile
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.minor_project.flaamandroid.ui.feed.userprofile.tabs.MyBookmarksFragment
+import com.minor_project.flaamandroid.ui.feed.userprofile.tabs.MyIdeasFragment
+import com.minor_project.flaamandroid.ui.feed.userprofile.tabs.MyImplementationsFragment
 
 
 class UserProfileViewPagerAdapter(frag: Fragment) :

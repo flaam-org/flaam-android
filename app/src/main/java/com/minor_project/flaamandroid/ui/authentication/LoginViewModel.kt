@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.authentication
+package com.minor_project.flaamandroid.ui.authentication
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,9 +9,8 @@ import com.minor_project.flaamandroid.data.response.LoginResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.AuthRepository
 import com.minor_project.flaamandroid.network.FlaamRepository
-import com.minor_project.flaamandroid.utils.ApiException
+import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
-import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,11 +18,11 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val repo: AuthRepository, private val flaamRepo: FlaamRepository): ViewModel() {
 
-    private val _loginResult = MutableLiveData<ApiException<LoginResponse>>()
-    val loginResult: LiveData<ApiException<LoginResponse>> = _loginResult
+    private val _loginResult = MutableLiveData<ApiResponse<LoginResponse>>()
+    val loginResult: LiveData<ApiResponse<LoginResponse>> = _loginResult
 
-    private val _userProfile = MutableLiveData<ApiException<ViewProfileResponse>>()
-    val userProfile: LiveData<ApiException<ViewProfileResponse>> = _userProfile
+    private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
+    val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
 
     fun postLoginRequest(data: LoginRequest){
         viewModelScope.launch {

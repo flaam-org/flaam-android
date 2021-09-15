@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.minor_project.flaamandroid.authentication.LoginFragment"
+        android:name="com.minor_project.flaamandroid.ui.authentication.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_feedFragment"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.minor_project.flaamandroid.authentication.RegisterFragment"
+        android:name="com.minor_project.flaamandroid.ui.authentication.RegisterFragment"
         android:label="RegisterFragment" />
     <fragment
         android:id="@+id/introFragment"
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
-        android:name="com.minor_project.flaamandroid.feed.FeedFragment"
+        android:name="com.minor_project.flaamandroid.ui.feed.FeedFragment"
         android:label="fragment_feed"
         tools:layout="@layout/fragment_feed" >
         <action
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/postIdeaFragment"
-        android:name="com.minor_project.flaamandroid.feed.PostIdeaFragment"
+        android:name="com.minor_project.flaamandroid.ui.feed.PostIdeaFragment"
         android:label="fragment_post_idea"
         tools:layout="@layout/fragment_post_idea" />
     <action
@@ -67,7 +67,7 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.minor_project.flaamandroid.feed.userprofile.UserProfileFragment"
+        android:name="com.minor_project.flaamandroid.ui.feed.userprofile.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" >
         <action
@@ -76,12 +76,12 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.minor_project.flaamandroid.feed.userprofile.EditProfileFragment"
+        android:name="com.minor_project.flaamandroid.ui.feed.userprofile.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/postDetailsFragment"
-        android:name="com.minor_project.flaamandroid.feed.post.PostDetailsFragment"
+        android:name="com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragment"
         android:label="fragment_post_details"
         tools:layout="@layout/fragment_post_details" />
 

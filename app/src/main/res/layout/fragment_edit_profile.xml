@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".feed.userprofile.EditProfileFragment">
+        tools:context=".ui.feed.userprofile.EditProfileFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_edit_profile_fragment"
@@ -196,10 +196,11 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_edit_profile_tags"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="16dp"
+                        android:nestedScrollingEnabled="false"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
                         android:visibility="gone"
@@ -209,4 +210,4 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

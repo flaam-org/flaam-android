@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.feed
+package com.minor_project.flaamandroid.ui.feed
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
-import com.minor_project.flaamandroid.utils.ApiException
+import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(private val repo: FlaamRepository): ViewModel() {
 
-    private val _tags = MutableLiveData<ApiException<TagsResponse>>()
-    val tags: LiveData<ApiException<TagsResponse>> = _tags
+    private val _tags = MutableLiveData<ApiResponse<TagsResponse>>()
+    val tags: LiveData<ApiResponse<TagsResponse>> = _tags
 
 
     fun getTags() {

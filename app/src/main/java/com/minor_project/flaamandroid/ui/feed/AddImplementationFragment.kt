@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.feed
+package com.minor_project.flaamandroid.ui.feed
 
 import android.os.Bundle
 import android.view.LayoutInflater

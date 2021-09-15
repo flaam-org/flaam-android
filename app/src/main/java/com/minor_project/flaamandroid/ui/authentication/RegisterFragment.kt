@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.authentication
+package com.minor_project.flaamandroid.ui.authentication
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.request.LoginRequest
 import com.minor_project.flaamandroid.databinding.FragmentRegisterBinding
-import com.minor_project.flaamandroid.utils.ApiException
+import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -88,10 +88,10 @@ class RegisterFragment : Fragment() {
     private fun initObservers() {
         viewModel.registerUserResult.observe(viewLifecycleOwner) {
             when (it) {
-                is ApiException.Error -> {
+                is ApiResponse.Error -> {
                     makeToast(it.message.toString())
                 }
-                is ApiException.Success -> {
+                is ApiResponse.Success -> {
                     findNavController().navigate(R.id.loginFragment)
                     makeToast("User Registered!")
                 }

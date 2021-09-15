@@ -1,7 +1,5 @@
-package com.minor_project.flaamandroid.feed.userprofile
+package com.minor_project.flaamandroid.ui.feed.userprofile
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,16 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.chip.Chip
-import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.databinding.FragmentEditProfileBinding
-import com.minor_project.flaamandroid.feed.FeedPostAdapter
-import com.minor_project.flaamandroid.models.FeedPostModel
-import com.minor_project.flaamandroid.utils.ApiException
-import com.minor_project.flaamandroid.utils.gone
+import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
@@ -80,11 +72,11 @@ class EditProfileFragment : Fragment() {
 
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
-                is ApiException.Error -> {
+                is ApiResponse.Error -> {
                     makeToast("Unable to fetch Data!")
                 }
 
-                is ApiException.Success -> {
+                is ApiResponse.Success -> {
                     runBlocking {
                         binding.apply {
                             etUsernameEditProfile.setText(it.body.username.toString())
@@ -106,11 +98,11 @@ class EditProfileFragment : Fragment() {
         viewModel.tagsListFromIds.observe(viewLifecycleOwner)
         {
             when (it) {
-                is ApiException.Error -> {
+                is ApiResponse.Error -> {
                     makeToast("error")
                 }
 
-                is ApiException.Success -> {
+                is ApiResponse.Success -> {
                     for (tag in it.body.tagsResponseItems!!) {
                         userTagsListNames!!.add(tag.name!!)
                     }
@@ -130,7 +122,10 @@ class EditProfileFragment : Fragment() {
                         binding.rvEditProfileTags.setHasFixedSize(true)
 
 
-                        val userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!)
+                        val userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!){
+                            showEditTagPopup()
+                        }
+
                         binding.rvEditProfileTags.adapter = userTagsAdapter
                     }
 
@@ -146,11 +141,11 @@ class EditProfileFragment : Fragment() {
 
         viewModel.updateUserProfile.observe(viewLifecycleOwner) {
             when (it) {
-                is ApiException.Error -> {
+                is ApiResponse.Error -> {
                     makeToast("Unable to Update Data")
                 }
 
-                is ApiException.Success -> {
+                is ApiResponse.Success -> {
                     makeToast("Updated Profile Successfully")
                     findNavController().popBackStack()
                 }
@@ -158,6 +153,10 @@ class EditProfileFragment : Fragment() {
         }
 
 
+    }
+
+    private fun showEditTagPopup(){
+        makeToast("")
     }
 
 

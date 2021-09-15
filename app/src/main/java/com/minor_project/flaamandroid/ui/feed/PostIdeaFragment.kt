@@ -1,11 +1,10 @@
-package com.minor_project.flaamandroid.feed
+package com.minor_project.flaamandroid.ui.feed
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.databinding.FragmentPostIdeaBinding
 import com.minor_project.flaamandroid.utils.makeToast

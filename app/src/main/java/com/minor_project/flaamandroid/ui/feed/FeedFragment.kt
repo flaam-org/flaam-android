@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.feed
+package com.minor_project.flaamandroid.ui.feed
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
@@ -19,7 +19,7 @@ import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.models.FeedPostModel
-import com.minor_project.flaamandroid.utils.ApiException
+import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -220,8 +220,8 @@ class FeedFragment : Fragment() {
 
         viewModel.tags.observe(viewLifecycleOwner) {
             when (it) {
-                is ApiException.Error -> makeToast(it.message.toString())
-                is ApiException.Success -> showTagsMenuPopup(it.body)
+                is ApiResponse.Error -> makeToast(it.message.toString())
+                is ApiResponse.Success -> showTagsMenuPopup(it.body)
             }
         }
 

@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.feed.userprofile
+package com.minor_project.flaamandroid.ui.feed.userprofile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,7 @@ import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
-import com.minor_project.flaamandroid.utils.ApiException
+import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,14 +21,14 @@ import javax.inject.Inject
 class EditProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepository) :
     ViewModel() {
 
-    private val _userProfile = MutableLiveData<ApiException<ViewProfileResponse>>()
-    val userProfile: LiveData<ApiException<ViewProfileResponse>> = _userProfile
+    private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
+    val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
 
-    private val _updateUserProfile = MutableLiveData<ApiException<UpdateProfileResponse>>()
-    val updateUserProfile: LiveData<ApiException<UpdateProfileResponse>> = _updateUserProfile
+    private val _updateUserProfile = MutableLiveData<ApiResponse<UpdateProfileResponse>>()
+    val updateUserProfile: LiveData<ApiResponse<UpdateProfileResponse>> = _updateUserProfile
 
-    private val _tagsListFromIds = MutableLiveData<ApiException<TagsResponse>>()
-    val tagsListFromIds: LiveData<ApiException<TagsResponse>> = _tagsListFromIds
+    private val _tagsListFromIds = MutableLiveData<ApiResponse<TagsResponse>>()
+    val tagsListFromIds: LiveData<ApiResponse<TagsResponse>> = _tagsListFromIds
 
 
     fun getUserProfile() {

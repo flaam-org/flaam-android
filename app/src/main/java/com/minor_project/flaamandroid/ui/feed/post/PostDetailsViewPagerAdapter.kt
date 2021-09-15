@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.feed.post
+package com.minor_project.flaamandroid.ui.feed.post
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
