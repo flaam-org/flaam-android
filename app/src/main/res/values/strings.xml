@@ -3,12 +3,12 @@
     <string name="image_contentDescription">image</string>
     <string name="let_s_get_started_text">Let\'s Get started</string>
     <string name="intro_text_description">Collaborate and Plan Together Across Multiple Devices on Flaam’s Minimalist Interface.</string>
-    <string name="sign_in">SIGN IN</string>
+    <string name="login">LOGIN</string>
     <string name="register">REGISTER</string>
-    <string name="sign_in_description_text">Enter your name, email id and password, to register with us.</string>
+    <string name="login_description_text">Enter your Username and Password, to Login with us.</string>
     <string name="email">E-Mail</string>
     <string name="password">Password</string>
-    <string name="register_description_text">Enter your name, email id and password, to register with us.</string>
+    <string name="register_description_text">Enter your Username, First Name, Last Name, Email Address and Password, to Register with us.</string>
     <string name="name">Username</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

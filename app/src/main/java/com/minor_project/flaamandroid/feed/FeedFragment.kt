@@ -16,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.adapters.FeedPostAdapter
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.models.FeedPostModel

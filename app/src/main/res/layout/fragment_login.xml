@@ -6,16 +6,16 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_sign_in_activity"
+        android:id="@+id/toolbar_login_fragment"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_login_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@string/sign_in"
+            android:text="@string/login"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/sign_in_description_text"
+            android:text="@string/login_description_text"
             android:textSize="16sp" />
 
         <androidx.cardview.widget.CardView
@@ -51,7 +51,7 @@
                 android:padding="16dp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_username_login"
+                    android:id="@+id/til_username_fragment_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -60,7 +60,7 @@
                     app:boxBackgroundColor="@android:color/transparent">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/et_username_sign_in"
+                        android:id="@+id/et_username_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/username"
@@ -68,7 +68,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_password_login"
+                    android:id="@+id/til_password_fragment_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -78,7 +78,7 @@
                     app:boxBackgroundColor="@android:color/transparent">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/et_password_sign_in"
+                        android:id="@+id/et_password_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/password"
@@ -87,7 +87,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_sign_in"
+                    android:id="@+id/btn_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -99,7 +99,7 @@
                     android:gravity="center"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:text="@string/sign_in"
+                    android:text="@string/login"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
             </LinearLayout>

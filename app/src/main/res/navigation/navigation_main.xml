@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.minor_project.flaamandroid.ui.fragments.auth.LoginFragment"
+        android:name="com.minor_project.flaamandroid.authentication.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_feedFragment"
@@ -15,14 +15,15 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.minor_project.flaamandroid.ui.fragments.auth.RegisterFragment"
+        android:name="com.minor_project.flaamandroid.authentication.RegisterFragment"
         android:label="RegisterFragment" />
     <fragment
         android:id="@+id/introFragment"
-        android:name="com.minor_project.flaamandroid.ui.fragments.IntroFragment"
-        android:label="IntroFragment" >
+        android:name="com.minor_project.flaamandroid.start.IntroFragment"
+        android:label="IntroFragment"
+        tools:layout="@layout/fragment_intro">
         <action
-            android:id="@+id/action_introFragment_to_signUpFragment"
+            android:id="@+id/action_introFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
         <action
             android:id="@+id/action_introFragment_to_loginFragment"
@@ -30,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.minor_project.flaamandroid.ui.fragments.SplashFragment"
+        android:name="com.minor_project.flaamandroid.start.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action

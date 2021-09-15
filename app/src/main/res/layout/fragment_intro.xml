@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".ui.fragments.IntroFragment">
+    tools:context=".start.IntroFragment">
 
     <TextView
         android:id="@+id/tv_app_name_intro"
@@ -43,7 +43,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_sign_in_intro"
+        android:id="@+id/btn_login_intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -55,7 +55,7 @@
         android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="@string/sign_in"
+        android:text="@string/login"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 

@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.fragments
+package com.minor_project.flaamandroid.start
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

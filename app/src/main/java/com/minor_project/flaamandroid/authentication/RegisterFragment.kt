@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.fragments.auth
+package com.minor_project.flaamandroid.authentication
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -37,15 +37,15 @@ class RegisterFragment : Fragment() {
     private fun initOnClick() {
         binding.apply {
 
-            btnSignUp.setOnClickListener {
+            btnRegister.setOnClickListener {
                 if (validate()) {
                     viewModel.postRegisterUser(
                         LoginRequest(
-                            etEmailSignIn.text.toString(),
-                            etFnameSignUp.text.toString(),
-                            etLnameSignUp.text.toString(),
-                            etPasswordSignIn.text.toString(),
-                            etUsernameSignUp.text.toString()
+                            etEmailRegister.text.toString(),
+                            etFnameRegister.text.toString(),
+                            etLnameRegister.text.toString(),
+                            etPasswordRegister.text.toString(),
+                            etUsernameRegister.text.toString()
                         )
                     )
                 } else {
@@ -60,24 +60,24 @@ class RegisterFragment : Fragment() {
     private fun validate(): Boolean {
         val emptyFieldError = "This Field Can't Be Empty!"
         binding.apply {
-            if (etEmailSignIn.text.isNullOrEmpty()) {
-                tilEmailFragmentSignIn.error = emptyFieldError
+            if (etEmailRegister.text.isNullOrEmpty()) {
+                tilEmailFragmentRegister.error = emptyFieldError
                 return false
             }
-            if (etUsernameSignUp.text.isNullOrEmpty()) {
-                tilUsernameFragmentSignUp.error = emptyFieldError
+            if (etUsernameRegister.text.isNullOrEmpty()) {
+                tilUsernameFragmentRegister.error = emptyFieldError
                 return false
             }
-            if (etPasswordSignIn.text.isNullOrEmpty()) {
-                tilPassFragmentSignIn.error = emptyFieldError
+            if (etPasswordRegister.text.isNullOrEmpty()) {
+                tilPasswordFragmentRegister.error = emptyFieldError
                 return false
             }
-            if (etFnameSignUp.text.isNullOrEmpty()) {
-                tilFnameFragmentSignUp.error = emptyFieldError
+            if (etFnameRegister.text.isNullOrEmpty()) {
+                tilFnameFragmentRegister.error = emptyFieldError
                 return false
             }
-            if (etLnameSignUp.text.isNullOrEmpty()) {
-                tilLnameFragmentSignUp.error = emptyFieldError
+            if (etLnameRegister.text.isNullOrEmpty()) {
+                tilLnameFragmentRegister.error = emptyFieldError
                 return false
             }
 

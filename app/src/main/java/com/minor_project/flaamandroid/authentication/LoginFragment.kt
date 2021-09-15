@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.fragments.auth
+package com.minor_project.flaamandroid.authentication
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -41,9 +41,9 @@ class LoginFragment : Fragment() {
 
     private fun initOnClick(){
         binding.apply {
-            btnSignIn.setOnClickListener {
+            btnLogin.setOnClickListener {
                 if(validate()){
-                    viewModel.postLoginRequest(LoginRequest(null, null, null, etPasswordSignIn.text.toString(), etUsernameSignIn.text.toString()))
+                    viewModel.postLoginRequest(LoginRequest(null, null, null, etPasswordLogin.text.toString(), etUsernameLogin.text.toString()))
                 }else{
                     makeToast("missing fields!")
                 }
@@ -90,12 +90,12 @@ class LoginFragment : Fragment() {
     private fun validate(): Boolean {
         val emptyFieldError = "This Field Is Required!"
         binding.apply {
-            if(etUsernameSignIn.text.isNullOrEmpty()){
-                tilUsernameLogin.error = emptyFieldError
+            if(etUsernameLogin.text.isNullOrEmpty()){
+                tilUsernameFragmentLogin.error = emptyFieldError
                 return false
             }
-            if(etPasswordSignIn.text.isNullOrEmpty()){
-                tilPasswordLogin.error = emptyFieldError
+            if(etPasswordLogin.text.isNullOrEmpty()){
+                tilPasswordFragmentLogin.error = emptyFieldError
                 return false
             }
             return true

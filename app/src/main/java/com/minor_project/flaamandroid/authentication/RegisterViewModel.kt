@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.fragments.auth
+package com.minor_project.flaamandroid.authentication
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
