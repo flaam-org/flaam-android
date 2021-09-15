@@ -10,6 +10,7 @@ import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.ItemUserAddTagBinding
 import com.minor_project.flaamandroid.databinding.ItemUserTagBinding
 import com.minor_project.flaamandroid.models.FeedPostModel
+import com.minor_project.flaamandroid.ui.feed.FeedPostAdapter
 
 const val IS_TAG_VIEW = 0
 const val IS_ADD_TAG_VIEW = 1
@@ -24,12 +25,11 @@ open class UserTagsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(context)
 
-        return if(viewType == IS_TAG_VIEW){
+        return if (viewType == IS_TAG_VIEW) {
             TagsViewHolder(ItemUserTagBinding.inflate(inflater))
-        }else{
+        } else {
             AddTagViewHolder(ItemUserAddTagBinding.inflate(inflater))
         }
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -38,27 +38,27 @@ open class UserTagsAdapter(
             // add tag view
 
             (holder as AddTagViewHolder).also {
-            it.binding.btnItemUserTag.setOnClickListener {
-                showPopup.invoke()
+                it.binding.btnItemUserAddTag.setOnClickListener {
+                    showPopup.invoke()
 
-            }
+                }
             }
 
-        }else{
+        } else {
             // tag view
             val model = list[position]
             (holder as TagsViewHolder).also {
 
-                it.binding.btnItemUserTag.findViewById<TextView>(R.id.btn_item_user_tag).text = model
+                it.binding.btnItemUserTag.text = model
 
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(position == list.size){
+        return if (position == list.size) {
             IS_ADD_TAG_VIEW
-        }else{
+        } else {
             IS_TAG_VIEW
         }
     }
@@ -69,8 +69,19 @@ open class UserTagsAdapter(
     }
 
 
-    private class TagsViewHolder(val binding: ItemUserTagBinding) : RecyclerView.ViewHolder(binding.root){}
+    fun updateUserTagsList(newTagsList : ArrayList<String>)
+    {
+        list = newTagsList
+        notifyDataSetChanged()
+    }
 
-    private class AddTagViewHolder(val binding: ItemUserAddTagBinding) : RecyclerView.ViewHolder(binding.root){}
+
+
+
+    private class TagsViewHolder(val binding: ItemUserTagBinding) :
+        RecyclerView.ViewHolder(binding.root) {}
+
+    private class AddTagViewHolder(val binding: ItemUserAddTagBinding) :
+        RecyclerView.ViewHolder(binding.root) {}
 
 }

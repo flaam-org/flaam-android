@@ -4,13 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
+import com.minor_project.flaamandroid.data.response.TagsResponseItem
 import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
+import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,30 +30,71 @@ class EditProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
     private val _updateUserProfile = MutableLiveData<ApiResponse<UpdateProfileResponse>>()
     val updateUserProfile: LiveData<ApiResponse<UpdateProfileResponse>> = _updateUserProfile
 
+    private val _tagsList = MutableLiveData<ApiResponse<TagsResponse>>()
+    val tagsList: LiveData<ApiResponse<TagsResponse>> = _tagsList
+
+
+    private val _tagsListFiltered = MutableLiveData<ApiResponse<TagsResponse>>()
+    val tagsListFiltered: LiveData<ApiResponse<TagsResponse>> = _tagsListFiltered
+
     private val _tagsListFromIds = MutableLiveData<ApiResponse<TagsResponse>>()
     val tagsListFromIds: LiveData<ApiResponse<TagsResponse>> = _tagsListFromIds
 
 
-    fun getUserProfile() {
+    private val _createNewTag = MutableLiveData<ApiResponse<TagsResponseItem>>()
+    val createNewTag: LiveData<ApiResponse<TagsResponseItem>> = _createNewTag
+
+
+
+
+
+
+    fun getUserProfile()
+    {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getUserProfile()
             _userProfile.postValue(handleGetResponse(res))
         }
     }
 
-    fun updateUserProfile(data: UpdateProfileRequest) {
+    fun updateUserProfile(data : UpdateProfileRequest)
+    {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.updateUserProfile(data)
             _updateUserProfile.postValue(handleGetResponse(res))
         }
     }
 
-    fun getTagsForId(idList: List<Int>?) {
+
+    fun getTags() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = flaamRepo.getTagsList()
+            _tagsList.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun getTagsForKeyword(keyword: String?){
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = flaamRepo.getTagsForKeyword(keyword, null)
+            _tagsListFiltered.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun getTagsForId(idList : List<Int>?){
+
+
         viewModelScope.launch(Dispatchers.IO) {
             val ids = idList.toString().substring(1, idList.toString().length - 1)
-            Timber.e(idList.toString() + " | " + ids.toString())
+            Timber.e(idList.toString() +" | " + ids.toString())
             val res = flaamRepo.getTagsForKeyword(null, ids)
             _tagsListFromIds.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun createNewTag(body: TagsRequest){
+        viewModelScope.launch {
+            val res = flaamRepo.createNewTag(body)
+            _createNewTag.postValue(handlePostResponse(res))
         }
     }
 
