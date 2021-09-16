@@ -35,4 +35,5 @@
     <string name="edit_profile_toolbar_title">EDIT PROFILE</string>
     <string name="tags">Tags</string>
     <string name="no_tags_to_display">No Tags To Display!</string>
+    <string name="add_tags">Add Tags</string>
 </resources>

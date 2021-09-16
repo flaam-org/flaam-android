@@ -38,27 +38,27 @@ open class UserTagsAdapter(
             // add tag view
 
             (holder as AddTagViewHolder).also {
-            it.binding.root.setOnClickListener {
-                showPopup.invoke()
+                it.binding.btnItemUserAddTag.setOnClickListener {
+                    showPopup.invoke()
 
-            }
+                }
             }
 
-        }else{
+        } else {
             // tag view
             val model = list[position]
             (holder as TagsViewHolder).also {
 
-                it.binding.textView3.text = model
+                it.binding.btnItemUserTag.text = model
 
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(position == list.size){
+        return if (position == list.size) {
             IS_ADD_TAG_VIEW
-        }else{
+        } else {
             IS_TAG_VIEW
         }
     }
