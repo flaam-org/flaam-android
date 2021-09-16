@@ -25,7 +25,6 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp" />
-
     </androidx.cardview.widget.CardView>
 </LinearLayout>
 

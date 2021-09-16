@@ -3,11 +3,11 @@ package com.minor_project.flaamandroid.ui.feed.userprofile
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,9 +17,11 @@ import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentEditProfileBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
+import com.minor_project.flaamandroid.utils.gone
 import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -48,7 +50,7 @@ class EditProfileFragment : Fragment() {
     ): View {
         binding = FragmentEditProfileBinding.inflate(inflater)
 
-        populateTagsInRecyclerView()
+        initRecView()
         initObserver()
         initOnClick()
 
@@ -70,8 +72,7 @@ class EditProfileFragment : Fragment() {
 
         binding.btnAddTagsEditProfile.setOnClickListener {
             showAddEditTagPopup()
-            userTagsAdapter.updateUserTagsList(userTagsListNames!!)
-            populateTagsInRecyclerView()
+
         }
 
         binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
@@ -108,8 +109,6 @@ class EditProfileFragment : Fragment() {
                     TagsRequest(null, binding.includeAddEditTags.etAddSelectTag.text.toString())
                 )
 
-                userTagsAdapter.updateUserTagsList(userTagsListNames!!)
-                populateTagsInRecyclerView()
             } else {
                 makeToast("Missing Required Fields!")
             }
@@ -131,16 +130,18 @@ class EditProfileFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    runBlocking {
-                        binding.apply {
+
+                    binding.apply {
                             etUsernameEditProfile.setText(it.body.username.toString())
                             etFnameEditProfile.setText(it.body.firstName.toString())
                             etLnameEditProfile.setText(it.body.lastName.toString())
                             etEmailEditProfile.setText(it.body.email.toString())
-                            userTagsList!!.addAll(it.body.favouriteTags!!)
-                            viewModel.getTagsForId(it.body.favouriteTags as List<Int>?)
-                        }
+
+                            viewModel.getTagsForId(it.body.favouriteTags)
                     }
+
+                    userTagsList = it.body.favouriteTags as ArrayList<Int>?
+
 
                 }
             }
@@ -156,19 +157,20 @@ class EditProfileFragment : Fragment() {
                     makeToast("Unable to fetch User Tags!")
                 }
                 is ApiResponse.Success -> {
-                    for (tag in it.body.tagsResponseItems!!) {
-                        userTagsListNames!!.add(tag.name!!)
-                    }
 
-                    if (userTagsList.isNullOrEmpty()) {
-                        binding.tvNoTagsToDisplayEditProfile.visibility = View.VISIBLE
-                        binding.rvEditProfileTags.visibility = View.GONE
+                    userTagsListNames = it.body.tagsResponseItems?.map { it.name } as ArrayList<String>
+
+                    if (userTagsListNames.isNullOrEmpty()) {
+                        binding.tvNoTagsToDisplayEditProfile.visible()
+                        binding.rvEditProfileTags.gone()
                     } else {
-                        binding.tvNoTagsToDisplayEditProfile.visibility = View.GONE
-                        binding.rvEditProfileTags.visibility = View.VISIBLE
+                        binding.tvNoTagsToDisplayEditProfile.gone()
+                        binding.rvEditProfileTags.visible()
+
+                        Timber.e("userTagsListNames: $userTagsListNames")
 
                         userTagsAdapter.updateUserTagsList(userTagsListNames!!)
-                        populateTagsInRecyclerView()
+
                     }
 
                 }
@@ -186,6 +188,14 @@ class EditProfileFragment : Fragment() {
 
                 is ApiResponse.Success -> {
                     makeToast("Updated Profile Successfully")
+                    binding.apply {
+                        etUsernameEditProfile.setText(it.body.username.toString())
+                        etFnameEditProfile.setText(it.body.firstName.toString())
+                        etLnameEditProfile.setText(it.body.lastName.toString())
+                        etEmailEditProfile.setText(it.body.email.toString())
+                        Timber.e(it.body.favouriteTags.toString()+"userprofileupdate")
+                        viewModel.getTagsForId(it.body.favouriteTags)
+                    }
                 }
             }
         }
@@ -227,10 +237,8 @@ class EditProfileFragment : Fragment() {
                     makeToast(res.message.toString())
                 }
                 is ApiResponse.Success -> {
-                    userTagsList!!.add(res.body.id!!)
-                    updateTags()
-                    userTagsAdapter.updateUserTagsList(userTagsListNames!!)
-                    populateTagsInRecyclerView()
+                    viewModel.getTags()
+
                     makeToast("Tag Created!")
                 }
             }
@@ -240,7 +248,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun showAddEditTagPopup() {
-        binding.includeAddEditTags.root.visibility = View.VISIBLE
+        binding.includeAddEditTags.root.visible()
         showTagsMenuPopup(allTagsResponse)
     }
 
@@ -273,8 +281,7 @@ class EditProfileFragment : Fragment() {
             }.id!!)
 
             updateTags()
-            userTagsAdapter.updateUserTagsList(userTagsListNames!!)
-            populateTagsInRecyclerView()
+
 
             makeToast("" + data.tagsResponseItems.first {
                 it.name == selectedTag
@@ -292,7 +299,7 @@ class EditProfileFragment : Fragment() {
             UpdateProfileRequest(
                 null,
                 null,
-                userTagsList,
+                userTagsList?.distinct(),
                 null,
                 null,
                 null,
@@ -307,7 +314,7 @@ class EditProfileFragment : Fragment() {
             UpdateProfileRequest(
                 null,
                 null,
-                userTagsList,
+                userTagsList?.distinct(),
                 binding.etFnameEditProfile.text.toString(),
                 binding.etLnameEditProfile.text.toString(),
                 null,
@@ -318,12 +325,14 @@ class EditProfileFragment : Fragment() {
     }
 
 
-    private fun populateTagsInRecyclerView() {
+    private fun initRecView() {
         binding.rvEditProfileTags.layoutManager = GridLayoutManager(context, 2)
 
         binding.rvEditProfileTags.setHasFixedSize(true)
 
-        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!)
+        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!){
+            showAddEditTagPopup()
+        }
         binding.rvEditProfileTags.adapter = userTagsAdapter
     }
 
