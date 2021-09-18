@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.databinding.ItemUserAddTagBinding
 import com.minor_project.flaamandroid.databinding.ItemUserTagBinding
-import com.minor_project.flaamandroid.models.FeedPostModel
+import com.minor_project.flaamandroid.databinding.ItemUserAddTagBinding
 
 const val IS_TAG_VIEW = 0
 const val IS_ADD_TAG_VIEW = 1
@@ -24,9 +23,9 @@ open class UserTagsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(context)
 
-        return if(viewType == IS_TAG_VIEW){
+        return if (viewType == IS_TAG_VIEW) {
             TagsViewHolder(ItemUserTagBinding.inflate(inflater))
-        }else{
+        } else {
             AddTagViewHolder(ItemUserAddTagBinding.inflate(inflater))
         }
 
@@ -48,7 +47,7 @@ open class UserTagsAdapter(
             // tag view
             val model = list[position]
             (holder as TagsViewHolder).also {
-                it.binding.textView3.text = model
+                it.binding.tvUserTag.text = model
             }
         }
     }
@@ -67,13 +66,10 @@ open class UserTagsAdapter(
     }
 
 
-    fun updateUserTagsList(newTagsList : ArrayList<String>)
-    {
+    fun updateUserTagsList(newTagsList: ArrayList<String>) {
         list = newTagsList
         notifyDataSetChanged()
     }
-
-
 
 
     private class TagsViewHolder(val binding: ItemUserTagBinding) :

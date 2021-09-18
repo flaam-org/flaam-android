@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
@@ -132,12 +133,12 @@ class EditProfileFragment : Fragment() {
                 is ApiResponse.Success -> {
 
                     binding.apply {
-                            etUsernameEditProfile.setText(it.body.username.toString())
-                            etFnameEditProfile.setText(it.body.firstName.toString())
-                            etLnameEditProfile.setText(it.body.lastName.toString())
-                            etEmailEditProfile.setText(it.body.email.toString())
+                        etUsernameEditProfile.setText(it.body.username.toString())
+                        etFnameEditProfile.setText(it.body.firstName.toString())
+                        etLnameEditProfile.setText(it.body.lastName.toString())
+                        etEmailEditProfile.setText(it.body.email.toString())
 
-                            viewModel.getTagsForId(it.body.favouriteTags)
+                        viewModel.getTagsForId(it.body.favouriteTags)
                     }
 
                     userTagsList = it.body.favouriteTags as ArrayList<Int>?
@@ -158,7 +159,8 @@ class EditProfileFragment : Fragment() {
                 }
                 is ApiResponse.Success -> {
 
-                    userTagsListNames = it.body.tagsResponseItems?.map { it.name } as ArrayList<String>
+                    userTagsListNames =
+                        it.body.tagsResponseItems?.map { it.name } as ArrayList<String>
 
                     if (userTagsListNames.isNullOrEmpty()) {
                         binding.tvNoTagsToDisplayEditProfile.visible()
@@ -193,7 +195,7 @@ class EditProfileFragment : Fragment() {
                         etFnameEditProfile.setText(it.body.firstName.toString())
                         etLnameEditProfile.setText(it.body.lastName.toString())
                         etEmailEditProfile.setText(it.body.email.toString())
-                        Timber.e(it.body.favouriteTags.toString()+"userprofileupdate")
+                        Timber.e(it.body.favouriteTags.toString() + "userprofileupdate")
                         viewModel.getTagsForId(it.body.favouriteTags)
                     }
                 }
@@ -326,11 +328,11 @@ class EditProfileFragment : Fragment() {
 
 
     private fun initRecView() {
-        binding.rvEditProfileTags.layoutManager = GridLayoutManager(context, 2)
+        binding.rvEditProfileTags.layoutManager = LinearLayoutManager(this.requireContext())
 
         binding.rvEditProfileTags.setHasFixedSize(true)
 
-        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!){
+        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!) {
             showAddEditTagPopup()
         }
         binding.rvEditProfileTags.adapter = userTagsAdapter
