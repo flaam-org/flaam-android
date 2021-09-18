@@ -22,11 +22,22 @@ open class UserTagsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        // tag view
-        val model = list[position]
-        (holder as TagsViewHolder).also {
-            it.binding.tvUserTag.text = model
+
+        if (holder is TagsViewHolder) {
+            // tag view
+            val model = list[position]
+            holder.binding.tvUserTag.text = model
+
+            holder.binding.ivDeleteUserTag.setOnClickListener {
+                deleteTag(position)
+            }
         }
+
+    }
+
+    private fun deleteTag(position: Int) {
+        list.removeAt(position)
+        notifyDataSetChanged()
     }
 
 
@@ -40,7 +51,13 @@ open class UserTagsAdapter(
         notifyDataSetChanged()
     }
 
-
     private class TagsViewHolder(val binding: ItemUserTagBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+
+//    userTagsList?.remove(data.tagsResponseItems.first {
+//        it.name == chip.text
+//    }.id!!)
+//    updateTags()
+//    chip.gone()
 }

@@ -294,7 +294,7 @@ class EditProfileFragment : Fragment() {
         menuPopup.show()
     }
 
-    private fun updateTags() {
+    fun updateTags() {
 
         viewModel.updateUserProfile(
             UpdateProfileRequest(
@@ -334,6 +334,4 @@ class EditProfileFragment : Fragment() {
         userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!)
         binding.rvEditProfileTags.adapter = userTagsAdapter
     }
-
-
 }
