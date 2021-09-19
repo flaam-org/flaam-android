@@ -15,6 +15,7 @@ import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
+import com.minor_project.flaamandroid.data.response.TagsResponseItem
 import com.minor_project.flaamandroid.databinding.FragmentEditProfileBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.gone
@@ -39,8 +40,8 @@ class EditProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentEditProfileBinding
 
-    private var userTagsList: ArrayList<Int>? = ArrayList()
-    private var userTagsListNames: ArrayList<String>? = ArrayList()
+    private var userTagsListIds: ArrayList<Int>? = ArrayList()
+    private var userTagsObjectList: ArrayList<TagsResponseItem>? = ArrayList()
     private lateinit var allTagsResponse: TagsResponse
 
 
@@ -140,7 +141,7 @@ class EditProfileFragment : Fragment() {
                         viewModel.getTagsForId(it.body.favouriteTags)
                     }
 
-                    userTagsList = it.body.favouriteTags as ArrayList<Int>?
+                    userTagsListIds = it.body.favouriteTags as ArrayList<Int>?
 
 
                 }
@@ -158,19 +159,19 @@ class EditProfileFragment : Fragment() {
                 }
                 is ApiResponse.Success -> {
 
-                    userTagsListNames =
-                        it.body.tagsResponseItems?.map { it.name } as ArrayList<String>
+                    userTagsObjectList =
+                        it.body.tagsResponseItems as ArrayList<TagsResponseItem>?
 
-                    if (userTagsListNames.isNullOrEmpty()) {
+                    if (userTagsObjectList.isNullOrEmpty()) {
                         binding.tvNoTagsToDisplayEditProfile.visible()
                         binding.rvEditProfileTags.gone()
                     } else {
                         binding.tvNoTagsToDisplayEditProfile.gone()
                         binding.rvEditProfileTags.visible()
 
-                        Timber.e("userTagsListNames: $userTagsListNames")
+                        Timber.e("userTagsListNames: $userTagsObjectList")
 
-                        userTagsAdapter.updateUserTagsList(userTagsListNames!!)
+                        userTagsAdapter.updateUserTagsList(userTagsObjectList!!)
 
                     }
 
@@ -277,7 +278,7 @@ class EditProfileFragment : Fragment() {
 
         menuPopup.setOnMenuItemClickListener { menuItem ->
             val selectedTag = menuItem.title
-            userTagsList!!.add(data.tagsResponseItems.first {
+            userTagsListIds!!.add(data.tagsResponseItems.first {
                 it.name == selectedTag
             }.id!!)
 
@@ -300,7 +301,7 @@ class EditProfileFragment : Fragment() {
             UpdateProfileRequest(
                 null,
                 null,
-                userTagsList?.distinct(),
+                userTagsListIds?.distinct(),
                 null,
                 null,
                 null,
@@ -315,7 +316,7 @@ class EditProfileFragment : Fragment() {
             UpdateProfileRequest(
                 null,
                 null,
-                userTagsList?.distinct(),
+                userTagsListIds?.distinct(),
                 binding.etFnameEditProfile.text.toString(),
                 binding.etLnameEditProfile.text.toString(),
                 null,
@@ -331,13 +332,12 @@ class EditProfileFragment : Fragment() {
 
         binding.rvEditProfileTags.setHasFixedSize(true)
 
-        userTagsAdapter = UserTagsAdapter(this, requireContext(), userTagsListNames!!)
-        binding.rvEditProfileTags.adapter = userTagsAdapter
-    }
+        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsObjectList!!){
+            userTagsListIds?.remove(it)
+            updateTags()
+        }
 
-    fun deleteUserTags(position: Int) {
-        userTagsList!!.removeAt(position)
-        updateTags()
-        updateUserProfile()
+
+        binding.rvEditProfileTags.adapter = userTagsAdapter
     }
 }
