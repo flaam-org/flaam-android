@@ -9,7 +9,7 @@ import com.minor_project.flaamandroid.databinding.ItemUserTagBinding
 
 
 open class UserTagsAdapter(
-    private val fragment: EditProfileFragment,
+
     private val context: Context,
     private var list: ArrayList<TagsResponseItem>,
     private val deleteTag: (id: Int) -> Unit
@@ -38,12 +38,6 @@ open class UserTagsAdapter(
             }
         }
 
-    }
-
-    private fun deleteTag(position: Int){
-        list.removeAt(position)
-        fragment.deleteUserTags(position)
-        notifyDataSetChanged()
     }
 
 
