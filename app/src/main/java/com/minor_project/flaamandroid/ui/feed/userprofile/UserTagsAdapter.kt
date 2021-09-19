@@ -8,6 +8,7 @@ import com.minor_project.flaamandroid.databinding.ItemUserTagBinding
 
 
 open class UserTagsAdapter(
+    private val fragment: EditProfileFragment,
     private val context: Context,
     private var list: ArrayList<String>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
@@ -35,8 +36,9 @@ open class UserTagsAdapter(
 
     }
 
-    private fun deleteTag(position: Int) {
+    private fun deleteTag(position: Int){
         list.removeAt(position)
+        fragment.deleteUserTags(position)
         notifyDataSetChanged()
     }
 

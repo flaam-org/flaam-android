@@ -331,7 +331,13 @@ class EditProfileFragment : Fragment() {
 
         binding.rvEditProfileTags.setHasFixedSize(true)
 
-        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsListNames!!)
+        userTagsAdapter = UserTagsAdapter(this, requireContext(), userTagsListNames!!)
         binding.rvEditProfileTags.adapter = userTagsAdapter
+    }
+
+    fun deleteUserTags(position: Int) {
+        userTagsList!!.removeAt(position)
+        updateTags()
+        updateUserProfile()
     }
 }
