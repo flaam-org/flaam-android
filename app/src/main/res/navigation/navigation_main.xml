@@ -72,7 +72,8 @@
         tools:layout="@layout/fragment_user_profile" >
         <action
             android:id="@+id/action_userProfileFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
+            app:destination="@id/editProfileFragment"
+            app:popUpTo="@id/userProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"

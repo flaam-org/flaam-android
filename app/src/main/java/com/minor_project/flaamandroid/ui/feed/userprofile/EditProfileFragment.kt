@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -26,6 +27,7 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import android.R
 
 
 @AndroidEntryPoint
@@ -50,6 +52,16 @@ class EditProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEditProfileBinding.inflate(inflater)
+
+        val mToolbar = binding.toolbarEditProfileFragment
+
+        if (activity is AppCompatActivity) {
+            (activity as AppCompatActivity).setSupportActionBar(mToolbar)
+            (activity as AppCompatActivity).supportActionBar?.setTitle(com.minor_project.flaamandroid.R.string.edit_profile_toolbar_title)
+        }
+        mToolbar.setTitleTextColor(resources.getColor(R.color.white))
+        mToolbar.setNavigationIcon(com.minor_project.flaamandroid.R.drawable.ic_arrow_back_24dp)
+        mToolbar.setNavigationOnClickListener(View.OnClickListener { requireActivity().onBackPressed() })
 
         initRecView()
         initObserver()
@@ -332,7 +344,7 @@ class EditProfileFragment : Fragment() {
 
         binding.rvEditProfileTags.setHasFixedSize(true)
 
-        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsObjectList!!){
+        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsObjectList!!) {
             userTagsListIds?.remove(it)
             updateTags()
         }

@@ -14,18 +14,9 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_edit_profile_fragment"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-
-            <TextView
-                android:id="@+id/tv_edit_profile_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/edit_profile_toolbar_title"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </androidx.appcompat.widget.Toolbar>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/background_gradient3"
+            app:theme="@style/ToolbarTheme" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civ_edit_profile_user_image"
