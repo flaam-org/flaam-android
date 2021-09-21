@@ -85,7 +85,7 @@ class EditProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
 
         viewModelScope.launch(Dispatchers.IO) {
             val ids = idList.toString().substring(1, idList.toString().length - 1)
-            Timber.e(idList.toString() +" | " + ids.toString())
+            Timber.e(idList.toString() +" | " + ids)
             val res = flaamRepo.getTagsForKeyword(null, ids)
             _tagsListFromIds.postValue(handleGetResponse(res))
         }

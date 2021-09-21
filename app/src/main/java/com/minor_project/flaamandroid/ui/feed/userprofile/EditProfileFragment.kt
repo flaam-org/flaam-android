@@ -61,7 +61,7 @@ class EditProfileFragment : Fragment() {
         }
         mToolbar.setTitleTextColor(resources.getColor(R.color.white))
         mToolbar.setNavigationIcon(com.minor_project.flaamandroid.R.drawable.ic_arrow_back_24dp)
-        mToolbar.setNavigationOnClickListener(View.OnClickListener { requireActivity().onBackPressed() })
+        mToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
 
         initRecView()
         initObserver()
@@ -74,7 +74,7 @@ class EditProfileFragment : Fragment() {
     private fun initOnClick() {
 
         var timer = Timer()
-        val DELAY = 800L
+        val delay = 800L
 
         binding.apply {
             btnUpdateEditProfile.setOnClickListener {
@@ -107,7 +107,7 @@ class EditProfileFragment : Fragment() {
                             viewModel.getTagsForKeyword(s.toString())
                         }
 
-                    }, DELAY
+                    }, delay
                 )
 
             }
@@ -207,7 +207,7 @@ class EditProfileFragment : Fragment() {
                         etFnameEditProfile.setText(it.body.firstName.toString())
                         etLnameEditProfile.setText(it.body.lastName.toString())
                         etEmailEditProfile.setText(it.body.email.toString())
-                        Timber.e(it.body.favouriteTags.toString() + "userprofileupdate")
+                        Timber.e(it.body.favouriteTags.toString() + "UserProfileUpdate")
                         viewModel.getTagsForId(it.body.favouriteTags)
                     }
                 }
@@ -307,7 +307,7 @@ class EditProfileFragment : Fragment() {
         menuPopup.show()
     }
 
-    fun updateTags() {
+    private fun updateTags() {
 
         viewModel.updateUserProfile(
             UpdateProfileRequest(
