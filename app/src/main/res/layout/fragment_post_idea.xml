@@ -10,102 +10,102 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-            android:id="@+id/tv_post_idea"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="30dp"
-            android:textSize="24sp"
-            android:text="@string/post_idea" />
+            android:layout_margin="10dp">
 
-        <ImageView
-            android:id="@+id/iv_post_idea_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/tv_post_idea"
-            android:layout_gravity="end"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_close_24dp"
-            tools:ignore="ContentDescription" />
 
-    </RelativeLayout>
-
-        <LinearLayout
-            android:layout_margin="10dp"
-            android:background="@drawable/box_background"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civ_post_idea_user_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_profile_image_place_holder" />
-
-            <EditText
-                android:id="@+id/tv_post_idea_title"
+            <TextView
+                android:id="@+id/tv_post_idea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/add_title"
-                android:textSize="32sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="@string/post_idea"
+                android:textSize="24sp" />
 
+            <ImageView
+                android:id="@+id/iv_post_idea_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/tv_post_idea"
+                android:layout_gravity="end"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_close_24dp"
+                tools:ignore="ContentDescription" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:orientation="horizontal">
+            android:layout_margin="10dp"
+            android:background="@drawable/box_background"
+            android:orientation="vertical">
 
-            <com.google.android.material.chip.ChipGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <com.google.android.material.chip.Chip
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_post_idea_user_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Tag"/>
+                    android:src="@drawable/ic_profile_image_place_holder" />
 
-            </com.google.android.material.chip.ChipGroup>
+                <EditText
+                    android:id="@+id/et_post_idea_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_title"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_add_24dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Tag" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add_24dp" />
+            </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/et_post_idea_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="15dp"
+                android:hint="@string/add_description" />
+
         </LinearLayout>
-
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="12dp"
-            android:hint="@string/add_description" />
-
-        </LinearLayout>
-
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -114,7 +114,7 @@
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:background="@drawable/shape_button_rounded_gradient3"
-            android:text="@string/post_idea"/>
+            android:text="@string/post_idea" />
 
     </LinearLayout>
 
