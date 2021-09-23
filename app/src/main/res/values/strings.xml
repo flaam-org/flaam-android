@@ -36,4 +36,5 @@
     <string name="tags">Tags</string>
     <string name="no_tags_to_display">No Tags To Display!</string>
     <string name="add_tags">Add Tags</string>
+    <string name="add_body">Add Body</string>
 </resources>

@@ -55,7 +55,7 @@ class PostIdeaFragment : Fragment() {
                     viewModel.postIdea(
                         PostIdeaRequest(
                             null, binding.etPostIdeaDescription.text.toString(),
-                            null, null, binding.etPostIdeaTitle.text.toString()
+                            null, listOf(36, 39), binding.etPostIdeaTitle.text.toString()
                         )
                     )
                 } else {
