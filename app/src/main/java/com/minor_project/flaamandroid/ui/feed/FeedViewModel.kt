@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.minor_project.flaamandroid.data.response.GetIdeasResponse
+import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
@@ -24,8 +24,8 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
     private val _tagsListFromIds = MutableLiveData<ApiResponse<TagsResponse>>()
     val tagsListFromIds: LiveData<ApiResponse<TagsResponse>> = _tagsListFromIds
 
-    private val _getIdeas = MutableLiveData<ApiResponse<GetIdeasResponse>>()
-    val getIdeas: LiveData<ApiResponse<GetIdeasResponse>> = _getIdeas
+    private val _getIdeas = MutableLiveData<ApiResponse<IdeasResponse>>()
+    val ideas: LiveData<ApiResponse<IdeasResponse>> = _getIdeas
 
 
     fun getTags() {

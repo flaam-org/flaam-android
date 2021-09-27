@@ -202,14 +202,14 @@ class FeedFragment : Fragment() {
     private fun initObservers() {
 
         viewModel.getIdeas()
-        viewModel.getIdeas.observe(viewLifecycleOwner) {
+        viewModel.ideas.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
-                    ideasList = (it.body.results as ArrayList<IdeaResponseItem>?)!!
+                    ideasList = (it.body.ideaResponseItems as ArrayList<IdeaResponseItem>?)!!
                     val feedPostAdapter = FeedPostAdapter(this, requireContext(), ideasList)
                     binding.rvFeedPosts.adapter = feedPostAdapter
 

@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class GetIdeasResponse(
+data class IdeasResponse(
     @Json(name = "count")
     val count: Int?,
     @Json(name = "next")
@@ -13,5 +13,5 @@ data class GetIdeasResponse(
     @Json(name = "previous")
     val previous: Any?,
     @Json(name = "results")
-    val results: List<IdeaResponseItem>?
+    val ideaResponseItems: List<IdeaResponseItem>?
 )

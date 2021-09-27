@@ -26,7 +26,7 @@ interface FlaamApi {
     suspend fun postIdea(@Body body : PostIdeaRequest) : Response<IdeaResponseItem>
 
     @GET("ideas")
-    suspend fun getIdeas() : Response<GetIdeasResponse>
+    suspend fun getIdeas() : Response<IdeasResponse>
 
 
 }
