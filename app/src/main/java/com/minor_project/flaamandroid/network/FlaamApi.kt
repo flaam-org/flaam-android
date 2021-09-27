@@ -23,7 +23,10 @@ interface FlaamApi {
     suspend fun createNewTag(@Body body : TagsRequest) : Response<TagsResponseItem>
 
     @POST("ideas")
-    suspend fun postIdea(@Body body : PostIdeaRequest) : Response<PostIdeaResponse>
+    suspend fun postIdea(@Body body : PostIdeaRequest) : Response<IdeaResponseItem>
+
+    @GET("ideas")
+    suspend fun getIdeas() : Response<GetIdeasResponse>
 
 
 }

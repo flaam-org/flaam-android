@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
-import com.minor_project.flaamandroid.data.response.PostIdeaResponse
+import com.minor_project.flaamandroid.data.response.IdeaResponseItem
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.data.response.TagsResponseItem
 import com.minor_project.flaamandroid.network.FlaamRepository
@@ -23,8 +23,8 @@ import javax.inject.Inject
 class PostIdeaViewModel @Inject constructor(private val flaamRepo: FlaamRepository) :
     ViewModel() {
 
-    private val _postIdea = MutableLiveData<ApiResponse<PostIdeaResponse>>()
-    val postIdea: LiveData<ApiResponse<PostIdeaResponse>> = _postIdea
+    private val _postIdea = MutableLiveData<ApiResponse<IdeaResponseItem>>()
+    val postIdea: LiveData<ApiResponse<IdeaResponseItem>> = _postIdea
 
 
     private val _finalTagsList = MutableLiveData<List<Int>>()

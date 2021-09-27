@@ -36,8 +36,6 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class UserProfileFragment : Fragment() {
 
-    private var userTagsList: ArrayList<Int>? = ArrayList()
-
     private val viewModel: UserProfileViewModel by viewModels()
 
     @Inject

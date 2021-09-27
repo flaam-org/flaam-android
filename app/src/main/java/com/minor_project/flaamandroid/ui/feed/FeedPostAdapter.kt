@@ -10,11 +10,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.data.response.IdeaResponseItem
 import com.minor_project.flaamandroid.models.FeedPostModel
 
 open class FeedPostAdapter(
     private val context: Context,
-    private var list: ArrayList<FeedPostModel>
+    private var list: ArrayList<IdeaResponseItem>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 ) {
     private var onClickListener: OnClickListener? = null
@@ -34,14 +35,11 @@ open class FeedPostAdapter(
 
         if (holder is MyViewHolder) {
             holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_user_image)
-                .setImageResource(model.userImage)
+                .setImageResource(R.drawable.ic_profile_image_place_holder)
             holder.itemView.findViewById<TextView>(R.id.tv_feed_post_title).text = model.title
 
             holder.itemView.findViewById<TextView>(R.id.tv_feed_post_votes).text =
-                model.votes.toString()
-            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_implementations).text =
-                model.implementations.toString()
-
+                model.vote.toString()
 
             holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description).text =
                 model.description
@@ -73,7 +71,7 @@ open class FeedPostAdapter(
     }
 
     interface OnClickListener {
-        fun onClick(position: Int, model: FeedPostModel)
+        fun onClick(position: Int, model: IdeaResponseItem)
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {

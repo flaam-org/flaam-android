@@ -16,10 +16,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.data.response.GetIdeasResponse
+import com.minor_project.flaamandroid.data.response.IdeaResponseItem
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.models.FeedPostModel
 import com.minor_project.flaamandroid.utils.ApiResponse
+import com.minor_project.flaamandroid.utils.getDaysDiff
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -28,6 +31,8 @@ import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class FeedFragment : Fragment() {
+
+    private var ideasList: ArrayList<IdeaResponseItem> = ArrayList()
 
     private lateinit var binding: FragmentFeedBinding
     private var initialId = R.id.step1
@@ -40,6 +45,11 @@ class FeedFragment : Fragment() {
     ): View {
 
         binding = FragmentFeedBinding.inflate(inflater)
+
+
+        binding.rvFeedPosts.layoutManager = LinearLayoutManager(context)
+
+        binding.rvFeedPosts.setHasFixedSize(true)
 
         initObservers()
 
@@ -193,6 +203,31 @@ class FeedFragment : Fragment() {
 
 
     private fun initObservers() {
+
+        viewModel.getIdeas()
+        viewModel.getIdeas.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast(it.message.toString())
+                }
+
+                is ApiResponse.Success -> {
+                    ideasList = (it.body.results as ArrayList<IdeaResponseItem>?)!!
+                    val feedPostAdapter = FeedPostAdapter(requireContext(), ideasList)
+                    binding.rvFeedPosts.adapter = feedPostAdapter
+
+
+                    feedPostAdapter.setOnClickListener(object : FeedPostAdapter.OnClickListener {
+                        override fun onClick(position: Int, model: IdeaResponseItem) {
+                            findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostDetailsFragment())
+                        }
+
+                    })
+                }
+            }
+        }
+
+
         var timer = Timer()
         val DELAY = 800L
         binding.include.etTagName.addTextChangedListener(object : TextWatcher {
@@ -247,33 +282,4 @@ class FeedFragment : Fragment() {
         menuPopup.show()
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val feedPostList = ArrayList<FeedPostModel>()
-
-        val n = FeedPostModel(
-            R.drawable.ic_profile_image_place_holder, "Idea/Post Title", 2, 4, resources.getString(
-                R.string.sample_text
-            )
-        )
-
-        feedPostList.add(n)
-        binding.rvFeedPosts.layoutManager = LinearLayoutManager(context)
-
-        binding.rvFeedPosts.setHasFixedSize(true)
-
-
-        val feedPostAdapter = FeedPostAdapter(requireContext(), feedPostList)
-        binding.rvFeedPosts.adapter = feedPostAdapter
-
-
-        feedPostAdapter.setOnClickListener(object : FeedPostAdapter.OnClickListener {
-            override fun onClick(position: Int, model: FeedPostModel) {
-                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostDetailsFragment())
-            }
-
-        })
-    }
 }
