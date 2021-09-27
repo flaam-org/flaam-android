@@ -9,11 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.minor_project.flaamandroid.R
+import com.google.android.material.chip.ChipGroup
 import com.minor_project.flaamandroid.data.response.IdeaResponseItem
-import com.minor_project.flaamandroid.models.FeedPostModel
+import com.google.android.material.chip.Chip
+import com.minor_project.flaamandroid.R
+import timber.log.Timber
+
 
 open class FeedPostAdapter(
+    private val feedFragment: FeedFragment,
     private val context: Context,
     private var list: ArrayList<IdeaResponseItem>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
@@ -23,7 +27,7 @@ open class FeedPostAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(
             LayoutInflater.from(context).inflate(
-                R.layout.item_feed_post,
+                com.minor_project.flaamandroid.R.layout.item_feed_post,
                 parent,
                 false
             )
@@ -36,7 +40,8 @@ open class FeedPostAdapter(
         if (holder is MyViewHolder) {
             holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_user_image)
                 .setImageResource(R.drawable.ic_profile_image_place_holder)
-            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_title).text = model.title
+            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_title).text =
+                model.title
 
             holder.itemView.findViewById<TextView>(R.id.tv_feed_post_votes).text =
                 model.vote.toString()
@@ -44,16 +49,31 @@ open class FeedPostAdapter(
             holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description).text =
                 model.description
 
-            holder.itemView.findViewById<ImageView>(R.id.iv_bookmark).setOnClickListener {
-                toggleBookmark(holder.itemView.findViewById<ImageView>(R.id.iv_bookmark))
+
+            val cgFeedPostTags = holder.itemView.findViewById<ChipGroup>(R.id.cg_feed_post_tags)
+
+            val tagsList = feedFragment.getTagsListFromIds(list[position].tags)
+
+            Timber.e("tags" + tagsList)
+
+            for (tag in tagsList) {
+                val chip = Chip(context)
+                chip.text = tag
+                cgFeedPostTags.addView(chip)
             }
 
-            holder.itemView.findViewById<ImageView>(R.id.iv_share).setOnClickListener {
-                shareIdea(
-                    holder.itemView.findViewById<TextView>(R.id.tv_feed_post_title),
-                    holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description)
-                )
-            }
+            holder.itemView.findViewById<ImageView>(R.id.iv_bookmark)
+                .setOnClickListener {
+                    toggleBookmark(holder.itemView.findViewById<ImageView>(R.id.iv_bookmark))
+                }
+
+            holder.itemView.findViewById<ImageView>(R.id.iv_share)
+                .setOnClickListener {
+                    shareIdea(
+                        holder.itemView.findViewById<TextView>(R.id.tv_feed_post_title),
+                        holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description)
+                    )
+                }
 
             holder.itemView.setOnClickListener {
 

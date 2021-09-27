@@ -16,13 +16,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.data.response.GetIdeasResponse
 import com.minor_project.flaamandroid.data.response.IdeaResponseItem
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
-import com.minor_project.flaamandroid.models.FeedPostModel
 import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.getDaysDiff
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -213,7 +210,7 @@ class FeedFragment : Fragment() {
 
                 is ApiResponse.Success -> {
                     ideasList = (it.body.results as ArrayList<IdeaResponseItem>?)!!
-                    val feedPostAdapter = FeedPostAdapter(requireContext(), ideasList)
+                    val feedPostAdapter = FeedPostAdapter(this, requireContext(), ideasList)
                     binding.rvFeedPosts.adapter = feedPostAdapter
 
 
@@ -280,6 +277,23 @@ class FeedFragment : Fragment() {
         }
 
         menuPopup.show()
+    }
+
+    fun getTagsListFromIds(tagsIdList: List<Int>?): List<String> {
+        val tagsListName: ArrayList<String> = ArrayList()
+        viewModel.getTagsFromIds(tagsIdList)
+        viewModel.tagsListFromIds.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> makeToast(it.message.toString())
+                is ApiResponse.Success -> {
+                    for (tag in it.body.tagsResponseItems!!) {
+                        tagsListName.add(tag.name!!)
+                    }
+                }
+            }
+        }
+
+        return tagsListName
     }
 
 }

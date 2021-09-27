@@ -31,9 +31,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                tools:text="Title"
                 android:textSize="32sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="Title" />
 
             <ImageView
                 android:id="@+id/iv_bookmark"
@@ -52,32 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             app:chipSpacingHorizontal="5dp">
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="tag-1"/>
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="tag-2"/>
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="tag-3"/>
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="tag-4"/>
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="tag-5"/>
-
+            
         </com.google.android.material.chip.ChipGroup>
 
         <LinearLayout
@@ -109,8 +84,8 @@
                     android:id="@+id/tv_feed_post_implementations"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="42sp"
-                    android:text="45" />
+                    android:text="45"
+                    android:textSize="42sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -140,8 +115,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_gravity="end">
+            android:layout_gravity="end"
+            android:layout_margin="5dp">
 
             <ImageView
                 android:id="@+id/iv_share"

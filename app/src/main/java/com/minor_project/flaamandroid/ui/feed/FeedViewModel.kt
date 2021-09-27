@@ -12,6 +12,7 @@ import com.minor_project.flaamandroid.utils.handleGetResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +20,9 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
 
     private val _tags = MutableLiveData<ApiResponse<TagsResponse>>()
     val tags: LiveData<ApiResponse<TagsResponse>> = _tags
+
+    private val _tagsListFromIds = MutableLiveData<ApiResponse<TagsResponse>>()
+    val tagsListFromIds: LiveData<ApiResponse<TagsResponse>> = _tagsListFromIds
 
     private val _getIdeas = MutableLiveData<ApiResponse<GetIdeasResponse>>()
     val getIdeas: LiveData<ApiResponse<GetIdeasResponse>> = _getIdeas
@@ -30,6 +34,17 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
             _tags.postValue(handleGetResponse(res))
         }
     }
+
+
+    fun getTagsFromIds(idList : List<Int>?){
+        viewModelScope.launch(Dispatchers.IO) {
+            val ids = idList.toString().substring(1, idList.toString().length - 1)
+            Timber.e(idList.toString() +" | " + ids.toString())
+            val res = repo.getTagsForKeyword(null, ids)
+            _tagsListFromIds.postValue(handleGetResponse(res))
+        }
+    }
+
 
     fun getTagsForKeyword(keyword: String) {
         viewModelScope.launch(Dispatchers.IO) {
