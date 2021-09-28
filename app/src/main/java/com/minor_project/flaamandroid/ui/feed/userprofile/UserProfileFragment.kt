@@ -22,10 +22,7 @@ import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
-import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.getDaysDiff
-import com.minor_project.flaamandroid.utils.gone
-import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import java.util.*
@@ -131,6 +128,8 @@ class UserProfileFragment : Fragment() {
                         //TODO Add the functionality of date joined in number of days format.
                         tvUserProfileDoj.text =
                             it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
+
+                        civUserProfileUserImage.loadImage(it.body.avatar.toString())
                     }
                 }
             }

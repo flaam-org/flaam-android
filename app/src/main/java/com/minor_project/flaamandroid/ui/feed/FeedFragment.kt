@@ -14,12 +14,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeaResponseItem
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
+import com.minor_project.flaamandroid.utils.Constants
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -35,6 +37,9 @@ class FeedFragment : Fragment() {
     private var initialId = R.id.step1
     private val viewModel: FeedViewModel by viewModels()
     private var isFilterLayoutVisible: Boolean = false
+    private var isRequestDispatched = false
+
+    private lateinit var feedPostAdapter: FeedPostAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +48,12 @@ class FeedFragment : Fragment() {
 
         binding = FragmentFeedBinding.inflate(inflater)
 
+        feedPostAdapter = FeedPostAdapter(this, requireContext(), ideasList)
+//        binding.rvFeedPosts.setHasFixedSize(true)
 
-        binding.rvFeedPosts.layoutManager = LinearLayoutManager(context)
+        binding.rvFeedPosts.adapter = feedPostAdapter
 
-        binding.rvFeedPosts.setHasFixedSize(true)
+
 
         initObservers()
 
@@ -69,6 +76,19 @@ class FeedFragment : Fragment() {
             binding.civFeedFragmentMyProfile.setOnClickListener {
                 findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToUserProfileFragment())
             }
+
+
+            binding.rvFeedPosts.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+
+                    // load more ideas if user reaches end! and when there are no pending requests!
+                    if(!recyclerView.canScrollVertically(Constants.DOWN) && !feedPostAdapter.isEndReached && !isRequestDispatched){
+                        isRequestDispatched = true
+                        viewModel.getIdeas(feedPostAdapter.list.size)
+                    }
+                }
+            })
 
 
         }
@@ -200,18 +220,22 @@ class FeedFragment : Fragment() {
 
 
     private fun initObservers() {
-
-        viewModel.getIdeas()
+        isRequestDispatched = true
+        viewModel.getIdeas(0)
         viewModel.ideas.observe(viewLifecycleOwner) {
+            isRequestDispatched = false
             when (it) {
                 is ApiResponse.Error -> {
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
-                    ideasList = (it.body.ideaResponseItems as ArrayList<IdeaResponseItem>?)!!
-                    val feedPostAdapter = FeedPostAdapter(this, requireContext(), ideasList)
-                    binding.rvFeedPosts.adapter = feedPostAdapter
+                    if(it.body.ideaResponseItems?.size!! < 5){
+                        feedPostAdapter.isEndReached = true
+                    }
+
+                    feedPostAdapter.addToList(it.body.ideaResponseItems as ArrayList<IdeaResponseItem>)
+
 
 
                     feedPostAdapter.setOnClickListener(object : FeedPostAdapter.OnClickListener {
@@ -220,6 +244,8 @@ class FeedFragment : Fragment() {
                         }
 
                     })
+
+
                 }
             }
         }

@@ -43,7 +43,7 @@ class LoginFragment : Fragment() {
         binding.apply {
             btnLogin.setOnClickListener {
                 if(validate()){
-                    viewModel.postLoginRequest(LoginRequest(null, null, null, etPasswordLogin.text.toString(), etUsernameLogin.text.toString()))
+                    viewModel.postLoginRequest(LoginRequest(null, null, null, etPasswordLogin.text.toString(), etUsernameLogin.text.toString(), null))
                 }else{
                     makeToast("missing fields!")
                 }

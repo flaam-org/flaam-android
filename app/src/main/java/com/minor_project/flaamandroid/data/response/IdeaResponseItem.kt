@@ -31,5 +31,5 @@ data class IdeaResponseItem(
     @Json(name = "upvotes_count")
     val upvotesCount: Int?,
     @Json(name = "vote")
-    val vote: Any?
+    val vote: String?
 )

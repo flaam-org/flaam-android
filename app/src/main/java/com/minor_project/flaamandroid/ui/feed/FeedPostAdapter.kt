@@ -3,92 +3,113 @@ package com.minor_project.flaamandroid.ui.feed
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.ChipGroup
-import com.minor_project.flaamandroid.data.response.IdeaResponseItem
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.data.response.IdeaResponseItem
+import com.minor_project.flaamandroid.databinding.ItemFeedPostBinding
+import com.minor_project.flaamandroid.utils.*
 import timber.log.Timber
 
 
 open class FeedPostAdapter(
     private val feedFragment: FeedFragment,
     private val context: Context,
-    private var list: ArrayList<IdeaResponseItem>
+    var list: ArrayList<IdeaResponseItem>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 ) {
     private var onClickListener: OnClickListener? = null
-    var bookmark = false
+    var isEndReached = false
+
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MyViewHolder(
-            LayoutInflater.from(context).inflate(
-                com.minor_project.flaamandroid.R.layout.item_feed_post,
-                parent,
-                false
+
+        return if(viewType == Constants.PROGRESS_VIEW){
+            context.getProgressViewHolder()
+        }else{
+            MyViewHolder(
+                ItemFeedPostBinding.inflate(LayoutInflater.from(context), parent, false)
             )
-        )
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val model = list[position]
 
-        if (holder is MyViewHolder) {
-            holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_user_image)
-                .setImageResource(R.drawable.ic_profile_image_place_holder)
-            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_title).text =
-                model.title
-
-            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_votes).text =
-                model.vote.toString()
-
-            holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description).text =
-                model.description
+        if(position != list.size) {
 
 
-            val cgFeedPostTags = holder.itemView.findViewById<ChipGroup>(R.id.cg_feed_post_tags)
+            val model = list[position]
 
-            val tagsList = feedFragment.getTagsListFromIds(list[position].tags)
+            var bookmark = false
 
-            Timber.e("tags" + tagsList)
 
-            for (tag in tagsList) {
-                val chip = Chip(context)
-                chip.text = tag
-                cgFeedPostTags.addView(chip)
+            (holder as MyViewHolder).binding.apply {
+                holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_user_image)
+                    .setImageResource(R.drawable.ic_profile_image_place_holder)
+
+                tvFeedPostTitle.text = model.title
+                tvFeedPostVotes.text = model.vote ?: "0"
+                tvFeedPostDescription.text = model.description
+
+
+
+                val cgFeedPostTags = cgFeedPostTags
+
+                val tagsList = feedFragment.getTagsListFromIds(list[position].tags)
+
+                Timber.e("tags" + tagsList)
+
+                cgFeedPostTags.removeAllViews()
+                for (tag in tagsList) {
+                    val chip = Chip(context)
+                    chip.text = tag
+                    cgFeedPostTags.addView(chip)
+                }
+
+                ivBookmark.setOnClickListener {
+                        ivBookmark.toggleBookmark(bookmark)
+                        bookmark = bookmark.not()
+                    }
+
+                ivShare.setOnClickListener {
+                        shareIdea(
+                            tvFeedPostTitle,
+                            tvFeedPostDescription
+                        )
+                    }
+
+                holder.itemView.setOnClickListener {
+
+                    if (onClickListener != null) {
+                        onClickListener!!.onClick(position, model)
+                    }
+
+                }
             }
 
-            holder.itemView.findViewById<ImageView>(R.id.iv_bookmark)
-                .setOnClickListener {
-                    toggleBookmark(holder.itemView.findViewById<ImageView>(R.id.iv_bookmark))
+        }else{
+            (holder as ProgressViewHolder).binding.apply{
+                if(isEndReached){
+                    llTvProgress.gone()
+                    llTvEnd.visible()
+                }else{
+                    llTvProgress.visible()
+                    llTvEnd.gone()
                 }
-
-            holder.itemView.findViewById<ImageView>(R.id.iv_share)
-                .setOnClickListener {
-                    shareIdea(
-                        holder.itemView.findViewById<TextView>(R.id.tv_feed_post_title),
-                        holder.itemView.findViewById<TextView>(R.id.tv_feed_post_description)
-                    )
-                }
-
-            holder.itemView.setOnClickListener {
-
-                if (onClickListener != null) {
-                    onClickListener!!.onClick(position, model)
-                }
-
             }
+
         }
     }
 
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount(): Int = list.size + 1
+
+    override fun getItemViewType(position: Int): Int = if(position == list.size) 1 else 0
 
     interface OnClickListener {
         fun onClick(position: Int, model: IdeaResponseItem)
@@ -110,17 +131,22 @@ open class FeedPostAdapter(
 
     }
 
-    private fun toggleBookmark(ivBookmark: ImageView) {
+    private fun ImageView.toggleBookmark(bookmark: Boolean) {
         if (!bookmark) {
-            ivBookmark.setImageResource(R.drawable.ic_bookmark_check)
+            this.setImageResource(R.drawable.ic_bookmark_check)
             Toast.makeText(this.context, "Idea Added to Bookmarks", Toast.LENGTH_SHORT).show()
-            bookmark = true
+
         } else {
-            ivBookmark.setImageResource(R.drawable.ic_bookmark_uncheck)
+            this.setImageResource(R.drawable.ic_bookmark_uncheck)
             Toast.makeText(this.context, "Idea Removed from Bookmarks", Toast.LENGTH_SHORT).show()
-            bookmark = false
+
         }
     }
 
-    private class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    fun addToList(ideas: ArrayList<IdeaResponseItem>){
+        list.addAll(ideas)
+        notifyDataSetChanged()
+    }
+
+    private class MyViewHolder(val binding: ItemFeedPostBinding) : RecyclerView.ViewHolder(binding.root)
 }

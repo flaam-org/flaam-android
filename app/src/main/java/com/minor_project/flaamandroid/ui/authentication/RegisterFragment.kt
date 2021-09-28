@@ -45,8 +45,10 @@ class RegisterFragment : Fragment() {
                             etFnameRegister.text.toString(),
                             etLnameRegister.text.toString(),
                             etPasswordRegister.text.toString(),
-                            etUsernameRegister.text.toString()
-                        )
+                            etUsernameRegister.text.toString(),
+                            "https://avatars.dicebear.com/api/jdenticon/:${etEmailRegister.text.toString()}.svg"
+
+                    )
                     )
                 } else {
                     makeToast("Missing Required Fields!")

@@ -16,5 +16,7 @@ data class LoginRequest(
     @Json(name = "password")
     val password: String,
     @Json(name = "username")
-    val username: String
+    val username: String,
+    @Json(name = "avatar")
+    val avatar: String?
 )

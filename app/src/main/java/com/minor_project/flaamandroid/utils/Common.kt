@@ -1,5 +1,14 @@
 package com.minor_project.flaamandroid.utils
 
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.databinding.ProgressRecyclerItemBinding
+import com.minor_project.flaamandroid.ui.feed.FeedPostAdapter
 import retrofit2.Response
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -43,4 +52,17 @@ fun String.getDaysDiff(): Int {
     val diff = (((date!!.time - today.time) / (1000 * 60 * 60 * 24) % 7)).toInt()
     return abs(diff)
 
+}
+
+class ProgressViewHolder(val binding: ProgressRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+fun Context.getProgressViewHolder(): ProgressViewHolder {
+    return ProgressViewHolder(
+        ProgressRecyclerItemBinding.inflate(LayoutInflater.from(this))
+    )
+}
+
+
+fun ImageView.loadImage(image: String){
+    Glide.with(this).load(image).centerCrop().into(this)
 }
