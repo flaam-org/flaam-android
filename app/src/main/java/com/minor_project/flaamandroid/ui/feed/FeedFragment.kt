@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.data.response.IdeaResponseItem
+import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
@@ -31,7 +31,7 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class FeedFragment : Fragment() {
 
-    private var ideasList: ArrayList<IdeaResponseItem> = ArrayList()
+    private var ideasList: ArrayList<IdeasResponse.Result> = ArrayList()
 
     private lateinit var binding: FragmentFeedBinding
     private var initialId = R.id.step1
@@ -48,7 +48,7 @@ class FeedFragment : Fragment() {
 
         binding = FragmentFeedBinding.inflate(inflater)
 
-        feedPostAdapter = FeedPostAdapter(this, requireContext(), ideasList)
+        feedPostAdapter = FeedPostAdapter(requireContext(), ideasList)
 //        binding.rvFeedPosts.setHasFixedSize(true)
 
         binding.rvFeedPosts.adapter = feedPostAdapter
@@ -230,16 +230,16 @@ class FeedFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    if(it.body.ideaResponseItems?.size!! < 5){
+                    if(it.body.results?.size!! < 5){
                         feedPostAdapter.isEndReached = true
                     }
 
-                    feedPostAdapter.addToList(it.body.ideaResponseItems as ArrayList<IdeaResponseItem>)
+                    feedPostAdapter.addToList(it.body.results as ArrayList<IdeasResponse.Result>)
 
 
 
                     feedPostAdapter.setOnClickListener(object : FeedPostAdapter.OnClickListener {
-                        override fun onClick(position: Int, model: IdeaResponseItem) {
+                        override fun onClick(position: Int, model: IdeasResponse.Result) {
                             findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostDetailsFragment())
                         }
 

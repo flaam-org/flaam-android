@@ -10,16 +10,15 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.data.response.IdeaResponseItem
+import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.ItemFeedPostBinding
 import com.minor_project.flaamandroid.utils.*
 import timber.log.Timber
 
 
 open class FeedPostAdapter(
-    private val feedFragment: FeedFragment,
     private val context: Context,
-    var list: ArrayList<IdeaResponseItem>
+    var list: ArrayList<IdeasResponse.Result>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 ) {
     private var onClickListener: OnClickListener? = null
@@ -53,21 +52,21 @@ open class FeedPostAdapter(
                     .setImageResource(R.drawable.ic_profile_image_place_holder)
 
                 tvFeedPostTitle.text = model.title
-                tvFeedPostVotes.text = model.vote ?: "0"
+                tvFeedPostVotes.text = (model.vote ?: "0").toString()
                 tvFeedPostDescription.text = model.description
 
 
 
                 val cgFeedPostTags = cgFeedPostTags
 
-                val tagsList = feedFragment.getTagsListFromIds(list[position].tags)
+                val tagsList = list[position].tags ?: emptyList()
 
                 Timber.e("tags" + tagsList)
 
                 cgFeedPostTags.removeAllViews()
                 for (tag in tagsList) {
                     val chip = Chip(context)
-                    chip.text = tag
+                    chip.text = tag?.name
                     cgFeedPostTags.addView(chip)
                 }
 
@@ -112,7 +111,7 @@ open class FeedPostAdapter(
     override fun getItemViewType(position: Int): Int = if(position == list.size) 1 else 0
 
     interface OnClickListener {
-        fun onClick(position: Int, model: IdeaResponseItem)
+        fun onClick(position: Int, model: IdeasResponse.Result)
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {
@@ -143,7 +142,7 @@ open class FeedPostAdapter(
         }
     }
 
-    fun addToList(ideas: ArrayList<IdeaResponseItem>){
+    fun addToList(ideas: ArrayList<IdeasResponse.Result>){
         list.addAll(ideas)
         notifyDataSetChanged()
     }

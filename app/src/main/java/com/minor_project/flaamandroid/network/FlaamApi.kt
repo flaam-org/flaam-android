@@ -23,7 +23,7 @@ interface FlaamApi {
     suspend fun createNewTag(@Body body : TagsRequest) : Response<TagsResponseItem>
 
     @POST("ideas")
-    suspend fun postIdea(@Body body : PostIdeaRequest) : Response<IdeaResponseItem>
+    suspend fun postIdea(@Body body : PostIdeaRequest) : Response<IdeasResponse.Result>
 
     @GET("ideas")
     suspend fun getIdeas(@Query("limit") limit: Int, @Query("offset") offset: Int) : Response<IdeasResponse>
