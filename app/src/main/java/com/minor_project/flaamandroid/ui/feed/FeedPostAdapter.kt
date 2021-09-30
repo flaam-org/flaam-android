@@ -136,7 +136,7 @@ open class FeedPostAdapter(
 
     override fun getItemCount(): Int = list.size + 1
 
-    override fun getItemViewType(position: Int): Int = if(position == list.size) 1 else 0
+    override fun getItemViewType(position: Int): Int = if(position == list.size) Constants.PROGRESS_VIEW else Constants.REGULAR_VIEW
 
     interface OnClickListener {
         fun onClick(position: Int, model: IdeasResponse.Result)
