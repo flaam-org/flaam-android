@@ -49,7 +49,7 @@ class FeedFragment : Fragment() {
         binding = FragmentFeedBinding.inflate(inflater)
 
         feedPostAdapter = FeedPostAdapter(requireContext(), ideasList)
-//        binding.rvFeedPosts.setHasFixedSize(true)
+        binding.rvFeedPosts.setHasFixedSize(true)
 
         binding.rvFeedPosts.adapter = feedPostAdapter
 

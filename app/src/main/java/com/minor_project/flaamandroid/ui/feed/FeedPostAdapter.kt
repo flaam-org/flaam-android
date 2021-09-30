@@ -2,11 +2,17 @@ package com.minor_project.flaamandroid.ui.feed
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.MenuPopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
@@ -64,10 +70,24 @@ open class FeedPostAdapter(
                 Timber.e("tags" + tagsList)
 
                 cgFeedPostTags.removeAllViews()
-                for (tag in tagsList) {
+                tagsList.indices.forEach { i ->
                     val chip = Chip(context)
-                    chip.text = tag?.name
-                    cgFeedPostTags.addView(chip)
+
+                    if(i < 4){
+                        chip.text = tagsList[i]?.name
+                        chip.chipBackgroundColor = ColorStateList.valueOf(listOfChipColors[i])
+                        chip.setTextColor(Color.WHITE)
+                        cgFeedPostTags.addView(chip)
+                    }
+                    if(i == 4){
+                        chip.text = "+${tagsList.size - 4}"
+                        chip.setOnClickListener {
+                            it.showRemainingTagsPopup(tagsList.subList(4,tagsList.size))
+                        }
+                        cgFeedPostTags.addView(chip)
+                    }
+
+
                 }
 
                 ivBookmark.setOnClickListener {
@@ -103,6 +123,14 @@ open class FeedPostAdapter(
             }
 
         }
+    }
+
+    fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
+        val menuPopup = PopupMenu(context, this, Gravity.CENTER)
+        subList.forEach {
+            menuPopup.menu.add(it?.name.toString())
+        }
+        menuPopup.show()
     }
 
 

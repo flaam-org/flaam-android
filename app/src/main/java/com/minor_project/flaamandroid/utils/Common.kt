@@ -1,6 +1,7 @@
 package com.minor_project.flaamandroid.utils
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -66,3 +67,5 @@ fun Context.getProgressViewHolder(): ProgressViewHolder {
 fun ImageView.loadImage(image: String){
     Glide.with(this).load(image).centerCrop().into(this)
 }
+
+val listOfChipColors = arrayListOf(Color.parseColor("#4CE899"), Color.parseColor("#FFD400"), Color.parseColor("#CC2A27"), Color.parseColor("#6200EE"))
