@@ -28,7 +28,8 @@ class MyBookmarksFragment : Fragment() {
     private var bookmarkedIdeasListIds: ArrayList<Int> = ArrayList()
 
     private lateinit var binding: FragmentMyBookmarksBinding
-//    private lateinit var myBookmarksAdapter: MyBookmarksAdapter
+
+    //    private lateinit var myBookmarksAdapter: MyBookmarksAdapter
     private val viewModel: MyBookmarksViewModel by viewModels()
 
 
@@ -50,27 +51,30 @@ class MyBookmarksFragment : Fragment() {
 //
 //        binding.rvMyBookmarks.adapter = myBookmarksAdapter
 
-//        initObservers()
+        initObservers()
 
         return binding.root
     }
 
-//    private fun initObservers() {
-//
-//        viewModel.getUserProfile()
-//        viewModel.userProfile.observe(viewLifecycleOwner) {
-//            when (it) {
-//                is ApiResponse.Error -> {
-//                    makeToast("Unable to fetch BookMarks!")
-//                }
-//
-//                is ApiResponse.Success -> {
-//                    bookmarkedIdeasListIds.addAll(it.body.bookmarkedIdeas!!)
-//                }
-//            }
-//        }
-//
-//
+    private fun initObservers() {
+
+        viewModel.getUserProfile()
+        viewModel.userProfile.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to fetch BookMarks!")
+                }
+
+                is ApiResponse.Success -> {
+                    binding.apply {
+                        tvMyBookmarksTest.text = it.body.bookmarkedIdeas.toString()
+                    }
+                }
+            }
+        }
+    }
+
+
 //        viewModel.updateUserProfile.observe(viewLifecycleOwner) {
 //            when (it) {
 //                is ApiResponse.Error -> {
@@ -82,8 +86,8 @@ class MyBookmarksFragment : Fragment() {
 //                }
 //            }
 //        }
-//    }
-//
+//}
+
 //    fun updateUserProfile(bookmarkedIdeas: List<Int>?) {
 //        viewModel.updateUserProfile(
 //            UpdateProfileRequest(
@@ -102,5 +106,6 @@ class MyBookmarksFragment : Fragment() {
 //        )
 //    }
 
-
 }
+
+

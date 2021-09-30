@@ -30,7 +30,6 @@ open class FeedPostAdapter(
 ) {
     private var onClickListener: OnClickListener? = null
     var isEndReached = false
-    var bookmark = false
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -46,6 +45,7 @@ open class FeedPostAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
+        var bookmark = false
         if (position != list.size) {
 
 
