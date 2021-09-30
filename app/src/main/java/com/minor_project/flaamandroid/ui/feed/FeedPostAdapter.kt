@@ -30,7 +30,7 @@ open class FeedPostAdapter(
 ) {
     private var onClickListener: OnClickListener? = null
     var isEndReached = false
-    var bookmarkedIdeas: ArrayList<Int> = ArrayList()
+    var bookmark = false
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -51,7 +51,7 @@ open class FeedPostAdapter(
 
             val model = list[position]
 
-            var bookmark = false
+
 
 
             (holder as MyViewHolder).binding.apply {
@@ -88,12 +88,19 @@ open class FeedPostAdapter(
                         cgFeedPostTags.addView(chip)
                     }
 
+                }
 
+
+                if (fragment.checkUserBookmarks(model.id!!)) {
+                    ivBookmark.setImageResource(R.drawable.ic_bookmark_check)
+                    bookmark = true
+                } else {
+                    ivBookmark.setImageResource(R.drawable.ic_bookmark_uncheck)
+                    bookmark = false
                 }
 
                 ivBookmark.setOnClickListener {
                     ivBookmark.toggleBookmark(bookmark, model)
-                    bookmark = bookmark.not()
                 }
 
                 ivShare.setOnClickListener {
@@ -163,16 +170,10 @@ open class FeedPostAdapter(
     private fun ImageView.toggleBookmark(bookmark: Boolean, model: IdeasResponse.Result) {
         if (!bookmark) {
             this.setImageResource(R.drawable.ic_bookmark_check)
-            bookmarkedIdeas.add(model.id!!)
-            fragment.updateUserProfile(bookmarkedIdeas.distinct())
-            Toast.makeText(this.context, "Idea Added to Bookmarks", Toast.LENGTH_SHORT).show()
-
+            fragment.addToBookmark(model.id!!)
         } else {
             this.setImageResource(R.drawable.ic_bookmark_uncheck)
-            bookmarkedIdeas.remove(model.id)
-            fragment.updateUserProfile(bookmarkedIdeas.distinct())
-            Toast.makeText(this.context, "Idea Removed from Bookmarks", Toast.LENGTH_SHORT).show()
-
+            fragment.removeBookmark(model.id!!)
         }
     }
 

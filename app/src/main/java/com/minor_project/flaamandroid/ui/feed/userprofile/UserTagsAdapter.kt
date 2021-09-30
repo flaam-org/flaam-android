@@ -27,7 +27,6 @@ open class UserTagsAdapter(
 
 
         if (holder is TagsViewHolder) {
-            // tag view
             val model = list[position]
             holder.binding.tvUserTag.text = model.name
 
@@ -54,10 +53,4 @@ open class UserTagsAdapter(
     private class TagsViewHolder(val binding: ItemUserTagBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-
-//    userTagsList?.remove(data.tagsResponseItems.first {
-//        it.name == chip.text
-//    }.id!!)
-//    updateTags()
-//    chip.gone()
 }

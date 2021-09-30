@@ -115,7 +115,6 @@ class UserProfileFragment : Fragment() {
                         tvUserProfileFnameLname.text =
                             it.body.firstName.toString() + " " + it.body.lastName.toString()
 
-                        //TODO Add the functionality of date joined in number of days format.
                         tvUserProfileDoj.text =
                             it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
 

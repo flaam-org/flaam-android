@@ -13,7 +13,6 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
@@ -21,9 +20,7 @@ import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
-import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.Constants
-import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
@@ -39,6 +36,7 @@ class FeedFragment : Fragment() {
     private val viewModel: FeedViewModel by viewModels()
     private var isFilterLayoutVisible: Boolean = false
     private var isRequestDispatched = false
+    private var bookmarkedIdeas: ArrayList<Int> = ArrayList()
 
     private lateinit var feedPostAdapter: FeedPostAdapter
 
@@ -251,14 +249,44 @@ class FeedFragment : Fragment() {
             }
         }
 
-        viewModel.updateUserProfile.observe(viewLifecycleOwner) {
+
+        viewModel.getUserProfile()
+        viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    makeToast("Unable to Update Data")
+                    makeToast("Unable to fetch Data!")
                 }
 
                 is ApiResponse.Success -> {
-                    makeToast("Updated Profile Successfully")
+
+                    bookmarkedIdeas.addAll(it.body.bookmarkedIdeas!!)
+
+                }
+            }
+        }
+
+
+        viewModel.addIdeaToUsersBookmarks.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unabe to Add Idea to My Bookmarks!")
+                }
+
+                is ApiResponse.Success -> {
+                    makeToast("Idea Successfully Added to My Bookmarks!")
+                }
+            }
+        }
+
+
+        viewModel.removeIdeaFromUsersBookmarks.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to Remove Idea from My Bookmarks!")
+                }
+
+                is ApiResponse.Success -> {
+                    makeToast("Idea Successfully Removed to My Bookmarks!")
                 }
             }
         }
@@ -335,23 +363,17 @@ class FeedFragment : Fragment() {
         return tagsListName
     }
 
+    fun addToBookmark(id: Int) {
+        viewModel.addIdeaToUsersBookmarks(id.toString())
+    }
 
-    fun updateUserProfile(bookmarkedIdeas: List<Int>?) {
-        viewModel.updateUserProfile(
-            UpdateProfileRequest(
-                null,
-                bookmarkedIdeas,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            )
-        )
+    fun removeBookmark(id: Int) {
+        viewModel.removeIdeaFromUsersBookmarks(id.toString())
+    }
+
+    fun checkUserBookmarks(id: Int): Boolean {
+        viewModel.getUserProfile()
+        return bookmarkedIdeas.contains(id)
     }
 
 }

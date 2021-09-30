@@ -85,6 +85,15 @@
         android:name="com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragment"
         android:label="fragment_post_details"
         tools:layout="@layout/fragment_post_details" />
+    <fragment
+        android:id="@+id/myBookmarksFragment"
+        android:name="com.minor_project.flaamandroid.ui.feed.userprofile.tabs.MyBookmarksFragment"
+        android:label="fragment_my_bookmarks"
+        tools:layout="@layout/fragment_my_bookmarks" >
+        <action
+            android:id="@+id/action_myBookmarksFragment_to_postDetailsFragment"
+            app:destination="@id/postDetailsFragment" />
+    </fragment>
 
 
 </navigation>
