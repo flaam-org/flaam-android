@@ -23,20 +23,21 @@ import timber.log.Timber
 
 
 open class FeedPostAdapter(
+    private val fragment: FeedFragment,
     private val context: Context,
     var list: ArrayList<IdeasResponse.Result>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 ) {
     private var onClickListener: OnClickListener? = null
     var isEndReached = false
-
+    var bookmarkedIdeas: ArrayList<Int> = ArrayList()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        return if(viewType == Constants.PROGRESS_VIEW){
+        return if (viewType == Constants.PROGRESS_VIEW) {
             context.getProgressViewHolder()
-        }else{
+        } else {
             MyViewHolder(
                 ItemFeedPostBinding.inflate(LayoutInflater.from(context), parent, false)
             )
@@ -45,7 +46,7 @@ open class FeedPostAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        if(position != list.size) {
+        if (position != list.size) {
 
 
             val model = list[position]
@@ -59,8 +60,8 @@ open class FeedPostAdapter(
 
                 tvFeedPostTitle.text = model.title
                 tvFeedPostVotes.text = (model.vote ?: "0").toString()
+                tvFeedPostImplementations.text = (model.implementationsCount ?: "0").toString()
                 tvFeedPostDescription.text = model.description
-
 
 
                 val cgFeedPostTags = cgFeedPostTags
@@ -73,16 +74,16 @@ open class FeedPostAdapter(
                 tagsList.indices.forEach { i ->
                     val chip = Chip(context)
 
-                    if(i < 4){
+                    if (i < 4) {
                         chip.text = tagsList[i]?.name
                         chip.chipBackgroundColor = ColorStateList.valueOf(listOfChipColors[i])
                         chip.setTextColor(Color.WHITE)
                         cgFeedPostTags.addView(chip)
                     }
-                    if(i == 4){
+                    if (i == 4) {
                         chip.text = "+${tagsList.size - 4}"
                         chip.setOnClickListener {
-                            it.showRemainingTagsPopup(tagsList.subList(4,tagsList.size))
+                            it.showRemainingTagsPopup(tagsList.subList(4, tagsList.size))
                         }
                         cgFeedPostTags.addView(chip)
                     }
@@ -91,16 +92,16 @@ open class FeedPostAdapter(
                 }
 
                 ivBookmark.setOnClickListener {
-                        ivBookmark.toggleBookmark(bookmark)
-                        bookmark = bookmark.not()
-                    }
+                    ivBookmark.toggleBookmark(bookmark, model)
+                    bookmark = bookmark.not()
+                }
 
                 ivShare.setOnClickListener {
-                        shareIdea(
-                            tvFeedPostTitle,
-                            tvFeedPostDescription
-                        )
-                    }
+                    shareIdea(
+                        tvFeedPostTitle,
+                        tvFeedPostDescription
+                    )
+                }
 
                 holder.itemView.setOnClickListener {
 
@@ -111,12 +112,12 @@ open class FeedPostAdapter(
                 }
             }
 
-        }else{
-            (holder as ProgressViewHolder).binding.apply{
-                if(isEndReached){
+        } else {
+            (holder as ProgressViewHolder).binding.apply {
+                if (isEndReached) {
                     llTvProgress.gone()
                     llTvEnd.visible()
-                }else{
+                } else {
                     llTvProgress.visible()
                     llTvEnd.gone()
                 }
@@ -136,7 +137,8 @@ open class FeedPostAdapter(
 
     override fun getItemCount(): Int = list.size + 1
 
-    override fun getItemViewType(position: Int): Int = if(position == list.size) Constants.PROGRESS_VIEW else Constants.REGULAR_VIEW
+    override fun getItemViewType(position: Int): Int =
+        if (position == list.size) Constants.PROGRESS_VIEW else Constants.REGULAR_VIEW
 
     interface OnClickListener {
         fun onClick(position: Int, model: IdeasResponse.Result)
@@ -158,22 +160,27 @@ open class FeedPostAdapter(
 
     }
 
-    private fun ImageView.toggleBookmark(bookmark: Boolean) {
+    private fun ImageView.toggleBookmark(bookmark: Boolean, model: IdeasResponse.Result) {
         if (!bookmark) {
             this.setImageResource(R.drawable.ic_bookmark_check)
+            bookmarkedIdeas.add(model.id!!)
+            fragment.updateUserProfile(bookmarkedIdeas.distinct())
             Toast.makeText(this.context, "Idea Added to Bookmarks", Toast.LENGTH_SHORT).show()
 
         } else {
             this.setImageResource(R.drawable.ic_bookmark_uncheck)
+            bookmarkedIdeas.remove(model.id)
+            fragment.updateUserProfile(bookmarkedIdeas.distinct())
             Toast.makeText(this.context, "Idea Removed from Bookmarks", Toast.LENGTH_SHORT).show()
 
         }
     }
 
-    fun addToList(ideas: ArrayList<IdeasResponse.Result>){
+    fun addToList(ideas: ArrayList<IdeasResponse.Result>) {
         list.addAll(ideas)
         notifyDataSetChanged()
     }
 
-    private class MyViewHolder(val binding: ItemFeedPostBinding) : RecyclerView.ViewHolder(binding.root)
+    private class MyViewHolder(val binding: ItemFeedPostBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

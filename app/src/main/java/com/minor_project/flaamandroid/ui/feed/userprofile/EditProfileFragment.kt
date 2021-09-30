@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.TagsRequest
-import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.data.response.TagsResponseItem
 import com.minor_project.flaamandroid.databinding.FragmentEditProfileBinding
@@ -28,6 +27,7 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 import android.R
+import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 
 
 @AndroidEntryPoint
@@ -313,7 +313,10 @@ class EditProfileFragment : Fragment() {
             UpdateProfileRequest(
                 null,
                 null,
+                null,
+                null,
                 userTagsListIds?.distinct(),
+                null,
                 null,
                 null,
                 null,
@@ -328,8 +331,11 @@ class EditProfileFragment : Fragment() {
             UpdateProfileRequest(
                 null,
                 null,
+                null,
+                null,
                 userTagsListIds?.distinct(),
                 binding.etFnameEditProfile.text.toString(),
+                null,
                 binding.etLnameEditProfile.text.toString(),
                 null,
                 null,

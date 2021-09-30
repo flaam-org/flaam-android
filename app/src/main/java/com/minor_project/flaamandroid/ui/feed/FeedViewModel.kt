@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
+import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
@@ -26,6 +28,9 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
 
     private val _getIdeas = MutableLiveData<ApiResponse<IdeasResponse>>()
     val ideas: LiveData<ApiResponse<IdeasResponse>> = _getIdeas
+
+    private val _updateUserProfile = MutableLiveData<ApiResponse<UpdateProfileResponse>>()
+    val updateUserProfile: LiveData<ApiResponse<UpdateProfileResponse>> = _updateUserProfile
 
 
     fun getTags() {
@@ -57,6 +62,14 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.getIdeas(5, offset)
             _getIdeas.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun updateUserProfile(data : UpdateProfileRequest)
+    {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = repo.updateUserProfile(data)
+            _updateUserProfile.postValue(handleGetResponse(res))
         }
     }
 

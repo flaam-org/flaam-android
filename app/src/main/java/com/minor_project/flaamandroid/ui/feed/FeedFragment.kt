@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
@@ -48,7 +49,7 @@ class FeedFragment : Fragment() {
 
         binding = FragmentFeedBinding.inflate(inflater)
 
-        feedPostAdapter = FeedPostAdapter(requireContext(), ideasList)
+        feedPostAdapter = FeedPostAdapter(this, requireContext(), ideasList)
         binding.rvFeedPosts.setHasFixedSize(true)
 
         binding.rvFeedPosts.adapter = feedPostAdapter
@@ -78,12 +79,12 @@ class FeedFragment : Fragment() {
             }
 
 
-            binding.rvFeedPosts.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            binding.rvFeedPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
 
                     // load more ideas if user reaches end! and when there are no pending requests!
-                    if(!recyclerView.canScrollVertically(Constants.DOWN) && !feedPostAdapter.isEndReached && !isRequestDispatched){
+                    if (!recyclerView.canScrollVertically(Constants.DOWN) && !feedPostAdapter.isEndReached && !isRequestDispatched) {
                         isRequestDispatched = true
                         viewModel.getIdeas(feedPostAdapter.list.size)
                     }
@@ -230,7 +231,7 @@ class FeedFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    if(it.body.results?.size!! < 5){
+                    if (it.body.results?.size!! < 5) {
                         feedPostAdapter.isEndReached = true
                     }
 
@@ -246,6 +247,18 @@ class FeedFragment : Fragment() {
                     })
 
 
+                }
+            }
+        }
+
+        viewModel.updateUserProfile.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to Update Data")
+                }
+
+                is ApiResponse.Success -> {
+                    makeToast("Updated Profile Successfully")
                 }
             }
         }
@@ -320,6 +333,25 @@ class FeedFragment : Fragment() {
         }
 
         return tagsListName
+    }
+
+
+    fun updateUserProfile(bookmarkedIdeas: List<Int>?) {
+        viewModel.updateUserProfile(
+            UpdateProfileRequest(
+                null,
+                bookmarkedIdeas,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+        )
     }
 
 }
