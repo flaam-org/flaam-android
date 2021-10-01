@@ -51,6 +51,8 @@ data class IdeasResponse(
         val viewCount: Int?,
         @Json(name = "viewed")
         val viewed: Boolean?,
+        @Json(name = "bookmarked")
+        val bookmarked: Boolean,
         @Json(name = "vote")
         val vote: Any?
     ) {
