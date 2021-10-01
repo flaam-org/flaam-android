@@ -220,6 +220,7 @@ class FeedFragment : Fragment() {
 
     private fun initObservers() {
         isRequestDispatched = true
+        feedPostAdapter.addToList(arrayListOf())
         viewModel.getIdeas(0)
         viewModel.ideas.observe(viewLifecycleOwner) {
             isRequestDispatched = false
