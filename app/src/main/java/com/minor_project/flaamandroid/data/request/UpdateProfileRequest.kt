@@ -6,6 +6,10 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class UpdateProfileRequest(
+    @Json(name = "avatar")
+    val avatar: String?,
+    @Json(name = "bookmarked_ideas")
+    val bookmarkedIdeas: List<Int>?,
     @Json(name = "description")
     val description: String?,
     @Json(name = "email")
@@ -14,6 +18,8 @@ data class UpdateProfileRequest(
     val favouriteTags: List<Int>?,
     @Json(name = "first_name")
     val firstName: String?,
+    @Json(name = "following")
+    val following: List<Int>?,
     @Json(name = "last_name")
     val lastName: String?,
     @Json(name = "password")

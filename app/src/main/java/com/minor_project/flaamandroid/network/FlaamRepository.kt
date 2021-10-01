@@ -3,7 +3,6 @@ package com.minor_project.flaamandroid.network
 import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
-import retrofit2.http.Query
 
 class FlaamRepository(private val api: FlaamApi) {
 
@@ -20,6 +19,10 @@ class FlaamRepository(private val api: FlaamApi) {
     suspend fun postIdea(body: PostIdeaRequest) = api.postIdea(body)
 
     suspend fun getIdeas(limit: Int, offset: Int) = api.getIdeas(5, offset)
+
+    suspend fun addIdeaToUsersBookmarks(id: String) = api.addIdeaToUsersBookmarks(id)
+
+    suspend fun removeIdeaFromUsersBookmarks(id: String) = api.removeIdeaFromUsersBookmarks(id)
 
 
 }

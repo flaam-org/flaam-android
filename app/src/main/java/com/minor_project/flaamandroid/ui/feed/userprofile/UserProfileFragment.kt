@@ -1,33 +1,23 @@
 package com.minor_project.flaamandroid.ui.feed.userprofile
 
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
 import com.minor_project.flaamandroid.MainActivity
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.request.TagsRequest
-import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
-import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -125,7 +115,6 @@ class UserProfileFragment : Fragment() {
                         tvUserProfileFnameLname.text =
                             it.body.firstName.toString() + " " + it.body.lastName.toString()
 
-                        //TODO Add the functionality of date joined in number of days format.
                         tvUserProfileDoj.text =
                             it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
 

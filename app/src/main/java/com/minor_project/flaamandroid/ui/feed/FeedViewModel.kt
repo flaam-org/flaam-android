@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
+import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
+import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
@@ -27,6 +30,19 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
     private val _getIdeas = MutableLiveData<ApiResponse<IdeasResponse>>()
     val ideas: LiveData<ApiResponse<IdeasResponse>> = _getIdeas
 
+    private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
+    val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
+
+    private val _updateUserProfile = MutableLiveData<ApiResponse<UpdateProfileResponse>>()
+    val updateUserProfile: LiveData<ApiResponse<UpdateProfileResponse>> = _updateUserProfile
+
+
+    private val _addIdeaToUsersBookmarks = MutableLiveData<ApiResponse<Unit>>()
+    val addIdeaToUsersBookmarks: LiveData<ApiResponse<Unit>> = _addIdeaToUsersBookmarks
+
+    private val _removeIdeaFromUsersBookmarks = MutableLiveData<ApiResponse<Unit>>()
+    val removeIdeaFromUsersBookmarks: LiveData<ApiResponse<Unit>> = _removeIdeaFromUsersBookmarks
+
 
     fun getTags() {
         viewModelScope.launch {
@@ -36,10 +52,10 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
     }
 
 
-    fun getTagsFromIds(idList : List<Int>?){
+    fun getTagsFromIds(idList: List<Int>?) {
         viewModelScope.launch(Dispatchers.IO) {
             val ids = idList.toString().substring(1, idList.toString().length - 1)
-            Timber.e(idList.toString() +" | " + ids.toString())
+            Timber.e(idList.toString() + " | " + ids.toString())
             val res = repo.getTagsForKeyword(null, ids)
             _tagsListFromIds.postValue(handleGetResponse(res))
         }
@@ -57,6 +73,36 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.getIdeas(5, offset)
             _getIdeas.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun getUserProfile()
+    {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = repo.getUserProfile()
+            _userProfile.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun updateUserProfile(data: UpdateProfileRequest) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = repo.updateUserProfile(data)
+            _updateUserProfile.postValue(handleGetResponse(res))
+        }
+    }
+
+
+    fun addIdeaToUsersBookmarks(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = repo.addIdeaToUsersBookmarks(id)
+            _addIdeaToUsersBookmarks.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun removeIdeaFromUsersBookmarks(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = repo.removeIdeaFromUsersBookmarks(id)
+            _removeIdeaFromUsersBookmarks.postValue(handleGetResponse(res))
         }
     }
 

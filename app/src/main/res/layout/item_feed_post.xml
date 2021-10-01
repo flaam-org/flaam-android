@@ -42,7 +42,6 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_bookmark_uncheck"
                 tools:ignore="ContentDescription" />
-
         </LinearLayout>
 
 

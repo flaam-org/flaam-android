@@ -13,16 +13,14 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
-import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.Constants
-import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
@@ -38,6 +36,7 @@ class FeedFragment : Fragment() {
     private val viewModel: FeedViewModel by viewModels()
     private var isFilterLayoutVisible: Boolean = false
     private var isRequestDispatched = false
+    private var bookmarkedIdeas: ArrayList<Int> = ArrayList()
 
     private lateinit var feedPostAdapter: FeedPostAdapter
 
@@ -48,7 +47,7 @@ class FeedFragment : Fragment() {
 
         binding = FragmentFeedBinding.inflate(inflater)
 
-        feedPostAdapter = FeedPostAdapter(requireContext(), ideasList)
+        feedPostAdapter = FeedPostAdapter(this, requireContext(), ideasList)
         binding.rvFeedPosts.setHasFixedSize(true)
 
         binding.rvFeedPosts.adapter = feedPostAdapter
@@ -78,12 +77,12 @@ class FeedFragment : Fragment() {
             }
 
 
-            binding.rvFeedPosts.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            binding.rvFeedPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
 
                     // load more ideas if user reaches end! and when there are no pending requests!
-                    if(!recyclerView.canScrollVertically(Constants.DOWN) && !feedPostAdapter.isEndReached && !isRequestDispatched){
+                    if (!recyclerView.canScrollVertically(Constants.DOWN) && !feedPostAdapter.isEndReached && !isRequestDispatched) {
                         isRequestDispatched = true
                         viewModel.getIdeas(feedPostAdapter.list.size)
                     }
@@ -230,7 +229,7 @@ class FeedFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    if(it.body.results?.size!! < 5){
+                    if (it.body.results?.size!! < 5) {
                         feedPostAdapter.isEndReached = true
                     }
 
@@ -246,6 +245,48 @@ class FeedFragment : Fragment() {
                     })
 
 
+                }
+            }
+        }
+
+
+        viewModel.getUserProfile()
+        viewModel.userProfile.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to fetch Data!")
+                }
+
+                is ApiResponse.Success -> {
+
+                    bookmarkedIdeas.addAll(it.body.bookmarkedIdeas!!)
+
+                }
+            }
+        }
+
+
+        viewModel.addIdeaToUsersBookmarks.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unabe to Add Idea to My Bookmarks!")
+                }
+
+                is ApiResponse.Success -> {
+                    makeToast("Idea Successfully Added to My Bookmarks!")
+                }
+            }
+        }
+
+
+        viewModel.removeIdeaFromUsersBookmarks.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to Remove Idea from My Bookmarks!")
+                }
+
+                is ApiResponse.Success -> {
+                    makeToast("Idea Successfully Removed to My Bookmarks!")
                 }
             }
         }
@@ -320,6 +361,19 @@ class FeedFragment : Fragment() {
         }
 
         return tagsListName
+    }
+
+    fun addToBookmark(id: Int) {
+        viewModel.addIdeaToUsersBookmarks(id.toString())
+    }
+
+    fun removeBookmark(id: Int) {
+        viewModel.removeIdeaFromUsersBookmarks(id.toString())
+    }
+
+    fun checkUserBookmarks(id: Int): Boolean {
+        viewModel.getUserProfile()
+        return bookmarkedIdeas.contains(id)
     }
 
 }
