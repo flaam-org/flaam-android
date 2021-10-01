@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.minor_project.flaamandroid.ui.authentication.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
@@ -44,7 +44,7 @@
         android:id="@+id/feedFragment"
         android:name="com.minor_project.flaamandroid.ui.feed.FeedFragment"
         android:label="fragment_feed"
-        tools:layout="@layout/fragment_feed" >
+        tools:layout="@layout/fragment_feed">
         <action
             android:id="@+id/action_feedFragment_to_postIdeaFragment"
             app:destination="@id/postIdeaFragment" />
@@ -69,11 +69,14 @@
         android:id="@+id/userProfileFragment"
         android:name="com.minor_project.flaamandroid.ui.feed.userprofile.UserProfileFragment"
         android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile" >
+        tools:layout="@layout/fragment_user_profile">
         <action
             android:id="@+id/action_userProfileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment"
             app:popUpTo="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_postDetailsFragment"
+            app:destination="@id/postDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -85,24 +88,4 @@
         android:name="com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragment"
         android:label="fragment_post_details"
         tools:layout="@layout/fragment_post_details" />
-    <fragment
-        android:id="@+id/myBookmarksFragment"
-        android:name="com.minor_project.flaamandroid.ui.feed.userprofile.tabs.MyBookmarksFragment"
-        android:label="fragment_my_bookmarks"
-        tools:layout="@layout/fragment_my_bookmarks" >
-        <action
-            android:id="@+id/action_myBookmarksFragment_to_postDetailsFragment"
-            app:destination="@id/postDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/myIdeasFragment"
-        android:name="com.minor_project.flaamandroid.ui.feed.userprofile.tabs.MyIdeasFragment"
-        android:label="fragment_my_ideas"
-        tools:layout="@layout/fragment_my_ideas" >
-        <action
-            android:id="@+id/action_myIdeasFragment_to_postDetailsFragment"
-            app:destination="@id/postDetailsFragment" />
-    </fragment>
-
-
 </navigation>

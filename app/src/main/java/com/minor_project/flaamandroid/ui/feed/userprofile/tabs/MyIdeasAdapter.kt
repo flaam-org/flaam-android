@@ -148,6 +148,11 @@ class MyIdeasAdapter(
         notifyDataSetChanged()
     }
 
+    fun setToList(ideas: ArrayList<IdeasResponse.Result>) {
+        list = ideas
+        notifyDataSetChanged()
+    }
+
     private fun ImageView.toggleBookmark(bookmark: Boolean, model: IdeasResponse.Result) {
         if (!bookmark) {
             this.setImageResource(R.drawable.ic_bookmark_check)

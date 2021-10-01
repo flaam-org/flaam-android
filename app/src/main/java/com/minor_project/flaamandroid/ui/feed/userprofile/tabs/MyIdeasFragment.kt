@@ -10,8 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyIdeasBinding
-import com.minor_project.flaamandroid.ui.feed.FeedFragmentDirections
-import com.minor_project.flaamandroid.ui.feed.FeedPostAdapter
+import com.minor_project.flaamandroid.ui.feed.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,8 +30,6 @@ class MyIdeasFragment : Fragment() {
 
     private lateinit var myIdeasAdapter: MyIdeasAdapter
 
-    private var bookmarkedIdeas: ArrayList<Int> = ArrayList()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,7 +47,7 @@ class MyIdeasFragment : Fragment() {
     }
 
     private fun initObservers() {
-
+        myIdeasAdapter.setToList(arrayListOf())
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
@@ -60,7 +57,6 @@ class MyIdeasFragment : Fragment() {
 
                 is ApiResponse.Success -> {
                     viewModel.getIdeas(it.body.id!!)
-                    bookmarkedIdeas.addAll(it.body.bookmarkedIdeas!!)
                 }
             }
         }
@@ -74,11 +70,13 @@ class MyIdeasFragment : Fragment() {
 
                 is ApiResponse.Success -> {
 
+                    myIdeasAdapter.setToList(arrayListOf())
+
                     myIdeasAdapter.addToList(it.body.results as ArrayList<IdeasResponse.Result>)
 
                     myIdeasAdapter.setOnClickListener(object : MyIdeasAdapter.OnClickListener {
                         override fun onClick(position: Int, model: IdeasResponse.Result) {
-                            findNavController().navigate(MyIdeasFragmentDirections.actionMyIdeasFragmentToPostDetailsFragment())
+                            findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToPostDetailsFragment())
                         }
                     })
 
@@ -90,7 +88,7 @@ class MyIdeasFragment : Fragment() {
         viewModel.addIdeaToUsersBookmarks.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    makeToast("Unabe to Add Idea to My Bookmarks!")
+                    makeToast("Unable to Add Idea to My Bookmarks!")
                 }
 
                 is ApiResponse.Success -> {
