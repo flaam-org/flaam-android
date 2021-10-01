@@ -14,7 +14,7 @@ interface AuthApi {
         @Body body: LoginRequest,
     ): Response<LoginResponse>
 
-    @POST("accounts/user")
+    @POST("accounts/users")
     suspend fun registerUser(
         @Body body: LoginRequest
     ): Response<RegisterUserResponse>

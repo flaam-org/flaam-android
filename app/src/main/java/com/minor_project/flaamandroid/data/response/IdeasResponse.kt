@@ -23,13 +23,13 @@ data class IdeasResponse(
         val createdAt: String?,
         @Json(name = "description")
         val description: String?,
-        @Json(name = "downvotes_count")
+        @Json(name = "downvote_count")
         val downvotesCount: Int?,
         @Json(name = "draft")
         val draft: Boolean?,
         @Json(name = "id")
         val id: Int?,
-        @Json(name = "implementations_count")
+        @Json(name = "implementation_count")
         val implementationsCount: Int?,
         @Json(name = "milestones")
         val milestones: List<Any?>?,
@@ -45,7 +45,7 @@ data class IdeasResponse(
         val title: String?,
         @Json(name = "updated_at")
         val updatedAt: String?,
-        @Json(name = "upvotes_count")
+        @Json(name = "upvote_count")
         val upvotesCount: Int?,
         @Json(name = "view_count")
         val viewCount: Int?,
