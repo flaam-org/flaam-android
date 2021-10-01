@@ -76,8 +76,7 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
         }
     }
 
-    fun getUserProfile()
-    {
+    fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.getUserProfile()
             _userProfile.postValue(handleGetResponse(res))

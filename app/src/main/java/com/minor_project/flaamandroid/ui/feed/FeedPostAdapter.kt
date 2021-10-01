@@ -101,6 +101,7 @@ open class FeedPostAdapter(
 
                 ivBookmark.setOnClickListener {
                     ivBookmark.toggleBookmark(bookmark, model)
+                    bookmark = bookmark.not()
                 }
 
                 ivShare.setOnClickListener {
