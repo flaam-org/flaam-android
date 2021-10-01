@@ -27,6 +27,7 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 import android.R
+import com.minor_project.flaamandroid.adapters.UserTagsAdapter
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 
 

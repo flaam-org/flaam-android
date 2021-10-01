@@ -3,13 +3,10 @@ package com.minor_project.flaamandroid.utils
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.ProgressRecyclerItemBinding
-import com.minor_project.flaamandroid.ui.feed.FeedPostAdapter
 import retrofit2.Response
 import timber.log.Timber
 import java.text.SimpleDateFormat

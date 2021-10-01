@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed
+package com.minor_project.flaamandroid.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -11,13 +11,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.widget.MenuPopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.ItemFeedPostBinding
+import com.minor_project.flaamandroid.ui.feed.FeedFragment
 import com.minor_project.flaamandroid.utils.*
 import timber.log.Timber
 

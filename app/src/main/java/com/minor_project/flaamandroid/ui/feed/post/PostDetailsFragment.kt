@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayoutMediator
+import com.minor_project.flaamandroid.adapters.PostDetailsViewPagerAdapter
 import com.minor_project.flaamandroid.databinding.FragmentPostDetailsBinding
 
 

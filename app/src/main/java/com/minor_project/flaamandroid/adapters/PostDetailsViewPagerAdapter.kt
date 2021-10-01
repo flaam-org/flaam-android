@@ -1,7 +1,10 @@
-package com.minor_project.flaamandroid.ui.feed.post
+package com.minor_project.flaamandroid.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.minor_project.flaamandroid.ui.feed.post.PostDescriptionFragment
+import com.minor_project.flaamandroid.ui.feed.post.PostDiscussionFragment
+import com.minor_project.flaamandroid.ui.feed.post.PostProjectsFragment
 
 class PostDetailsViewPagerAdapter(frag: Fragment) :
     FragmentStateAdapter(frag) {

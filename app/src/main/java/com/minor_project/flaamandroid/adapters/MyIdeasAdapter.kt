@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed.userprofile.tabs
+package com.minor_project.flaamandroid.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -16,8 +16,7 @@ import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.ItemFeedPostBinding
-import com.minor_project.flaamandroid.ui.feed.FeedFragment
-import com.minor_project.flaamandroid.ui.feed.FeedPostAdapter
+import com.minor_project.flaamandroid.ui.feed.userprofile.tabs.MyIdeasFragment
 import com.minor_project.flaamandroid.utils.*
 import timber.log.Timber
 
@@ -27,7 +26,7 @@ class MyIdeasAdapter(
     var list: ArrayList<IdeasResponse.Result>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 ) {
-    private var onClickListener: MyIdeasAdapter.OnClickListener? = null
+    private var onClickListener: OnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 

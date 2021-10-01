@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed.userprofile
+package com.minor_project.flaamandroid.adapters
 
 import android.content.Context
 import android.view.LayoutInflater

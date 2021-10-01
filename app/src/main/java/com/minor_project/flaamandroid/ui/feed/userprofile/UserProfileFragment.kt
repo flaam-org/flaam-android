@@ -10,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
-import com.minor_project.flaamandroid.MainActivity
+import com.minor_project.flaamandroid.activities.MainActivity
+import com.minor_project.flaamandroid.adapters.UserProfileViewPagerAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
 import com.minor_project.flaamandroid.utils.*
