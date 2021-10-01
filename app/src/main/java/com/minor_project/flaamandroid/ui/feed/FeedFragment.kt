@@ -2,6 +2,7 @@ package com.minor_project.flaamandroid.ui.feed
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -30,6 +32,8 @@ import kotlin.collections.ArrayList
 class FeedFragment : Fragment() {
 
     private var ideasList: ArrayList<IdeasResponse.Result> = ArrayList()
+
+    private var areExtraViewsVisible = true
 
     private lateinit var binding: FragmentFeedBinding
     private var initialId = R.id.step1
@@ -86,6 +90,22 @@ class FeedFragment : Fragment() {
                         isRequestDispatched = true
                         viewModel.getIdeas(feedPostAdapter.list.size)
                     }
+                }
+
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    if(dy > 0 && areExtraViewsVisible){
+                        areExtraViewsVisible = !areExtraViewsVisible
+                        toggleViewsVisibility(false)
+                    }
+
+                    if(dy < 0 && !areExtraViewsVisible){
+                        areExtraViewsVisible = !areExtraViewsVisible
+                        toggleViewsVisibility(true)
+                    }
+
+
                 }
             })
 
@@ -217,10 +237,105 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 
+    private fun toggleViewsVisibility(isVisible: Boolean){
+
+        if(isVisible){
+            binding.apply {
+                isVisible.also {
+                    llCardview.changeVisibilityWithAnimation(it)
+                    cardView2.changeVisibilityWithAnimation(it)
+                    efabPostIdea.changeVisibilityWithAnimation(it)
+                }
+            }
+        }else{
+            binding.apply {
+                isVisible.also {
+                    llCardview.changeVisibilityWithAnimation(it)
+                    cardView2.changeVisibilityWithAnimation(it)
+                    efabPostIdea.changeVisibilityWithAnimation(it)
+                }
+            }
+        }
+
+    }
+
+    private fun View.changeVisibilityWithAnimation(setVisible: Boolean){
+        val v = this
+
+        if(setVisible){
+
+            val va = ValueAnimator.ofFloat(0f, 1f)
+            va.duration = 300
+            va.addUpdateListener {
+                    animation -> this.alpha = animation.animatedValue as Float
+            }
+
+            va.addListener(object: Animator.AnimatorListener{
+                override fun onAnimationStart(animation: Animator?) {
+
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+
+                    true.also {
+                        v.isClickable = it
+                        v.isFocusable = it
+                    }
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+
+                }
+
+            })
+            va.start()
+
+        }else{
+            val va = ValueAnimator.ofFloat(1f, 0f)
+            va.duration = 300
+            va.addUpdateListener {
+                    animation -> this.alpha = animation.animatedValue as Float
+            }
+
+            va.addListener(object: Animator.AnimatorListener{
+                override fun onAnimationStart(animation: Animator?) {
+
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                     false.also {
+                         v.isClickable = it
+                         v.isFocusable = it
+                    }
+
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+
+                }
+
+            })
+            va.start()
+
+        }
+
+
+
+
+    }
 
     private fun initObservers() {
         isRequestDispatched = true
-        feedPostAdapter.addToList(arrayListOf())
+
+        feedPostAdapter.setToList(arrayListOf())
         viewModel.getIdeas(0)
         viewModel.ideas.observe(viewLifecycleOwner) {
             isRequestDispatched = false
@@ -372,9 +487,9 @@ class FeedFragment : Fragment() {
         viewModel.removeIdeaFromUsersBookmarks(id.toString())
     }
 
-    fun checkUserBookmarks(id: Int): Boolean {
-        viewModel.getUserProfile()
-        return bookmarkedIdeas.contains(id)
-    }
+//    fun checkUserBookmarks(id: Int): Boolean {
+//        viewModel.getUserProfile()
+//        return bookmarkedIdeas.contains(id)
+//    }
 
 }

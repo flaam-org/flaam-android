@@ -45,7 +45,7 @@ open class FeedPostAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        var bookmark = false
+
         if (position != list.size) {
 
 
@@ -91,17 +91,18 @@ open class FeedPostAdapter(
                 }
 
 
-                if (fragment.checkUserBookmarks(model.id!!)) {
+//                fragment.checkUserBookmarks(model.id!!)
+                if (model.bookmarked) {
                     ivBookmark.setImageResource(R.drawable.ic_bookmark_check)
-                    bookmark = true
+
                 } else {
                     ivBookmark.setImageResource(R.drawable.ic_bookmark_uncheck)
-                    bookmark = false
+
                 }
 
                 ivBookmark.setOnClickListener {
-                    ivBookmark.toggleBookmark(bookmark, model)
-                    bookmark = bookmark.not()
+                    ivBookmark.toggleBookmark(model.bookmarked, model)
+
                 }
 
                 ivShare.setOnClickListener {
@@ -180,6 +181,11 @@ open class FeedPostAdapter(
 
     fun addToList(ideas: ArrayList<IdeasResponse.Result>) {
         list.addAll(ideas)
+        notifyDataSetChanged()
+    }
+
+    fun setToList(ideas: ArrayList<IdeasResponse.Result>) {
+        list = ideas
         notifyDataSetChanged()
     }
 
