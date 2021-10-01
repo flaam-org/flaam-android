@@ -71,7 +71,7 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
 
     fun getIdeas(offset: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.getIdeas(5, offset)
+            val res = repo.getIdeas(5, offset, null)
             _getIdeas.postValue(handleGetResponse(res))
         }
     }
