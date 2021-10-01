@@ -33,12 +33,10 @@ class MyIdeasFragment : Fragment() {
 
     private var bookmarkedIdeas: ArrayList<Int> = ArrayList()
 
-    private var ownerId: Int = 55
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentMyIdeasBinding.inflate(inflater)
 
@@ -61,13 +59,13 @@ class MyIdeasFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    ownerId = it.body.id!!
+                    viewModel.getIdeas(it.body.id!!)
                     bookmarkedIdeas.addAll(it.body.bookmarkedIdeas!!)
                 }
             }
         }
 
-        viewModel.getIdeas(ownerId!!)
+
         viewModel.ideas.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
@@ -123,8 +121,4 @@ class MyIdeasFragment : Fragment() {
         viewModel.removeIdeaFromUsersBookmarks(id.toString())
     }
 
-    fun checkUserBookmarks(id: Int): Boolean {
-        viewModel.getUserProfile()
-        return bookmarkedIdeas.contains(id)
-    }
 }

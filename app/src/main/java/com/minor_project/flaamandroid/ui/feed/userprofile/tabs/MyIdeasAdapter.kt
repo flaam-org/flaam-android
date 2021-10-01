@@ -80,7 +80,7 @@ class MyIdeasAdapter(
             }
 
 
-            if (fragment.checkUserBookmarks(model.id!!)) {
+            if (model.bookmarked) {
                 ivBookmark.setImageResource(R.drawable.ic_bookmark_check)
                 bookmark = true
             } else {
