@@ -37,4 +37,5 @@
     <string name="no_tags_to_display">No Tags To Display!</string>
     <string name="add_tags">Add Tags</string>
     <string name="add_body">Add Body</string>
+    <string name="no_user_ideas_added">You haven\'t added any Ideas yet!</string>
 </resources>

@@ -71,16 +71,23 @@ class MyIdeasFragment : Fragment() {
 
                 is ApiResponse.Success -> {
 
-                    myIdeasAdapter.setToList(arrayListOf())
+                    if (it.body.results.isNullOrEmpty()) {
+                        binding.tvNoIdeasAdded.visibility = View.VISIBLE
+                        binding.rvMyIdeas.visibility = View.GONE
+                    } else {
+                        binding.tvNoIdeasAdded.visibility = View.GONE
+                        binding.rvMyIdeas.visibility = View.VISIBLE
 
-                    myIdeasAdapter.addToList(it.body.results as ArrayList<IdeasResponse.Result>)
+                        myIdeasAdapter.setToList(arrayListOf())
 
-                    myIdeasAdapter.setOnClickListener(object : MyIdeasAdapter.OnClickListener {
-                        override fun onClick(position: Int, model: IdeasResponse.Result) {
-                            findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToPostDetailsFragment())
-                        }
-                    })
+                        myIdeasAdapter.addToList(it.body.results as ArrayList<IdeasResponse.Result>)
 
+                        myIdeasAdapter.setOnClickListener(object : MyIdeasAdapter.OnClickListener {
+                            override fun onClick(position: Int, model: IdeasResponse.Result) {
+                                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToPostDetailsFragment())
+                            }
+                        })
+                    }
 
                 }
             }
