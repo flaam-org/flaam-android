@@ -2,11 +2,17 @@ package com.minor_project.flaamandroid.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
+import com.minor_project.flaamandroid.data.response.LoginResponse
 import com.minor_project.flaamandroid.databinding.ActivityMainBinding
+import com.minor_project.flaamandroid.ui.feed.FeedViewModel
+import com.minor_project.flaamandroid.utils.ApiResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -20,6 +26,10 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var userPrefs: UserPreferences
     private lateinit var binding: ActivityMainBinding
+
+    private val viewModel: MainActivityViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,12 +40,35 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             delay(2000L)
+
+            //todo: don't forget to remove this line.
+            userPrefs.updateTokens(LoginResponse("", null))
+
+
             if(userPrefs.accessToken.first() == null){
                 navController.navigate(R.id.introFragment)
             }else{
-                Timber.e(userPrefs.accessToken.first())
-                navController.navigate(R.id.action_global_feedFragment)
+                viewModel.refreshToken()
             }
+        }
+
+        viewModel.refreshTokenResult.observe(this@MainActivity){
+            Timber.e("mainact $it")
+            when(it){
+                is ApiResponse.Error -> {
+                    Snackbar.make(binding.root, "can't refresh token!", Snackbar.LENGTH_SHORT).show()
+                    navController.navigate(R.id.action_global_feedFragment)
+                }
+
+                is ApiResponse.Success -> {
+                    lifecycleScope.launch {
+                        userPrefs.updateTokens(it.body)
+                        navController.navigate(R.id.action_global_feedFragment)
+                    }
+
+                }
+            }
+
         }
     }
 
