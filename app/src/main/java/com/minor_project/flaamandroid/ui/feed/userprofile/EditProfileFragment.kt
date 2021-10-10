@@ -43,6 +43,8 @@ class EditProfileFragment : Fragment() {
 
     private lateinit var allTagsResponse: TagsResponse
 
+    private var updateProfile = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,6 +82,7 @@ class EditProfileFragment : Fragment() {
 
         binding.apply {
             btnUpdateEditProfile.setOnClickListener {
+                updateProfile = true
                 updateUserProfile()
             }
         }
@@ -199,7 +202,10 @@ class EditProfileFragment : Fragment() {
                         Timber.e(it.body.favouriteTags.toString() + "UserProfileUpdate")
                     }
                     viewModel.getUserFavouriteTags(it.body.id!!)
-                    findNavController().popBackStack()
+                    if (updateProfile) {
+                        findNavController().popBackStack()
+                        updateProfile = false
+                    }
                 }
             }
         }
@@ -243,8 +249,7 @@ class EditProfileFragment : Fragment() {
                 is ApiResponse.Success -> {
                     viewModel.getTags()
                     makeToast("Tag Created!")
-//                    val n = arrayListOf(res.body)
-//                    userFavouriteTagsAdapter.addToList(n)
+                    addToFavouriteTags(res.body.id!!)
                 }
             }
         }
@@ -254,6 +259,7 @@ class EditProfileFragment : Fragment() {
 
             if (it.isSuccessful) {
                 makeToast("Tag Successfully Added to Favourite Tags!")
+                updateUserProfile()
             } else {
                 makeToast("Unable to Add Tag to Favourite Tags!")
             }
@@ -263,6 +269,7 @@ class EditProfileFragment : Fragment() {
         viewModel.removeTagFromUsersFavouriteTags.observe(viewLifecycleOwner) {
             if (it.isSuccessful) {
                 makeToast("Tag Successfully Removed to Favourite Tags!")
+                updateUserProfile()
             } else {
                 makeToast("Unable to Remove Tag from Favourite Tags!")
             }
@@ -314,6 +321,7 @@ class EditProfileFragment : Fragment() {
 
         menuPopup.show()
     }
+
 
     private fun updateUserProfile() {
         viewModel.updateUserProfile(
