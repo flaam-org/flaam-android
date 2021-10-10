@@ -40,7 +40,7 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
 
     fun getIdeas(ownerId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.getIdeas(null, 0, ownerId)
+            val res = repo.getIdeas(null, 0, ownerId, null)
             _getIdeas.postValue(handleGetResponse(res))
         }
     }

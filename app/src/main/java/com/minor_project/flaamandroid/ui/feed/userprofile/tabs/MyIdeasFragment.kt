@@ -53,7 +53,7 @@ class MyIdeasFragment : Fragment() {
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    makeToast("Unable to fetch BookMarks!")
+                    makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
@@ -72,10 +72,10 @@ class MyIdeasFragment : Fragment() {
                 is ApiResponse.Success -> {
 
                     if (it.body.results.isNullOrEmpty()) {
-                        binding.tvNoIdeasAdded.visibility = View.VISIBLE
+                        binding.tvNoUserIdeasAdded.visibility = View.VISIBLE
                         binding.rvMyIdeas.visibility = View.GONE
                     } else {
-                        binding.tvNoIdeasAdded.visibility = View.GONE
+                        binding.tvNoUserIdeasAdded.visibility = View.GONE
                         binding.rvMyIdeas.visibility = View.VISIBLE
 
                         myIdeasAdapter.setToList(arrayListOf())

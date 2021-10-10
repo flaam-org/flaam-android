@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
+import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
@@ -21,23 +22,41 @@ class MyBookmarksViewModel @Inject constructor(private val repo: FlaamRepository
     private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
     val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
 
-    private val _updateUserProfile = MutableLiveData<ApiResponse<UpdateProfileResponse>>()
-    val updateUserProfile: LiveData<ApiResponse<UpdateProfileResponse>> = _updateUserProfile
+    private val _getIdeas = MutableLiveData<ApiResponse<IdeasResponse>>()
+    val ideas: LiveData<ApiResponse<IdeasResponse>> = _getIdeas
+
+    private val _addIdeaToUsersBookmarks = MutableLiveData<ApiResponse<Unit>>()
+    val addIdeaToUsersBookmarks: LiveData<ApiResponse<Unit>> = _addIdeaToUsersBookmarks
+
+    private val _removeIdeaFromUsersBookmarks = MutableLiveData<ApiResponse<Unit>>()
+    val removeIdeaFromUsersBookmarks: LiveData<ApiResponse<Unit>> = _removeIdeaFromUsersBookmarks
 
 
-
-    fun getUserProfile()
-    {
+    fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.getUserProfile()
             _userProfile.postValue(handleGetResponse(res))
         }
     }
 
-    fun updateUserProfile(data: UpdateProfileRequest) {
+    fun getIdeas(bookmarkedBy: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.updateUserProfile(data)
-            _updateUserProfile.postValue(handleGetResponse(res))
+            val res = repo.getIdeas(null, 0, null, bookmarkedBy)
+            _getIdeas.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun addIdeaToUsersBookmarks(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = repo.addIdeaToUsersBookmarks(id)
+            _addIdeaToUsersBookmarks.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun removeIdeaFromUsersBookmarks(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = repo.removeIdeaFromUsersBookmarks(id)
+            _removeIdeaFromUsersBookmarks.postValue(handleGetResponse(res))
         }
     }
 }

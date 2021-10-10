@@ -40,4 +40,5 @@
     <string name="no_user_ideas_added">You haven\'t added any Ideas yet!</string>
     <string name="sample_text_2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ipsum tellus, cursus eget sem nec, sagittis placerat felis. Quisque eu congue nisl, ut sodales risus. Donec fringilla rutrum odio, et eleifend dolor mollis eget.
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ipsum tellus, cursus eget sem nec, sagittis placerat felis. Quisque eu congue nisl, ut sodales risus. Donec fringilla rutrum odio, et eleifend dolor mollis eget.</string>
+    <string name="no_user_bookmarks_added">You haven\'t added any Bookmarks Yet!</string>
 </resources>

@@ -6,9 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.minor_project.flaamandroid.adapters.MyBookmarksAdapter
+import com.minor_project.flaamandroid.adapters.MyIdeasAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyBookmarksBinding
+import com.minor_project.flaamandroid.ui.feed.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,13 +24,13 @@ class MyBookmarksFragment : Fragment() {
     @Inject
     lateinit var preferences: UserPreferences
 
-    private var ideasList: ArrayList<IdeasResponse.Result> = ArrayList()
-    private var bookmarkedIdeasListIds: ArrayList<Int> = ArrayList()
-
     private lateinit var binding: FragmentMyBookmarksBinding
 
-    //    private lateinit var myBookmarksAdapter: MyBookmarksAdapter
     private val viewModel: MyBookmarksViewModel by viewModels()
+
+    private var myBookmarksList: ArrayList<IdeasResponse.Result> = ArrayList()
+
+    private lateinit var myBookmarksAdapter: MyBookmarksAdapter
 
 
     override fun onCreateView(
@@ -36,16 +40,11 @@ class MyBookmarksFragment : Fragment() {
 
         binding = FragmentMyBookmarksBinding.inflate(inflater)
 
-//        myBookmarksAdapter = MyBookmarksAdapter(this, requireContext(), ideasList)
-//        myBookmarksAdapter.setOnClickListener(object : MyBookmarksAdapter.OnClickListener {
-//            override fun onClick(position: Int, model: IdeasResponse.Result) {
-//                findNavController().navigate(MyBookmarksFragmentDirections.actionMyBookmarksFragmentToPostDetailsFragment())
-//            }
-//
-//        })
-//        binding.rvMyBookmarks.setHasFixedSize(true)
-//
-//        binding.rvMyBookmarks.adapter = myBookmarksAdapter
+        myBookmarksAdapter = MyBookmarksAdapter(this, requireContext(), myBookmarksList)
+        binding.rvMyBookmarks.setHasFixedSize(true)
+
+        binding.rvMyBookmarks.adapter = myBookmarksAdapter
+
 
         initObservers()
 
@@ -54,53 +53,84 @@ class MyBookmarksFragment : Fragment() {
 
     private fun initObservers() {
 
+        myBookmarksAdapter.setToList(arrayListOf())
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    makeToast("Unable to fetch BookMarks!")
+                    makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
-                    binding.apply {
-                        tvMyBookmarksTest.text = it.body.bookmarkedIdeas.toString()
+                    viewModel.getIdeas(it.body.id!!)
+                }
+            }
+        }
+
+
+        viewModel.ideas.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast(it.message.toString())
+                }
+
+                is ApiResponse.Success -> {
+
+                    if (it.body.results.isNullOrEmpty()) {
+                        binding.tvNoUserBookmarksAdded.visibility = View.VISIBLE
+                        binding.rvMyBookmarks.visibility = View.GONE
+                    } else {
+                        binding.tvNoUserBookmarksAdded.visibility = View.GONE
+                        binding.rvMyBookmarks.visibility = View.VISIBLE
+
+                        myBookmarksAdapter.setToList(arrayListOf())
+
+                        myBookmarksAdapter.addToList(it.body.results as ArrayList<IdeasResponse.Result>)
+
+                        myBookmarksAdapter.setOnClickListener(object : MyBookmarksAdapter.OnClickListener {
+                            override fun onClick(position: Int, model: IdeasResponse.Result) {
+                                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToPostDetailsFragment())
+                            }
+                        })
                     }
+
+                }
+            }
+        }
+
+        viewModel.addIdeaToUsersBookmarks.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to Add Idea to My Bookmarks!")
+                }
+
+                is ApiResponse.Success -> {
+                    makeToast("Idea Successfully Added to My Bookmarks!")
+                }
+            }
+        }
+
+
+        viewModel.removeIdeaFromUsersBookmarks.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to Remove Idea from My Bookmarks!")
+                }
+
+                is ApiResponse.Success -> {
+                    makeToast("Idea Successfully Removed to My Bookmarks!")
                 }
             }
         }
     }
 
+    fun addToBookmark(id: Int) {
+        viewModel.addIdeaToUsersBookmarks(id.toString())
+    }
 
-//        viewModel.updateUserProfile.observe(viewLifecycleOwner) {
-//            when (it) {
-//                is ApiResponse.Error -> {
-//                    makeToast("Unable to Update Data")
-//                }
-//
-//                is ApiResponse.Success -> {
-//                    makeToast("Updated Profile Successfully")
-//                }
-//            }
-//        }
-//}
-
-//    fun updateUserProfile(bookmarkedIdeas: List<Int>?) {
-//        viewModel.updateUserProfile(
-//            UpdateProfileRequest(
-//                null,
-//                bookmarkedIdeas,
-//                null,
-//                null,
-//                null,
-//                null,
-//                null,
-//                null,
-//                null,
-//                null,
-//                null
-//            )
-//        )
-//    }
+    fun removeBookmark(id: Int) {
+        viewModel.removeIdeaFromUsersBookmarks(id.toString())
+    }
 
 }
 
