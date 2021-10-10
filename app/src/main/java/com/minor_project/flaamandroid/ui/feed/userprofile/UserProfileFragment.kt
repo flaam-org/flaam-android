@@ -39,6 +39,7 @@ class UserProfileFragment : Fragment() {
 
         binding = FragmentUserProfileBinding.inflate(inflater)
 
+        initObservers()
 
         val tabLayout = binding.tabLayoutUserProfile
 
@@ -57,7 +58,6 @@ class UserProfileFragment : Fragment() {
             }
         }.attach()
 
-        initObservers()
 
         initClick()
 

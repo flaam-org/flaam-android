@@ -79,7 +79,6 @@ class EditProfileFragment : Fragment() {
         binding.apply {
             btnUpdateEditProfile.setOnClickListener {
                 updateUserProfile()
-                findNavController().popBackStack()
             }
         }
 
@@ -210,6 +209,7 @@ class EditProfileFragment : Fragment() {
                         Timber.e(it.body.favouriteTags.toString() + "UserProfileUpdate")
                         viewModel.getTagsForId(it.body.favouriteTags)
                     }
+                    findNavController().popBackStack()
                 }
             }
         }
@@ -316,6 +316,7 @@ class EditProfileFragment : Fragment() {
 
         menuPopup.setOnMenuItemClickListener { menuItem ->
             val selectedTag = menuItem.title
+
             addToFavouriteTags(data.results.first {
                 it.name == selectedTag
             }.id!!)

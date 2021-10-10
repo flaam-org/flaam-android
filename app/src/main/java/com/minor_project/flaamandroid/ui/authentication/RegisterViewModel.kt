@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minor_project.flaamandroid.data.request.RegisterLoginRequest
-import com.minor_project.flaamandroid.data.response.RegisterUserResponse
+import com.minor_project.flaamandroid.data.response.RegisterLoginResponse
 import com.minor_project.flaamandroid.network.AuthRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handlePostResponse
@@ -16,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(private val repo: AuthRepository): ViewModel() {
 
-    private val _registerUserResult = MutableLiveData<ApiResponse<RegisterUserResponse>>()
-    val registerUserResult: LiveData<ApiResponse<RegisterUserResponse>> = _registerUserResult
+    private val _registerUserResult = MutableLiveData<ApiResponse<RegisterLoginResponse>>()
+    val registerUserResult: LiveData<ApiResponse<RegisterLoginResponse>> = _registerUserResult
 
 
     fun postRegisterUser(body: RegisterLoginRequest){

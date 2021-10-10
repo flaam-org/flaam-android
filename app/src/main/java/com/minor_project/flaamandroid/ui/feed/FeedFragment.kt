@@ -39,7 +39,6 @@ class FeedFragment : Fragment() {
     private val viewModel: FeedViewModel by viewModels()
     private var isFilterLayoutVisible: Boolean = false
     private var isRequestDispatched = false
-    private var bookmarkedIdeas: ArrayList<Int> = ArrayList()
 
     private lateinit var feedPostAdapter: FeedPostAdapter
 
@@ -357,22 +356,6 @@ class FeedFragment : Fragment() {
 
                     })
 
-
-                }
-            }
-        }
-
-
-        viewModel.getUserProfile()
-        viewModel.userProfile.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiResponse.Error -> {
-                    makeToast("Unable to fetch Data!")
-                }
-
-                is ApiResponse.Success -> {
-
-                    bookmarkedIdeas.addAll(it.body.bookmarkedIdeas!!)
 
                 }
             }

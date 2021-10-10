@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.minor_project.flaamandroid.data.response.LoginResponse
+import com.minor_project.flaamandroid.data.response.RegisterLoginResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,7 +17,7 @@ class UserPreferences(private val context: Context) {
         USER_PREFERENCE_NAME
     )
 
-    suspend fun updateTokens(tokens: LoginResponse){
+    suspend fun updateTokens(tokens: RegisterLoginResponse){
         context.dataStore.edit {
             tokens.apply {
                 access?.let { str ->

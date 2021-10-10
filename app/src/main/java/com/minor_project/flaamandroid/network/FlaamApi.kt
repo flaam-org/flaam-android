@@ -32,7 +32,7 @@ interface FlaamApi {
     suspend fun getIdeas(
         @Query("limit") limit: Int?,
         @Query("offset") offset: Int?,
-        @Query("owner_id") ownerId: Int?
+        @Query("owner") ownerId: Int?
     ): Response<IdeasResponse>
 
     @POST("idea/{id}/bookmark")

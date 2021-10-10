@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.RegisterLoginRequest
-import com.minor_project.flaamandroid.data.response.LoginResponse
+import com.minor_project.flaamandroid.data.response.RegisterLoginResponse
 import com.minor_project.flaamandroid.databinding.FragmentLoginBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
@@ -70,7 +70,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.loginResult.observe(viewLifecycleOwner) {
+        viewModel.registerLoginResult.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> makeToast(it.message.toString())
                 is ApiResponse.Success -> {
@@ -89,7 +89,7 @@ class LoginFragment : Fragment() {
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    runBlocking { preferences.updateTokens(LoginResponse(null, null)) }
+                    runBlocking { preferences.updateTokens(RegisterLoginResponse(null, null)) }
                 }
 
                 is ApiResponse.Success -> {

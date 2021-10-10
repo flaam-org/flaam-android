@@ -3,15 +3,12 @@ package com.minor_project.flaamandroid.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.response.LoginResponse
 import com.minor_project.flaamandroid.databinding.ActivityMainBinding
-import com.minor_project.flaamandroid.ui.feed.FeedViewModel
 import com.minor_project.flaamandroid.utils.ApiResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay

@@ -2,7 +2,7 @@ package com.minor_project.flaamandroid.network
 
 import android.content.Context
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.response.LoginResponse
+import com.minor_project.flaamandroid.data.response.RegisterLoginResponse
 import com.minor_project.flaamandroid.utils.Constants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -51,7 +51,7 @@ class ApiBuilder(private val context: Context) {
                     runBlocking {
                         Timber.e("runblocking init")
 
-                        val response = authRepo.refreshToken(LoginResponse(null, userPreferences.refreshToken.first()))
+                        val response = authRepo.refreshToken(RegisterLoginResponse(null, userPreferences.refreshToken.first()))
 
                         Timber.e(response.toString() + "body here")
                         if(response.code() == 200){
