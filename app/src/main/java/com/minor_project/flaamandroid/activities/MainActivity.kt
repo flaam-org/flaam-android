@@ -41,22 +41,19 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             delay(2000L)
 
-            //todo: don't forget to remove this line.
-            userPrefs.updateTokens(LoginResponse("", null))
-
-
-            if(userPrefs.accessToken.first() == null){
+            if (userPrefs.accessToken.first() == null) {
                 navController.navigate(R.id.introFragment)
-            }else{
+            } else {
                 viewModel.refreshToken()
             }
         }
 
-        viewModel.refreshTokenResult.observe(this@MainActivity){
+        viewModel.refreshTokenResult.observe(this@MainActivity) {
             Timber.e("mainact $it")
-            when(it){
+            when (it) {
                 is ApiResponse.Error -> {
-                    Snackbar.make(binding.root, "can't refresh token!", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "can't refresh token!", Snackbar.LENGTH_SHORT)
+                        .show()
                     navController.navigate(R.id.action_global_feedFragment)
                 }
 

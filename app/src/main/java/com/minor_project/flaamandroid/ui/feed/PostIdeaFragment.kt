@@ -63,8 +63,11 @@ class PostIdeaFragment : Fragment() {
                 if (validate()) {
                     viewModel.postIdea(
                         PostIdeaRequest(
-                            null, binding.etPostIdeaDescription.text.toString(),
-                            false, userTagsList, binding.etPostIdeaTitle.text.toString()
+                            binding.etPostIdeaBody.text.toString(),
+                            binding.etPostIdeaDescription.text.toString(),
+                            false,
+                            userTagsList,
+                            binding.etPostIdeaTitle.text.toString()
                         )
                     )
                 } else {

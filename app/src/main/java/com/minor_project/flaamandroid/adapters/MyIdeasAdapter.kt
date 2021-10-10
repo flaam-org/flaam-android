@@ -80,19 +80,19 @@ class MyIdeasAdapter(
 
 
             if (model.bookmarked) {
-                ivBookmark.setImageResource(R.drawable.ic_bookmark_check)
+                ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_check)
                 bookmark = true
             } else {
-                ivBookmark.setImageResource(R.drawable.ic_bookmark_uncheck)
+                ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_uncheck)
                 bookmark = false
             }
 
-            ivBookmark.setOnClickListener {
-                ivBookmark.toggleBookmark(bookmark, model)
+            ivBookmarkFeedPost.setOnClickListener {
+                ivBookmarkFeedPost.toggleBookmark(bookmark, model)
                 bookmark = bookmark.not()
             }
 
-            ivShare.setOnClickListener {
+            ivShareFeedPost.setOnClickListener {
                 shareIdea(
                     tvFeedPostTitle,
                     tvFeedPostDescription

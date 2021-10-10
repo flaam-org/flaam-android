@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed.post
+package com.minor_project.flaamandroid.ui.feed.post.tabs
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,10 +14,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [PostDiscussionFragment.newInstance] factory method to
+ * Use the [PostDescriptionFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PostDiscussionFragment : Fragment() {
+class PostDescriptionFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,7 +35,7 @@ class PostDiscussionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post_discussion, container, false)
+        return inflater.inflate(R.layout.fragment_post_description, container, false)
     }
 
     companion object {
@@ -45,12 +45,12 @@ class PostDiscussionFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment PostDiscussionFragment.
+         * @return A new instance of fragment PostDescriptionFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            PostDiscussionFragment().apply {
+            PostDescriptionFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

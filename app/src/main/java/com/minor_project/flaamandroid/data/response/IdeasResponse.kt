@@ -54,7 +54,7 @@ data class IdeasResponse(
         @Json(name = "bookmarked")
         val bookmarked: Boolean,
         @Json(name = "vote")
-        val vote: Any?
+        val vote: String?
     ) {
         @JsonClass(generateAdapter = true)
         data class Tag(

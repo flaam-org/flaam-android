@@ -92,19 +92,19 @@ open class FeedPostAdapter(
 
 //                fragment.checkUserBookmarks(model.id!!)
                 if (model.bookmarked) {
-                    ivBookmark.setImageResource(R.drawable.ic_bookmark_check)
+                    ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_check)
 
                 } else {
-                    ivBookmark.setImageResource(R.drawable.ic_bookmark_uncheck)
+                    ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_uncheck)
 
                 }
 
-                ivBookmark.setOnClickListener {
-                    ivBookmark.toggleBookmark(model.bookmarked, model)
+                ivBookmarkFeedPost.setOnClickListener {
+                    ivBookmarkFeedPost.toggleBookmark(model.bookmarked, model)
 
                 }
 
-                ivShare.setOnClickListener {
+                ivShareFeedPost.setOnClickListener {
                     shareIdea(
                         tvFeedPostTitle,
                         tvFeedPostDescription

@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed.post
+package com.minor_project.flaamandroid.ui.feed.post.tabs
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
