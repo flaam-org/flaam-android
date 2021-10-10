@@ -29,7 +29,7 @@ fun <T> handleGetResponse(response: Response<T>): ApiResponse<T> {
 
 fun <T> handlePostResponse(response: Response<T>): ApiResponse<T> {
     if (response.code() == 201) {
-        response.body().let {
+        response.body().let { it ->
             Timber.e(response.body().toString())
             return ApiResponse.Success(it!!)
         }
@@ -38,7 +38,6 @@ fun <T> handlePostResponse(response: Response<T>): ApiResponse<T> {
     Timber.e(response.errorBody()?.string().toString())
     return ApiResponse.Error(message = response.message(), status = response.code())
 }
-
 
 
 fun String.getDaysDiff(): Int {
@@ -52,7 +51,8 @@ fun String.getDaysDiff(): Int {
 
 }
 
-class ProgressViewHolder(val binding: ProgressRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
+class ProgressViewHolder(val binding: ProgressRecyclerItemBinding) :
+    RecyclerView.ViewHolder(binding.root)
 
 fun Context.getProgressViewHolder(): ProgressViewHolder {
     return ProgressViewHolder(
@@ -61,8 +61,13 @@ fun Context.getProgressViewHolder(): ProgressViewHolder {
 }
 
 
-fun ImageView.loadImage(image: String){
+fun ImageView.loadImage(image: String) {
     Glide.with(this).load(image).centerCrop().into(this)
 }
 
-val listOfChipColors = arrayListOf(Color.parseColor("#4CE899"), Color.parseColor("#FFD400"), Color.parseColor("#CC2A27"), Color.parseColor("#6200EE"))
+val listOfChipColors = arrayListOf(
+    Color.parseColor("#4CE899"),
+    Color.parseColor("#FFD400"),
+    Color.parseColor("#CC2A27"),
+    Color.parseColor("#6200EE")
+)

@@ -1,27 +1,5 @@
 package com.minor_project.flaamandroid.adapters
 
-import android.content.Context
-import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.PopupMenu
-import android.widget.TextView
-import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
-import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.data.response.IdeasResponse
-import com.minor_project.flaamandroid.data.response.TagsResponseItem
-import com.minor_project.flaamandroid.databinding.ItemFeedPostBinding
-import com.minor_project.flaamandroid.databinding.ItemUserTagBinding
-import com.minor_project.flaamandroid.utils.*
-import timber.log.Timber
-
 
 //open class MyBookmarksAdapter(
 //    private val fragment: MyBookmarksFragment,

@@ -66,6 +66,7 @@ class PostIdeaFragment : Fragment() {
                             binding.etPostIdeaBody.text.toString(),
                             binding.etPostIdeaDescription.text.toString(),
                             false,
+                            null,
                             userTagsList,
                             binding.etPostIdeaTitle.text.toString()
                         )
@@ -220,7 +221,7 @@ class PostIdeaFragment : Fragment() {
         val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
 
 
-        for (tag in data.tagsResponseItems!!) {
+        for (tag in data.results!!) {
             menuPopup.menu.add(tag.name.toString())
         }
 
@@ -232,20 +233,20 @@ class PostIdeaFragment : Fragment() {
             chip.isCloseIconVisible = true
             chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
             chip.setOnCloseIconClickListener {
-                userTagsList?.remove(data.tagsResponseItems.first {
+                userTagsList?.remove(data.results.first {
                     it.name == chip.text
                 }.id!!)
                 updateTagsList()
                 chip.gone()
             }
 
-            userTagsList!!.add(data.tagsResponseItems.first {
+            userTagsList!!.add(data.results.first {
                 it.name == chip.text
             }.id!!)
 
             updateTagsList()
 
-            makeToast("" + data.tagsResponseItems.first {
+            makeToast("" + data.results.first {
                 it.name == chip.text
             }.id!!)
 

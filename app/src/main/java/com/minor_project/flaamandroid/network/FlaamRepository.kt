@@ -25,5 +25,10 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun removeIdeaFromUsersBookmarks(id: String) = api.removeIdeaFromUsersBookmarks(id)
 
+    suspend fun addTagToUsersFavouriteTags(id: String) = api.addTagToUsersFavouriteTags(id)
+
+    suspend fun removeTagFromUsersFavouriteTags(id: String) =
+        api.removeTagFromUsersFavouriteTags(id)
+
 
 }

@@ -4,15 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.minor_project.flaamandroid.data.response.TagsResponseItem
+import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.ItemUserTagBinding
+import com.minor_project.flaamandroid.ui.feed.userprofile.EditProfileFragment
 
 
 open class UserTagsAdapter(
-
+    private val fragment: EditProfileFragment,
     private val context: Context,
-    private var list: ArrayList<TagsResponseItem>,
-    private val deleteTag: (id: Int) -> Unit
+    private var list: ArrayList<TagsResponse.Result>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 ) {
 
@@ -33,7 +33,7 @@ open class UserTagsAdapter(
 
 
             holder.binding.ivDeleteUserTag.setOnClickListener {
-                deleteTag.invoke(model.id!!)
+                fragment.removeFromFavouriteTags(model.id!!)
             }
         }
 
@@ -45,7 +45,7 @@ open class UserTagsAdapter(
     }
 
 
-    fun updateUserTagsList(newTagsList: ArrayList<TagsResponseItem>) {
+    fun updateUserTagsList(newTagsList: ArrayList<TagsResponse.Result>) {
         list = newTagsList
         notifyDataSetChanged()
     }

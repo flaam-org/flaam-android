@@ -12,10 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.TagsRequest
-import com.minor_project.flaamandroid.data.response.TagsResponse
-import com.minor_project.flaamandroid.data.response.TagsResponseItem
 import com.minor_project.flaamandroid.databinding.FragmentEditProfileBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.gone
@@ -26,9 +25,9 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-import android.R
 import com.minor_project.flaamandroid.adapters.UserTagsAdapter
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
+import com.minor_project.flaamandroid.data.response.TagsResponse
 
 
 @AndroidEntryPoint
@@ -44,7 +43,7 @@ class EditProfileFragment : Fragment() {
     private lateinit var binding: FragmentEditProfileBinding
 
     private var userTagsListIds: ArrayList<Int>? = ArrayList()
-    private var userTagsObjectList: ArrayList<TagsResponseItem>? = ArrayList()
+    private var userTagsObjectList: ArrayList<TagsResponse.Result>? = ArrayList()
     private lateinit var allTagsResponse: TagsResponse
 
 
@@ -173,7 +172,7 @@ class EditProfileFragment : Fragment() {
                 is ApiResponse.Success -> {
 
                     userTagsObjectList =
-                        it.body.tagsResponseItems as ArrayList<TagsResponseItem>?
+                        it.body.results as ArrayList<TagsResponse.Result>?
 
                     if (userTagsObjectList.isNullOrEmpty()) {
                         binding.tvNoTagsToDisplayEditProfile.visible()
@@ -260,6 +259,32 @@ class EditProfileFragment : Fragment() {
         }
 
 
+        viewModel.addTagToUsersFavouriteTags.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to Add Tag to Favourite Tags!")
+                }
+
+                is ApiResponse.Success -> {
+                    makeToast("Tag Successfully Added to Favourite Tags!")
+                }
+            }
+        }
+
+
+        viewModel.removeTagFromUsersFavouriteTags.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to Remove Tag from Favourite Tags!")
+                }
+
+                is ApiResponse.Success -> {
+                    makeToast("Tag Successfully Removed to Favourite Tags!")
+                }
+            }
+        }
+
+
     }
 
     private fun showAddEditTagPopup() {
@@ -284,21 +309,18 @@ class EditProfileFragment : Fragment() {
         val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
 
 
-        for (tag in data.tagsResponseItems!!) {
+        for (tag in data.results!!) {
             menuPopup.menu.add(tag.name.toString())
         }
 
 
         menuPopup.setOnMenuItemClickListener { menuItem ->
             val selectedTag = menuItem.title
-            userTagsListIds!!.add(data.tagsResponseItems.first {
+            addToFavouriteTags(data.results.first {
                 it.name == selectedTag
             }.id!!)
 
-            updateTags()
-
-
-            makeToast("" + data.tagsResponseItems.first {
+            makeToast("" + data.results.first {
                 it.name == selectedTag
             }.id!!)
 
@@ -308,25 +330,6 @@ class EditProfileFragment : Fragment() {
         menuPopup.show()
     }
 
-    private fun updateTags() {
-
-        viewModel.updateUserProfile(
-            UpdateProfileRequest(
-                null,
-                null,
-                null,
-                null,
-                userTagsListIds?.distinct(),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            )
-        )
-    }
-
     private fun updateUserProfile() {
         viewModel.updateUserProfile(
             UpdateProfileRequest(
@@ -334,7 +337,8 @@ class EditProfileFragment : Fragment() {
                 null,
                 null,
                 null,
-                userTagsListIds?.distinct(),
+                null,
+                null,
                 binding.etFnameEditProfile.text.toString(),
                 null,
                 binding.etLnameEditProfile.text.toString(),
@@ -351,12 +355,17 @@ class EditProfileFragment : Fragment() {
 
         binding.rvEditProfileTags.setHasFixedSize(true)
 
-        userTagsAdapter = UserTagsAdapter(requireContext(), userTagsObjectList!!) {
-            userTagsListIds?.remove(it)
-            updateTags()
-        }
+        userTagsAdapter = UserTagsAdapter(this, requireContext(), userTagsObjectList!!)
 
 
         binding.rvEditProfileTags.adapter = userTagsAdapter
+    }
+
+    fun addToFavouriteTags(id: Int) {
+        viewModel.addTagToUsersFavouriteTags(id.toString())
+    }
+
+    fun removeFromFavouriteTags(id: Int) {
+        viewModel.removeTagFromUsersFavouriteTags(id.toString())
     }
 }

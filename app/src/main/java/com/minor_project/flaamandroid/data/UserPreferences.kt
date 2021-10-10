@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.minor_project.flaamandroid.data.request.LoginRequest
 import com.minor_project.flaamandroid.data.response.LoginResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import kotlinx.coroutines.flow.Flow

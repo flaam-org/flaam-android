@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.minor_project.flaamandroid.data.request.LoginRequest
+import com.minor_project.flaamandroid.data.request.RegisterLoginRequest
 import com.minor_project.flaamandroid.data.response.LoginResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.AuthRepository
@@ -24,7 +24,7 @@ class LoginViewModel @Inject constructor(private val repo: AuthRepository, priva
     private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
     val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
 
-    fun postLoginRequest(data: LoginRequest){
+    fun postLoginRequest(data: RegisterLoginRequest){
         viewModelScope.launch {
             val res = repo.postLogin(data)
             _loginResult.postValue(handleGetResponse(res))

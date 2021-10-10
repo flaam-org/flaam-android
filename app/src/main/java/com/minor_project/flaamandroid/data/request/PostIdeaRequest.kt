@@ -12,6 +12,8 @@ data class PostIdeaRequest(
     val description: String?,
     @Json(name = "draft")
     val draft: Boolean?,
+    @Json(name = "milestones")
+    val milestones: List<List<String>>?,
     @Json(name = "tags")
     val tags: List<Int>?,
     @Json(name = "title")

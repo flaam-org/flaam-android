@@ -12,6 +12,7 @@ import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
+import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -94,14 +95,14 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
     fun addIdeaToUsersBookmarks(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.addIdeaToUsersBookmarks(id)
-            _addIdeaToUsersBookmarks.postValue(handleGetResponse(res))
+            _addIdeaToUsersBookmarks.postValue(handlePostResponse(res))
         }
     }
 
     fun removeIdeaFromUsersBookmarks(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.removeIdeaFromUsersBookmarks(id)
-            _removeIdeaFromUsersBookmarks.postValue(handleGetResponse(res))
+            _removeIdeaFromUsersBookmarks.postValue(handlePostResponse(res))
         }
     }
 

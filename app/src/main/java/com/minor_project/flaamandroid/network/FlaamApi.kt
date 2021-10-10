@@ -12,7 +12,7 @@ interface FlaamApi {
     @GET("accounts/user/profile")
     suspend fun getUserProfile(): Response<ViewProfileResponse>
 
-    @PUT("accounts/user/profile")
+    @PATCH("accounts/user/profile")
     suspend fun updateUserProfile(@Body body: UpdateProfileRequest): Response<UpdateProfileResponse>
 
     @GET("tags")
@@ -23,7 +23,7 @@ interface FlaamApi {
 
 
     @POST("tags")
-    suspend fun createNewTag(@Body body: TagsRequest): Response<TagsResponseItem>
+    suspend fun createNewTag(@Body body: TagsRequest): Response<TagsResponse.Result>
 
     @POST("ideas")
     suspend fun postIdea(@Body body: PostIdeaRequest): Response<IdeasResponse.Result>
@@ -36,10 +36,16 @@ interface FlaamApi {
     ): Response<IdeasResponse>
 
     @POST("idea/{id}/bookmark")
-    suspend fun addIdeaToUsersBookmarks(@Path("id") id: String) : Response<Unit>
+    suspend fun addIdeaToUsersBookmarks(@Path("id") id: String): Response<Unit>
 
     @DELETE("idea/{id}/bookmark")
-    suspend fun removeIdeaFromUsersBookmarks(@Path("id") id: String) : Response<Unit>
+    suspend fun removeIdeaFromUsersBookmarks(@Path("id") id: String): Response<Unit>
+
+    @POST("tag/{id}/favourite")
+    suspend fun addTagToUsersFavouriteTags(@Path("id") id: String): Response<Unit>
+
+    @DELETE("tag/{id}/favourite")
+    suspend fun removeTagFromUsersFavouriteTags(@Path("id") id: String): Response<Unit>
 
 
 }

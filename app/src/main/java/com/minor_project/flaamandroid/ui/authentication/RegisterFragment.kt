@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.data.request.LoginRequest
+import com.minor_project.flaamandroid.data.request.RegisterLoginRequest
 import com.minor_project.flaamandroid.databinding.FragmentRegisterBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
@@ -40,13 +40,20 @@ class RegisterFragment : Fragment() {
             btnRegister.setOnClickListener {
                 if (validate()) {
                     viewModel.postRegisterUser(
-                        LoginRequest(
+                        RegisterLoginRequest(
+                            "https://avatars.dicebear.com/api/jdenticon/:${etEmailRegister.text.toString()}.svg",
+                            null,
+                            null,
+                            null,
                             etEmailRegister.text.toString(),
+                            null,
                             etFnameRegister.text.toString(),
+                            null,
+                            null,
                             etLnameRegister.text.toString(),
                             etPasswordRegister.text.toString(),
-                            etUsernameRegister.text.toString(),
-                            "https://avatars.dicebear.com/api/jdenticon/:${etEmailRegister.text.toString()}.svg"
+                            null,
+                            etUsernameRegister.text.toString()
 
                     )
                     )

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.request.LoginRequest
+import com.minor_project.flaamandroid.data.request.RegisterLoginRequest
 import com.minor_project.flaamandroid.data.response.LoginResponse
 import com.minor_project.flaamandroid.databinding.FragmentLoginBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
@@ -25,6 +25,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
+
     @Inject
     lateinit var preferences: UserPreferences
     override fun onCreateView(
@@ -39,12 +40,28 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun initOnClick(){
+    private fun initOnClick() {
         binding.apply {
             btnLogin.setOnClickListener {
-                if(validate()){
-                    viewModel.postLoginRequest(LoginRequest(null, null, null, etPasswordLogin.text.toString(), etUsernameLogin.text.toString(), null))
-                }else{
+                if (validate()) {
+                    viewModel.postLoginRequest(
+                        RegisterLoginRequest(
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            etPasswordLogin.text.toString(),
+                            null,
+                            etUsernameLogin.text.toString()
+                        )
+                    )
+                } else {
                     makeToast("missing fields!")
                 }
             }
@@ -52,9 +69,9 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun initObservers(){
-        viewModel.loginResult.observe(viewLifecycleOwner){
-            when(it){
+    private fun initObservers() {
+        viewModel.loginResult.observe(viewLifecycleOwner) {
+            when (it) {
                 is ApiResponse.Error -> makeToast(it.message.toString())
                 is ApiResponse.Success -> {
                     runBlocking {
@@ -69,8 +86,8 @@ class LoginFragment : Fragment() {
             }
         }
 
-        viewModel.userProfile.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.userProfile.observe(viewLifecycleOwner) {
+            when (it) {
                 is ApiResponse.Error -> {
                     runBlocking { preferences.updateTokens(LoginResponse(null, null)) }
                 }
@@ -90,11 +107,11 @@ class LoginFragment : Fragment() {
     private fun validate(): Boolean {
         val emptyFieldError = "This Field Is Required!"
         binding.apply {
-            if(etUsernameLogin.text.isNullOrEmpty()){
+            if (etUsernameLogin.text.isNullOrEmpty()) {
                 tilUsernameFragmentLogin.error = emptyFieldError
                 return false
             }
-            if(etPasswordLogin.text.isNullOrEmpty()){
+            if (etPasswordLogin.text.isNullOrEmpty()) {
                 tilPasswordFragmentLogin.error = emptyFieldError
                 return false
             }

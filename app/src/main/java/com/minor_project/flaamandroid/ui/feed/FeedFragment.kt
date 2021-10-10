@@ -94,12 +94,12 @@ class FeedFragment : Fragment() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
 
-                    if(dy > 0 && areExtraViewsVisible){
+                    if (dy > 0 && areExtraViewsVisible) {
                         areExtraViewsVisible = !areExtraViewsVisible
                         toggleViewsVisibility(false)
                     }
 
-                    if(dy < 0 && !areExtraViewsVisible){
+                    if (dy < 0 && !areExtraViewsVisible) {
                         areExtraViewsVisible = !areExtraViewsVisible
                         toggleViewsVisibility(true)
                     }
@@ -236,9 +236,9 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 
-    private fun toggleViewsVisibility(isVisible: Boolean){
+    private fun toggleViewsVisibility(isVisible: Boolean) {
 
-        if(isVisible){
+        if (isVisible) {
             binding.apply {
                 isVisible.also {
                     llCardview.changeVisibilityWithAnimation(it)
@@ -246,7 +246,7 @@ class FeedFragment : Fragment() {
                     efabPostIdea.changeVisibilityWithAnimation(it)
                 }
             }
-        }else{
+        } else {
             binding.apply {
                 isVisible.also {
                     llCardview.changeVisibilityWithAnimation(it)
@@ -258,18 +258,18 @@ class FeedFragment : Fragment() {
 
     }
 
-    private fun View.changeVisibilityWithAnimation(setVisible: Boolean){
+    private fun View.changeVisibilityWithAnimation(setVisible: Boolean) {
         val v = this
 
-        if(setVisible){
+        if (setVisible) {
 
             val va = ValueAnimator.ofFloat(0f, 1f)
             va.duration = 300
-            va.addUpdateListener {
-                    animation -> this.alpha = animation.animatedValue as Float
+            va.addUpdateListener { animation ->
+                this.alpha = animation.animatedValue as Float
             }
 
-            va.addListener(object: Animator.AnimatorListener{
+            va.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
 
                 }
@@ -293,22 +293,22 @@ class FeedFragment : Fragment() {
             })
             va.start()
 
-        }else{
+        } else {
             val va = ValueAnimator.ofFloat(1f, 0f)
             va.duration = 300
-            va.addUpdateListener {
-                    animation -> this.alpha = animation.animatedValue as Float
+            va.addUpdateListener { animation ->
+                this.alpha = animation.animatedValue as Float
             }
 
-            va.addListener(object: Animator.AnimatorListener{
+            va.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
 
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                     false.also {
-                         v.isClickable = it
-                         v.isFocusable = it
+                    false.also {
+                        v.isClickable = it
+                        v.isFocusable = it
                     }
 
                 }
@@ -325,8 +325,6 @@ class FeedFragment : Fragment() {
             va.start()
 
         }
-
-
 
 
     }
@@ -384,7 +382,7 @@ class FeedFragment : Fragment() {
         viewModel.addIdeaToUsersBookmarks.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    makeToast("Unabe to Add Idea to My Bookmarks!")
+                    makeToast("Unable to Add Idea to My Bookmarks!")
                 }
 
                 is ApiResponse.Success -> {
@@ -445,7 +443,7 @@ class FeedFragment : Fragment() {
 
         val menuPopup = PopupMenu(requireContext(), binding.include.etTagName)
 
-        data.tagsResponseItems?.forEach {
+        data.results?.forEach {
             menuPopup.menu.add(it.name)
         }
 
@@ -468,7 +466,7 @@ class FeedFragment : Fragment() {
             when (it) {
                 is ApiResponse.Error -> makeToast(it.message.toString())
                 is ApiResponse.Success -> {
-                    for (tag in it.body.tagsResponseItems!!) {
+                    for (tag in it.body.results!!) {
                         tagsListName.add(tag.name!!)
                     }
                 }

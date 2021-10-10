@@ -1,6 +1,6 @@
 package com.minor_project.flaamandroid.network
 
-import com.minor_project.flaamandroid.data.request.LoginRequest
+import com.minor_project.flaamandroid.data.request.RegisterLoginRequest
 import com.minor_project.flaamandroid.data.response.LoginResponse
 import com.minor_project.flaamandroid.data.response.RegisterUserResponse
 import retrofit2.Response
@@ -11,12 +11,12 @@ interface AuthApi {
 
     @POST("accounts/login")
     suspend fun postLogin(
-        @Body body: LoginRequest,
+        @Body body: RegisterLoginRequest,
     ): Response<LoginResponse>
 
     @POST("accounts/users")
     suspend fun registerUser(
-        @Body body: LoginRequest
+        @Body body: RegisterLoginRequest
     ): Response<RegisterUserResponse>
 
 

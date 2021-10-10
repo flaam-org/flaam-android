@@ -8,7 +8,6 @@ import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
-import com.minor_project.flaamandroid.data.response.TagsResponseItem
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
@@ -39,8 +38,8 @@ class PostIdeaViewModel @Inject constructor(private val flaamRepo: FlaamReposito
     val tagsListFiltered: LiveData<ApiResponse<TagsResponse>> = _tagsListFiltered
 
 
-    private val _createNewTag = MutableLiveData<ApiResponse<TagsResponseItem>>()
-    val createNewTag: LiveData<ApiResponse<TagsResponseItem>> = _createNewTag
+    private val _createNewTag = MutableLiveData<ApiResponse<TagsResponse.Result>>()
+    val createNewTag: LiveData<ApiResponse<TagsResponse.Result>> = _createNewTag
 
 
     fun postIdea(body: PostIdeaRequest) {

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.minor_project.flaamandroid.data.request.LoginRequest
+import com.minor_project.flaamandroid.data.request.RegisterLoginRequest
 import com.minor_project.flaamandroid.data.response.RegisterUserResponse
 import com.minor_project.flaamandroid.network.AuthRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
@@ -20,7 +20,7 @@ class RegisterViewModel @Inject constructor(private val repo: AuthRepository): V
     val registerUserResult: LiveData<ApiResponse<RegisterUserResponse>> = _registerUserResult
 
 
-    fun postRegisterUser(body: LoginRequest){
+    fun postRegisterUser(body: RegisterLoginRequest){
         viewModelScope.launch {
             val res = repo.registerUser(body)
             _registerUserResult.postValue(handlePostResponse(res))

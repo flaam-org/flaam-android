@@ -6,14 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyBookmarksBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.getDaysDiff
-import com.minor_project.flaamandroid.utils.loadImage
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

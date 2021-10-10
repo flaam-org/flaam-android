@@ -48,7 +48,7 @@ class MyIdeasAdapter(
 
             tvFeedPostTitle.text = model.title
             tvFeedPostVotes.text = (model.vote ?: "0").toString()
-            tvFeedPostImplementations.text = (model.implementationsCount ?: "0").toString()
+            tvFeedPostImplementations.text = (model.implementationCount ?: "0").toString()
             tvFeedPostDescription.text = model.description
 
 

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minor_project.flaamandroid.data.response.TagsResponse
-import com.minor_project.flaamandroid.data.response.TagsResponseItem
 import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
@@ -37,8 +36,8 @@ class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
     val tagsListFromIds: LiveData<ApiResponse<TagsResponse>> = _tagsListFromIds
 
 
-    private val _createNewTag = MutableLiveData<ApiResponse<TagsResponseItem>>()
-    val createNewTag: LiveData<ApiResponse<TagsResponseItem>> = _createNewTag
+    private val _createNewTag = MutableLiveData<ApiResponse<TagsResponse.Result>>()
+    val createNewTag: LiveData<ApiResponse<TagsResponse.Result>> = _createNewTag
 
 
 
