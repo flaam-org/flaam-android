@@ -16,6 +16,7 @@ import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -37,12 +38,11 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
     private val _updateUserProfile = MutableLiveData<ApiResponse<UpdateProfileResponse>>()
     val updateUserProfile: LiveData<ApiResponse<UpdateProfileResponse>> = _updateUserProfile
 
+    private val _addIdeaToUsersBookmarks = MutableLiveData<Response<Unit>>()
+    val addIdeaToUsersBookmarks: LiveData<Response<Unit>> = _addIdeaToUsersBookmarks
 
-    private val _addIdeaToUsersBookmarks = MutableLiveData<ApiResponse<Unit>>()
-    val addIdeaToUsersBookmarks: LiveData<ApiResponse<Unit>> = _addIdeaToUsersBookmarks
-
-    private val _removeIdeaFromUsersBookmarks = MutableLiveData<ApiResponse<Unit>>()
-    val removeIdeaFromUsersBookmarks: LiveData<ApiResponse<Unit>> = _removeIdeaFromUsersBookmarks
+    private val _removeIdeaFromUsersBookmarks = MutableLiveData<Response<Unit>>()
+    val removeIdeaFromUsersBookmarks: LiveData<Response<Unit>> = _removeIdeaFromUsersBookmarks
 
 
     fun getTags() {
@@ -95,14 +95,14 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
     fun addIdeaToUsersBookmarks(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.addIdeaToUsersBookmarks(id)
-            _addIdeaToUsersBookmarks.postValue(handlePostResponse(res))
+            _addIdeaToUsersBookmarks.postValue(res)
         }
     }
 
     fun removeIdeaFromUsersBookmarks(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.removeIdeaFromUsersBookmarks(id)
-            _removeIdeaFromUsersBookmarks.postValue(handlePostResponse(res))
+            _removeIdeaFromUsersBookmarks.postValue(res)
         }
     }
 

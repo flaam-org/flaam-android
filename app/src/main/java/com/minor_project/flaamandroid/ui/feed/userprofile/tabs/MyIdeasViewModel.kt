@@ -9,9 +9,11 @@ import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
+import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -24,12 +26,11 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
     private val _getIdeas = MutableLiveData<ApiResponse<IdeasResponse>>()
     val ideas: LiveData<ApiResponse<IdeasResponse>> = _getIdeas
 
-    private val _addIdeaToUsersBookmarks = MutableLiveData<ApiResponse<Unit>>()
-    val addIdeaToUsersBookmarks: LiveData<ApiResponse<Unit>> = _addIdeaToUsersBookmarks
+    private val _addIdeaToUsersBookmarks = MutableLiveData<Response<Unit>>()
+    val addIdeaToUsersBookmarks: LiveData<Response<Unit>> = _addIdeaToUsersBookmarks
 
-    private val _removeIdeaFromUsersBookmarks = MutableLiveData<ApiResponse<Unit>>()
-    val removeIdeaFromUsersBookmarks: LiveData<ApiResponse<Unit>> = _removeIdeaFromUsersBookmarks
-
+    private val _removeIdeaFromUsersBookmarks = MutableLiveData<Response<Unit>>()
+    val removeIdeaFromUsersBookmarks: LiveData<Response<Unit>> = _removeIdeaFromUsersBookmarks
 
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -48,16 +49,15 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
     fun addIdeaToUsersBookmarks(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.addIdeaToUsersBookmarks(id)
-            _addIdeaToUsersBookmarks.postValue(handleGetResponse(res))
+            _addIdeaToUsersBookmarks.postValue(res)
         }
     }
 
     fun removeIdeaFromUsersBookmarks(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.removeIdeaFromUsersBookmarks(id)
-            _removeIdeaFromUsersBookmarks.postValue(handleGetResponse(res))
+            _removeIdeaFromUsersBookmarks.postValue(res)
         }
     }
-
 
 }

@@ -94,27 +94,21 @@ class MyIdeasFragment : Fragment() {
         }
 
         viewModel.addIdeaToUsersBookmarks.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiResponse.Error -> {
-                    makeToast("Unable to Add Idea to My Bookmarks!")
-                }
 
-                is ApiResponse.Success -> {
-                    makeToast("Idea Successfully Added to My Bookmarks!")
-                }
+            if (it.isSuccessful) {
+                makeToast("Idea Successfully Added to My Bookmarks!")
+            } else {
+                makeToast("Unable to Add Idea to My Bookmarks!")
             }
         }
 
 
         viewModel.removeIdeaFromUsersBookmarks.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiResponse.Error -> {
-                    makeToast("Unable to Remove Idea from My Bookmarks!")
-                }
 
-                is ApiResponse.Success -> {
-                    makeToast("Idea Successfully Removed to My Bookmarks!")
-                }
+            if (it.isSuccessful) {
+                makeToast("Idea Successfully Removed to My Bookmarks!")
+            } else {
+                makeToast("Unable to Remove Idea from My Bookmarks!")
             }
         }
     }
