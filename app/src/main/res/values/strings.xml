@@ -34,11 +34,12 @@
     <string name="cancel_tag">CANCEL TAG</string>
     <string name="edit_profile_toolbar_title">EDIT PROFILE</string>
     <string name="tags">Tags</string>
-    <string name="no_tags_to_display">No Tags To Display!</string>
+    <string name="no_user_favourite_tags_to_display">No Favourite Tags To Display!</string>
     <string name="add_tags">Add Tags</string>
     <string name="add_body">Add Body</string>
     <string name="no_user_ideas_added">You haven\'t added any Ideas yet!</string>
     <string name="sample_text_2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ipsum tellus, cursus eget sem nec, sagittis placerat felis. Quisque eu congue nisl, ut sodales risus. Donec fringilla rutrum odio, et eleifend dolor mollis eget.
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ipsum tellus, cursus eget sem nec, sagittis placerat felis. Quisque eu congue nisl, ut sodales risus. Donec fringilla rutrum odio, et eleifend dolor mollis eget.</string>
     <string name="no_user_bookmarks_added">You haven\'t added any Bookmarks Yet!</string>
+    <string name="favourite_tags">Favourite Tags</string>
 </resources>

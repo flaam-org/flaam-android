@@ -10,9 +10,12 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun updateUserProfile(body: UpdateProfileRequest) = api.updateUserProfile(body)
 
-    suspend fun getTagsList() = api.getTagsList(null, null)
+    suspend fun getTagsList() = api.getTagsList(null, null, null)
 
-    suspend fun getTagsForKeyword(keyword: String?, ids: String?) = api.getTagsList(keyword, ids)
+    suspend fun getTagsForKeyword(keyword: String?, ids: String?) =
+        api.getTagsList(keyword, ids, null)
+
+    suspend fun getUserFavouriteTags(favouritedBy: Int?) = api.getTagsList(null, null, favouritedBy)
 
     suspend fun createNewTag(body: TagsRequest) = api.createNewTag(body)
 

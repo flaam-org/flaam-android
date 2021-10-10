@@ -18,7 +18,8 @@ interface FlaamApi {
     @GET("tags")
     suspend fun getTagsList(
         @Query("name") keyword: String?,
-        @Query("ids") ids: String?
+        @Query("ids") ids: String?,
+        @Query("favourited_by") favouritedBy : Int?
     ): Response<TagsResponse>
 
 

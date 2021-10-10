@@ -16,6 +16,7 @@ import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,30 +37,29 @@ class EditProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
     private val _tagsListFiltered = MutableLiveData<ApiResponse<TagsResponse>>()
     val tagsListFiltered: LiveData<ApiResponse<TagsResponse>> = _tagsListFiltered
 
-    private val _tagsListFromIds = MutableLiveData<ApiResponse<TagsResponse>>()
-    val tagsListFromIds: LiveData<ApiResponse<TagsResponse>> = _tagsListFromIds
-
 
     private val _createNewTag = MutableLiveData<ApiResponse<TagsResponse.Result>>()
     val createNewTag: LiveData<ApiResponse<TagsResponse.Result>> = _createNewTag
 
 
-    private val _addTagToUsersFavouriteTags = MutableLiveData<ApiResponse<Unit>>()
-    val addTagToUsersFavouriteTags: LiveData<ApiResponse<Unit>> = _addTagToUsersFavouriteTags
+    private val _userFavouriteTagsList = MutableLiveData<ApiResponse<TagsResponse>>()
+    val userFavouriteTagsList: LiveData<ApiResponse<TagsResponse>> = _userFavouriteTagsList
 
-    private val _removeTagFromUsersFavouriteTags = MutableLiveData<ApiResponse<Unit>>()
-    val removeTagFromUsersFavouriteTags: LiveData<ApiResponse<Unit>> = _removeTagFromUsersFavouriteTags
 
-    fun getUserProfile()
-    {
+    private val _addTagToUsersFavouriteTags = MutableLiveData<Response<Unit>>()
+    val addTagToUsersFavouriteTags: LiveData<Response<Unit>> = _addTagToUsersFavouriteTags
+
+    private val _removeTagFromUsersFavouriteTags = MutableLiveData<Response<Unit>>()
+    val removeTagFromUsersFavouriteTags: LiveData<Response<Unit>> = _removeTagFromUsersFavouriteTags
+
+    fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getUserProfile()
             _userProfile.postValue(handleGetResponse(res))
         }
     }
 
-    fun updateUserProfile(data : UpdateProfileRequest)
-    {
+    fun updateUserProfile(data: UpdateProfileRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.updateUserProfile(data)
             _updateUserProfile.postValue(handleGetResponse(res))
@@ -74,28 +74,25 @@ class EditProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
         }
     }
 
-    fun getTagsForKeyword(keyword: String?){
+    fun getTagsForKeyword(keyword: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getTagsForKeyword(keyword, null)
             _tagsListFiltered.postValue(handleGetResponse(res))
         }
     }
 
-    fun getTagsForId(idList : List<Int>?){
 
-
-        viewModelScope.launch(Dispatchers.IO) {
-            val ids = idList.toString().substring(1, idList.toString().length - 1)
-            Timber.e(idList.toString() +" | " + ids)
-            val res = flaamRepo.getTagsForKeyword(null, ids)
-            _tagsListFromIds.postValue(handleGetResponse(res))
-        }
-    }
-
-    fun createNewTag(body: TagsRequest){
+    fun createNewTag(body: TagsRequest) {
         viewModelScope.launch {
             val res = flaamRepo.createNewTag(body)
             _createNewTag.postValue(handlePostResponse(res))
+        }
+    }
+
+    fun getUserFavouriteTags(favouritedBy: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = flaamRepo.getUserFavouriteTags(favouritedBy)
+            _userFavouriteTagsList.postValue(handleGetResponse(res))
         }
     }
 
@@ -103,15 +100,16 @@ class EditProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
     fun addTagToUsersFavouriteTags(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.addTagToUsersFavouriteTags(id)
-            _addTagToUsersFavouriteTags.postValue(handleGetResponse(res))
+            _addTagToUsersFavouriteTags.postValue(res)
         }
     }
 
     fun removeTagFromUsersFavouriteTags(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.removeTagFromUsersFavouriteTags(id)
-            _removeTagFromUsersFavouriteTags.postValue(handlePostResponse(res))
+            _removeTagFromUsersFavouriteTags.postValue(res)
         }
     }
+
 
 }

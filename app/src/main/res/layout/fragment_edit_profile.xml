@@ -166,13 +166,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
-                        android:text="@string/tags"
+                        android:text="@string/favourite_tags"
                         android:textAlignment="textStart"
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_no_tags_to_display_edit_profile"
+                        android:id="@+id/tv_edit_profile_no_user_favourite_tags_to_display"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -181,11 +181,11 @@
                         android:gravity="center"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="@string/no_tags_to_display"
+                        android:text="@string/no_user_favourite_tags_to_display"
                         android:visibility="gone" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_edit_profile_tags"
+                        android:id="@+id/rv_edit_profile_user_favourite_tags"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -194,6 +194,7 @@
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
                         android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:visibility="visible" />
 
                     <androidx.appcompat.widget.AppCompatButton

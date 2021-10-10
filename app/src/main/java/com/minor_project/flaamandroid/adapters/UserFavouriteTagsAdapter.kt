@@ -4,12 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.ItemUserTagBinding
 import com.minor_project.flaamandroid.ui.feed.userprofile.EditProfileFragment
 
 
-open class UserTagsAdapter(
+open class UserFavouriteTagsAdapter(
     private val fragment: EditProfileFragment,
     private val context: Context,
     private var list: ArrayList<TagsResponse.Result>
@@ -45,8 +46,13 @@ open class UserTagsAdapter(
     }
 
 
-    fun updateUserTagsList(newTagsList: ArrayList<TagsResponse.Result>) {
-        list = newTagsList
+    fun addToList(ideas: ArrayList<TagsResponse.Result>) {
+        list.addAll(ideas)
+        notifyDataSetChanged()
+    }
+
+    fun setToList(ideas: ArrayList<TagsResponse.Result>) {
+        list = ideas
         notifyDataSetChanged()
     }
 
