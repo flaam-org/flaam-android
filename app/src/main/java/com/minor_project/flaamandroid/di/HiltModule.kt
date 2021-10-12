@@ -23,9 +23,7 @@ class HiltModule {
     @Singleton
     fun provideAuthApi(
         @ApplicationContext context: Context
-    ): AuthApi {
-        return ApiBuilder(context).getFlaamApiForAuthRepo()
-    }
+    ): AuthApi = ApiBuilder(context).getFlaamApiForAuthRepo()
 
 
     @Provides
@@ -44,6 +42,6 @@ class HiltModule {
 
     @Provides
     @Singleton
-    fun provideRepo(flaamApi: FlaamApi): FlaamRepository = FlaamRepository(flaamApi)
+    fun providesFlaamRepo(flaamApi: FlaamApi): FlaamRepository = FlaamRepository(flaamApi)
 
 }

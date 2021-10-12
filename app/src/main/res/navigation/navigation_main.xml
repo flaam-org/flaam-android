@@ -47,13 +47,15 @@
         tools:layout="@layout/fragment_feed">
         <action
             android:id="@+id/action_feedFragment_to_postIdeaFragment"
-            app:destination="@id/postIdeaFragment" />
+            app:destination="@id/postIdeaFragment"
+            app:popUpTo="@id/feedFragment" />
         <action
             android:id="@+id/action_feedFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
         <action
             android:id="@+id/action_feedFragment_to_postDetailsFragment"
-            app:destination="@id/postDetailsFragment" />
+            app:destination="@id/postDetailsFragment"
+            app:popUpTo="@id/feedFragment" />
     </fragment>
     <fragment
         android:id="@+id/postIdeaFragment"
@@ -76,7 +78,8 @@
             app:popUpTo="@id/userProfileFragment" />
         <action
             android:id="@+id/action_userProfileFragment_to_postDetailsFragment"
-            app:destination="@id/postDetailsFragment" />
+            app:destination="@id/postDetailsFragment"
+            app:popUpTo="@id/userProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"

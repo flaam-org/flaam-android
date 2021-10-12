@@ -8,7 +8,6 @@ import timber.log.Timber
 class FlaamApp: Application() {
     override fun onCreate() {
         super.onCreate()
-
         Timber.plant(Timber.DebugTree())
     }
 }
