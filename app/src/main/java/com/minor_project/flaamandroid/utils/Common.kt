@@ -35,8 +35,7 @@ fun <T> handlePostResponse(response: Response<T>): ApiResponse<T> {
         }
     }
 
-    Timber.e(response.errorBody()?.string().toString())
-    return ApiResponse.Error(message = response.message(), status = response.code())
+    return ApiResponse.Error(message = response.errorBody()?.string().toString() , status = response.code())
 }
 
 

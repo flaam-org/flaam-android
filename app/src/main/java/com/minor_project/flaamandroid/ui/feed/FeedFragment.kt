@@ -68,13 +68,7 @@ class FeedFragment : Fragment() {
         binding.apply {
 
             llCardview.setOnClickListener {
-                if (isFilterLayoutVisible) {
-                    Timber.e(binding.motionLayout.currentState.toString())
-                    if (binding.motionLayout.currentState == R.id.step4) {
-                        motionLayout.transitionToState(R.id.step3, 500)
-                    }
-
-                }
+                collapseFilterView()
             }
 
             tilSearch.editText?.setOnEditorActionListener { v, actionId, event ->
@@ -104,12 +98,15 @@ class FeedFragment : Fragment() {
                     // load more ideas if user reaches end! and when there are no pending requests!
                     if (!recyclerView.canScrollVertically(Constants.DOWN) && !feedPostAdapter.isEndReached && !isRequestDispatched) {
                         isRequestDispatched = true
-                        viewModel.getIdeas(feedPostAdapter.list.size)
+                        viewModel.getIdeas(feedPostAdapter.list.size, order_by, tags, searchQuery)
                     }
                 }
 
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
+
+
+                    collapseFilterView()
 
                     if (dy > 0 && areExtraViewsVisible) {
                         areExtraViewsVisible = !areExtraViewsVisible
@@ -198,6 +195,8 @@ class FeedFragment : Fragment() {
                     val animation =
                         ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_Y, 380F)
 
+
+
                     animation.duration = 200
                     animation.addListener(object : Animator.AnimatorListener {
                         override fun onAnimationStart(animation: Animator?) {
@@ -284,6 +283,15 @@ class FeedFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun collapseFilterView(){
+        if (isFilterLayoutVisible) {
+            Timber.e(binding.motionLayout.currentState.toString())
+            if (binding.motionLayout.currentState == R.id.step4) {
+                binding.motionLayout.transitionToState(R.id.step3, 500)
+            }
+        }
     }
 
     private fun refreshFeed(){
@@ -391,7 +399,7 @@ class FeedFragment : Fragment() {
         isRequestDispatched = true
 
         feedPostAdapter.setToList(arrayListOf())
-        viewModel.getIdeas(0)
+        refreshFeed()
         viewModel.ideas.observe(viewLifecycleOwner) {
             isRequestDispatched = false
             when (it) {

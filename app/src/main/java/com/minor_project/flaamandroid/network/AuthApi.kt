@@ -30,7 +30,7 @@ interface AuthApi {
     @POST("accounts/password/reset")
     suspend fun getResetPasswordToken(
         @Body body: RegisterLoginRequest
-    )
+    ): Response<String>
 
     @POST("accounts/password/reset/{token}")
     suspend fun postResetPassword(
