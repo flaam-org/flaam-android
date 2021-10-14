@@ -72,6 +72,7 @@
                         android:layout_gravity="top"
                         android:hint="@string/search_ideas_to_implement"
                         android:imeOptions="actionSearch"
+                        android:inputType="text"
                         android:paddingBottom="20dp"
                         android:textAlignment="center"
                         tools:ignore="RtlCompat" />

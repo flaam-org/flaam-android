@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed.userprofile.tabs
+package com.minor_project.flaamandroid.ui.userprofile.tabs
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,16 +9,14 @@ import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
-import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
-
 @HiltViewModel
-class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : ViewModel() {
+class MyBookmarksViewModel @Inject constructor(private val repo: FlaamRepository) : ViewModel() {
 
     private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
     val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
@@ -32,6 +30,7 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
     private val _removeIdeaFromUsersBookmarks = MutableLiveData<Response<Unit>>()
     val removeIdeaFromUsersBookmarks: LiveData<Response<Unit>> = _removeIdeaFromUsersBookmarks
 
+
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.getUserProfile()
@@ -39,9 +38,9 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
         }
     }
 
-    fun getIdeas(ownerId: Int) {
+    fun getIdeas(bookmarkedBy: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.getIdeas(null, 0, ownerId, null)
+            val res = repo.getIdeas(null, 0, null, bookmarkedBy)
             _getIdeas.postValue(handleGetResponse(res))
         }
     }
@@ -59,5 +58,4 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
             _removeIdeaFromUsersBookmarks.postValue(res)
         }
     }
-
 }

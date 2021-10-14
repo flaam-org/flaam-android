@@ -12,7 +12,6 @@ import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
-import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,9 +69,11 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
         }
     }
 
-    fun getIdeas(offset: Int) {
+    fun getIdeas(offset: Int, ordering: String? = null, tags: ArrayList<Int>? = null, search: String? = null) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.getIdeas(5, offset, null, null)
+            val _tags = if(tags?.isNotEmpty() == true) tags.joinToString{","} else null
+            Timber.e(_tags + "viewm")
+            val res = repo.getIdeas(5, offset, null, null, ordering, _tags, search)
             _getIdeas.postValue(handleGetResponse(res))
         }
     }

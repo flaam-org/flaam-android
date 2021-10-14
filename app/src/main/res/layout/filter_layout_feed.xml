@@ -18,43 +18,69 @@
         android:textStyle="bold" />
 
     <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cgFilter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
-
+        app:singleSelection="true"
         android:layout_marginTop="16dp">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip4"
+            android:id="@+id/chipVotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#C9E7F7"
-            android:text="Likes"
-            app:chipBackgroundColor="#C9E7F7" />
+            app:checkedIconTint="@color/secondaryColor"
+            android:checkable="true"
+            app:checkedIcon="@drawable/ic_check_circle"
+            app:chipBackgroundColor="@color/filter_chip_bgcolor_selector"
+            android:text="votes"
+             />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip5"
+            android:id="@+id/chipUpVotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#C9E7F7"
-            android:text="Comments"
-            app:chipBackgroundColor="#C9E7F7" />
+            android:text="Upvotes"
+            android:checkable="true"
+            app:checkedIcon="@drawable/ic_check_circle"
+            app:checkedIconTint="@color/secondaryColor"
+            app:chipBackgroundColor="@color/filter_chip_bgcolor_selector"
+
+            />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip6"
+            android:id="@+id/chipLatest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#C9E7F7"
-            android:text="Reviews"
-            app:chipBackgroundColor="#C9E7F7" />
+
+            android:text="Latest"
+            android:checkable="true"
+            app:checkedIcon="@drawable/ic_check_circle"
+            app:checkedIconTint="@color/secondaryColor"
+            app:chipBackgroundColor="@color/filter_chip_bgcolor_selector" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip7"
+            android:id="@+id/chipImpl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#C9E7F7"
+            android:text="Implementations"
+            android:checkable="true"
+            app:checkedIcon="@drawable/ic_check_circle"
+            app:checkedIconTint="@color/secondaryColor"
+            app:chipBackgroundColor="@color/filter_chip_bgcolor_selector"
+             />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="All"
-            app:chipBackgroundColor="#C9E7F7" />
+            android:checkable="true"
+            app:checkedIcon="@drawable/ic_check_circle"
+            app:checkedIconTint="@color/secondaryColor"
+            app:chipBackgroundColor="@color/filter_chip_bgcolor_selector"
+            android:checked="true"
+            />
     </com.google.android.material.chip.ChipGroup>
 
     <TextView
@@ -73,7 +99,6 @@
         android:id="@+id/cg_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginStart="18dp"
         android:layout_marginTop="16dp">
 

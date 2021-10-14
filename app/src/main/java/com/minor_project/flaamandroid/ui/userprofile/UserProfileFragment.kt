@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed.userprofile
+package com.minor_project.flaamandroid.ui.userprofile
 
 import android.content.Intent
 import android.os.Bundle
@@ -74,23 +74,32 @@ class UserProfileFragment : Fragment() {
             ivMenuUserProfile.setOnClickListener {
                 val menuPopup = PopupMenu(requireContext(), it)
                 menuPopup.menu.add("Log Out!")
+                menuPopup.menu.add("Reset Password")
 
                 menuPopup.setOnMenuItemClickListener {
 
-                    if (it.title == "Log Out!") {
-                        runBlocking {
-                            preferences.logoutUser()
-                        }
-                        requireContext().startActivity(
-                            Intent(
-                                requireContext(),
-                                MainActivity::class.java
+
+                    when (it.title) {
+                        "Log Out!" -> {
+                            runBlocking {
+                                preferences.logoutUser()
+                            }
+                            requireContext().startActivity(
+                                Intent(
+                                    requireContext(),
+                                    MainActivity::class.java
+                                )
                             )
-                        )
 
-                        activity?.finish()
+                            activity?.finish()
 
+                        }
+
+                        "Reset Password" -> {
+
+                        }
                     }
+
 
                     return@setOnMenuItemClickListener true
                 }

@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed.userprofile.tabs
+package com.minor_project.flaamandroid.ui.userprofile.tabs
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.adapters.MyBookmarksAdapter
-import com.minor_project.flaamandroid.adapters.MyIdeasAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyBookmarksBinding
-import com.minor_project.flaamandroid.ui.feed.userprofile.UserProfileFragmentDirections
+import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint

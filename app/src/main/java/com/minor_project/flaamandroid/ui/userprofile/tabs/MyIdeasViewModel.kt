@@ -1,25 +1,23 @@
-package com.minor_project.flaamandroid.ui.feed.userprofile.tabs
+package com.minor_project.flaamandroid.ui.userprofile.tabs
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
-import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
-import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
+
 @HiltViewModel
-class MyBookmarksViewModel @Inject constructor(private val repo: FlaamRepository) : ViewModel() {
+class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : ViewModel() {
 
     private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
     val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
@@ -33,7 +31,6 @@ class MyBookmarksViewModel @Inject constructor(private val repo: FlaamRepository
     private val _removeIdeaFromUsersBookmarks = MutableLiveData<Response<Unit>>()
     val removeIdeaFromUsersBookmarks: LiveData<Response<Unit>> = _removeIdeaFromUsersBookmarks
 
-
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.getUserProfile()
@@ -41,9 +38,9 @@ class MyBookmarksViewModel @Inject constructor(private val repo: FlaamRepository
         }
     }
 
-    fun getIdeas(bookmarkedBy: Int) {
+    fun getIdeas(ownerId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.getIdeas(null, 0, null, bookmarkedBy)
+            val res = repo.getIdeas(null, 0, ownerId, null)
             _getIdeas.postValue(handleGetResponse(res))
         }
     }
@@ -61,4 +58,5 @@ class MyBookmarksViewModel @Inject constructor(private val repo: FlaamRepository
             _removeIdeaFromUsersBookmarks.postValue(res)
         }
     }
+
 }

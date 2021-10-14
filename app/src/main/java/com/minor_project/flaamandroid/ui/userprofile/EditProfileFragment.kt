@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed.userprofile
+package com.minor_project.flaamandroid.ui.userprofile
 
 import android.os.Bundle
 import android.text.Editable
@@ -17,7 +17,6 @@ import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.databinding.FragmentEditProfileBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
-import com.minor_project.flaamandroid.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
@@ -26,6 +25,7 @@ import kotlin.collections.ArrayList
 import com.minor_project.flaamandroid.adapters.UserFavouriteTagsAdapter
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
+import com.minor_project.flaamandroid.utils.visible
 
 
 @AndroidEntryPoint
