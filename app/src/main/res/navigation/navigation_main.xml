@@ -100,7 +100,11 @@
     </fragment>
     <fragment
         android:id="@+id/addImplementationFragment"
-        android:name="com.minor_project.flaamandroid.ui.feed.AddImplementationFragment"
+        android:name="com.minor_project.flaamandroid.ui.feed.post.AddImplementationFragment"
         android:label="fragment_add_implementation"
-        tools:layout="@layout/fragment_add_implementation" />
+        tools:layout="@layout/fragment_add_implementation" >
+        <argument
+            android:name="idea_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

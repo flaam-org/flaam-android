@@ -25,7 +25,7 @@
     <string name="search_ideas_to_implement">Search Ideas to Implement</string>
     <string name="update">UPDATE</string>
     <string name="date_joined">Date Joined : </string>
-    <string name="add_overview">Add Overview.....</string>
+    <string name="add_overview_description">Add Overview / Description.....</string>
     <string name="repository_link">Repository Link</string>
     <string name="add_implementation">Add Implementation</string>
     <string name="edit_profile">Edit Profile</string>

@@ -24,6 +24,7 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
     private val mIdeaId = ideaId
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,11 +54,6 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                     val vote = it.body.vote
 
                     binding.apply {
-
-                        ivAddImplementationPostDescription.setOnClickListener {
-                            findNavController().navigate(PostDetailsFragmentDirections.actionPostDetailsFragmentToAddImplementationFragment())
-                        }
-
                         when (vote) {
                             1 -> {
                                 ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
@@ -96,6 +92,13 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                             shareIdea(title, description)
                         }
 
+                        ivAddImplementationPostDescription.setOnClickListener {
+                            findNavController().navigate(
+                                PostDetailsFragmentDirections.actionPostDetailsFragmentToAddImplementationFragment(
+                                    mIdeaId
+                                )
+                            )
+                        }
                     }
                 }
             }

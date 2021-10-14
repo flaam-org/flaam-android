@@ -1,5 +1,6 @@
 package com.minor_project.flaamandroid.network
 
+import com.minor_project.flaamandroid.data.request.AddImplementationRequest
 import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
@@ -21,13 +22,15 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun postIdea(body: PostIdeaRequest) = api.postIdea(body)
 
-    suspend fun getIdeas(limit: Int?,
-                         offset: Int?,
-                         ownerId: Int?,
-                         bookmarkedBy: Int?,
-                         ordering: String? = null,
-                          tags: String? = null,
-                         search: String? = null) = api.getIdeas(limit, offset, ownerId, bookmarkedBy, ordering, tags, search)
+    suspend fun getIdeas(
+        limit: Int?,
+        offset: Int?,
+        ownerId: Int?,
+        bookmarkedBy: Int?,
+        ordering: String? = null,
+        tags: String? = null,
+        search: String? = null
+    ) = api.getIdeas(limit, offset, ownerId, bookmarkedBy, ordering, tags, search)
 
     suspend fun getIdeaDetails(id: Int) = api.getIdeaDetails(id)
 
@@ -43,6 +46,8 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun removeTagFromUsersFavouriteTags(id: String) =
         api.removeTagFromUsersFavouriteTags(id)
+
+    suspend fun addImplementation(body: AddImplementationRequest) = api.addImplementation(body)
 
 
 }
