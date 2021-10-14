@@ -100,10 +100,12 @@ class MyBookmarksAdapter(
                 )
             }
 
+            val ideaId = model.id!!
+
             holder.itemView.setOnClickListener {
 
                 if (onClickListener != null) {
-                    onClickListener!!.onClick(position, model)
+                    onClickListener!!.onClick(ideaId, model)
                 }
 
             }
@@ -124,7 +126,7 @@ class MyBookmarksAdapter(
 
 
     interface OnClickListener {
-        fun onClick(position: Int, model: IdeasResponse.Result)
+        fun onClick(ideaId: Int, model: IdeasResponse.Result)
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {

@@ -409,8 +409,12 @@ class FeedFragment : Fragment() {
 
 
                     feedPostAdapter.setOnClickListener(object : FeedPostAdapter.OnClickListener {
-                        override fun onClick(position: Int, model: IdeasResponse.Result) {
-                            findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostDetailsFragment())
+                        override fun onClick(ideaId: Int, model: IdeasResponse.Result) {
+                            findNavController().navigate(
+                                FeedFragmentDirections.actionFeedFragmentToPostDetailsFragment(
+                                    ideaId
+                                )
+                            )
                         }
 
                     })
@@ -495,22 +499,6 @@ class FeedFragment : Fragment() {
         menuPopup.show()
     }
 
-    fun getTagsListFromIds(tagsIdList: List<Int>?): List<String> {
-        val tagsListName: ArrayList<String> = ArrayList()
-        viewModel.getTagsFromIds(tagsIdList)
-        viewModel.tagsListFromIds.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiResponse.Error -> makeToast(it.message.toString())
-                is ApiResponse.Success -> {
-                    for (tag in it.body.results!!) {
-                        tagsListName.add(tag.name!!)
-                    }
-                }
-            }
-        }
-
-        return tagsListName
-    }
 
     fun addToBookmark(id: Int) {
         viewModel.addIdeaToUsersBookmarks(id.toString())
@@ -519,10 +507,4 @@ class FeedFragment : Fragment() {
     fun removeBookmark(id: Int) {
         viewModel.removeIdeaFromUsersBookmarks(id.toString())
     }
-
-//    fun checkUserBookmarks(id: Int): Boolean {
-//        viewModel.getUserProfile()
-//        return bookmarkedIdeas.contains(id)
-//    }
-
 }

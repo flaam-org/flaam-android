@@ -90,7 +90,6 @@ open class FeedPostAdapter(
                 }
 
 
-//                fragment.checkUserBookmarks(model.id!!)
                 if (model.bookmarked) {
                     ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_check)
 
@@ -111,10 +110,12 @@ open class FeedPostAdapter(
                     )
                 }
 
+                val ideaId = model.id!!
+
                 holder.itemView.setOnClickListener {
 
                     if (onClickListener != null) {
-                        onClickListener!!.onClick(position, model)
+                        onClickListener!!.onClick(ideaId, model)
                     }
 
                 }
@@ -149,7 +150,7 @@ open class FeedPostAdapter(
         if (position == list.size) Constants.PROGRESS_VIEW else Constants.REGULAR_VIEW
 
     interface OnClickListener {
-        fun onClick(position: Int, model: IdeasResponse.Result)
+        fun onClick(ideaId: Int, model: IdeasResponse.Result)
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {

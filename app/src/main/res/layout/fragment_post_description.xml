@@ -67,6 +67,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/iv_upvote_idea_post_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_upvote_outline_24dp" />
@@ -82,6 +83,7 @@
                     android:textSize="24sp" />
 
                 <ImageView
+                    android:id="@+id/iv_downvote_idea_post_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_downvote_outline_24dp" />

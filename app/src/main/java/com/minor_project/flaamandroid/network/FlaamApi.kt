@@ -40,11 +40,21 @@ interface FlaamApi {
         @Query("search") search: String? = null
     ): Response<IdeasResponse>
 
+
+    @GET("idea/{id}")
+    suspend fun getIdeaDetails(@Path("id") id : Int) : Response<IdeasResponse.Result>
+
     @POST("idea/{id}/bookmark")
     suspend fun addIdeaToUsersBookmarks(@Path("id") id: String): Response<Unit>
 
     @DELETE("idea/{id}/bookmark")
     suspend fun removeIdeaFromUsersBookmarks(@Path("id") id: String): Response<Unit>
+
+    @POST("idea/{id}/vote")
+    suspend fun upvoteIdea(@Path("id") id : String, @Query("value") value : Int) : Response<Unit>
+
+    @POST("idea/{id}/vote")
+    suspend fun downvoteIdea(@Path("id") id : String, @Query("value") value : Int) : Response<Unit>
 
     @POST("tag/{id}/favourite")
     suspend fun addTagToUsersFavouriteTags(@Path("id") id: String): Response<Unit>

@@ -90,5 +90,9 @@
         android:id="@+id/postDetailsFragment"
         android:name="com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragment"
         android:label="fragment_post_details"
-        tools:layout="@layout/fragment_post_details" />
+        tools:layout="@layout/fragment_post_details" >
+        <argument
+            android:name="idea_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

@@ -6,8 +6,11 @@ import com.minor_project.flaamandroid.ui.feed.post.tabs.PostDescriptionFragment
 import com.minor_project.flaamandroid.ui.feed.post.tabs.PostDiscussionFragment
 import com.minor_project.flaamandroid.ui.feed.post.tabs.PostProjectsFragment
 
-class PostDetailsViewPagerAdapter(frag: Fragment) :
+class PostDetailsViewPagerAdapter(frag: Fragment, ideaId : Int) :
     FragmentStateAdapter(frag) {
+
+    private val mIdeaId = ideaId
+
     override fun getItemCount(): Int {
         return 3
     }
@@ -15,15 +18,15 @@ class PostDetailsViewPagerAdapter(frag: Fragment) :
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> {
-                PostDescriptionFragment()
+                PostDescriptionFragment(mIdeaId)
             }
             1 -> {
-                PostProjectsFragment()
+                PostProjectsFragment(mIdeaId)
             }
             2 -> {
-                PostDiscussionFragment()
+                PostDiscussionFragment(mIdeaId)
             }
-            else -> PostDescriptionFragment()
+            else -> PostDescriptionFragment(mIdeaId)
         }
     }
 

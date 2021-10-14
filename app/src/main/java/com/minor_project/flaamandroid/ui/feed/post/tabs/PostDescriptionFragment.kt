@@ -1,60 +1,125 @@
 package com.minor_project.flaamandroid.ui.feed.post.tabs
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.adapters.MyBookmarksAdapter
+import com.minor_project.flaamandroid.data.response.IdeasResponse
+import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
+import com.minor_project.flaamandroid.ui.feed.userprofile.UserProfileFragmentDirections
+import com.minor_project.flaamandroid.utils.ApiResponse
+import com.minor_project.flaamandroid.utils.makeToast
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PostDescriptionFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class PostDescriptionFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentPostDescriptionBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val viewModel: PostDescriptionViewModel by viewModels()
+
+    private val mIdeaId = ideaId
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post_description, container, false)
+    ): View {
+
+        binding = FragmentPostDescriptionBinding.inflate(inflater)
+        initObservers()
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PostDescriptionFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PostDescriptionFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun initObservers() {
+        viewModel.getIdeaDetails(mIdeaId)
+        viewModel.ideaDetails.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast(it.message.toString())
+                }
+
+                is ApiResponse.Success -> {
+                    val title = it.body.title.toString()
+                    val description = it.body.description.toString()
+
+                    val upvoteCount = it.body.upvoteCount ?: 0
+                    val downvoteCount = it.body.downvoteCount ?: 0
+                    val upvoteDownvoteCount = upvoteCount - downvoteCount
+
+                    binding.apply {
+
+                        tvTitlePostDescription.text = it.body.title.toString()
+
+                        if (it.body.bookmarked) {
+                            ivBookmarkPostDescription.setImageResource(R.drawable.ic_bookmark_check)
+                        }
+                        tvUpvoteDownvotePostDescription.text = upvoteDownvoteCount.toString()
+
+                        tvBodyPostDescription.text = it.body.body
+
+                        ivSharePostDescription.setOnClickListener {
+                            shareIdea(title, description)
+                        }
+
+                        ivUpvoteIdeaPostDescription.setOnClickListener {
+                            upvoteIdea(mIdeaId)
+                        }
+
+                        ivDownvoteIdeaPostDescription.setOnClickListener {
+                            downvoteIdea(mIdeaId)
+                        }
+                    }
                 }
             }
+        }
+
+
+        viewModel.upvoteIdea.observe(viewLifecycleOwner) {
+
+            if (it.isSuccessful) {
+                binding.ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
+                makeToast("Idea Successfully UpVoted!")
+            } else {
+                makeToast("Unable to UpVote this Idea!")
+            }
+        }
+
+
+        viewModel.downvoteIdea.observe(viewLifecycleOwner) {
+
+            if (it.isSuccessful) {
+                binding.ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
+                makeToast("Idea Successfully DownVoted!")
+            } else {
+                makeToast("Unable to DownVote this Idea!")
+            }
+        }
+    }
+
+
+    private fun shareIdea(title: String?, description: String?) {
+
+        val intent = Intent(Intent.ACTION_SEND)
+            .setType("text/plain")
+            .putExtra(Intent.EXTRA_SUBJECT, title)
+            .putExtra(Intent.EXTRA_TEXT, description)
+
+        requireContext().startActivity(intent)
+
+    }
+
+    fun upvoteIdea(id: Int) {
+        viewModel.upvoteIdea(id.toString())
+    }
+
+    fun downvoteIdea(id: Int) {
+        viewModel.downvoteIdea(id.toString())
     }
 }
