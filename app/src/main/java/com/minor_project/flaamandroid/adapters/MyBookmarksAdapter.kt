@@ -17,6 +17,7 @@ import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.ItemFeedPostBinding
 import com.minor_project.flaamandroid.ui.feed.userprofile.tabs.MyBookmarksFragment
+import com.minor_project.flaamandroid.ui.feed.userprofile.tabs.MyIdeasFragment
 import com.minor_project.flaamandroid.utils.listOfChipColors
 import timber.log.Timber
 
@@ -39,7 +40,8 @@ class MyBookmarksAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        var bookmark: Boolean
+        var bookmark = false
+
         val model = list[position]
 
         (holder as MyViewHolder).binding.apply {
@@ -56,14 +58,14 @@ class MyBookmarksAdapter(
 
             val tagsList = list[position].tags ?: emptyList()
 
-            Timber.e("tags $tagsList")
+            Timber.e("tags" + tagsList)
 
             cgFeedPostTags.removeAllViews()
             tagsList.indices.forEach { i ->
                 val chip = Chip(context)
 
                 if (i < 4) {
-                    chip.text = tagsList[i].name
+                    chip.text = tagsList[i]?.name
                     chip.chipBackgroundColor = ColorStateList.valueOf(listOfChipColors[i])
                     chip.setTextColor(Color.WHITE)
                     cgFeedPostTags.addView(chip)
@@ -79,12 +81,12 @@ class MyBookmarksAdapter(
             }
 
 
-            bookmark = if (model.bookmarked) {
+            if (model.bookmarked) {
                 ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_check)
-                true
+                bookmark = true
             } else {
                 ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_uncheck)
-                false
+                bookmark = false
             }
 
             ivBookmarkFeedPost.setOnClickListener {
@@ -112,7 +114,7 @@ class MyBookmarksAdapter(
 
     }
 
-    private fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
+    fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
         val menuPopup = PopupMenu(context, this, Gravity.CENTER)
         subList.forEach {
             menuPopup.menu.add(it?.name.toString())

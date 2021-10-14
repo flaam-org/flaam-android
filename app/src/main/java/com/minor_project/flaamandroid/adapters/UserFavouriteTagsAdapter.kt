@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.ItemUserTagBinding
-import com.minor_project.flaamandroid.ui.feed.userprofile.EditProfileFragment
+import com.minor_project.flaamandroid.ui.userprofile.EditProfileFragment
 
 
 open class UserFavouriteTagsAdapter(

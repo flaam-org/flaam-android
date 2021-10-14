@@ -3,12 +3,14 @@ package com.minor_project.flaamandroid.ui.feed
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.PopupMenu
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
@@ -40,6 +42,11 @@ class FeedFragment : Fragment() {
     private var isFilterLayoutVisible: Boolean = false
     private var isRequestDispatched = false
 
+
+    private var order_by: String? = null
+    private var tags = arrayListOf<Int>()
+    private var searchQuery: String? = null
+
     private lateinit var feedPostAdapter: FeedPostAdapter
 
     override fun onCreateView(
@@ -60,7 +67,7 @@ class FeedFragment : Fragment() {
 
         binding.apply {
 
-            binding.llCardview.setOnClickListener {
+            llCardview.setOnClickListener {
                 if (isFilterLayoutVisible) {
                     Timber.e(binding.motionLayout.currentState.toString())
                     if (binding.motionLayout.currentState == R.id.step4) {
@@ -70,16 +77,27 @@ class FeedFragment : Fragment() {
                 }
             }
 
-            binding.efabPostIdea.setOnClickListener {
+            tilSearch.editText?.setOnEditorActionListener { v, actionId, event ->
+
+                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                    searchQuery = tilSearch.editText!!.text.toString()
+                    refreshFeed()
+                }
+
+                return@setOnEditorActionListener true
+
+            }
+
+            efabPostIdea.setOnClickListener {
                 findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostIdeaFragment())
             }
 
-            binding.civFeedFragmentMyProfile.setOnClickListener {
+            civFeedFragmentMyProfile.setOnClickListener {
                 findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToUserProfileFragment())
             }
 
 
-            binding.rvFeedPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            rvFeedPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
 
@@ -106,6 +124,39 @@ class FeedFragment : Fragment() {
 
                 }
             })
+
+            include.cgFilter.isSingleSelection = true
+            include.cgFilter.setOnCheckedChangeListener { group, checkedId ->
+                val includedView = binding.include
+
+                when(checkedId){
+                    R.id.chipAll -> {
+                        order_by = null
+                    }
+                    R.id.chipImpl -> {
+                        order_by = "implementation_count"
+                    }
+                    R.id.chipLatest -> {
+                        order_by = "created_at"
+                    }
+                    R.id.chipUpVotes -> {
+                        order_by = "upvote_count"
+                    }
+                    R.id.chipVotes -> {
+                        order_by = "vote"
+                    }
+                    -1 -> {
+                        includedView.chipAll.isChecked = true
+                    }
+                }
+                refreshFeed()
+
+//                if(includedView.cgFilter.checkedChipId)
+                Timber.e(checkedId.toString())
+
+            }
+
+
 
 
         }
@@ -233,6 +284,14 @@ class FeedFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun refreshFeed(){
+        feedPostAdapter.list.clear()
+        feedPostAdapter.isEndReached = false
+        feedPostAdapter.notifyDataSetChanged()
+        isRequestDispatched = true
+        viewModel.getIdeas(0, order_by, tags, searchQuery)
     }
 
     private fun toggleViewsVisibility(isVisible: Boolean) {

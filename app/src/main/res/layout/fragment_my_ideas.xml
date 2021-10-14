@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.feed.userprofile.tabs.MyIdeasFragment">
+    tools:context=".ui.userprofile.tabs.MyIdeasFragment">
 
     <TextView
         android:id="@+id/tv_no_user_ideas_added"

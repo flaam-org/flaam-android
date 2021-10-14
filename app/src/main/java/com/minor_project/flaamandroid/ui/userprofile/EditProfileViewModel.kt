@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed.userprofile
+package com.minor_project.flaamandroid.ui.userprofile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

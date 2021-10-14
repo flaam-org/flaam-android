@@ -21,8 +21,13 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun postIdea(body: PostIdeaRequest) = api.postIdea(body)
 
-    suspend fun getIdeas(limit: Int?, offset: Int?, ownerId: Int?, bookmarkedBy: Int?) =
-        api.getIdeas(limit, offset, ownerId, bookmarkedBy)
+    suspend fun getIdeas(limit: Int?,
+                         offset: Int?,
+                         ownerId: Int?,
+                         bookmarkedBy: Int?,
+                         ordering: String? = null,
+                          tags: String? = null,
+                         search: String? = null) = api.getIdeas(limit, offset, ownerId, bookmarkedBy, ordering, tags, search)
 
     suspend fun getIdeaDetails(id: Int) = api.getIdeaDetails(id)
 

@@ -16,7 +16,7 @@ import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.ItemFeedPostBinding
-import com.minor_project.flaamandroid.ui.feed.userprofile.tabs.MyIdeasFragment
+import com.minor_project.flaamandroid.ui.userprofile.tabs.MyIdeasFragment
 import com.minor_project.flaamandroid.utils.*
 import timber.log.Timber
 

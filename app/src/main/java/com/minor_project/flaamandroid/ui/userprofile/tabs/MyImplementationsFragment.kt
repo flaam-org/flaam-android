@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed.userprofile.tabs
+package com.minor_project.flaamandroid.ui.userprofile.tabs
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

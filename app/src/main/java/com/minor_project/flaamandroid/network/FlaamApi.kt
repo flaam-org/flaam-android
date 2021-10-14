@@ -34,7 +34,10 @@ interface FlaamApi {
         @Query("limit") limit: Int?,
         @Query("offset") offset: Int?,
         @Query("owner") ownerId: Int?,
-        @Query("bookmarked_by") bookmarkedBy: Int?
+        @Query("bookmarked_by") bookmarkedBy: Int?,
+        @Query("ordering") ordering: String? = null,
+        @Query("tags") tags: String? = null,
+        @Query("search") search: String? = null
     ): Response<IdeasResponse>
 
 
