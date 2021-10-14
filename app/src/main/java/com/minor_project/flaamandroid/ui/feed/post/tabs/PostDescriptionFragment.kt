@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
-import com.minor_project.flaamandroid.ui.feed.AddImplementationFragment
 import com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
@@ -59,24 +58,28 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                             findNavController().navigate(PostDetailsFragmentDirections.actionPostDetailsFragmentToAddImplementationFragment())
                         }
 
-                        if (vote == 1) {
-                            ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
-                            disableUpvoteDownvote()
-                        } else if (vote == -1) {
-                            ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
-                            disableUpvoteDownvote()
-                        } else {
-                            ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_outline_24dp)
-                            ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_outline_24dp)
-
-                            ivUpvoteIdeaPostDescription.setOnClickListener {
-                                upvoteIdea(mIdeaId)
+                        when (vote) {
+                            1 -> {
+                                ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
                                 disableUpvoteDownvote()
                             }
-
-                            ivDownvoteIdeaPostDescription.setOnClickListener {
-                                downvoteIdea(mIdeaId)
+                            -1 -> {
+                                ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
                                 disableUpvoteDownvote()
+                            }
+                            else -> {
+                                ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_outline_24dp)
+                                ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_outline_24dp)
+
+                                ivUpvoteIdeaPostDescription.setOnClickListener {
+                                    upvoteIdea(mIdeaId)
+                                    disableUpvoteDownvote()
+                                }
+
+                                ivDownvoteIdeaPostDescription.setOnClickListener {
+                                    downvoteIdea(mIdeaId)
+                                    disableUpvoteDownvote()
+                                }
                             }
                         }
 
