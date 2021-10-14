@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
+import com.minor_project.flaamandroid.ui.feed.AddImplementationFragment
+import com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,6 +54,10 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                     val vote = it.body.vote
 
                     binding.apply {
+
+                        ivAddImplementationPostDescription.setOnClickListener {
+                            findNavController().navigate(PostDetailsFragmentDirections.actionPostDetailsFragmentToAddImplementationFragment())
+                        }
 
                         if (vote == 1) {
                             ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)

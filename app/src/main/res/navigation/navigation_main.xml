@@ -94,5 +94,13 @@
         <argument
             android:name="idea_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_postDetailsFragment_to_addImplementationFragment"
+            app:destination="@id/addImplementationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addImplementationFragment"
+        android:name="com.minor_project.flaamandroid.ui.feed.AddImplementationFragment"
+        android:label="fragment_add_implementation"
+        tools:layout="@layout/fragment_add_implementation" />
 </navigation>
