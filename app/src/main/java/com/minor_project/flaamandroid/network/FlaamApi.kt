@@ -37,6 +37,10 @@ interface FlaamApi {
         @Query("bookmarked_by") bookmarkedBy: Int?
     ): Response<IdeasResponse>
 
+
+    @GET("idea/{id}")
+    suspend fun getIdeaDetails(@Path("id") id : Int) : Response<IdeasResponse.Result>
+
     @POST("idea/{id}/bookmark")
     suspend fun addIdeaToUsersBookmarks(@Path("id") id: String): Response<Unit>
 

@@ -350,8 +350,12 @@ class FeedFragment : Fragment() {
 
 
                     feedPostAdapter.setOnClickListener(object : FeedPostAdapter.OnClickListener {
-                        override fun onClick(position: Int, model: IdeasResponse.Result) {
-                            findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostDetailsFragment())
+                        override fun onClick(ideaId: Int, model: IdeasResponse.Result) {
+                            findNavController().navigate(
+                                FeedFragmentDirections.actionFeedFragmentToPostDetailsFragment(
+                                    ideaId
+                                )
+                            )
                         }
 
                     })
@@ -460,10 +464,4 @@ class FeedFragment : Fragment() {
     fun removeBookmark(id: Int) {
         viewModel.removeIdeaFromUsersBookmarks(id.toString())
     }
-
-//    fun checkUserBookmarks(id: Int): Boolean {
-//        viewModel.getUserProfile()
-//        return bookmarkedIdeas.contains(id)
-//    }
-
 }

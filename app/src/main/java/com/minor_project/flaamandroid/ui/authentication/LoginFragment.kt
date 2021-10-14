@@ -62,7 +62,7 @@ class LoginFragment : Fragment() {
                         )
                     )
                 } else {
-                    makeToast("missing fields!")
+                    makeToast("Missing Fields!")
                 }
             }
         }
@@ -78,7 +78,7 @@ class LoginFragment : Fragment() {
                         runBlocking {
                             preferences.updateTokens(it.body)
                         }
-                        makeToast("user logged in! ${preferences.accessToken.first()}")
+                        makeToast("User Logged In! ${preferences.accessToken.first()}")
                         viewModel.getUserProfile()
                     }
 

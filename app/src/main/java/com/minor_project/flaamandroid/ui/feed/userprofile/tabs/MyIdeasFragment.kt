@@ -83,8 +83,12 @@ class MyIdeasFragment : Fragment() {
                         myIdeasAdapter.addToList(it.body.results as ArrayList<IdeasResponse.Result>)
 
                         myIdeasAdapter.setOnClickListener(object : MyIdeasAdapter.OnClickListener {
-                            override fun onClick(position: Int, model: IdeasResponse.Result) {
-                                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToPostDetailsFragment())
+                            override fun onClick(ideaId: Int, model: IdeasResponse.Result) {
+                                findNavController().navigate(
+                                    UserProfileFragmentDirections.actionUserProfileFragmentToPostDetailsFragment(
+                                        ideaId
+                                    )
+                                )
                             }
                         })
                     }

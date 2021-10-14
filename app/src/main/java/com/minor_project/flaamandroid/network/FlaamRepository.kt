@@ -24,6 +24,8 @@ class FlaamRepository(private val api: FlaamApi) {
     suspend fun getIdeas(limit: Int?, offset: Int?, ownerId: Int?, bookmarkedBy: Int?) =
         api.getIdeas(limit, offset, ownerId, bookmarkedBy)
 
+    suspend fun getIdeaDetails(id: Int) = api.getIdeaDetails(id)
+
     suspend fun addIdeaToUsersBookmarks(id: String) = api.addIdeaToUsersBookmarks(id)
 
     suspend fun removeIdeaFromUsersBookmarks(id: String) = api.removeIdeaFromUsersBookmarks(id)

@@ -89,8 +89,8 @@ class MyBookmarksFragment : Fragment() {
 
                         myBookmarksAdapter.setOnClickListener(object :
                             MyBookmarksAdapter.OnClickListener {
-                            override fun onClick(position: Int, model: IdeasResponse.Result) {
-                                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToPostDetailsFragment())
+                            override fun onClick(ideaId: Int, model: IdeasResponse.Result) {
+                                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToPostDetailsFragment(ideaId))
                             }
                         })
                     }
