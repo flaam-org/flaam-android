@@ -48,7 +48,30 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                     val downvoteCount = it.body.downvoteCount ?: 0
                     val upvoteDownvoteCount = upvoteCount - downvoteCount
 
+                    val vote = it.body.vote
+
                     binding.apply {
+
+                        if (vote == 1) {
+                            ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
+                            disableUpvoteDownvote()
+                        } else if (vote == -1) {
+                            ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
+                            disableUpvoteDownvote()
+                        } else {
+                            ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_outline_24dp)
+                            ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_outline_24dp)
+
+                            ivUpvoteIdeaPostDescription.setOnClickListener {
+                                upvoteIdea(mIdeaId)
+                                disableUpvoteDownvote()
+                            }
+
+                            ivDownvoteIdeaPostDescription.setOnClickListener {
+                                downvoteIdea(mIdeaId)
+                                disableUpvoteDownvote()
+                            }
+                        }
 
                         tvTitlePostDescription.text = it.body.title.toString()
 
@@ -63,13 +86,6 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                             shareIdea(title, description)
                         }
 
-                        ivUpvoteIdeaPostDescription.setOnClickListener {
-                            upvoteIdea(mIdeaId)
-                        }
-
-                        ivDownvoteIdeaPostDescription.setOnClickListener {
-                            downvoteIdea(mIdeaId)
-                        }
                     }
                 }
             }
@@ -80,6 +96,7 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
             if (it.isSuccessful) {
                 binding.ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
+                viewModel.getIdeaDetails(mIdeaId)
                 makeToast("Idea Successfully UpVoted!")
             } else {
                 makeToast("Unable to UpVote this Idea!")
@@ -91,6 +108,7 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
             if (it.isSuccessful) {
                 binding.ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
+                viewModel.getIdeaDetails(mIdeaId)
                 makeToast("Idea Successfully DownVoted!")
             } else {
                 makeToast("Unable to DownVote this Idea!")
@@ -116,5 +134,12 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
     private fun downvoteIdea(id: Int) {
         viewModel.downvoteIdea(id.toString())
+    }
+
+    private fun disableUpvoteDownvote() {
+        binding.apply {
+            ivUpvoteIdeaPostDescription.isClickable = false
+            ivDownvoteIdeaPostDescription.isClickable = false
+        }
     }
 }

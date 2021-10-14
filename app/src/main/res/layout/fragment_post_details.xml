@@ -24,7 +24,7 @@
                 android:layout_margin="16dp"
                 android:text="Title"
                 android:textColor="@color/secondaryDarkColor"
-                android:textSize="32sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.tabs.TabLayout
