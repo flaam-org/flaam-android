@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
+import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.activities.MainActivity
 import com.minor_project.flaamandroid.adapters.UserProfileViewPagerAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
@@ -52,9 +54,14 @@ class UserProfileFragment : Fragment() {
             tabLayout, binding.viewPagerUserProfile
         ) { tab, position ->
             when (position) {
-                0 -> tab.text = "My Bookmarks"
-                1 -> tab.text = "My Ideas"
-                2 -> tab.text = "My Implementations"
+                0 -> tab.icon =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_my_bookmarks_24dp)
+                1 -> tab.icon =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_my_ideas_24dp)
+                2 -> tab.icon = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_my_implementations_24dp
+                )
             }
         }.attach()
 
@@ -113,11 +120,16 @@ class UserProfileFragment : Fragment() {
                 is ApiResponse.Success -> {
 
                     binding.apply {
-                        tvUserProfileFnameLname.text =
-                            it.body.firstName.toString() + " " + it.body.lastName.toString()
+                        tvUserProfileFnameLname.text = resources.getString(
+                            R.string.full_name,
+                            it.body.firstName.toString(),
+                            it.body.lastName.toString()
+                        )
 
-                        tvUserProfileDoj.text =
-                            it.body.dateJoined.toString().getDaysDiff().toString() + " days ago"
+                        tvUserProfileDoj.text = resources.getString(
+                            R.string.date_joined_days_ago,
+                            it.body.dateJoined.toString().getDaysDiff().toString()
+                        )
 
                         civUserProfileUserImage.loadImage(it.body.avatar.toString())
                     }

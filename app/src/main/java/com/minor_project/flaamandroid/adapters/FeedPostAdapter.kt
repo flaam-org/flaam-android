@@ -90,7 +90,6 @@ open class FeedPostAdapter(
                 }
 
 
-//                fragment.checkUserBookmarks(model.id!!)
                 if (model.bookmarked) {
                     ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_check)
 

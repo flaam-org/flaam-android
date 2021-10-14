@@ -43,4 +43,7 @@
     <string name="no_user_bookmarks_added">You haven\'t added any Bookmarks Yet!</string>
     <string name="no_projects_added">There are No Projects added for this Idea!</string>
     <string name="favourite_tags">Favourite Tags</string>
+    <string name="full_name">%s %s</string>
+    <string name="date_joined_days_ago">%s days ago</string>
+    <string name="joined">Joined -</string>
 </resources>
