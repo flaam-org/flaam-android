@@ -46,19 +46,20 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
+                    val title = it.body.title.toString()
+                    val description = it.body.description.toString()
+
+                    val upvoteCount = it.body.upvoteCount ?: 0
+                    val downvoteCount = it.body.downvoteCount ?: 0
+                    val upvoteDownvoteCount = upvoteCount - downvoteCount
+
                     binding.apply {
-                        val title = it.body.title.toString()
+
                         tvTitlePostDescription.text = it.body.title.toString()
-
-                        val description = it.body.description.toString()
-
 
                         if (it.body.bookmarked) {
                             ivBookmarkPostDescription.setImageResource(R.drawable.ic_bookmark_check)
                         }
-                        val upvoteCount = it.body.upvoteCount ?: 0
-                        val downvoteCount = it.body.downvoteCount ?: 0
-                        val upvoteDownvoteCount = upvoteCount - downvoteCount
                         tvUpvoteDownvotePostDescription.text = upvoteDownvoteCount.toString()
 
                         tvBodyPostDescription.text = it.body.body
@@ -66,17 +67,42 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                         ivSharePostDescription.setOnClickListener {
                             shareIdea(title, description)
                         }
+
+                        ivUpvoteIdeaPostDescription.setOnClickListener {
+                            upvoteIdea(mIdeaId)
+                        }
+
+                        ivDownvoteIdeaPostDescription.setOnClickListener {
+                            downvoteIdea(mIdeaId)
+                        }
                     }
                 }
             }
         }
-    }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        makeToast("desc" + mIdeaId.toString())
+        viewModel.upvoteIdea.observe(viewLifecycleOwner) {
+
+            if (it.isSuccessful) {
+                binding.ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
+                makeToast("Idea Successfully UpVoted!")
+            } else {
+                makeToast("Unable to UpVote this Idea!")
+            }
+        }
+
+
+        viewModel.downvoteIdea.observe(viewLifecycleOwner) {
+
+            if (it.isSuccessful) {
+                binding.ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
+                makeToast("Idea Successfully DownVoted!")
+            } else {
+                makeToast("Unable to DownVote this Idea!")
+            }
+        }
     }
+
 
     private fun shareIdea(title: String?, description: String?) {
 
@@ -87,5 +113,13 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
         requireContext().startActivity(intent)
 
+    }
+
+    fun upvoteIdea(id: Int) {
+        viewModel.upvoteIdea(id.toString())
+    }
+
+    fun downvoteIdea(id: Int) {
+        viewModel.downvoteIdea(id.toString())
     }
 }

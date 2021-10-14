@@ -24,7 +24,7 @@ class PostDetailsFragment : Fragment() {
 
     private val viewModel: PostDetailsViewModel by viewModels()
 
-    val args: PostDetailsFragmentArgs by navArgs()
+    private val args: PostDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

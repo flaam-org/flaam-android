@@ -440,22 +440,6 @@ class FeedFragment : Fragment() {
         menuPopup.show()
     }
 
-    fun getTagsListFromIds(tagsIdList: List<Int>?): List<String> {
-        val tagsListName: ArrayList<String> = ArrayList()
-        viewModel.getTagsFromIds(tagsIdList)
-        viewModel.tagsListFromIds.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiResponse.Error -> makeToast(it.message.toString())
-                is ApiResponse.Success -> {
-                    for (tag in it.body.results!!) {
-                        tagsListName.add(tag.name!!)
-                    }
-                }
-            }
-        }
-
-        return tagsListName
-    }
 
     fun addToBookmark(id: Int) {
         viewModel.addIdeaToUsersBookmarks(id.toString())
