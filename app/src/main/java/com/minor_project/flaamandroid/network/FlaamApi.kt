@@ -1,5 +1,6 @@
 package com.minor_project.flaamandroid.network
 
+import com.minor_project.flaamandroid.data.request.AddImplementationRequest
 import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
@@ -61,6 +62,9 @@ interface FlaamApi {
 
     @DELETE("tag/{id}/favourite")
     suspend fun removeTagFromUsersFavouriteTags(@Path("id") id: String): Response<Unit>
+
+    @POST("implementations")
+    suspend fun addImplementation(@Body body: AddImplementationRequest): Response<AddImplementationResponse>
 
 
 }

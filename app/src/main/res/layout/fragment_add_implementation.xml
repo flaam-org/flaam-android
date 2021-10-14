@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.feed.AddImplementationFragment">
+    tools:context=".ui.feed.post.AddImplementationFragment">
 
 
     <androidx.cardview.widget.CardView
@@ -21,12 +21,20 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-
             <EditText
+                android:id="@+id/et_add_title_add_implementation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:hint="@string/add_overview" />
+                android:hint="@string/add_title" />
+
+
+            <EditText
+                android:id="@+id/et_add_overview_description_add_implementation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:hint="@string/add_overview_description" />
 
 
             <LinearLayout
@@ -44,7 +52,7 @@
 
 
                 <EditText
-                    android:id="@+id/et_add_implementation_repo_link"
+                    android:id="@+id/et_github_repo_link_add_implementation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"

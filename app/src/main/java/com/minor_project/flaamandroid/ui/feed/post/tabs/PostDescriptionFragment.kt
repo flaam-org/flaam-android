@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
+import com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +23,7 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
     private val viewModel: PostDescriptionViewModel by viewModels()
 
     private val mIdeaId = ideaId
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,25 +54,28 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                     val vote = it.body.vote
 
                     binding.apply {
-
-                        if (vote == 1) {
-                            ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
-                            disableUpvoteDownvote()
-                        } else if (vote == -1) {
-                            ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
-                            disableUpvoteDownvote()
-                        } else {
-                            ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_outline_24dp)
-                            ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_outline_24dp)
-
-                            ivUpvoteIdeaPostDescription.setOnClickListener {
-                                upvoteIdea(mIdeaId)
+                        when (vote) {
+                            1 -> {
+                                ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
                                 disableUpvoteDownvote()
                             }
-
-                            ivDownvoteIdeaPostDescription.setOnClickListener {
-                                downvoteIdea(mIdeaId)
+                            -1 -> {
+                                ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
                                 disableUpvoteDownvote()
+                            }
+                            else -> {
+                                ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_outline_24dp)
+                                ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_outline_24dp)
+
+                                ivUpvoteIdeaPostDescription.setOnClickListener {
+                                    upvoteIdea(mIdeaId)
+                                    disableUpvoteDownvote()
+                                }
+
+                                ivDownvoteIdeaPostDescription.setOnClickListener {
+                                    downvoteIdea(mIdeaId)
+                                    disableUpvoteDownvote()
+                                }
                             }
                         }
 
@@ -86,6 +92,13 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                             shareIdea(title, description)
                         }
 
+                        ivAddImplementationPostDescription.setOnClickListener {
+                            findNavController().navigate(
+                                PostDetailsFragmentDirections.actionPostDetailsFragmentToAddImplementationFragment(
+                                    mIdeaId
+                                )
+                            )
+                        }
                     }
                 }
             }
