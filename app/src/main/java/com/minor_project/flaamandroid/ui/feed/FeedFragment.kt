@@ -387,7 +387,7 @@ class FeedFragment : Fragment() {
 
 
         var timer = Timer()
-        val DELAY = 800L
+        val delay = 800L
         binding.include.etTagName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -405,7 +405,7 @@ class FeedFragment : Fragment() {
                     override fun run() {
                         viewModel.getTagsForKeyword(s.toString())
                     }
-                }, DELAY)
+                }, delay)
             }
 
         })

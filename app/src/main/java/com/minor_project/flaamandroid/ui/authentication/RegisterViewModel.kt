@@ -14,19 +14,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(private val repo: AuthRepository): ViewModel() {
+class RegisterViewModel @Inject constructor(private val repo: AuthRepository) : ViewModel() {
 
     private val _registerUserResult = MutableLiveData<ApiResponse<RegisterLoginResponse>>()
     val registerUserResult: LiveData<ApiResponse<RegisterLoginResponse>> = _registerUserResult
 
 
-    fun postRegisterUser(body: RegisterLoginRequest){
+    fun postRegisterUser(body: RegisterLoginRequest) {
         viewModelScope.launch {
             val res = repo.registerUser(body)
             _registerUserResult.postValue(handlePostResponse(res))
         }
     }
-
 
 
 }

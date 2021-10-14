@@ -56,10 +56,10 @@ class EditProfileFragment : Fragment() {
 
         if (activity is AppCompatActivity) {
             (activity as AppCompatActivity).setSupportActionBar(mToolbar)
-            (activity as AppCompatActivity).supportActionBar?.setTitle(com.minor_project.flaamandroid.R.string.edit_profile_toolbar_title)
+            (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.edit_profile_toolbar_title)
         }
         mToolbar.setTitleTextColor(resources.getColor(R.color.white))
-        mToolbar.setNavigationIcon(com.minor_project.flaamandroid.R.drawable.ic_arrow_back_24dp)
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
         mToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
 
         userFavouriteTagsAdapter =

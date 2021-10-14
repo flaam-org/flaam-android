@@ -16,7 +16,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val repo: AuthRepository, private val flaamRepo: FlaamRepository): ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val repo: AuthRepository,
+    private val flaamRepo: FlaamRepository
+) : ViewModel() {
 
     private val _loginResult = MutableLiveData<ApiResponse<RegisterLoginResponse>>()
     val registerLoginResult: LiveData<ApiResponse<RegisterLoginResponse>> = _loginResult
@@ -24,14 +27,14 @@ class LoginViewModel @Inject constructor(private val repo: AuthRepository, priva
     private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
     val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
 
-    fun postLoginRequest(data: RegisterLoginRequest){
+    fun postLoginRequest(data: RegisterLoginRequest) {
         viewModelScope.launch {
             val res = repo.postLogin(data)
             _loginResult.postValue(handleGetResponse(res))
         }
     }
 
-    fun getUserProfile(){
+    fun getUserProfile() {
         viewModelScope.launch {
             val res = flaamRepo.getUserProfile()
             _userProfile.postValue(handleGetResponse(res))

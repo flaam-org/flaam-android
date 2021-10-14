@@ -12,14 +12,14 @@ import com.minor_project.flaamandroid.utils.makeToast
 
 class AddImplementationFragment : Fragment() {
 
-    private lateinit var binding : FragmentAddImplementationBinding
+    private lateinit var binding: FragmentAddImplementationBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddImplementationBinding.inflate(inflater)
 
         binding.apply {

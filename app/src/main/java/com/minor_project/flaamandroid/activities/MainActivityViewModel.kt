@@ -14,11 +14,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(private val repo: AuthRepository, private val prefs: UserPreferences): ViewModel() {
+class MainActivityViewModel @Inject constructor(
+    private val repo: AuthRepository,
+    private val prefs: UserPreferences
+) : ViewModel() {
 
     val refreshTokenResult = MutableLiveData<ApiResponse<RegisterLoginResponse>>()
 
-    fun refreshToken(){
+    fun refreshToken() {
 
         viewModelScope.launch {
             val res = repo.refreshToken(RegisterLoginResponse(null, prefs.refreshToken.first()))

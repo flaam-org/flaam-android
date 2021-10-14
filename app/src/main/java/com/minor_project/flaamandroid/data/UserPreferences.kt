@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 private const val USER_PREFERENCE_NAME = "user_preferences"
+
 class UserPreferences(private val context: Context) {
 
 
@@ -17,7 +18,7 @@ class UserPreferences(private val context: Context) {
         USER_PREFERENCE_NAME
     )
 
-    suspend fun updateTokens(tokens: RegisterLoginResponse){
+    suspend fun updateTokens(tokens: RegisterLoginResponse) {
         context.dataStore.edit {
             tokens.apply {
                 access?.let { str ->
@@ -30,26 +31,26 @@ class UserPreferences(private val context: Context) {
         }
     }
 
-    suspend fun logoutUser(){
+    suspend fun logoutUser() {
         context.dataStore.edit {
             it.clear()
         }
     }
 
-    suspend fun registerUser(registerUser: ViewProfileResponse){
+    suspend fun registerUser(registerUser: ViewProfileResponse) {
         context.dataStore.edit {
-        registerUser.apply {
-            it[FIRST_NAME] = firstName.toString()
-            it[LAST_NAME] = lastName.toString()
-            it[MAIL] = email.toString()
-            it[USER_NAME] = username.toString()
-        }
+            registerUser.apply {
+                it[FIRST_NAME] = firstName.toString()
+                it[LAST_NAME] = lastName.toString()
+                it[MAIL] = email.toString()
+                it[USER_NAME] = username.toString()
+            }
         }
     }
 
-    val accessToken: Flow<String?> = context.dataStore.data.map{ it[ACCESS_TOKEN] }
+    val accessToken: Flow<String?> = context.dataStore.data.map { it[ACCESS_TOKEN] }
 
-    val refreshToken: Flow<String?> = context.dataStore.data.map{ it[REFRESH_TOKEN]}
+    val refreshToken: Flow<String?> = context.dataStore.data.map { it[REFRESH_TOKEN] }
 
     companion object {
         val ACCESS_TOKEN = stringPreferencesKey("auth_token")

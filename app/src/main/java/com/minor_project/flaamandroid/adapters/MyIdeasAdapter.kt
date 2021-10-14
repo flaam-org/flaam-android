@@ -38,7 +38,7 @@ class MyIdeasAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        var bookmark = false
+        var bookmark: Boolean
 
         val model = list[position]
 
@@ -56,14 +56,14 @@ class MyIdeasAdapter(
 
             val tagsList = list[position].tags ?: emptyList()
 
-            Timber.e("tags" + tagsList)
+            Timber.e("tags $tagsList")
 
             cgFeedPostTags.removeAllViews()
             tagsList.indices.forEach { i ->
                 val chip = Chip(context)
 
                 if (i < 4) {
-                    chip.text = tagsList[i]?.name
+                    chip.text = tagsList[i].name
                     chip.chipBackgroundColor = ColorStateList.valueOf(listOfChipColors[i])
                     chip.setTextColor(Color.WHITE)
                     cgFeedPostTags.addView(chip)
@@ -79,12 +79,12 @@ class MyIdeasAdapter(
             }
 
 
-            if (model.bookmarked) {
+            bookmark = if (model.bookmarked) {
                 ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_check)
-                bookmark = true
+                true
             } else {
                 ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_uncheck)
-                bookmark = false
+                false
             }
 
             ivBookmarkFeedPost.setOnClickListener {
@@ -112,7 +112,7 @@ class MyIdeasAdapter(
 
     }
 
-    fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
+    private fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
         val menuPopup = PopupMenu(context, this, Gravity.CENTER)
         subList.forEach {
             menuPopup.menu.add(it?.name.toString())

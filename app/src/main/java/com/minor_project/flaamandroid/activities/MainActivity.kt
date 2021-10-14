@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.refreshTokenResult.observe(this@MainActivity) {
-            Timber.e("mainact $it")
+            Timber.e("MainActivity $it")
             when (it) {
                 is ApiResponse.Error -> {
                     Snackbar.make(binding.root, "can't refresh token!", Snackbar.LENGTH_SHORT)

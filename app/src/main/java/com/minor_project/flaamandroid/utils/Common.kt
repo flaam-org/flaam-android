@@ -29,7 +29,7 @@ fun <T> handleGetResponse(response: Response<T>): ApiResponse<T> {
 
 fun <T> handlePostResponse(response: Response<T>): ApiResponse<T> {
     if (response.code() == 201) {
-        response.body().let { it ->
+        response.body().let {
             Timber.e(response.body().toString())
             return ApiResponse.Success(it!!)
         }

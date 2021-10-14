@@ -17,7 +17,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepository): ViewModel() {
+class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepository) :
+    ViewModel() {
 
     private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
     val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
@@ -40,24 +41,19 @@ class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
     val createNewTag: LiveData<ApiResponse<TagsResponse.Result>> = _createNewTag
 
 
-
-
-
-
-    fun getUserProfile()
-    {
+    fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getUserProfile()
             _userProfile.postValue(handleGetResponse(res))
         }
     }
 
-    fun getTagsForId(idList : List<Int>?){
+    fun getTagsForId(idList: List<Int>?) {
 
 
         viewModelScope.launch(Dispatchers.IO) {
             val ids = idList.toString().substring(1, idList.toString().length - 1)
-            Timber.e(idList.toString() +" | " + ids.toString())
+            Timber.e(idList.toString() + " | " + ids.toString())
             val res = flaamRepo.getTagsForKeyword(null, ids)
             _tagsListFromIds.postValue(handleGetResponse(res))
         }

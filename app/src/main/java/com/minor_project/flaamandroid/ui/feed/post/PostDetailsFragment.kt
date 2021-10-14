@@ -1,6 +1,5 @@
 package com.minor_project.flaamandroid.ui.feed.post
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,10 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
-import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.adapters.PostDetailsViewPagerAdapter
 import com.minor_project.flaamandroid.databinding.FragmentPostDetailsBinding
-import com.minor_project.flaamandroid.ui.feed.post.tabs.PostDescriptionViewModel
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint

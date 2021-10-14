@@ -6,14 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.adapters.MyBookmarksAdapter
-import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
-import com.minor_project.flaamandroid.ui.feed.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -115,11 +110,11 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
     }
 
-    fun upvoteIdea(id: Int) {
+    private fun upvoteIdea(id: Int) {
         viewModel.upvoteIdea(id.toString())
     }
 
-    fun downvoteIdea(id: Int) {
+    private fun downvoteIdea(id: Int) {
         viewModel.downvoteIdea(id.toString())
     }
 }

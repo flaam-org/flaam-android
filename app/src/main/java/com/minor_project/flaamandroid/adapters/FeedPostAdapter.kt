@@ -67,14 +67,14 @@ open class FeedPostAdapter(
 
                 val tagsList = list[position].tags ?: emptyList()
 
-                Timber.e("tags" + tagsList)
+                Timber.e("tags $tagsList")
 
                 cgFeedPostTags.removeAllViews()
                 tagsList.indices.forEach { i ->
                     val chip = Chip(context)
 
                     if (i < 4) {
-                        chip.text = tagsList[i]?.name
+                        chip.text = tagsList[i].name
                         chip.chipBackgroundColor = ColorStateList.valueOf(listOfChipColors[i])
                         chip.setTextColor(Color.WHITE)
                         cgFeedPostTags.addView(chip)
@@ -135,7 +135,7 @@ open class FeedPostAdapter(
         }
     }
 
-    fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
+    private fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
         val menuPopup = PopupMenu(context, this, Gravity.CENTER)
         subList.forEach {
             menuPopup.menu.add(it?.name.toString())

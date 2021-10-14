@@ -19,16 +19,12 @@ interface AuthApi {
     ): Response<RegisterLoginResponse>
 
 
-
-
     // auth requests
 
     @POST("accounts/login/refresh")
     suspend fun refreshToken(
         @Body body: RegisterLoginResponse
     ): Response<RegisterLoginResponse>
-
-
 
 
 }

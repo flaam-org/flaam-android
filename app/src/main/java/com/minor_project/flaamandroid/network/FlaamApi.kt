@@ -19,7 +19,7 @@ interface FlaamApi {
     suspend fun getTagsList(
         @Query("name") keyword: String?,
         @Query("ids") ids: String?,
-        @Query("favourited_by") favouritedBy : Int?
+        @Query("favourited_by") favouritedBy: Int?
     ): Response<TagsResponse>
 
 
@@ -39,7 +39,7 @@ interface FlaamApi {
 
 
     @GET("idea/{id}")
-    suspend fun getIdeaDetails(@Path("id") id : Int) : Response<IdeasResponse.Result>
+    suspend fun getIdeaDetails(@Path("id") id: Int): Response<IdeasResponse.Result>
 
     @POST("idea/{id}/bookmark")
     suspend fun addIdeaToUsersBookmarks(@Path("id") id: String): Response<Unit>
@@ -48,10 +48,10 @@ interface FlaamApi {
     suspend fun removeIdeaFromUsersBookmarks(@Path("id") id: String): Response<Unit>
 
     @POST("idea/{id}/vote")
-    suspend fun upvoteIdea(@Path("id") id : String, @Query("value") value : Int) : Response<Unit>
+    suspend fun upvoteIdea(@Path("id") id: String, @Query("value") value: Int): Response<Unit>
 
     @POST("idea/{id}/vote")
-    suspend fun downvoteIdea(@Path("id") id : String, @Query("value") value : Int) : Response<Unit>
+    suspend fun downvoteIdea(@Path("id") id: String, @Query("value") value: Int): Response<Unit>
 
     @POST("tag/{id}/favourite")
     suspend fun addTagToUsersFavouriteTags(@Path("id") id: String): Response<Unit>

@@ -55,7 +55,7 @@ class RegisterFragment : Fragment() {
                             null,
                             etUsernameRegister.text.toString()
 
-                    )
+                        )
                     )
                 } else {
                     makeToast("Missing Required Fields!")

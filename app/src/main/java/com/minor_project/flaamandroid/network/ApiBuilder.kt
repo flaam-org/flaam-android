@@ -40,26 +40,34 @@ class ApiBuilder(private val context: Context) {
 
                     val token = runBlocking { userPreferences.accessToken.first() }
 
-                    if(token != null){
+                    if (token != null) {
                         addHeader("Authorization", "Bearer $token")
                     }
                 }.build()
 
                 var res = it.proceed(newRequest)
                 Timber.e(res.code.toString())
-                if(res.code == 401){
+                if (res.code == 401) {
                     runBlocking {
                         Timber.e("runblocking init")
 
-                        val response = authRepo.refreshToken(RegisterLoginResponse(null, userPreferences.refreshToken.first()))
+                        val response = authRepo.refreshToken(
+                            RegisterLoginResponse(
+                                null,
+                                userPreferences.refreshToken.first()
+                            )
+                        )
 
                         Timber.e(response.toString() + "body here")
-                        if(response.code() == 200){
+                        if (response.code() == 200) {
                             userPreferences.updateTokens(response.body()!!)
-                            newRequest = newRequest.newBuilder().addHeader("Authorization", "Bearer ${userPreferences.accessToken.first()}").build()
+                            newRequest = newRequest.newBuilder().addHeader(
+                                "Authorization",
+                                "Bearer ${userPreferences.accessToken.first()}"
+                            ).build()
                             res = it.proceed(newRequest)
                             Timber.e(res.code.toString())
-                        }else{
+                        } else {
                         }
                     }
                 }
@@ -72,7 +80,8 @@ class ApiBuilder(private val context: Context) {
 
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-        val retrofit = Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi)).client(client).baseUrl(Constants.BASE_URL).build()
+        val retrofit = Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(client).baseUrl(Constants.BASE_URL).build()
 
         return retrofit.create(FlaamApi::class.java)
     }
@@ -97,11 +106,11 @@ class ApiBuilder(private val context: Context) {
             .build()
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-        val retrofit = Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi)).client(client).baseUrl(Constants.BASE_URL).build()
+        val retrofit = Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(client).baseUrl(Constants.BASE_URL).build()
 
         return retrofit.create(AuthApi::class.java)
     }
-
 
 
 }

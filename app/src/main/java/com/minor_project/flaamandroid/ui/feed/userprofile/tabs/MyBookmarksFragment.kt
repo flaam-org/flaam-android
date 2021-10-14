@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.adapters.MyBookmarksAdapter
-import com.minor_project.flaamandroid.adapters.MyIdeasAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyBookmarksBinding
@@ -36,7 +35,7 @@ class MyBookmarksFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentMyBookmarksBinding.inflate(inflater)
 
@@ -90,7 +89,11 @@ class MyBookmarksFragment : Fragment() {
                         myBookmarksAdapter.setOnClickListener(object :
                             MyBookmarksAdapter.OnClickListener {
                             override fun onClick(ideaId: Int, model: IdeasResponse.Result) {
-                                findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToPostDetailsFragment(ideaId))
+                                findNavController().navigate(
+                                    UserProfileFragmentDirections.actionUserProfileFragmentToPostDetailsFragment(
+                                        ideaId
+                                    )
+                                )
                             }
                         })
                     }
