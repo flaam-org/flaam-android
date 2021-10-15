@@ -15,6 +15,7 @@ import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirectio
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,8 +51,13 @@ class MyBookmarksFragment : Fragment() {
         return binding.root
     }
 
-    private fun initObservers() {
+    override fun onResume() {
+        super.onResume()
+        Timber.i("MyBookmarks : onResume")
+        viewModel.getUserProfile()
+    }
 
+    private fun initObservers() {
         myBookmarksAdapter.setToList(arrayListOf())
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
@@ -74,7 +80,6 @@ class MyBookmarksFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoUserBookmarksAdded.visibility = View.VISIBLE
                         binding.rvMyBookmarks.visibility = View.GONE

@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.minor_project.flaamandroid.data.request.DeleteIdeaRequest
+import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
+import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +33,9 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
 
     private val _removeIdeaFromUsersBookmarks = MutableLiveData<Response<Unit>>()
     val removeIdeaFromUsersBookmarks: LiveData<Response<Unit>> = _removeIdeaFromUsersBookmarks
+
+    private val _deleteIdea = MutableLiveData<ApiResponse<IdeasResponse.Result>>()
+    val deleteIdea: LiveData<ApiResponse<IdeasResponse.Result>> = _deleteIdea
 
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -56,6 +62,13 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.removeIdeaFromUsersBookmarks(id)
             _removeIdeaFromUsersBookmarks.postValue(res)
+        }
+    }
+
+    fun deleteIdea(id : Int , body: DeleteIdeaRequest) {
+        viewModelScope.launch {
+            val res = repo.deleteIdea(id, body)
+            _deleteIdea.postValue(handlePostResponse(res))
         }
     }
 
