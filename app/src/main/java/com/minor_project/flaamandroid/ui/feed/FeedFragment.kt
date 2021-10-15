@@ -73,7 +73,7 @@ class FeedFragment : Fragment() {
 
             tilSearch.editText?.setOnEditorActionListener { v, actionId, event ->
 
-                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchQuery = tilSearch.editText!!.text.toString()
                     refreshFeed()
                 }
@@ -126,7 +126,7 @@ class FeedFragment : Fragment() {
             include.cgFilter.setOnCheckedChangeListener { group, checkedId ->
                 val includedView = binding.include
 
-                when(checkedId){
+                when (checkedId) {
                     R.id.chipAll -> {
                         order_by = null
                     }
@@ -152,8 +152,6 @@ class FeedFragment : Fragment() {
                 Timber.e(checkedId.toString())
 
             }
-
-
 
 
         }
@@ -285,7 +283,7 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 
-    private fun collapseFilterView(){
+    private fun collapseFilterView() {
         if (isFilterLayoutVisible) {
             Timber.e(binding.motionLayout.currentState.toString())
             if (binding.motionLayout.currentState == R.id.step4) {
@@ -294,7 +292,7 @@ class FeedFragment : Fragment() {
         }
     }
 
-    private fun refreshFeed(){
+    private fun refreshFeed() {
         feedPostAdapter.list.clear()
         feedPostAdapter.isEndReached = false
         feedPostAdapter.notifyDataSetChanged()
@@ -436,6 +434,7 @@ class FeedFragment : Fragment() {
         viewModel.addIdeaToUsersBookmarks.observe(viewLifecycleOwner) {
 
             if (it.isSuccessful) {
+                refreshFeed()
                 makeToast("Idea Successfully Added to My Bookmarks!")
             } else {
                 makeToast("Unable to Add Idea to My Bookmarks!")
@@ -446,6 +445,7 @@ class FeedFragment : Fragment() {
         viewModel.removeIdeaFromUsersBookmarks.observe(viewLifecycleOwner) {
 
             if (it.isSuccessful) {
+                refreshFeed()
                 makeToast("Idea Successfully Removed to My Bookmarks!")
             } else {
                 makeToast("Unable to Remove Idea from My Bookmarks!")
