@@ -109,6 +109,7 @@ class MyIdeasFragment : Fragment() {
         viewModel.addIdeaToUsersBookmarks.observe(viewLifecycleOwner) {
 
             if (it.isSuccessful) {
+                viewModel.getUserProfile()
                 makeToast("Idea Successfully Added to My Bookmarks!")
             } else {
                 makeToast("Unable to Add Idea to My Bookmarks!")
@@ -119,6 +120,7 @@ class MyIdeasFragment : Fragment() {
         viewModel.removeIdeaFromUsersBookmarks.observe(viewLifecycleOwner) {
 
             if (it.isSuccessful) {
+                viewModel.getUserProfile()
                 makeToast("Idea Successfully Removed to My Bookmarks!")
             } else {
                 makeToast("Unable to Remove Idea from My Bookmarks!")
