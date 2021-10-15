@@ -1,9 +1,6 @@
 package com.minor_project.flaamandroid.network
 
-import com.minor_project.flaamandroid.data.request.AddImplementationRequest
-import com.minor_project.flaamandroid.data.request.PostIdeaRequest
-import com.minor_project.flaamandroid.data.request.TagsRequest
-import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
+import com.minor_project.flaamandroid.data.request.*
 import com.minor_project.flaamandroid.data.response.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -29,6 +26,13 @@ interface FlaamApi {
 
     @POST("ideas")
     suspend fun postIdea(@Body body: PostIdeaRequest): Response<IdeasResponse.Result>
+
+
+    @DELETE("idea/{id}")
+    suspend fun deleteIdea(
+        @Path("id") id: Int,
+        @Body body: DeleteIdeaRequest
+    ): Response<IdeasResponse.Result>
 
     @GET("ideas")
     suspend fun getIdeas(

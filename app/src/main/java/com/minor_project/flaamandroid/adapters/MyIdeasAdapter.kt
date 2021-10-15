@@ -16,6 +16,7 @@ import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.ItemFeedPostBinding
+import com.minor_project.flaamandroid.databinding.ItemFeedPostMyIdeasBinding
 import com.minor_project.flaamandroid.ui.userprofile.tabs.MyIdeasFragment
 import com.minor_project.flaamandroid.utils.*
 import timber.log.Timber
@@ -32,7 +33,7 @@ class MyIdeasAdapter(
 
 
         return MyViewHolder(
-            ItemFeedPostBinding.inflate(LayoutInflater.from(context), parent, false)
+            ItemFeedPostMyIdeasBinding.inflate(LayoutInflater.from(context), parent, false)
         )
     }
 
@@ -43,16 +44,16 @@ class MyIdeasAdapter(
         val model = list[position]
 
         (holder as MyViewHolder).binding.apply {
-            holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_user_image)
+            holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_my_ideas_user_image)
                 .setImageResource(R.drawable.ic_profile_image_place_holder)
 
-            tvFeedPostTitle.text = model.title
-            tvFeedPostVotes.text = (model.vote ?: "0").toString()
-            tvFeedPostImplementations.text = (model.implementationCount ?: "0").toString()
-            tvFeedPostDescription.text = model.description
+            tvFeedPostMyIdeasTitle.text = model.title
+            tvFeedPostMyIdeasVotes.text = (model.vote ?: "0").toString()
+            tvFeedPostMyIdeasImplementations.text = (model.implementationCount ?: "0").toString()
+            tvFeedPostMyIdeasDescription.text = model.description
 
 
-            val cgFeedPostTags = cgFeedPostTags
+            val cgFeedPostTags = cgFeedPostMyIdeasTags
 
             val tagsList = list[position].tags ?: emptyList()
 
@@ -80,22 +81,22 @@ class MyIdeasAdapter(
 
 
             bookmark = if (model.bookmarked) {
-                ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_check)
+                ivBookmarkFeedPostMyIdeas.setImageResource(R.drawable.ic_bookmark_check)
                 true
             } else {
-                ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_uncheck)
+                ivBookmarkFeedPostMyIdeas.setImageResource(R.drawable.ic_bookmark_uncheck)
                 false
             }
 
-            ivBookmarkFeedPost.setOnClickListener {
-                ivBookmarkFeedPost.toggleBookmark(bookmark, model)
+            ivBookmarkFeedPostMyIdeas.setOnClickListener {
+                ivBookmarkFeedPostMyIdeas.toggleBookmark(bookmark, model)
                 bookmark = bookmark.not()
             }
 
-            ivShareFeedPost.setOnClickListener {
+            ivShareFeedPostMyIdeas.setOnClickListener {
                 shareIdea(
-                    tvFeedPostTitle,
-                    tvFeedPostDescription
+                    tvFeedPostMyIdeasTitle,
+                    tvFeedPostMyIdeasDescription
                 )
             }
 
@@ -164,6 +165,6 @@ class MyIdeasAdapter(
         }
     }
 
-    private class MyViewHolder(val binding: ItemFeedPostBinding) :
+    private class MyViewHolder(val binding: ItemFeedPostMyIdeasBinding) :
         RecyclerView.ViewHolder(binding.root)
 }
