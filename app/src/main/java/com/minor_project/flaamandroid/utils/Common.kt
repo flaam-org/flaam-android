@@ -1,11 +1,14 @@
 package com.minor_project.flaamandroid.utils
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.ProgressRecyclerItemBinding
 import retrofit2.Response
 import timber.log.Timber
@@ -13,6 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
 
+private lateinit var mProgressDialog: Dialog
 
 fun <T> handleGetResponse(response: Response<T>): ApiResponse<T> {
     if (response.code() == 200) {
@@ -35,7 +39,10 @@ fun <T> handlePostResponse(response: Response<T>): ApiResponse<T> {
         }
     }
 
-    return ApiResponse.Error(message = response.errorBody()?.string().toString() , status = response.code())
+    return ApiResponse.Error(
+        message = response.errorBody()?.string().toString(),
+        status = response.code()
+    )
 }
 
 
@@ -62,6 +69,21 @@ fun Context.getProgressViewHolder(): ProgressViewHolder {
 
 fun ImageView.loadImage(image: String) {
     Glide.with(this).load(image).centerCrop().into(this)
+}
+
+fun Context.showProgressDialog() {
+    mProgressDialog = Dialog(this)
+
+    /*Set the screen content from a layout resource.
+    The resource will be inflated, adding all top-level views to the screen.*/
+    mProgressDialog.setContentView(R.layout.dialog_progress)
+
+    //Start the dialog and display it on screen.
+    mProgressDialog.show()
+}
+
+fun Context.hideProgressDialog() {
+    mProgressDialog.dismiss()
 }
 
 val listOfChipColors = arrayListOf(
