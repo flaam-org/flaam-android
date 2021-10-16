@@ -107,4 +107,9 @@
             android:name="idea_id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.minor_project.flaamandroid.ui.reset_password.ResetPasswordFragment"
+        android:label="fragment_reset_password_email"
+        tools:layout="@layout/fragment_reset_password_email" /><action android:id="@+id/action_global_resetPasswordFragment" app:destination="@id/resetPasswordFragment"/>
 </navigation>

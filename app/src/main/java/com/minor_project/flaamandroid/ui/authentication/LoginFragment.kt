@@ -42,6 +42,11 @@ class LoginFragment : Fragment() {
 
     private fun initOnClick() {
         binding.apply {
+
+            tvForgotPasswordLogin.setOnClickListener {
+                findNavController().navigate(LoginFragmentDirections.actionGlobalResetPasswordFragment())
+            }
+
             btnLogin.setOnClickListener {
                 if (validate()) {
                     viewModel.postLoginRequest(

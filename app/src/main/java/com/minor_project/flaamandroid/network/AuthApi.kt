@@ -32,10 +32,10 @@ interface AuthApi {
         @Body body: RegisterLoginRequest
     ): Response<String>
 
-    @POST("accounts/password/reset/{token}")
-    suspend fun postResetPassword(
-        @Path("token") token: String
-    )
+//    @POST("accounts/password/reset/{token}")
+//    suspend fun postResetPassword(
+//        @Path("token") token: String
+//    )
 
 
 

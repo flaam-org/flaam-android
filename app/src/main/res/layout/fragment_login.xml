@@ -104,6 +104,15 @@
                     android:textSize="18sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_forgot_password_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="forgot password?"
+            android:textAlignment="center"
+            android:textSize="18sp" />
     </LinearLayout>
 
 </LinearLayout>

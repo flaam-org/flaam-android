@@ -18,7 +18,7 @@ class AuthRepository(private val api: AuthApi) {
     suspend fun getResetPasswordToken(body: RegisterLoginRequest) = api.getResetPasswordToken(body)
 
 
-    suspend fun postResetPassword(token: String) = api.postResetPassword(token)
+
 
 
 }
