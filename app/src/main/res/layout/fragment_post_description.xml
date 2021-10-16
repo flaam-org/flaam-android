@@ -82,9 +82,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center_vertical"
-                        android:text="45"
                         android:textColor="@color/black"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        tools:text="45" />
 
                     <ImageView
                         android:id="@+id/iv_downvote_idea_post_description"
@@ -105,7 +105,7 @@
                         android:id="@+id/tv_body_post_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sample_text_2" />
+                        tools:text="@string/sample_text_2" />
 
                 </LinearLayout>
 

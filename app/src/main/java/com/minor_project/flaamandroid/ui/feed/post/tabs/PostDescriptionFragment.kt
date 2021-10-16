@@ -12,7 +12,9 @@ import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
 import com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
+import com.minor_project.flaamandroid.utils.hideProgressDialog
 import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.showProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,14 +38,17 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
     }
 
     private fun initObservers() {
+        requireContext().showProgressDialog()
         viewModel.getIdeaDetails(mIdeaId)
         viewModel.ideaDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    requireContext().hideProgressDialog()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    requireContext().hideProgressDialog()
                     val title = it.body.title.toString()
                     val description = it.body.description.toString()
 

@@ -9,12 +9,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.adapters.MyIdeasAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
+import com.minor_project.flaamandroid.data.request.DeleteIdeaRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyIdeasBinding
 import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
+import com.minor_project.flaamandroid.utils.hideProgressDialog
 import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.showProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -47,6 +51,12 @@ class MyIdeasFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        Timber.i("MyIdeas : onResume")
+        viewModel.getUserProfile()
+    }
+
     private fun initObservers() {
         myIdeasAdapter.setToList(arrayListOf())
         viewModel.getUserProfile()
@@ -70,7 +80,6 @@ class MyIdeasFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoUserIdeasAdded.visibility = View.VISIBLE
                         binding.rvMyIdeas.visibility = View.GONE
@@ -100,6 +109,7 @@ class MyIdeasFragment : Fragment() {
         viewModel.addIdeaToUsersBookmarks.observe(viewLifecycleOwner) {
 
             if (it.isSuccessful) {
+                viewModel.getUserProfile()
                 makeToast("Idea Successfully Added to My Bookmarks!")
             } else {
                 makeToast("Unable to Add Idea to My Bookmarks!")
@@ -110,11 +120,24 @@ class MyIdeasFragment : Fragment() {
         viewModel.removeIdeaFromUsersBookmarks.observe(viewLifecycleOwner) {
 
             if (it.isSuccessful) {
+                viewModel.getUserProfile()
                 makeToast("Idea Successfully Removed to My Bookmarks!")
             } else {
                 makeToast("Unable to Remove Idea from My Bookmarks!")
             }
         }
+
+//        viewModel.deleteIdea.observe(viewLifecycleOwner) { res ->
+//            when (res) {
+//                is ApiResponse.Error -> {
+//                    makeToast(res.message.toString())
+//                }
+//                is ApiResponse.Success -> {
+//                    viewModel.getUserProfile()
+//                    makeToast("Idea Deleted Successfully!")
+//                }
+//            }
+//        }
     }
 
     fun addToBookmark(id: Int) {
@@ -123,6 +146,28 @@ class MyIdeasFragment : Fragment() {
 
     fun removeBookmark(id: Int) {
         viewModel.removeIdeaFromUsersBookmarks(id.toString())
+    }
+
+    fun deleteIdea(id: Int, model: IdeasResponse.Result) {
+        val tagsIdList: ArrayList<Int> = ArrayList()
+        model.tags!!.forEach {
+            tagsIdList.add(it.id!!)
+        }
+        Timber.i("IdeaTagsIdList" + tagsIdList)
+
+        makeToast("This Idea will be Deleted Soon!")
+
+//        viewModel.deleteIdea(
+//            id, DeleteIdeaRequest(
+//                model.body,
+//                model.description,
+//                model.draft,
+//                model.milestones as List<List<String>>,
+//                tagsIdList,
+//                model.title
+//            )
+//        )
+
     }
 
 }
