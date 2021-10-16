@@ -106,8 +106,6 @@ class FeedFragment : Fragment() {
                     super.onScrolled(recyclerView, dx, dy)
 
 
-                    collapseFilterView()
-
                     if (dy > 0 && areExtraViewsVisible) {
                         areExtraViewsVisible = !areExtraViewsVisible
                         toggleViewsVisibility(false)
@@ -148,8 +146,6 @@ class FeedFragment : Fragment() {
                 }
                 refreshFeed()
 
-//                if(includedView.cgFilter.checkedChipId)
-                Timber.e(checkedId.toString())
 
             }
 
@@ -318,6 +314,7 @@ class FeedFragment : Fragment() {
                     llCardview.changeVisibilityWithAnimation(it)
                     cardView2.changeVisibilityWithAnimation(it)
                     efabPostIdea.changeVisibilityWithAnimation(it)
+
                 }
             }
         }
@@ -399,6 +396,8 @@ class FeedFragment : Fragment() {
         isRequestDispatched = true
 
         feedPostAdapter.setToList(arrayListOf())
+
+        viewModel.resetIdeas()
         refreshFeed()
         viewModel.ideas.observe(viewLifecycleOwner) {
             isRequestDispatched = false

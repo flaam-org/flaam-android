@@ -44,6 +44,10 @@ class FeedViewModel @Inject constructor(private val repo: FlaamRepository) : Vie
     val removeIdeaFromUsersBookmarks: LiveData<Response<Unit>> = _removeIdeaFromUsersBookmarks
 
 
+    fun resetIdeas(){
+        _getIdeas.value = ApiResponse.Loading()
+    }
+
     fun getTags() {
         viewModelScope.launch {
             val res = repo.getTagsList()
