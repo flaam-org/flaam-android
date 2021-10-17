@@ -9,7 +9,11 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.google.android.material.tabs.TabLayoutMediator
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.activities.MainActivity
@@ -18,6 +22,8 @@ import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
@@ -78,8 +84,8 @@ class UserProfileFragment : Fragment() {
                 findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToEditProfileFragment())
             }
 
-            ivMenuUserProfile.setOnClickListener {
-                val menuPopup = PopupMenu(requireContext(), it)
+            ivMenuUserProfile.setOnClickListener { res ->
+                val menuPopup = PopupMenu(requireContext(), res)
                 menuPopup.menu.add("Log Out!")
                 menuPopup.menu.add("Reset Password")
 
@@ -140,7 +146,25 @@ class UserProfileFragment : Fragment() {
                             it.body.dateJoined.toString().getDaysDiff().toString()
                         )
 
-                        civUserProfileUserImage.loadImage(it.body.avatar.toString())
+
+
+                        val imageLoader = ImageLoader.Builder(requireContext())
+                            .componentRegistry {
+                                add(SvgDecoder(requireContext()))
+                            }
+                            .build()
+
+                        val request = ImageRequest.Builder(requireContext())
+                            .data(it.body.avatar.toString())
+                            .build()
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            val drawable = imageLoader.execute(request).drawable
+                            civUserProfileUserImage.setImageDrawable(drawable)
+                        }
+
+
+
+
                     }
                 }
             }
