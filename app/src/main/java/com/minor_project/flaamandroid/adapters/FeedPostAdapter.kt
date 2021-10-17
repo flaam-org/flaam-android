@@ -47,16 +47,11 @@ open class FeedPostAdapter(
 
         if (position != list.size) {
 
-
             val model = list[position]
 
-
-
-
             (holder as MyViewHolder).binding.apply {
-                holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_user_image)
-                    .setImageResource(R.drawable.ic_profile_image_place_holder)
 
+                civFeedPostUserImage.setOwnerAvatar(model.ownerAvatar.toString())
                 tvFeedPostTitle.text = model.title
                 val upvote = model.upvoteCount ?: 0
                 val downvote = model.downvoteCount ?: 0
@@ -183,6 +178,10 @@ open class FeedPostAdapter(
             this.setImageResource(R.drawable.ic_bookmark_uncheck)
             fragment.removeBookmark(model.id!!)
         }
+    }
+
+    private fun ImageView.setOwnerAvatar(ownerAvatar: String) {
+        fragment.setOwnerAvatar(ownerAvatar, this@setOwnerAvatar)
     }
 
     fun addToList(ideas: ArrayList<IdeasResponse.Result>) {
