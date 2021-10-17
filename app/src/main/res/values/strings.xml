@@ -48,4 +48,5 @@
     <string name="loading">Loading......</string>
     <string name="you_ve_reached_the_end">You\'ve Reached The End!</string>
     <string name="joined">Joined -</string>
+    <string name="plus_number_of_tags">+%s</string>
 </resources>

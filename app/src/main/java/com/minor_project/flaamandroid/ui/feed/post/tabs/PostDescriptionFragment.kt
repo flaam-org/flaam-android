@@ -1,11 +1,15 @@
 package com.minor_project.flaamandroid.ui.feed.post.tabs
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,12 +18,10 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
 import com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragmentDirections
-import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.hideProgressDialog
-import com.minor_project.flaamandroid.utils.makeToast
-import com.minor_project.flaamandroid.utils.showProgressDialog
+import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -67,6 +69,8 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
                     val ownerAvatar = it.body.ownerAvatar
 
+                    val tagsList = it.body.tags!!
+
                     binding.apply {
                         when (vote) {
                             1 -> {
@@ -108,12 +112,27 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                             civUserImagePostDescription.setImageDrawable(drawable)
                         }
 
+                        tagsList.indices.forEach { i ->
+                            val chip = Chip(context)
+                            if (i < 4) {
+                                chip.text = tagsList[i].name
+                                chip.chipBackgroundColor =
+                                    ColorStateList.valueOf(listOfChipColors[i])
+                                chip.setTextColor(Color.WHITE)
+                                cgTagsPostDescription.addView(chip)
+                            }
+                            if (i == 4) {
+                                val remainingTagsCount = tagsList.size - 4
+                                chip.text = resources.getString(
+                                    R.string.plus_number_of_tags,
+                                    remainingTagsCount.toString()
+                                )
+                                chip.setOnClickListener { t ->
+                                    t.showRemainingTagsPopup(tagsList.subList(4, tagsList.size))
+                                }
+                                cgTagsPostDescription.addView(chip)
+                            }
 
-
-                        for (tag in it.body.tags!!) {
-                            val chip = Chip(requireContext())
-                            chip.text = tag.name.toString()
-                            binding.cgTagsPostDescription.addView(chip)
                         }
 
 
@@ -194,6 +213,14 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
             ivUpvoteIdeaPostDescription.isClickable = false
             ivDownvoteIdeaPostDescription.isClickable = false
         }
+    }
+
+    private fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
+        val menuPopup = PopupMenu(context, this, Gravity.CENTER)
+        subList.forEach {
+            menuPopup.menu.add(it?.name.toString())
+        }
+        menuPopup.show()
     }
 }
 

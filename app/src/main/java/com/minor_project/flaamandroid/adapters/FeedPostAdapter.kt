@@ -80,7 +80,10 @@ open class FeedPostAdapter(
                         cgFeedPostTags.addView(chip)
                     }
                     if (i == 4) {
-                        chip.text = "+${tagsList.size - 4}"
+                        chip.text = context.resources.getString(
+                            R.string.plus_number_of_tags,
+                            (tagsList.size - 4).toString()
+                        )
                         chip.setOnClickListener {
                             it.showRemainingTagsPopup(tagsList.subList(4, tagsList.size))
                         }
