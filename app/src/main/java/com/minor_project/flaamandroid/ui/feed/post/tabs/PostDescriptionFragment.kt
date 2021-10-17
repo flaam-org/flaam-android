@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
 import com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragmentDirections
@@ -82,6 +83,12 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                                     disableUpvoteDownvote()
                                 }
                             }
+                        }
+
+                        for (tag in it.body.tags!!) {
+                            val chip = Chip(requireContext())
+                            chip.text = tag.name.toString()
+                            binding.cgTagsPostDescription.addView(chip)
                         }
 
                         tvTitlePostDescription.text = it.body.title.toString()
@@ -161,3 +168,5 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
         }
     }
 }
+
+

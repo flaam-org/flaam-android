@@ -55,15 +55,6 @@
             </LinearLayout>
 
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/cg_tags_post_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                app:chipSpacingHorizontal="5dp">
-
-            </com.google.android.material.chip.ChipGroup>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,6 +98,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:orientation="vertical">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cg_tags_post_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        app:chipSpacingHorizontal="5dp">
+
+                    </com.google.android.material.chip.ChipGroup>
 
                     <TextView
                         android:id="@+id/tv_body_post_description"
