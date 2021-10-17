@@ -11,12 +11,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.adapters.FeedPostAdapter
@@ -25,6 +30,8 @@ import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
@@ -513,5 +520,22 @@ class FeedFragment : Fragment() {
 
     fun removeBookmark(id: Int) {
         viewModel.removeIdeaFromUsersBookmarks(id.toString())
+    }
+
+    fun setOwnerAvatar(ownerAvatar: String, imageView: ImageView) {
+        val imageLoader = ImageLoader.Builder(requireContext())
+            .componentRegistry {
+                add(SvgDecoder(requireContext()))
+            }
+            .build()
+
+        val request = ImageRequest.Builder(requireContext())
+            .data(ownerAvatar)
+            .build()
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            val drawable = imageLoader.execute(request).drawable
+            imageView.setImageDrawable(drawable)
+        }
     }
 }
