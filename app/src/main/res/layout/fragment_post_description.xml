@@ -24,17 +24,23 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/civ_user_image_post_description"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_profile_image_place_holder" />
+                    android:backgroundTint="@color/secondaryDarkColor"
+                    android:foregroundTint="@color/secondaryDarkColor"
+                    android:src="@drawable/ic_profile_image_place_holder"
+                    app:civ_border_color="@color/secondaryDarkColor"
+                    app:civ_circle_background_color="@color/secondaryDarkColor"
+                    app:tint="@color/secondaryDarkColor" />
 
                 <TextView
                     android:id="@+id/tv_title_post_description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
-                    android:textSize="32sp"
+                    android:textColor="@color/primaryDarkColor"
+                    android:textSize="22sp"
                     android:textStyle="bold"
                     tools:text="Title" />
 
@@ -44,6 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/ic_bookmark_uncheck"
+                    app:tint="@color/secondaryDarkColor"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
 
@@ -125,7 +132,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:background="@color/primaryLightColor"
                     android:src="@drawable/ic_add_implementation_24dp"
                     app:tint="@color/secondaryDarkColor" />
 
@@ -134,7 +140,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_share_24dp" />
+                    android:src="@drawable/ic_share_24dp"
+                    app:tint="@color/secondaryDarkColor" />
 
             </RelativeLayout>
 
