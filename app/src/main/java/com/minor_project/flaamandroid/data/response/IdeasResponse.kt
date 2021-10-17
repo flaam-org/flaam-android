@@ -34,7 +34,7 @@ data class IdeasResponse(
         @Json(name = "implementation_count")
         val implementationCount: Int?,
         @Json(name = "milestones")
-        val milestones: List<Any>?,
+        val milestones: List<List<String>>?,
         @Json(name = "owner")
         val owner: Int?,
         @Json(name = "owner_avatar")
