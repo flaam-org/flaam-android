@@ -63,7 +63,8 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
 
-//    // dependency injection
+
+    // Dependency Injection
     implementation "com.google.dagger:hilt-android:2.38.1"
     kapt "com.google.dagger:hilt-android-compiler:2.38.1"
 
@@ -103,9 +104,12 @@ dependencies {
     // ViewPager2
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
-    // images
+    // Images
     implementation "io.coil-kt:coil:1.4.0"
     implementation "io.coil-kt:coil-svg:1.4.0"
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //State Progress Bar
+    implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
 
 }
