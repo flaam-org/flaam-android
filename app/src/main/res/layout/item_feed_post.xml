@@ -22,9 +22,14 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civ_feed_post_user_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/secondaryDarkColor"
+                android:foregroundTint="@color/secondaryDarkColor"
+                app:civ_border_color="@color/secondaryDarkColor"
+                app:civ_circle_background_color="@color/secondaryDarkColor"
+                app:tint="@color/secondaryDarkColor"
                 tools:src="@drawable/ic_profile_image_place_holder" />
 
             <TextView
@@ -32,6 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
+                android:textColor="@color/primaryDarkColor2"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 tools:text="Title" />
@@ -42,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/ic_bookmark_uncheck"
+                app:tint="@color/secondaryDarkColor"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
 
@@ -58,6 +65,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -71,26 +79,34 @@
                     android:id="@+id/tv_feed_post_votes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="42sp"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/primaryDarkColor2"
+                    android:textSize="32sp"
                     tools:text="45" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:text="@string/votes" />
+                    android:text="@string/votes"
+                    android:textColor="@color/secondaryDarkColor2" />
 
                 <TextView
                     android:id="@+id/tv_feed_post_implementations"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="45"
-                    android:textSize="42sp" />
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/primaryDarkColor2"
+                    android:textSize="32sp"
+                    tools:text="45" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/implementations" />
+                    android:text="@string/implementations"
+                    android:textColor="@color/secondaryDarkColor2" />
 
 
             </LinearLayout>
@@ -105,6 +121,7 @@
                     android:id="@+id/tv_feed_post_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/primaryTextColor"
                     tools:text="@string/sample_text" />
 
             </LinearLayout>
@@ -122,10 +139,8 @@
                 android:id="@+id/iv_share_feed_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_margin="5dp"
                 android:src="@drawable/ic_share_24dp"
-                tools:ignore="ContentDescription" />
+                app:tint="@color/secondaryDarkColor" />
         </LinearLayout>
 
 
