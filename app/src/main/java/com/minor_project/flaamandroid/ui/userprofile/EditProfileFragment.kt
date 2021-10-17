@@ -1,22 +1,28 @@
 package com.minor_project.flaamandroid.ui.userprofile
 
+import android.app.ActionBar
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.PopupMenu
+import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.databinding.FragmentEditProfileBinding
-import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
@@ -25,7 +31,10 @@ import kotlin.collections.ArrayList
 import com.minor_project.flaamandroid.adapters.UserFavouriteTagsAdapter
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
-import com.minor_project.flaamandroid.utils.visible
+import com.minor_project.flaamandroid.databinding.LayoutAddEditTagsBinding
+import com.minor_project.flaamandroid.utils.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -39,9 +48,9 @@ class EditProfileFragment : Fragment() {
 
     private val userFavouriteTagsList: ArrayList<TagsResponse.Result> = ArrayList()
 
-    private lateinit var userFavouriteTagsAdapter: UserFavouriteTagsAdapter
 
     private lateinit var allTagsResponse: TagsResponse
+    private lateinit var popupBinding: LayoutAddEditTagsBinding
 
     private var updateProfile = false
 
@@ -52,21 +61,14 @@ class EditProfileFragment : Fragment() {
     ): View {
         binding = FragmentEditProfileBinding.inflate(inflater)
 
-        val mToolbar = binding.toolbarEditProfileFragment
 
-        if (activity is AppCompatActivity) {
-            (activity as AppCompatActivity).setSupportActionBar(mToolbar)
-            (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.edit_profile_toolbar_title)
+
+
+
+        binding.ivBackEditProfile.setOnClickListener {
+            findNavController().popBackStack()
         }
-        mToolbar.setTitleTextColor(resources.getColor(R.color.white))
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp)
-        mToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
 
-        userFavouriteTagsAdapter =
-            UserFavouriteTagsAdapter(this, requireContext(), userFavouriteTagsList)
-        binding.rvEditProfileUserFavouriteTags.setHasFixedSize(true)
-
-        binding.rvEditProfileUserFavouriteTags.adapter = userFavouriteTagsAdapter
 
 
         initObserver()
@@ -77,8 +79,7 @@ class EditProfileFragment : Fragment() {
 
 
     private fun initOnClick() {
-        var timer = Timer()
-        val delay = 800L
+
 
         binding.apply {
             btnUpdateEditProfile.setOnClickListener {
@@ -92,54 +93,14 @@ class EditProfileFragment : Fragment() {
 
         }
 
-        binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                timer.cancel()
-
-                timer = Timer()
-                timer.schedule(
-                    object : TimerTask() {
-                        override fun run() {
-                            viewModel.getTagsForKeyword(s.toString())
-                        }
-
-                    }, delay
-                )
-
-            }
-
-        })
 
 
 
-        binding.includeAddEditTags.btnCreateTag.setOnClickListener {
-            if (validate()) {
-                viewModel.createNewTag(
-                    TagsRequest(null, binding.includeAddEditTags.etAddSelectTag.text.toString())
-                )
-
-            } else {
-                makeToast("Missing Required Fields!")
-            }
-        }
-
-        binding.includeAddEditTags.btnCancelTag.setOnClickListener {
-            binding.includeAddEditTags.root.visibility = View.GONE
-        }
 
     }
 
     private fun initObserver() {
 
-        userFavouriteTagsAdapter.setToList(arrayListOf())
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
@@ -148,6 +109,9 @@ class EditProfileFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
+                    lifecycleScope.launch(Dispatchers.Main){
+                        binding.civEditProfileUserImage.loadSVG(it.body.avatar.toString())
+                    }
 
                     viewModel.getUserFavouriteTags(it.body.id!!)
                     binding.apply {
@@ -163,22 +127,37 @@ class EditProfileFragment : Fragment() {
 
 
         viewModel.userFavouriteTagsList.observe(viewLifecycleOwner)
-        {
-            when (it) {
+        { res ->
+            when (res) {
                 is ApiResponse.Error -> {
                     makeToast("Unable to fetch Favourite Tags!")
                 }
                 is ApiResponse.Success -> {
-                    if (it.body.results.isNullOrEmpty()) {
+                    if (res.body.results.isNullOrEmpty()) {
                         binding.tvEditProfileNoUserFavouriteTagsToDisplay.visibility = View.VISIBLE
-                        binding.rvEditProfileUserFavouriteTags.visibility = View.GONE
+
                     } else {
                         binding.tvEditProfileNoUserFavouriteTagsToDisplay.visibility = View.GONE
-                        binding.rvEditProfileUserFavouriteTags.visibility = View.VISIBLE
 
 
-                        userFavouriteTagsAdapter.setToList(arrayListOf())
-                        userFavouriteTagsAdapter.addToList(it.body.results as ArrayList<TagsResponse.Result>)
+
+
+                        binding.cgEditProfileUserFavouriteTags.removeAllViews()
+
+                        res.body.results.forEach { tag ->
+                            val chip = Chip(requireContext())
+                            chip.text = tag.name
+                            chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#4fb595"))
+                            chip.isCloseIconVisible = true
+
+                            chip.setOnCloseIconClickListener {
+                                tag.id?.also {
+                                    removeFromFavouriteTags(it)
+                                }
+                            }
+                            binding.cgEditProfileUserFavouriteTags.addView(chip)
+
+                        }
 
                     }
                 }
@@ -279,14 +258,70 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun showAddEditTagPopup() {
-        binding.includeAddEditTags.root.visible()
+
+        popupBinding = LayoutAddEditTagsBinding.inflate(layoutInflater)
+
+        val popup = PopupWindow(popupBinding.root, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, false)
+
+
+        popupBinding.btnCreateTag.setOnClickListener {
+            if (validate()) {
+                viewModel.createNewTag(
+                    TagsRequest(null, popupBinding.etAddSelectTag.text.toString())
+                )
+
+            } else {
+                makeToast("Missing Required Fields!")
+            }
+        }
+
+        var timer = Timer()
+        val delay = 800L
+
+        popupBinding.etAddSelectTag.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                timer.cancel()
+
+                timer = Timer()
+                timer.schedule(
+                    object : TimerTask() {
+                        override fun run() {
+                            viewModel.getTagsForKeyword(s.toString())
+                        }
+
+                    }, delay
+                )
+
+            }
+
+        })
+
+        popupBinding.btnCancelTag.setOnClickListener {
+            popup.dismiss()
+        }
+
+
+        popup.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
+
+        popup.showPopupDimBehind()
+
+
+
         showTagsMenuPopup(allTagsResponse)
     }
 
 
     private fun validate(): Boolean {
         val emptyFieldError = "This Field Can't Be Empty!"
-        binding.includeAddEditTags.apply {
+        popupBinding.apply {
             if (etAddSelectTag.text.isNullOrEmpty()) {
                 etAddSelectTag.error = emptyFieldError
                 return false
@@ -297,7 +332,7 @@ class EditProfileFragment : Fragment() {
 
 
     private fun showTagsMenuPopup(data: TagsResponse) {
-        val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
+        val menuPopup = PopupMenu(requireContext(), popupBinding.etAddSelectTag)
 
 
         for (tag in data.results!!) {

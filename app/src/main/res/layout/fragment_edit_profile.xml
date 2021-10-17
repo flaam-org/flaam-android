@@ -11,17 +11,17 @@
         android:orientation="vertical"
         tools:context=".ui.userprofile.EditProfileFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_edit_profile_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/background_gradient3"
-            app:theme="@style/ToolbarTheme" />
+        <ImageView
+            android:id="@+id/iv_back_edit_profile"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="12dp"
+            app:srcCompat="@drawable/ic_arrow_back_24dp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civ_edit_profile_user_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:src="@drawable/ic_profile_image_place_holder" />
@@ -184,18 +184,15 @@
                         android:text="@string/no_user_favourite_tags_to_display"
                         android:visibility="gone" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_edit_profile_user_favourite_tags"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cg_edit_profile_user_favourite_tags"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:nestedScrollingEnabled="false"
                         android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:visibility="gone"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:visibility="visible" />
+                        android:paddingBottom="4dp" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_add_tags_edit_profile"
@@ -209,14 +206,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <include
-                android:id="@+id/include_add_edit_tags"
-                layout="@layout/layout_add_edit_tags"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:visibility="gone"
-                tools:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
