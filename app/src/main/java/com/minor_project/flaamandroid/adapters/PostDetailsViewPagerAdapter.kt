@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.minor_project.flaamandroid.ui.feed.post.tabs.PostDescriptionFragment
 import com.minor_project.flaamandroid.ui.feed.post.tabs.PostDiscussionFragment
-import com.minor_project.flaamandroid.ui.feed.post.tabs.PostProjectsFragment
+import com.minor_project.flaamandroid.ui.feed.post.tabs.PostImplementationsFragment
 
 class PostDetailsViewPagerAdapter(frag: Fragment, ideaId : Int) :
     FragmentStateAdapter(frag) {
@@ -21,7 +21,7 @@ class PostDetailsViewPagerAdapter(frag: Fragment, ideaId : Int) :
                 PostDescriptionFragment(mIdeaId)
             }
             1 -> {
-                PostProjectsFragment(mIdeaId)
+                PostImplementationsFragment(mIdeaId)
             }
             2 -> {
                 PostDiscussionFragment(mIdeaId)

@@ -45,7 +45,7 @@ class PostDetailsFragment : Fragment() {
         ) { tab, position ->
             when (position) {
                 0 -> tab.text = "Description"
-                1 -> tab.text = "Projects"
+                1 -> tab.text = "Implementations"
                 2 -> tab.text = "Discussion"
             }
         }.attach()

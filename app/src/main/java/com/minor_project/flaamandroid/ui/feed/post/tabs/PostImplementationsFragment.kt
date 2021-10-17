@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import com.minor_project.flaamandroid.R
 
 
-class PostProjectsFragment(ideaId: Int) : Fragment() {
+class PostImplementationsFragment(ideaId: Int) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post_projects, container, false)
+        return inflater.inflate(R.layout.fragment_post_implementations, container, false)
     }
 
 }
