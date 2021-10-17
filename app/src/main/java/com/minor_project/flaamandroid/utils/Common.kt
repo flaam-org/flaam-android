@@ -5,18 +5,24 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.ProgressRecyclerItemBinding
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Response
 import timber.log.Timber
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
 
 private lateinit var mProgressDialog: Dialog
+
 
 fun <T> handleGetResponse(response: Response<T>): ApiResponse<T> {
     if (response.code() == 200) {
@@ -48,11 +54,16 @@ fun <T> handlePostResponse(response: Response<T>): ApiResponse<T> {
 
 fun String.getDaysDiff(): Int {
     val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
+    var diff: Int
+    try {
+        val date = sdf.parse(this.substring(0, this.length - 13) + this.substring(this.length - 6))
+        val today = Date()
 
-    val date = sdf.parse(this.substring(0, this.length - 13) + this.substring(this.length - 6))
-    val today = Date()
+        diff  = (((date!!.time - today.time) / (1000 * 60 * 60 * 24) % 7)).toInt()
+    }catch (e: ParseException){
+        diff = 0
+    }
 
-    val diff = (((date!!.time - today.time) / (1000 * 60 * 60 * 24) % 7)).toInt()
     return abs(diff)
 
 }
@@ -67,8 +78,18 @@ fun Context.getProgressViewHolder(): ProgressViewHolder {
 }
 
 
+@DelicateCoroutinesApi
 fun ImageView.loadImage(image: String) {
-    Glide.with(this).load(image).centerCrop().into(this)
+    val imageLoader = ImageLoader.Builder(this.context).build()
+    val request = ImageRequest.Builder(this.context)
+        .data(image)
+        .build()
+
+    GlobalScope.launch(Dispatchers.Main) {
+        val drawable = imageLoader.execute(request).drawable
+        this@loadImage.setImageDrawable(drawable)
+    }
+
 }
 
 fun Context.showProgressDialog() {

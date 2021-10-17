@@ -41,7 +41,7 @@ class RegisterFragment : Fragment() {
                 if (validate()) {
                     viewModel.postRegisterUser(
                         RegisterLoginRequest(
-                            "https://avatars.dicebear.com/api/jdenticon/:${etEmailRegister.text.toString()}.svg",
+                            "https://avatars.dicebear.com/api/jdenticon/${etEmailRegister.text.toString()}.svg",
                             null,
                             null,
                             null,
