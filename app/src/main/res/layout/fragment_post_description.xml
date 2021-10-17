@@ -29,17 +29,17 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/secondaryDarkColor"
                     android:foregroundTint="@color/secondaryDarkColor"
-                    android:src="@drawable/ic_profile_image_place_holder"
                     app:civ_border_color="@color/secondaryDarkColor"
                     app:civ_circle_background_color="@color/secondaryDarkColor"
-                    app:tint="@color/secondaryDarkColor" />
+                    app:tint="@color/secondaryDarkColor"
+                    tools:src="@drawable/ic_profile_image_place_holder" />
 
                 <TextView
                     android:id="@+id/tv_title_post_description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
-                    android:textColor="@color/primaryDarkColor"
+                    android:textColor="@color/primaryDarkColor2"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     tools:text="Title" />
@@ -72,7 +72,8 @@
                         android:id="@+id/iv_upvote_idea_post_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_upvote_outline_24dp" />
+                        android:src="@drawable/ic_upvote_outline_24dp"
+                        app:tint="@color/secondaryDarkColor" />
 
                     <TextView
                         android:id="@+id/tv_upvote_downvote_post_description"
@@ -80,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center_vertical"
-                        android:textColor="@color/black"
+                        android:textColor="@color/primaryDarkColor2"
                         android:textSize="24sp"
                         tools:text="45" />
 
@@ -88,7 +89,8 @@
                         android:id="@+id/iv_downvote_idea_post_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_downvote_outline_24dp" />
+                        android:src="@drawable/ic_downvote_outline_24dp"
+                        app:tint="@color/secondaryDarkColor" />
 
 
                 </LinearLayout>

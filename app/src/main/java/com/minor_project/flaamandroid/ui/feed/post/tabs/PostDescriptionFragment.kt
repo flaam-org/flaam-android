@@ -7,7 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
@@ -17,6 +21,8 @@ import com.minor_project.flaamandroid.utils.hideProgressDialog
 import com.minor_project.flaamandroid.utils.makeToast
 import com.minor_project.flaamandroid.utils.showProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PostDescriptionFragment(ideaId: Int) : Fragment() {
@@ -59,6 +65,8 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
                     val vote = it.body.vote
 
+                    val ownerAvatar = it.body.ownerAvatar
+
                     binding.apply {
                         when (vote) {
                             1 -> {
@@ -85,11 +93,31 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                             }
                         }
 
+
+                        val imageLoader = ImageLoader.Builder(requireContext())
+                            .componentRegistry {
+                                add(SvgDecoder(requireContext()))
+                            }
+                            .build()
+
+                        val request = ImageRequest.Builder(requireContext())
+                            .data(ownerAvatar.toString())
+                            .build()
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            val drawable = imageLoader.execute(request).drawable
+                            civUserImagePostDescription.setImageDrawable(drawable)
+                        }
+
+
+
                         for (tag in it.body.tags!!) {
                             val chip = Chip(requireContext())
                             chip.text = tag.name.toString()
                             binding.cgTagsPostDescription.addView(chip)
                         }
+
+
+
 
                         tvTitlePostDescription.text = it.body.title.toString()
 

@@ -12,7 +12,7 @@
     <color name="primaryColor">#69ebd0</color>
     <color name="primaryLightColor">#a0ffff</color>
     <color name="primaryDarkColor">#2ab89f</color>
-    <color name="primaryDarkColor2">#1565C0</color>
+    <color name="primaryDarkColor2">#00838F</color>
     <color name="primaryAccentColor">#69ebd0</color>
 
 
@@ -20,7 +20,7 @@
     <color name="secondaryLightColor">#72ceff</color>
     <color name="secondaryLightColor2">#E0F7FA</color>
     <color name="secondaryDarkColor">#006fc1</color>
-    <color name="secondaryDarkColor2">#00838F</color>
+    <color name="secondaryDarkColor2">#1565C0</color>
     <color name="secondaryAccentColor">#2a9df4</color>
 
 

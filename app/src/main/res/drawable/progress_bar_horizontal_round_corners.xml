@@ -19,7 +19,7 @@
                 <corners android:radius="25dp" />
                 <gradient
                     android:angle="360"
-                    android:endColor="@color/primaryDarkColor2"
+                    android:endColor="@color/secondaryDarkColor2"
                     android:startColor="@color/secondaryDarkColor2"
                     android:type="linear" />
             </shape>
