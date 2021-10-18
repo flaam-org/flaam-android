@@ -12,7 +12,11 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.adapters.MilestonesAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
@@ -20,6 +24,7 @@ import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentPostIdeaBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.gone
+import com.minor_project.flaamandroid.utils.makeSnackBar
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -29,10 +34,14 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class PostIdeaFragment : Fragment() {
 
-    var userTagsList: ArrayList<Int>? = ArrayList()
+    private var milestonesList: ArrayList<String> = ArrayList()
+
+    private var userTagsList: ArrayList<Int>? = ArrayList()
     private lateinit var binding: FragmentPostIdeaBinding
 
     private val viewModel: PostIdeaViewModel by viewModels()
+
+    private lateinit var adapter: MilestonesAdapter
 
     @Inject
     lateinit var preferences: UserPreferences
@@ -42,10 +51,11 @@ class PostIdeaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+
         binding = FragmentPostIdeaBinding.inflate(inflater)
-
+        adapter = MilestonesAdapter(this, requireContext(), milestonesList)
+        binding.rvMilestonesPostIdea.adapter = adapter
         initObservers()
-
         initOnClick()
 
         return binding.root
@@ -54,6 +64,17 @@ class PostIdeaFragment : Fragment() {
     private fun initOnClick() {
 
         binding.apply {
+
+            btnAddMilestonePostIdea.setOnClickListener {
+                val milestoneName = binding.etAddMilestonePostIdea.text.toString()
+                if (milestoneName.isEmpty()) {
+                    makeToast("Enter a Milestone to Add!")
+                } else {
+                    addMilestone(milestoneName)
+                    binding.etAddMilestonePostIdea.setText("")
+                    binding.root.makeSnackBar("Added ${milestoneName}")
+                }
+            }
 
             ivPostIdeaClose.setOnClickListener {
                 findNavController().popBackStack()
@@ -66,7 +87,7 @@ class PostIdeaFragment : Fragment() {
                             binding.etPostIdeaBody.text.toString(),
                             binding.etPostIdeaDescription.text.toString(),
                             false,
-                            null,
+                            milestonesList,
                             userTagsList,
                             binding.etPostIdeaTitle.text.toString()
                         )
@@ -120,6 +141,7 @@ class PostIdeaFragment : Fragment() {
             binding.includeAddEditTags.root.visibility = View.GONE
         }
     }
+
 
     private fun initObservers() {
 
@@ -195,16 +217,12 @@ class PostIdeaFragment : Fragment() {
 
     }
 
+
     private fun validate(): Boolean {
         val emptyFieldError = "This Field Can't Be Empty!"
         binding.apply {
             if (etPostIdeaTitle.text.isNullOrEmpty()) {
                 etPostIdeaTitle.error = emptyFieldError
-                return false
-            }
-
-            if (etPostIdeaDescription.text.isNullOrEmpty()) {
-                etPostIdeaDescription.error = emptyFieldError
                 return false
             }
 
@@ -215,7 +233,6 @@ class PostIdeaFragment : Fragment() {
             return true
         }
     }
-
 
     private fun showTagsMenuPopup(data: TagsResponse) {
         val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
@@ -261,6 +278,16 @@ class PostIdeaFragment : Fragment() {
         viewModel.finalTagsList.observe(viewLifecycleOwner, androidx.lifecycle.Observer { list ->
             userTagsList = list as ArrayList<Int>?
         })
+    }
+
+    private fun addMilestone(milestoneName: String) {
+        milestonesList.add(milestoneName)
+        adapter.notifyDataSetChanged()
+    }
+
+    fun deleteMilestone(model: String) {
+        milestonesList.remove(model)
+        adapter.notifyDataSetChanged()
     }
 
 }

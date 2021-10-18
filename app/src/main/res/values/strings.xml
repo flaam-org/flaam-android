@@ -49,4 +49,8 @@
     <string name="you_ve_reached_the_end">You\'ve Reached The End!</string>
     <string name="plus_number_of_tags">+%s</string>
     <string name="joined">"Joined - "</string>
+    <string name="add_a_milestone">Add a Milestone</string>
+    <string name="add_milestones">Add Milestones</string>
+    <string name="add">Add</string>
+    <string name="add_milestone">Add Milestone</string>
 </resources>
