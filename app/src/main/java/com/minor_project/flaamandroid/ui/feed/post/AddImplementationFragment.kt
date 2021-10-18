@@ -72,7 +72,7 @@ class AddImplementationFragment : Fragment() {
                                         null,
                                         null,
                                         etAddOverviewDescriptionAddImplementation.text.toString(),
-                                        false,
+                                        true,
                                         args.ideaId,
                                         null,
                                         null,

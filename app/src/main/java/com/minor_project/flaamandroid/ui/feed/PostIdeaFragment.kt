@@ -103,7 +103,7 @@ class PostIdeaFragment : Fragment() {
                         PostIdeaRequest(
                             binding.etPostIdeaBody.text.toString(),
                             binding.etPostIdeaDescription.text.toString(),
-                            false,
+                            true,
                             milestonesList,
                             userTagsList,
                             binding.etPostIdeaTitle.text.toString()
