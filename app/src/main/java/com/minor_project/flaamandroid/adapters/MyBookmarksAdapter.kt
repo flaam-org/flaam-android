@@ -39,14 +39,13 @@ class MyBookmarksAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        var bookmark = false
-
+        var bookmark: Boolean
         val model = list[position]
 
         (holder as MyViewHolder).binding.apply {
-            holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_user_image)
-                .setImageResource(R.drawable.ic_profile_image_place_holder)
 
+
+            civFeedPostUserImage.setOwnerAvatar(model.ownerAvatar.toString())
             tvFeedPostTitle.text = model.title
             tvFeedPostVotes.text = (model.vote ?: "0").toString()
             tvFeedPostImplementations.text = (model.implementationCount ?: "0").toString()
@@ -57,7 +56,7 @@ class MyBookmarksAdapter(
 
             val tagsList = list[position].tags ?: emptyList()
 
-            Timber.e("tags" + tagsList)
+            Timber.e("tags $tagsList")
 
             cgFeedPostTags.removeAllViews()
             tagsList.indices.forEach { i ->
@@ -163,6 +162,11 @@ class MyBookmarksAdapter(
             this.setImageResource(R.drawable.ic_bookmark_uncheck)
             fragment.removeBookmark(model.id!!)
         }
+    }
+
+    private fun ImageView.setOwnerAvatar(ownerAvatar: String) {
+
+        fragment.setOwnerAvatar(ownerAvatar, this@setOwnerAvatar)
     }
 
     private class MyViewHolder(val binding: ItemFeedPostBinding) :
