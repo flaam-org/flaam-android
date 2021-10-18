@@ -136,14 +136,6 @@ open class FeedPostAdapter(
         }
     }
 
-    private fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
-        val menuPopup = PopupMenu(context, this, Gravity.CENTER)
-        subList.forEach {
-            menuPopup.menu.add(it?.name.toString())
-        }
-        menuPopup.show()
-    }
-
 
     override fun getItemCount(): Int = list.size + 1
 

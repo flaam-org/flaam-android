@@ -3,15 +3,19 @@ package com.minor_project.flaamandroid.utils
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.ProgressRecyclerItemBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -136,6 +140,14 @@ fun PopupWindow.showPopupDimBehind() {
     p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
     p.dimAmount = 0.5f
     wm.updateViewLayout(container, p)
+}
+
+fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
+    val menuPopup = PopupMenu(context, this, Gravity.CENTER)
+    subList.forEach {
+        menuPopup.menu.add(it?.name.toString())
+    }
+    menuPopup.show()
 }
 
 val listOfChipColors = arrayListOf(

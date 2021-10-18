@@ -214,14 +214,6 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
             ivDownvoteIdeaPostDescription.isClickable = false
         }
     }
-
-    private fun View.showRemainingTagsPopup(subList: List<IdeasResponse.Result.Tag?>) {
-        val menuPopup = PopupMenu(context, this, Gravity.CENTER)
-        subList.forEach {
-            menuPopup.menu.add(it?.name.toString())
-        }
-        menuPopup.show()
-    }
 }
 
 
