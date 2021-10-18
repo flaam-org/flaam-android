@@ -9,14 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.adapters.MyIdeasAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.request.DeleteIdeaRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyIdeasBinding
 import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.hideProgressDialog
 import com.minor_project.flaamandroid.utils.makeToast
-import com.minor_project.flaamandroid.utils.showProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject

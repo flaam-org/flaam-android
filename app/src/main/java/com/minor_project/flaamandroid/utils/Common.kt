@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.PopupWindow
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.decode.SvgDecoder
@@ -58,14 +57,13 @@ fun <T> handlePostResponse(response: Response<T>): ApiResponse<T> {
 
 fun String.getDaysDiff(): Int {
     val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
-    var diff: Int
-    try {
+    val diff: Int = try {
         val date = sdf.parse(this.substring(0, this.length - 13) + this.substring(this.length - 6))
         val today = Date()
 
-        diff  = (((date!!.time - today.time) / (1000 * 60 * 60 * 24) % 7)).toInt()
+        (((date!!.time - today.time) / (1000 * 60 * 60 * 24) % 7)).toInt()
     }catch (e: ParseException){
-        diff = 0
+        0
     }
 
     return abs(diff)
