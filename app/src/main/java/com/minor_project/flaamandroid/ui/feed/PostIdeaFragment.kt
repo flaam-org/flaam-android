@@ -12,10 +12,13 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.adapters.DragManageAdapter
 import com.minor_project.flaamandroid.adapters.MilestonesAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.PostIdeaRequest
@@ -43,6 +46,7 @@ class PostIdeaFragment : Fragment() {
 
     private lateinit var adapter: MilestonesAdapter
 
+
     @Inject
     lateinit var preferences: UserPreferences
 
@@ -55,6 +59,19 @@ class PostIdeaFragment : Fragment() {
         binding = FragmentPostIdeaBinding.inflate(inflater)
         adapter = MilestonesAdapter(this, requireContext(), milestonesList)
         binding.rvMilestonesPostIdea.adapter = adapter
+
+        // Setup ItemTouchHelper
+        val callback = DragManageAdapter(
+            adapter,
+            requireContext(),
+            ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),
+            ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
+        )
+
+        val helper = ItemTouchHelper(callback)
+
+        helper.attachToRecyclerView(binding.rvMilestonesPostIdea)
+
         initObservers()
         initOnClick()
 

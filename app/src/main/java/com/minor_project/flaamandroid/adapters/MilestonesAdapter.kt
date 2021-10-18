@@ -71,6 +71,24 @@ open class MilestonesAdapter(
     }
 
 
+    /**
+     * Function called to swap dragged items
+     */
+    fun swapItems(fromPosition: Int, toPosition: Int) {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                list[i] = list.set(i + 1, list[i])
+            }
+        } else {
+            for (i in fromPosition..toPosition + 1) {
+                list[i] = list.set(i - 1, list[i])
+            }
+        }
+
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+
     private class MyViewHolder(
         val binding: ItemMilestoneBinding
     ) :
