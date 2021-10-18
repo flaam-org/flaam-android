@@ -40,7 +40,11 @@ fun <T> handleGetResponse(response: Response<T>): ApiResponse<T> {
     }
 
     Timber.e(response.errorBody()?.string().toString())
-    return ApiResponse.Error(message = response.message(), status = response.code())
+    return ApiResponse.Error(
+        message = response.message(),
+        body = response.body(),
+        status = response.code()
+    )
 }
 
 
@@ -52,8 +56,11 @@ fun <T> handlePostResponse(response: Response<T>): ApiResponse<T> {
         }
     }
 
+
+    Timber.e(response.errorBody()?.string().toString())
     return ApiResponse.Error(
         message = response.errorBody()?.string().toString(),
+        body = response.body(),
         status = response.code()
     )
 }
@@ -66,7 +73,7 @@ fun String.getDaysDiff(): Int {
         val today = Date()
 
         (((date!!.time - today.time) / (1000 * 60 * 60 * 24) % 7)).toInt()
-    }catch (e: ParseException){
+    } catch (e: ParseException) {
         0
     }
 
@@ -99,8 +106,7 @@ fun ImageView.loadImage(image: String) {
 }
 
 
-
-suspend fun ImageView.loadSVG(image: String){
+suspend fun ImageView.loadSVG(image: String) {
     val context = this.context
     val imageLoader = ImageLoader.Builder(context)
         .componentRegistry {
@@ -112,9 +118,9 @@ suspend fun ImageView.loadSVG(image: String){
         .data(image)
         .build()
 
-        val drawable = imageLoader.execute(request).drawable
+    val drawable = imageLoader.execute(request).drawable
 
-        this.setImageDrawable(drawable)
+    this.setImageDrawable(drawable)
 }
 
 fun Context.showProgressDialog() {
