@@ -146,23 +146,9 @@ class UserProfileFragment : Fragment() {
                             it.body.dateJoined.toString().getDaysDiff().toString()
                         )
 
-
-
-                        val imageLoader = ImageLoader.Builder(requireContext())
-                            .componentRegistry {
-                                add(SvgDecoder(requireContext()))
-                            }
-                            .build()
-
-                        val request = ImageRequest.Builder(requireContext())
-                            .data(it.body.avatar.toString())
-                            .build()
                         lifecycleScope.launch(Dispatchers.Main) {
-                            val drawable = imageLoader.execute(request).drawable
-                            civUserProfileUserImage.setImageDrawable(drawable)
+                            civUserProfileUserImage.loadSVG(it.body.avatar.toString())
                         }
-
-
 
 
                     }

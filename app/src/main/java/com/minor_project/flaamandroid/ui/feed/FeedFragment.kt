@@ -523,19 +523,8 @@ class FeedFragment : Fragment() {
     }
 
     fun setOwnerAvatar(ownerAvatar: String, imageView: ImageView) {
-        val imageLoader = ImageLoader.Builder(requireContext())
-            .componentRegistry {
-                add(SvgDecoder(requireContext()))
-            }
-            .build()
-
-        val request = ImageRequest.Builder(requireContext())
-            .data(ownerAvatar)
-            .build()
-
-        lifecycleScope.launch(Dispatchers.Main) {
-            val drawable = imageLoader.execute(request).drawable
-            imageView.setImageDrawable(drawable)
+        lifecycleScope.launch {
+            imageView.loadSVG(ownerAvatar)
         }
     }
 }

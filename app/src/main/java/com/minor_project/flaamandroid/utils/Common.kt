@@ -4,9 +4,13 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.PopupWindow
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
+import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.ProgressRecyclerItemBinding
@@ -92,6 +96,25 @@ fun ImageView.loadImage(image: String) {
 
 }
 
+
+
+suspend fun ImageView.loadSVG(image: String){
+    val context = this.context
+    val imageLoader = ImageLoader.Builder(context)
+        .componentRegistry {
+            add(SvgDecoder(context))
+        }
+        .build()
+
+    val request = ImageRequest.Builder(context)
+        .data(image)
+        .build()
+
+        val drawable = imageLoader.execute(request).drawable
+
+        this.setImageDrawable(drawable)
+}
+
 fun Context.showProgressDialog() {
     mProgressDialog = Dialog(this)
 
@@ -105,6 +128,16 @@ fun Context.showProgressDialog() {
 
 fun Context.hideProgressDialog() {
     mProgressDialog.dismiss()
+}
+
+fun PopupWindow.showPopupDimBehind() {
+
+    val container = this.contentView.rootView
+    val wm = container.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    val p = container.layoutParams as WindowManager.LayoutParams
+    p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND
+    p.dimAmount = 0.5f
+    wm.updateViewLayout(container, p)
 }
 
 val listOfChipColors = arrayListOf(

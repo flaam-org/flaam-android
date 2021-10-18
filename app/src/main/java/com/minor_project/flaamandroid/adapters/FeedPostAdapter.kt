@@ -181,6 +181,7 @@ open class FeedPostAdapter(
     }
 
     private fun ImageView.setOwnerAvatar(ownerAvatar: String) {
+
         fragment.setOwnerAvatar(ownerAvatar, this@setOwnerAvatar)
     }
 
