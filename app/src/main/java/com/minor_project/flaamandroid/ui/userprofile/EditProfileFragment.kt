@@ -94,9 +94,6 @@ class EditProfileFragment : Fragment() {
         }
 
 
-
-
-
     }
 
     private fun initObserver() {
@@ -109,7 +106,7 @@ class EditProfileFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    lifecycleScope.launch(Dispatchers.Main){
+                    lifecycleScope.launch(Dispatchers.Main) {
                         binding.civEditProfileUserImage.loadSVG(it.body.avatar.toString())
                     }
 
@@ -147,7 +144,8 @@ class EditProfileFragment : Fragment() {
                         res.body.results.forEach { tag ->
                             val chip = Chip(requireContext())
                             chip.text = tag.name
-                            chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#4fb595"))
+                            chip.chipBackgroundColor =
+                                ColorStateList.valueOf(Color.parseColor("#4fb595"))
                             chip.isCloseIconVisible = true
 
                             chip.setOnCloseIconClickListener {
@@ -261,7 +259,12 @@ class EditProfileFragment : Fragment() {
 
         popupBinding = LayoutAddEditTagsBinding.inflate(layoutInflater)
 
-        val popup = PopupWindow(popupBinding.root, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, false)
+        val popup = PopupWindow(
+            popupBinding.root,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            false
+        )
 
 
         popupBinding.btnCreateTag.setOnClickListener {
