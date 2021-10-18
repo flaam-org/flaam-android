@@ -17,7 +17,10 @@ class DragManageAdapter(
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        milestonesAdapter.swapItems(viewHolder.adapterPosition, target.adapterPosition)
+        milestonesAdapter.swapItems(
+            viewHolder.bindingAdapterPosition,
+            target.bindingAdapterPosition
+        )
         return true
     }
 
