@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.adapters.MyIdeasAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
@@ -13,8 +15,10 @@ import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyIdeasBinding
 import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
+import com.minor_project.flaamandroid.utils.loadSVG
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -165,6 +169,12 @@ class MyIdeasFragment : Fragment() {
 //            )
 //        )
 
+    }
+
+    fun setOwnerAvatar(ownerAvatar: String, imageView: ImageView) {
+        lifecycleScope.launch {
+            imageView.loadSVG(ownerAvatar)
+        }
     }
 
 }

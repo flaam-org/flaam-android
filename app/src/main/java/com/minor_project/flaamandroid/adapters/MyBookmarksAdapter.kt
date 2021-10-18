@@ -47,8 +47,11 @@ class MyBookmarksAdapter(
 
             civFeedPostUserImage.setOwnerAvatar(model.ownerAvatar.toString())
             tvFeedPostTitle.text = model.title
-            tvFeedPostVotes.text = (model.vote ?: "0").toString()
-            tvFeedPostImplementations.text = (model.implementationCount ?: "0").toString()
+            val upvote = model.upvoteCount ?: 0
+            val downvote = model.downvoteCount ?: 0
+            val votes = upvote - downvote
+            tvFeedPostVotes.text = votes.toString()
+            tvFeedPostImplementations.text = (model.implementationCount ?: 0).toString()
             tvFeedPostDescription.text = model.description
 
 

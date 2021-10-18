@@ -44,12 +44,13 @@ class MyIdeasAdapter(
         val model = list[position]
 
         (holder as MyViewHolder).binding.apply {
-            holder.itemView.findViewById<ImageView>(R.id.civ_feed_post_my_ideas_user_image)
-                .setImageResource(R.drawable.ic_profile_image_place_holder)
-
+            civFeedPostMyIdeasUserImage.setOwnerAvatar(model.ownerAvatar.toString())
             tvFeedPostMyIdeasTitle.text = model.title
-            tvFeedPostMyIdeasVotes.text = (model.vote ?: "0").toString()
-            tvFeedPostMyIdeasImplementations.text = (model.implementationCount ?: "0").toString()
+            val upvote = model.upvoteCount ?: 0
+            val downvote = model.downvoteCount ?: 0
+            val votes = upvote - downvote
+            tvFeedPostMyIdeasVotes.text = votes.toString()
+            tvFeedPostMyIdeasImplementations.text = (model.implementationCount ?: 0).toString()
             tvFeedPostMyIdeasDescription.text = model.description
 
 
@@ -167,6 +168,12 @@ class MyIdeasAdapter(
             this.setImageResource(R.drawable.ic_bookmark_uncheck)
             fragment.removeBookmark(model.id!!)
         }
+    }
+
+
+    private fun ImageView.setOwnerAvatar(ownerAvatar: String) {
+
+        fragment.setOwnerAvatar(ownerAvatar, this@setOwnerAvatar)
     }
 
     private class MyViewHolder(val binding: ItemFeedPostMyIdeasBinding) :
