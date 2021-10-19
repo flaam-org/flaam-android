@@ -16,6 +16,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@string/login"
+            android:textColor="@color/primaryTextColor"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -31,15 +32,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/login_description_text"
-            android:textSize="16sp" />
+            android:textAlignment="center"
+            android:textColor="@color/primaryDarkColor"
+            android:textSize="16sp"
+            android:textStyle="italic|bold" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="25dp"
             android:elevation="10dp"
             app:cardCornerRadius="10dp">
@@ -64,6 +69,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/username"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,7 +90,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/password"
+                        android:imeOptions="actionDone"
                         android:inputType="textPassword"
+                        android:singleLine="true"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,10 +119,13 @@
             android:id="@+id/tv_forgot_password_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:padding="8dp"
-            android:text="forgot password?"
+            android:text="@string/forgot_password"
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:textColor="@color/primaryTextColor"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

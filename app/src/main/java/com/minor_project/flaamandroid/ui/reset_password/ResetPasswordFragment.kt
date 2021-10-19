@@ -35,7 +35,7 @@ class ResetPasswordFragment : Fragment() {
         binding.apply {
             btnLogin.setOnClickListener {
                 hideKeyboard()
-                if(etMailFragmentReset.text.toString().isEmailValid()){
+                if (etMailFragmentReset.text.toString().isEmailValid()) {
                     viewModel.getResetPasswordToken(etMailFragmentReset.text.toString())
                 }
 
@@ -49,8 +49,8 @@ class ResetPasswordFragment : Fragment() {
 
 
 
-        viewModel.resetPassResult.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.resetPassResult.observe(viewLifecycleOwner) {
+            when (it) {
                 is ApiResponse.Error -> {
                     Timber.e(it.body.toString())
                     binding.root.makeSnackBar("Password Reset Link Has Been Sent To Your Mail!")

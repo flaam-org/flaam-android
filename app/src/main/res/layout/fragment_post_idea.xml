@@ -140,8 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_bulleted_list_24dp"
-                    app:tint="@color/black" />
+                    android:src="@drawable/ic_target_color_24dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"

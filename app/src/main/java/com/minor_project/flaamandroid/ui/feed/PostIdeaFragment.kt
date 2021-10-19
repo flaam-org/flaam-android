@@ -25,10 +25,7 @@ import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentPostIdeaBinding
-import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.gone
-import com.minor_project.flaamandroid.utils.makeSnackBar
-import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
@@ -91,6 +88,8 @@ class PostIdeaFragment : Fragment() {
                     binding.etAddMilestonePostIdea.setText("")
                     binding.root.makeSnackBar("Added ${milestoneName}")
                 }
+
+                hideKeyboard()
             }
 
             ivPostIdeaClose.setOnClickListener {
