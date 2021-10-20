@@ -1,4 +1,4 @@
-package com.minor_project.flaamandroid.ui.feed
+package com.minor_project.flaamandroid.ui.feed.post
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

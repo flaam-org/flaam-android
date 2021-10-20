@@ -3,14 +3,11 @@ package com.minor_project.flaamandroid.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.ItemMilestoneBinding
-import com.minor_project.flaamandroid.ui.feed.PostIdeaFragment
-import com.minor_project.flaamandroid.utils.Constants
+import com.minor_project.flaamandroid.ui.feed.post.PostIdeaFragment
 import java.util.*
 
 open class MilestonesAdapter(

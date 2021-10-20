@@ -59,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/postIdeaFragment"
-        android:name="com.minor_project.flaamandroid.ui.feed.PostIdeaFragment"
+        android:name="com.minor_project.flaamandroid.ui.feed.post.PostIdeaFragment"
         android:label="fragment_post_idea"
         tools:layout="@layout/fragment_post_idea" />
     <action
