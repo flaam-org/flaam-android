@@ -19,6 +19,8 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun postIdea(body: PostIdeaRequest) = api.postIdea(body)
 
+    suspend fun updateIdea(body: PostIdeaRequest, id: Int) = api.updateIdea(body, id)
+
     suspend fun deleteIdea(id: Int, body: DeleteIdeaRequest) = api.deleteIdea(id, body)
 
     suspend fun getIdeas(

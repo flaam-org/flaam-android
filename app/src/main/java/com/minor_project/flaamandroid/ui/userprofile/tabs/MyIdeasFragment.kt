@@ -139,6 +139,7 @@ class MyIdeasFragment : Fragment() {
 //                }
 //            }
 //        }
+
     }
 
     fun addToBookmark(id: Int) {
@@ -175,6 +176,14 @@ class MyIdeasFragment : Fragment() {
         lifecycleScope.launch {
             imageView.loadSVG(ownerAvatar)
         }
+    }
+
+    fun editIdea(ideaId: Int) {
+        findNavController().navigate(
+            UserProfileFragmentDirections.actionUserProfileFragmentToEditIdeaFragment(
+                ideaId
+            )
+        )
     }
 
 }

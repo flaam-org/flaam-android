@@ -80,6 +80,9 @@
             android:id="@+id/action_userProfileFragment_to_postDetailsFragment"
             app:destination="@id/postDetailsFragment"
             app:popUpTo="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_editIdeaFragment"
+            app:destination="@id/editIdeaFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -112,4 +115,13 @@
         android:name="com.minor_project.flaamandroid.ui.reset_password.ResetPasswordFragment"
         android:label="fragment_reset_password_email"
         tools:layout="@layout/fragment_reset_password_email" /><action android:id="@+id/action_global_resetPasswordFragment" app:destination="@id/resetPasswordFragment"/>
+    <fragment
+        android:id="@+id/editIdeaFragment"
+        android:name="com.minor_project.flaamandroid.ui.userprofile.tabs.EditIdeaFragment"
+        android:label="fragment_edit_idea"
+        tools:layout="@layout/fragment_edit_idea" >
+        <argument
+            android:name="ideaId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

@@ -1,17 +1,15 @@
 package com.minor_project.flaamandroid.adapters
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.databinding.ItemMilestoneBinding
-import com.minor_project.flaamandroid.ui.feed.post.PostIdeaFragment
-import java.util.*
+import com.minor_project.flaamandroid.ui.userprofile.tabs.EditIdeaFragment
+import java.util.ArrayList
 
-open class MilestonesAdapter(
-    private val fragment: PostIdeaFragment,
+open class MilestonesEditIdeaAdapter(
+    private val fragment: EditIdeaFragment,
     private val context: Context,
     private var list: ArrayList<String>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

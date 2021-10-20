@@ -32,7 +32,7 @@ class PostIdeaFragment : Fragment() {
 
     private var milestonesList: ArrayList<String> = ArrayList()
 
-    private var userTagsList: ArrayList<Int>? = ArrayList()
+    private var userTagsList: ArrayList<Int> = ArrayList()
     private lateinit var binding: FragmentPostIdeaBinding
 
     private val viewModel: PostIdeaViewModel by viewModels()
@@ -82,7 +82,7 @@ class PostIdeaFragment : Fragment() {
                 } else {
                     addMilestone(milestoneName)
                     binding.etAddMilestonePostIdea.setText("")
-                    binding.root.makeSnackBar("Added ${milestoneName}")
+                    binding.root.makeSnackBar("Added $milestoneName")
                 }
 
                 hideKeyboard()
@@ -100,7 +100,7 @@ class PostIdeaFragment : Fragment() {
                             binding.etPostIdeaDescription.text.toString(),
                             true,
                             milestonesList,
-                            userTagsList,
+                            userTagsList.distinct(),
                             binding.etPostIdeaTitle.text.toString()
                         )
                     )
@@ -140,7 +140,7 @@ class PostIdeaFragment : Fragment() {
         })
 
         binding.includeAddEditTags.btnCreateTag.setOnClickListener {
-            if (validate()) {
+            if (validateCreateTag()) {
                 viewModel.createNewTag(
                     TagsRequest(null, binding.includeAddEditTags.etAddSelectTag.text.toString())
                 )
@@ -157,7 +157,7 @@ class PostIdeaFragment : Fragment() {
 
     private fun initObservers() {
 
-        viewModel.finalTagsList(userTagsList!!)
+        viewModel.finalTagsList(userTagsList)
         viewModel.postIdea.observe(viewLifecycleOwner) { res ->
             when (res) {
                 is ApiResponse.Error -> {
@@ -213,13 +213,13 @@ class PostIdeaFragment : Fragment() {
                     chip.isCloseIconVisible = true
                     chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
                     chip.setOnCloseIconClickListener {
-                        userTagsList?.remove(res.body.id!!)
+                        userTagsList.remove(res.body.id!!)
                         chip.gone()
                         updateTagsList()
                     }
                     binding.chipGroupPostIdeaTags.addView(chip)
 
-                    userTagsList!!.add(res.body.id!!)
+                    userTagsList.add(res.body.id!!)
 
                     updateTagsList()
                     makeToast("Tag Created!")
@@ -246,6 +246,18 @@ class PostIdeaFragment : Fragment() {
         }
     }
 
+    private fun validateCreateTag(): Boolean {
+        val emptyFieldError = "This Field Can't Be Empty!"
+        binding.includeAddEditTags.apply {
+            if (etAddSelectTag.text.isNullOrEmpty()) {
+                etAddSelectTag.error = emptyFieldError
+                return false
+            }
+            return true
+        }
+    }
+
+
     private fun showTagsMenuPopup(data: TagsResponse) {
         val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
 
@@ -262,14 +274,14 @@ class PostIdeaFragment : Fragment() {
             chip.isCloseIconVisible = true
             chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
             chip.setOnCloseIconClickListener {
-                userTagsList?.remove(data.results.first {
+                userTagsList.remove(data.results.first {
                     it.name == chip.text
                 }.id!!)
                 updateTagsList()
                 chip.gone()
             }
 
-            userTagsList!!.add(data.results.first {
+            userTagsList.add(data.results.first {
                 it.name == chip.text
             }.id!!)
 
@@ -288,7 +300,7 @@ class PostIdeaFragment : Fragment() {
 
     private fun updateTagsList() {
         viewModel.finalTagsList.observe(viewLifecycleOwner, androidx.lifecycle.Observer { list ->
-            userTagsList = list as ArrayList<Int>?
+            userTagsList = (list as ArrayList<Int>?)!!
         })
     }
 

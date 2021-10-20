@@ -105,6 +105,10 @@ class MyIdeasAdapter(
                 fragment.deleteIdea(model.id!!, model)
             }
 
+            ivEditIdeaFeedPostMyIdeas.setOnClickListener {
+                fragment.editIdea(model.id!!)
+            }
+
             val ideaId = model.id!!
 
             holder.itemView.setOnClickListener {

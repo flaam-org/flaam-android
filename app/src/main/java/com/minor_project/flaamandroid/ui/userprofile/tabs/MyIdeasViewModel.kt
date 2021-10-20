@@ -65,7 +65,7 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
         }
     }
 
-    fun deleteIdea(id : Int , body: DeleteIdeaRequest) {
+    fun deleteIdea(id: Int, body: DeleteIdeaRequest) {
         viewModelScope.launch {
             val res = repo.deleteIdea(id, body)
             _deleteIdea.postValue(handlePostResponse(res))

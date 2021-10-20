@@ -54,4 +54,5 @@
     <string name="add">Add</string>
     <string name="add_milestone">Add Milestone</string>
     <string name="forgot_password">forgot password?</string>
+    <string name="edit_idea">EDIT IDEA</string>
 </resources>

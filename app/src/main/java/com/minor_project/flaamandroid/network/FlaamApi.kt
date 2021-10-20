@@ -27,6 +27,12 @@ interface FlaamApi {
     @POST("ideas")
     suspend fun postIdea(@Body body: PostIdeaRequest): Response<IdeasResponse.Result>
 
+    @PATCH("idea/{id}")
+    suspend fun updateIdea(
+        @Body body: PostIdeaRequest,
+        @Path("id") id: Int
+    ): Response<IdeasResponse.Result>
+
 
     @DELETE("idea/{id}")
     suspend fun deleteIdea(
