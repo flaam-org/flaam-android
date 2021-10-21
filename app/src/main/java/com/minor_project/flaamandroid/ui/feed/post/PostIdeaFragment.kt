@@ -15,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.chip.Chip
-import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.adapters.DragManageAdapter
 import com.minor_project.flaamandroid.adapters.MilestonesAdapter
 import com.minor_project.flaamandroid.data.UserPreferences

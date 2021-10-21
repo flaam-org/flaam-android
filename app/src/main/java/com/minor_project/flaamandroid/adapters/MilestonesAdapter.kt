@@ -5,13 +5,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.databinding.ItemMilestoneBinding
 import com.minor_project.flaamandroid.ui.feed.post.PostIdeaFragment
+import com.minor_project.flaamandroid.ui.userprofile.tabs.EditIdeaFragment
 import java.util.*
 
 open class MilestonesAdapter(
-    private val fragment: PostIdeaFragment,
+    private val fragment: Fragment,
     private val context: Context,
     private var list: ArrayList<String>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -57,7 +59,14 @@ open class MilestonesAdapter(
     }
 
     private fun deleteMilestone(model: String) {
-        fragment.deleteMilestone(model)
+        if (fragment is PostIdeaFragment) {
+            fragment.deleteMilestone(model)
+        }
+        else if(fragment is EditIdeaFragment)
+        {
+            fragment.deleteMilestone(model)
+        }
+
     }
 
     override fun getItemCount(): Int {

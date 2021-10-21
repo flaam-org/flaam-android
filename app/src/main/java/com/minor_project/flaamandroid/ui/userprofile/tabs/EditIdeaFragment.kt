@@ -16,8 +16,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.chip.Chip
-import com.minor_project.flaamandroid.adapters.DragManageEditIdeaAdapter
-import com.minor_project.flaamandroid.adapters.MilestonesEditIdeaAdapter
+import com.minor_project.flaamandroid.adapters.DragManageAdapter
+import com.minor_project.flaamandroid.adapters.MilestonesAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
@@ -47,7 +47,7 @@ class EditIdeaFragment : Fragment() {
 
     private val args: EditIdeaFragmentArgs by navArgs()
 
-    private lateinit var adapter: MilestonesEditIdeaAdapter
+    private lateinit var adapter: MilestonesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,11 +56,11 @@ class EditIdeaFragment : Fragment() {
 
         binding = FragmentEditIdeaBinding.inflate(inflater)
 
-        adapter = MilestonesEditIdeaAdapter(this, requireContext(), milestonesList)
+        adapter = MilestonesAdapter(this, requireContext(), milestonesList)
         binding.rvMilestonesEditIdea.adapter = adapter
 
         // Setup ItemTouchHelper
-        val callback = DragManageEditIdeaAdapter(
+        val callback = DragManageAdapter(
             adapter,
             requireContext(),
             ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),
