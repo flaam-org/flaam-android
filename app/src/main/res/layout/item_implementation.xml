@@ -25,11 +25,6 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/primaryDarkColor2"
-                android:foregroundTint="@color/primaryDarkColor2"
-                app:civ_border_color="@color/primaryDarkColor2"
-                app:civ_circle_background_color="@color/primaryDarkColor2"
-                app:tint="@color/primaryDarkColor2"
                 tools:src="@drawable/ic_profile_image_place_holder" />
 
             <TextView

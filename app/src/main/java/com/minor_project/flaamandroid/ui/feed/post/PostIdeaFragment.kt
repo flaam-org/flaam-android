@@ -11,9 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.chip.Chip
+import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.adapters.DragManageAdapter
 import com.minor_project.flaamandroid.adapters.MilestonesAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
@@ -23,6 +25,8 @@ import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentPostIdeaBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -156,6 +160,25 @@ class PostIdeaFragment : Fragment() {
 
 
     private fun initObservers() {
+        requireContext().showProgressDialog()
+        viewModel.getUserProfile()
+        viewModel.userProfile.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    requireContext().hideProgressDialog()
+                    makeToast("Unable to fetch Data!")
+                }
+
+                is ApiResponse.Success -> {
+                    requireContext().hideProgressDialog()
+                    binding.apply {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            civPostIdeaUserImage.loadSVG(it.body.avatar.toString())
+                        }
+                    }
+                }
+            }
+        }
 
         viewModel.finalTagsList(userTagsList)
         viewModel.postIdea.observe(viewLifecycleOwner) { res ->

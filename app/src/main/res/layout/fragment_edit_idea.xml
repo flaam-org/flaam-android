@@ -56,12 +56,14 @@
                     android:id="@+id/civ_edit_idea_user_image"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_profile_image_place_holder" />
+                    android:layout_marginEnd="4dp"
+                    tools:src="@drawable/ic_profile_image_place_holder" />
 
                 <EditText
                     android:id="@+id/et_edit_idea_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
                     android:hint="@string/add_title"
                     android:textSize="32sp"
                     android:textStyle="bold" />

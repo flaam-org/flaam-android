@@ -8,6 +8,7 @@ import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
+import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
@@ -21,6 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class PostIdeaViewModel @Inject constructor(private val flaamRepo: FlaamRepository) :
     ViewModel() {
+
+    private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
+    val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
 
     private val _postIdea = MutableLiveData<ApiResponse<IdeasResponse.Result>>()
     val postIdea: LiveData<ApiResponse<IdeasResponse.Result>> = _postIdea
@@ -40,6 +44,13 @@ class PostIdeaViewModel @Inject constructor(private val flaamRepo: FlaamReposito
 
     private val _createNewTag = MutableLiveData<ApiResponse<TagsResponse.Result>>()
     val createNewTag: LiveData<ApiResponse<TagsResponse.Result>> = _createNewTag
+
+    fun getUserProfile() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = flaamRepo.getUserProfile()
+            _userProfile.postValue(handleGetResponse(res))
+        }
+    }
 
 
     fun postIdea(body: PostIdeaRequest) {

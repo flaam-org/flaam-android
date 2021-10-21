@@ -52,7 +52,7 @@ class EditIdeaFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentEditIdeaBinding.inflate(inflater)
 
@@ -167,15 +167,18 @@ class EditIdeaFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.finalTagsList(userTagsList!!)
+        requireContext().showProgressDialog()
+        viewModel.finalTagsList(userTagsList)
         viewModel.getIdeaDetails(args.ideaId)
         viewModel.ideaDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    requireContext().hideProgressDialog()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    requireContext().hideProgressDialog()
                     binding.apply {
                         etEditIdeaTitle.setText(it.body.title.toString())
 
@@ -257,13 +260,13 @@ class EditIdeaFragment : Fragment() {
                     chip.isCloseIconVisible = true
                     chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
                     chip.setOnCloseIconClickListener {
-                        userTagsList?.remove(res.body.id!!)
+                        userTagsList.remove(res.body.id!!)
                         chip.gone()
                         updateTagsList()
                     }
                     binding.chipGroupEditIdeaTags.addView(chip)
 
-                    userTagsList!!.add(res.body.id!!)
+                    userTagsList.add(res.body.id!!)
 
                     updateTagsList()
                     makeToast("Tag Created!")
@@ -301,14 +304,14 @@ class EditIdeaFragment : Fragment() {
             chip.isCloseIconVisible = true
             chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
             chip.setOnCloseIconClickListener {
-                userTagsList?.remove(data.results.first {
+                userTagsList.remove(data.results.first {
                     it.name == chip.text
                 }.id!!)
                 updateTagsList()
                 chip.gone()
             }
 
-            userTagsList!!.add(data.results.first {
+            userTagsList.add(data.results.first {
                 it.name == chip.text
             }.id!!)
 
