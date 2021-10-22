@@ -25,6 +25,7 @@ import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class PostDescriptionFragment(ideaId: Int) : Fragment() {
@@ -111,6 +112,8 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                             val drawable = imageLoader.execute(request).drawable
                             civUserImagePostDescription.setImageDrawable(drawable)
                         }
+
+                        Timber.e(tagsList.toString())
 
                         tagsList.indices.forEach { i ->
                             val chip = Chip(context)

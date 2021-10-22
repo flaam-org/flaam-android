@@ -74,6 +74,8 @@ class FeedFragment : Fragment() {
 
         binding.apply {
 
+
+
             llCardview.setOnClickListener {
                 collapseFilterView()
             }

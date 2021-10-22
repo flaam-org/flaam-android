@@ -8,7 +8,8 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,17 +25,17 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/civ_user_image_post_description"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     tools:src="@drawable/ic_profile_image_place_holder" />
 
                 <TextView
                     android:id="@+id/tv_title_post_description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
                     android:layout_weight="8"
-                    android:textColor="@color/primaryDarkColor2"
+                    android:textColor="@color/black"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     tools:text="Title" />
@@ -45,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/ic_bookmark_uncheck"
-                    app:tint="@color/secondaryDarkColor"
+                    app:tint="@color/black"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
 
@@ -68,7 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_upvote_outline_24dp"
-                        app:tint="@color/secondaryDarkColor" />
+                        app:tint="@color/black" />
 
                     <TextView
                         android:id="@+id/tv_upvote_downvote_post_description"
@@ -76,7 +77,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center_vertical"
-                        android:textColor="@color/primaryDarkColor2"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
                         tools:text="45" />
 
@@ -85,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_downvote_outline_24dp"
-                        app:tint="@color/secondaryDarkColor" />
+                        app:tint="@color/black" />
 
 
                 </LinearLayout>
@@ -101,7 +102,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:background="@android:color/holo_red_dark"
                         app:chipSpacingHorizontal="5dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        </com.google.android.material.chip.Chip>
 
                     </com.google.android.material.chip.ChipGroup>
 
@@ -109,6 +117,7 @@
                         android:id="@+id/tv_body_post_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#999999"
                         tools:text="@string/sample_text_2" />
 
                 </LinearLayout>
@@ -129,8 +138,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_add_implementation_24dp"
-                    app:tint="@color/secondaryDarkColor" />
+                    android:src="@drawable/ic_implement"
+                    app:srcCompat="@drawable/ic_implement"
+                    app:tint="@color/black" />
 
                 <ImageView
                     android:id="@+id/iv_share_post_description"
@@ -138,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/ic_share_24dp"
-                    app:tint="@color/secondaryDarkColor" />
+                    app:tint="@color/black" />
 
             </RelativeLayout>
 

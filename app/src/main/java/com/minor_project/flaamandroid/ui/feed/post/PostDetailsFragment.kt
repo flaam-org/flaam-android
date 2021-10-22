@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.minor_project.flaamandroid.adapters.PostDetailsViewPagerAdapter
@@ -32,6 +33,9 @@ class PostDetailsFragment : Fragment() {
 
         binding = FragmentPostDetailsBinding.inflate(inflater)
 
+        binding.ivBackPostDetails.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         val tabLayout = binding.tabLayoutPostDetails
 
@@ -70,9 +74,9 @@ class PostDetailsFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    binding.apply {
-                        tvPostDetailsTitle.text = it.body.title.toString()
-                    }
+//                    binding.apply {
+//                        tvPostDetailsTitle.text = it.body.title.toString()
+//                    }
                 }
             }
         }
