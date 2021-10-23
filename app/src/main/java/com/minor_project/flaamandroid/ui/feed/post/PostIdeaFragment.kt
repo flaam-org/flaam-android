@@ -5,11 +5,14 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.PopupMenu
+import android.widget.PopupWindow
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,6 +25,7 @@ import com.minor_project.flaamandroid.data.request.PostIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentPostIdeaBinding
+import com.minor_project.flaamandroid.databinding.LayoutAddEditTagsBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +49,77 @@ class PostIdeaFragment : Fragment() {
 
     @Inject
     lateinit var preferences: UserPreferences
+
+    private lateinit var popupBinding: LayoutAddEditTagsBinding
+    private lateinit var allTagsResponse: TagsResponse
+
+    private fun showAddEditTagPopup() {
+
+        popupBinding = LayoutAddEditTagsBinding.inflate(layoutInflater)
+
+        val popup = PopupWindow(
+            popupBinding.root,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            false
+        )
+
+
+        popupBinding.btnCreateTag.setOnClickListener {
+            if (validate()) {
+                viewModel.createNewTag(
+                    TagsRequest(null, popupBinding.etAddSelectTag.text.toString())
+                )
+
+            } else {
+                makeToast("Missing Required Fields!")
+            }
+        }
+
+        var timer = Timer()
+        val delay = 800L
+
+        popupBinding.etAddSelectTag.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                timer.cancel()
+
+                timer = Timer()
+                timer.schedule(
+                    object : TimerTask() {
+                        override fun run() {
+                            viewModel.getTagsForKeyword(s.toString())
+                        }
+
+                    }, delay
+                )
+
+            }
+
+        })
+
+        popupBinding.btnCancelTag.setOnClickListener {
+            popup.dismiss()
+        }
+
+
+        popup.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
+
+        popup.showPopupDimBehind()
+
+        if(::allTagsResponse.isInitialized){
+            showTagsMenuPopup(allTagsResponse)
+        }
+
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -95,6 +170,10 @@ class PostIdeaFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
+            chipPostIdeaAddTag.setOnClickListener {
+                showAddEditTagPopup()
+            }
+
             btnPostIdea.setOnClickListener {
                 if (validate()) {
                     viewModel.postIdea(
@@ -116,45 +195,7 @@ class PostIdeaFragment : Fragment() {
         var timer = Timer()
         val delay = 800L
 
-        binding.includeAddEditTags.etAddSelectTag.addTextChangedListener(object : TextWatcher {
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                timer.cancel()
-
-                timer = Timer()
-                timer.schedule(
-                    object : TimerTask() {
-                        override fun run() {
-                            viewModel.getTagsForKeyword(s.toString())
-                        }
-
-                    }, delay
-                )
-
-            }
-
-        })
-
-        binding.includeAddEditTags.btnCreateTag.setOnClickListener {
-            if (validateCreateTag()) {
-                viewModel.createNewTag(
-                    TagsRequest(null, binding.includeAddEditTags.etAddSelectTag.text.toString())
-                )
-            } else {
-                makeToast("Missing Required Fields!")
-            }
-        }
-
-        binding.includeAddEditTags.btnCancelTag.setOnClickListener {
-            binding.includeAddEditTags.root.visibility = View.GONE
-        }
     }
 
 
@@ -204,11 +245,8 @@ class PostIdeaFragment : Fragment() {
 
                     binding.apply {
 
-                        val allTagsResponse = it.body
-                        chipPostIdeaAddTag.setOnClickListener {
-                            binding.includeAddEditTags.root.visibility = View.VISIBLE
-                            showTagsMenuPopup(allTagsResponse)
-                        }
+                        allTagsResponse = it.body
+
                     }
 
 
@@ -231,7 +269,7 @@ class PostIdeaFragment : Fragment() {
                 }
                 is ApiResponse.Success -> {
                     val chip = Chip(requireContext())
-                    chip.text = binding.includeAddEditTags.etAddSelectTag.text.toString()
+                    chip.text = res.body.name
                     chip.isCloseIconVisible = true
                     chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
                     chip.setOnCloseIconClickListener {
@@ -268,20 +306,10 @@ class PostIdeaFragment : Fragment() {
         }
     }
 
-    private fun validateCreateTag(): Boolean {
-        val emptyFieldError = "This Field Can't Be Empty!"
-        binding.includeAddEditTags.apply {
-            if (etAddSelectTag.text.isNullOrEmpty()) {
-                etAddSelectTag.error = emptyFieldError
-                return false
-            }
-            return true
-        }
-    }
 
 
     private fun showTagsMenuPopup(data: TagsResponse) {
-        val menuPopup = PopupMenu(requireContext(), binding.includeAddEditTags.etAddSelectTag)
+        val menuPopup = PopupMenu(requireContext(), popupBinding.etAddSelectTag)
 
 
         for (tag in data.results!!) {

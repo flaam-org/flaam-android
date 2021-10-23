@@ -4,12 +4,10 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,7 +16,6 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
 import com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragmentDirections
 import com.minor_project.flaamandroid.utils.*
@@ -115,8 +112,12 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
                         Timber.e(tagsList.toString())
 
+                        cgTagsPostDescription.removeAllViews()
+
                         tagsList.indices.forEach { i ->
                             val chip = Chip(context)
+
+                            Timber.e(tagsList[i].toString())
                             if (i < 4) {
                                 chip.text = tagsList[i].name
                                 chip.chipBackgroundColor =
@@ -148,6 +149,9 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                         }
                         tvUpvoteDownvotePostDescription.text = upvoteDownvoteCount.toString()
 
+
+                        Timber.e(it.body.description.toString())
+                        Timber.e(it.body.body)
                         tvBodyPostDescription.text = it.body.body
 
                         ivSharePostDescription.setOnClickListener {

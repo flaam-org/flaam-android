@@ -17,16 +17,14 @@
             android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:id="@+id/iv_back_post_details"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="12dp"
                 android:src="@drawable/ic_arrow_back_24dp"
-                android:tint="@color/white"
-                android:tintMode="add"
-                app:civ_circle_background_color="@color/secondaryAccentColor" />
+                android:tint="@color/black" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -34,13 +32,13 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="6dp"
                 app:cardBackgroundColor="@color/secondaryAccentColor"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="25dp">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="1dp"
-                    app:cardCornerRadius="8dp">
+                    app:cardCornerRadius="25dp">
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab_layout_post_details"

@@ -99,24 +99,16 @@
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/cg_tags_post_description"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:background="@android:color/holo_red_dark"
-                        app:chipSpacingHorizontal="5dp">
-
-                        <com.google.android.material.chip.Chip
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                        </com.google.android.material.chip.Chip>
-
-                    </com.google.android.material.chip.ChipGroup>
+                        app:chipSpacingHorizontal="5dp" />
 
                     <TextView
                         android:id="@+id/tv_body_post_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/sample_text_2"
                         android:textColor="#999999"
                         tools:text="@string/sample_text_2" />
 

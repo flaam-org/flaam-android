@@ -99,15 +99,6 @@
 
             </LinearLayout>
 
-            <include
-                android:id="@+id/include_add_edit_tags"
-                layout="@layout/layout_add_edit_tags"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
 
             <EditText
                 android:id="@+id/et_post_idea_description"
