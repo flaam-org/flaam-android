@@ -66,7 +66,7 @@ class PostIdeaFragment : Fragment() {
 
 
         popupBinding.btnCreateTag.setOnClickListener {
-            if (validate()) {
+            if (validateCreateTag()) {
                 viewModel.createNewTag(
                     TagsRequest(null, popupBinding.etAddSelectTag.text.toString())
                 )
@@ -114,7 +114,7 @@ class PostIdeaFragment : Fragment() {
 
         popup.showPopupDimBehind()
 
-        if(::allTagsResponse.isInitialized){
+        if (::allTagsResponse.isInitialized) {
             showTagsMenuPopup(allTagsResponse)
         }
 
@@ -306,6 +306,16 @@ class PostIdeaFragment : Fragment() {
         }
     }
 
+    private fun validateCreateTag(): Boolean {
+        val emptyFieldError = "This Field Can't Be Empty!"
+        popupBinding.apply {
+            if (etAddSelectTag.text.isNullOrEmpty()) {
+                etAddSelectTag.error = emptyFieldError
+                return false
+            }
+            return true
+        }
+    }
 
 
     private fun showTagsMenuPopup(data: TagsResponse) {
