@@ -14,8 +14,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:orientation="horizontal">
+            android:background="@color/primaryDarkColor"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <ImageView
                 android:id="@+id/iv_back_post_details"
@@ -24,32 +26,29 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="12dp"
                 android:src="@drawable/ic_arrow_back_24dp"
-                app:tint="@color/black" />
+                app:tint="@color/white" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="6dp"
-                app:cardBackgroundColor="@color/secondaryAccentColor"
+                app:cardBackgroundColor="@color/primaryDarkColor"
                 app:cardCornerRadius="25dp">
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout_post_details"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="1dp"
-                    app:cardCornerRadius="25dp">
+                    android:background="@color/primaryDarkColor"
+                    app:tabBackground="@drawable/custom_tab_selector"
+                    app:tabIndicator="@android:color/transparent"
+                    app:tabIndicatorColor="@android:color/transparent"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/primaryDarkColor"
 
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/tab_layout_post_details"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:tabIndicatorColor="@color/secondaryAccentColor"
-                        app:tabIndicatorGravity="stretch"
-                        app:tabMode="scrollable"
-                        app:tabSelectedTextColor="@color/white"
-                        app:tabTextColor="@color/secondaryAccentColor" />
-                </androidx.cardview.widget.CardView>
+                    app:tabTextColor="@color/white" />
+
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
