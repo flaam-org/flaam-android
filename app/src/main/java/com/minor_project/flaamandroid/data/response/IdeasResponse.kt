@@ -17,6 +17,8 @@ data class IdeasResponse(
 ) {
     @JsonClass(generateAdapter = true)
     data class Result(
+        @Json(name = "archived")
+        val archived: Boolean?,
         @Json(name = "body")
         val body: String?,
         @Json(name = "bookmarked")
@@ -64,5 +66,4 @@ data class IdeasResponse(
             val name: String?
         )
     }
-
 }

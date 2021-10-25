@@ -14,8 +14,7 @@ data class TagsResponse(
     val previous: Any?,
     @Json(name = "results")
     val results: List<Result>?
-)
-{
+) {
     @JsonClass(generateAdapter = true)
     data class Result(
         @Json(name = "created_at")

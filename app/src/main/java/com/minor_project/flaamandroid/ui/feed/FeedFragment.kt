@@ -3,7 +3,6 @@ package com.minor_project.flaamandroid.ui.feed
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,9 +18,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import coil.ImageLoader
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.adapters.FeedPostAdapter
@@ -30,7 +26,6 @@ import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
