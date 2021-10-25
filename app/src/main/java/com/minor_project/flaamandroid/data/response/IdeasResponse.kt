@@ -22,7 +22,7 @@ data class IdeasResponse(
         @Json(name = "body")
         val body: String?,
         @Json(name = "bookmarked")
-        val bookmarked: Boolean,
+        val bookmarked: Boolean?,
         @Json(name = "created_at")
         val createdAt: String?,
         @Json(name = "description")

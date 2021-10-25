@@ -22,7 +22,7 @@ import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.adapters.DragManageAdapter
 import com.minor_project.flaamandroid.adapters.MilestonesAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.request.PostIdeaRequest
+import com.minor_project.flaamandroid.data.request.CreateUpdateIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentEditIdeaBinding
@@ -91,7 +91,8 @@ class EditIdeaFragment : Fragment() {
             btnEditIdea.setOnClickListener {
                 if (validate()) {
                     viewModel.updateIdea(
-                        PostIdeaRequest(
+                        CreateUpdateIdeaRequest(
+                            null,
                             binding.etEditIdeaBody.text.toString(),
                             binding.etEditIdeaDescription.text.toString(),
                             true,

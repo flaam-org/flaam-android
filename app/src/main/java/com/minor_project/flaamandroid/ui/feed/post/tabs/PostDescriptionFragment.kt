@@ -144,7 +144,7 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
                         tvTitlePostDescription.text = it.body.title.toString()
 
-                        if (it.body.bookmarked) {
+                        if (it.body.bookmarked == true) {
                             ivBookmarkPostDescription.setImageResource(R.drawable.ic_bookmark_check)
                         }
                         tvUpvoteDownvotePostDescription.text = upvoteDownvoteCount.toString()

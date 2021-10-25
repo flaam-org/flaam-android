@@ -11,6 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.adapters.MyIdeasAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
+import com.minor_project.flaamandroid.data.request.CreateUpdateIdeaRequest
+import com.minor_project.flaamandroid.data.request.DeleteIdeaRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyIdeasBinding
 import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
@@ -107,6 +109,17 @@ class MyIdeasFragment : Fragment() {
             }
         }
 
+        viewModel.updateIdea.observe(viewLifecycleOwner) { res ->
+            when (res) {
+                is ApiResponse.Error -> {
+                    makeToast(res.body.toString())
+                }
+                is ApiResponse.Success -> {
+                    makeToast("Idea Updated Successfully!")
+                }
+            }
+        }
+
         viewModel.addIdeaToUsersBookmarks.observe(viewLifecycleOwner) {
 
             if (it.isSuccessful) {
@@ -128,17 +141,17 @@ class MyIdeasFragment : Fragment() {
             }
         }
 
-//        viewModel.deleteIdea.observe(viewLifecycleOwner) { res ->
-//            when (res) {
-//                is ApiResponse.Error -> {
-//                    makeToast(res.message.toString())
-//                }
-//                is ApiResponse.Success -> {
-//                    viewModel.getUserProfile()
-//                    makeToast("Idea Deleted Successfully!")
-//                }
-//            }
-//        }
+        viewModel.deleteIdea.observe(viewLifecycleOwner) { res ->
+            when (res) {
+                is ApiResponse.Error -> {
+                    makeToast(res.message.toString())
+                }
+                is ApiResponse.Success -> {
+                    viewModel.getUserProfile()
+                    makeToast("Idea Deleted Successfully!")
+                }
+            }
+        }
 
     }
 
@@ -152,24 +165,34 @@ class MyIdeasFragment : Fragment() {
 
     fun deleteIdea(id: Int, model: IdeasResponse.Result) {
         val tagsIdList: ArrayList<Int> = ArrayList()
+        val milestonesList: ArrayList<String> = ArrayList()
         model.tags!!.forEach {
             tagsIdList.add(it.id!!)
         }
+
+        model.milestones!!.forEach {
+            milestonesList.add(it[1])
+        }
         Timber.i("IdeaTagsIdList" + tagsIdList)
 
-        makeToast("This Idea will be Deleted Soon!")
+        Timber.i("IdeaMilestonesList" + milestonesList)
 
-//        viewModel.deleteIdea(
-//            id, DeleteIdeaRequest(
-//                model.body,
-//                model.description,
-//                model.draft,
-//                model.milestones as List<List<String>>,
-//                tagsIdList,
-//                model.title
-//            )
-//        )
-
+        if (model.implementationCount!! > 0) {
+            makeToast("This Idea Can't be Deleted it will be Archived!")
+            viewModel.updateIdea(
+                CreateUpdateIdeaRequest(
+                    true,
+                    model.body,
+                    model.description,
+                    model.draft,
+                    milestonesList,
+                    tagsIdList,
+                    model.title
+                ), model.id!!
+            )
+        } else {
+            viewModel.deleteIdea(id)
+        }
     }
 
     fun setOwnerAvatar(ownerAvatar: String, imageView: ImageView) {

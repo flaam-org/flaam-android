@@ -7,17 +7,17 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class DeleteIdeaRequest(
     @Json(name = "archived")
-    val archived: Boolean,
+    val archived: Boolean?,
     @Json(name = "body")
-    val body: String,
+    val body: String?,
     @Json(name = "description")
-    val description: String,
+    val description: String?,
     @Json(name = "draft")
-    val draft: Boolean,
+    val draft: Boolean?,
     @Json(name = "milestones")
-    val milestones: List<List<String>>,
+    val milestones: List<List<String>>?,
     @Json(name = "tags")
-    val tags: List<Int>,
+    val tags: List<Int>?,
     @Json(name = "title")
-    val title: String
+    val title: String?
 )

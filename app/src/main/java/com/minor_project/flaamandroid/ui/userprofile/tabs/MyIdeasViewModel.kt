@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.minor_project.flaamandroid.data.request.CreateUpdateIdeaRequest
 import com.minor_project.flaamandroid.data.request.DeleteIdeaRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
@@ -21,6 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : ViewModel() {
 
+    private val _updateIdea = MutableLiveData<ApiResponse<IdeasResponse.Result>>()
+    val updateIdea: LiveData<ApiResponse<IdeasResponse.Result>> = _updateIdea
+
     private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
     val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
 
@@ -35,6 +39,14 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
 
     private val _deleteIdea = MutableLiveData<ApiResponse<IdeasResponse.Result>>()
     val deleteIdea: LiveData<ApiResponse<IdeasResponse.Result>> = _deleteIdea
+
+
+    fun updateIdea(body: CreateUpdateIdeaRequest, id: Int) {
+        viewModelScope.launch {
+            val res = repo.updateIdea(body, id)
+            _updateIdea.postValue(handleGetResponse(res))
+        }
+    }
 
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -64,10 +76,10 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
         }
     }
 
-    fun deleteIdea(id: Int, body: DeleteIdeaRequest) {
+    fun deleteIdea(id: Int) {
         viewModelScope.launch {
-            val res = repo.deleteIdea(id, body)
-            _deleteIdea.postValue(handlePostResponse(res))
+            val res = repo.deleteIdea(id)
+            _deleteIdea.postValue(handleGetResponse(res))
         }
     }
 

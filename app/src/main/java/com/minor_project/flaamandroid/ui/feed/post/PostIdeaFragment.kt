@@ -21,7 +21,7 @@ import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.adapters.DragManageAdapter
 import com.minor_project.flaamandroid.adapters.MilestonesAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.request.PostIdeaRequest
+import com.minor_project.flaamandroid.data.request.CreateUpdateIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentPostIdeaBinding
@@ -177,7 +177,8 @@ class PostIdeaFragment : Fragment() {
             btnPostIdea.setOnClickListener {
                 if (validate()) {
                     viewModel.postIdea(
-                        PostIdeaRequest(
+                        CreateUpdateIdeaRequest(
+                            null,
                             binding.etPostIdeaBody.text.toString(),
                             binding.etPostIdeaDescription.text.toString(),
                             true,

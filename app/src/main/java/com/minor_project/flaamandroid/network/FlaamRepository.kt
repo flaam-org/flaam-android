@@ -17,11 +17,11 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun createNewTag(body: TagsRequest) = api.createNewTag(body)
 
-    suspend fun postIdea(body: PostIdeaRequest) = api.postIdea(body)
+    suspend fun postIdea(body: CreateUpdateIdeaRequest) = api.postIdea(body)
 
-    suspend fun updateIdea(body: PostIdeaRequest, id: Int) = api.updateIdea(body, id)
+    suspend fun updateIdea(body: CreateUpdateIdeaRequest, id: Int) = api.updateIdea(body, id)
 
-    suspend fun deleteIdea(id: Int, body: DeleteIdeaRequest) = api.deleteIdea(id, body)
+    suspend fun deleteIdea(id: Int) = api.deleteIdea(id)
 
     suspend fun getIdeas(
         limit: Int?,

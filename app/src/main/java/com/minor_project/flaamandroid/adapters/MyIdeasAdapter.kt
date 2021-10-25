@@ -80,7 +80,7 @@ class MyIdeasAdapter(
             }
 
 
-            bookmark = if (model.bookmarked) {
+            bookmark = if (model.bookmarked == true) {
                 ivBookmarkFeedPostMyIdeas.setImageResource(R.drawable.ic_bookmark_check)
                 true
             } else {

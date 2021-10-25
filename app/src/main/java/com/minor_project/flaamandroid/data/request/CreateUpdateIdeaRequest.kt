@@ -5,7 +5,9 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class PostIdeaRequest(
+data class CreateUpdateIdeaRequest(
+    @Json(name = "archived")
+    val archived: Boolean?,
     @Json(name = "body")
     val body: String?,
     @Json(name = "description")

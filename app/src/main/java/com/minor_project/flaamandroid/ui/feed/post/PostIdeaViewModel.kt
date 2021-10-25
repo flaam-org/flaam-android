@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.minor_project.flaamandroid.data.request.PostIdeaRequest
+import com.minor_project.flaamandroid.data.request.CreateUpdateIdeaRequest
 import com.minor_project.flaamandroid.data.request.TagsRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
@@ -53,7 +53,7 @@ class PostIdeaViewModel @Inject constructor(private val flaamRepo: FlaamReposito
     }
 
 
-    fun postIdea(body: PostIdeaRequest) {
+    fun postIdea(body: CreateUpdateIdeaRequest) {
         viewModelScope.launch {
             val res = flaamRepo.postIdea(body)
             _postIdea.postValue(handlePostResponse(res))

@@ -88,7 +88,7 @@ open class FeedPostAdapter(
                 }
 
 
-                if (model.bookmarked) {
+                if (model.bookmarked == true) {
                     ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_check)
 
                 } else {
@@ -97,7 +97,7 @@ open class FeedPostAdapter(
                 }
 
                 ivBookmarkFeedPost.setOnClickListener {
-                    ivBookmarkFeedPost.toggleBookmark(model.bookmarked, model)
+                    ivBookmarkFeedPost.toggleBookmark(model.bookmarked!!, model)
 
                 }
 

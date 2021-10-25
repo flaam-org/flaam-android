@@ -82,7 +82,7 @@ class MyBookmarksAdapter(
             }
 
 
-            if (model.bookmarked) {
+            if (model.bookmarked == true) {
                 ivBookmarkFeedPost.setImageResource(R.drawable.ic_bookmark_check)
                 bookmark = true
             } else {

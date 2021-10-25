@@ -25,19 +25,18 @@ interface FlaamApi {
     suspend fun createNewTag(@Body body: TagsRequest): Response<TagsResponse.Result>
 
     @POST("ideas")
-    suspend fun postIdea(@Body body: PostIdeaRequest): Response<IdeasResponse.Result>
+    suspend fun postIdea(@Body body: CreateUpdateIdeaRequest): Response<IdeasResponse.Result>
 
     @PATCH("idea/{id}")
     suspend fun updateIdea(
-        @Body body: PostIdeaRequest,
+        @Body body: CreateUpdateIdeaRequest,
         @Path("id") id: Int
     ): Response<IdeasResponse.Result>
 
 
     @DELETE("idea/{id}")
     suspend fun deleteIdea(
-        @Path("id") id: Int,
-        @Body body: DeleteIdeaRequest
+        @Path("id") id: Int
     ): Response<IdeasResponse.Result>
 
     @GET("ideas")
