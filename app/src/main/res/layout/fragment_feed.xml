@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/motion_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motion_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.feed.FeedFragment"
-    app:layoutDescription="@xml/fragment_feed_scene">
+    app:layoutDescription="@xml/fragment_feed_scene"
+    tools:context=".ui.feed.FeedFragment">
 
 
     <include
@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:id="@+id/ll_cardview"
+        android:id="@+id/ll_card_view_feed_search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="8dp"
@@ -52,8 +52,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_search_24dp"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/search_icon"
+                    android:src="@drawable/ic_search_24dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_search"
@@ -79,15 +79,14 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/civ_feed_fragment_my_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_profile_image_place_holder"
-                    tools:ignore="ContentDescription" />
+                    android:src="@drawable/ic_profile_image_place_holder" />
 
 
             </LinearLayout>
@@ -148,6 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:contentDescription="@string/filter_icon"
             android:src="@drawable/ic_filter_24dp"
             app:tint="@color/white" />
     </androidx.cardview.widget.CardView>

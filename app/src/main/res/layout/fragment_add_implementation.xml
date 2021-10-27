@@ -55,6 +55,7 @@
                     android:id="@+id/iv_link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/link_icon"
                     android:src="@drawable/ic_insert_link_24dp" />
 
 

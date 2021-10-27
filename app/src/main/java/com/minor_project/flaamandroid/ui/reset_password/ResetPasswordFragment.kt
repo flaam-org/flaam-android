@@ -1,14 +1,12 @@
 package com.minor_project.flaamandroid.ui.reset_password
 
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.FragmentResetPasswordEmailBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.hideKeyboard
@@ -40,7 +38,7 @@ class ResetPasswordFragment : Fragment() {
                 }
 
             }
-            ivClossResetPass.setOnClickListener {
+            ivCloseResetPass.setOnClickListener {
                 findNavController().popBackStack()
             }
 

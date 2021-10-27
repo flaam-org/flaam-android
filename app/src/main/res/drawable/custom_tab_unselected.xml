@@ -5,6 +5,5 @@
 
 
     <!-- TabLayout background color -->
-    <solid
-        android:color="@color/primaryDarkColor"/>
+    <solid android:color="@color/primaryDarkColor" />
 </shape>

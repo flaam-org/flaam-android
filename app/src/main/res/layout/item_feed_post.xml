@@ -42,9 +42,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:contentDescription="@string/bookmark_icon"
                 android:src="@drawable/ic_bookmark_uncheck"
-                app:tint="@color/secondaryDarkColor"
-                tools:ignore="ContentDescription" />
+                app:tint="@color/secondaryDarkColor" />
         </LinearLayout>
 
 
@@ -135,6 +135,7 @@
                 android:id="@+id/iv_share_feed_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/share_icon"
                 android:src="@drawable/ic_share_24dp"
                 app:tint="@color/secondaryDarkColor" />
         </LinearLayout>

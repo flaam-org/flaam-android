@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:contentDescription="@string/milestone_list_icon"
             android:src="@drawable/ic_bulleted_list_24dp"
             app:tint="@color/black" />
 
@@ -39,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:contentDescription="@string/delete_milestone_icon"
             android:src="@drawable/ic_close_24dp"
             app:tint="@android:color/holo_red_dark" />
 

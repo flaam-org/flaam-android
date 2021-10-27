@@ -68,6 +68,7 @@
                         android:id="@+id/iv_upvote_idea_post_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/upvote_icon"
                         android:src="@drawable/ic_upvote_outline_24dp"
                         app:tint="@color/black" />
 
@@ -85,6 +86,7 @@
                         android:id="@+id/iv_downvote_idea_post_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/downvote_icon"
                         android:src="@drawable/ic_downvote_outline_24dp"
                         app:tint="@color/black" />
 
@@ -130,8 +132,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_implement"
-                    app:srcCompat="@drawable/ic_implement"
+                    android:contentDescription="@string/add_implementation_icon"
+                    android:src="@drawable/ic_add_implementation"
                     app:tint="@color/black" />
 
                 <ImageView
@@ -139,6 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/share_icon"
                     android:src="@drawable/ic_share_24dp"
                     app:tint="@color/black" />
 

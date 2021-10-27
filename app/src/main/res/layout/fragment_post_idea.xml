@@ -34,8 +34,8 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="20dp"
-                android:src="@drawable/ic_close_24dp"
-                tools:ignore="ContentDescription" />
+                android:contentDescription="@string/close_icon"
+                android:src="@drawable/ic_close_24dp" />
 
         </RelativeLayout>
 
@@ -103,21 +103,25 @@
             <EditText
                 android:id="@+id/et_post_idea_description"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="100dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="15dp"
-                android:hint="@string/add_description" />
+                android:gravity="bottom"
+                android:hint="@string/add_description"
+                android:textAlignment="gravity" />
 
             <EditText
                 android:id="@+id/et_post_idea_body"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="200dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="12dp"
-                android:hint="@string/add_body" />
+                android:gravity="bottom"
+                android:hint="@string/add_body"
+                android:textAlignment="gravity" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -133,6 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:contentDescription="@string/milestones_icon"
                     android:src="@drawable/ic_target_color_24dp" />
 
                 <com.google.android.material.textfield.TextInputLayout

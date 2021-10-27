@@ -33,8 +33,8 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="20dp"
-                android:src="@drawable/ic_close_24dp"
-                tools:ignore="ContentDescription" />
+                android:contentDescription="@string/close_icon"
+                android:src="@drawable/ic_close_24dp" />
 
         </RelativeLayout>
 
@@ -132,6 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:contentDescription="@string/milestones_icon"
                     android:src="@drawable/ic_target_color_24dp" />
 
                 <com.google.android.material.textfield.TextInputLayout

@@ -70,8 +70,7 @@ class FeedFragment : Fragment() {
         binding.apply {
 
 
-
-            llCardview.setOnClickListener {
+            llCardViewFeedSearchBar.setOnClickListener {
                 collapseFilterView()
             }
 
@@ -305,7 +304,7 @@ class FeedFragment : Fragment() {
         if (isVisible) {
             binding.apply {
                 isVisible.also {
-                    llCardview.changeVisibilityWithAnimation(it)
+                    llCardViewFeedSearchBar.changeVisibilityWithAnimation(it)
                     cardView2.changeVisibilityWithAnimation(it)
                     efabPostIdea.changeVisibilityWithAnimation(it)
                 }
@@ -313,7 +312,7 @@ class FeedFragment : Fragment() {
         } else {
             binding.apply {
                 isVisible.also {
-                    llCardview.changeVisibilityWithAnimation(it)
+                    llCardViewFeedSearchBar.changeVisibilityWithAnimation(it)
                     cardView2.changeVisibilityWithAnimation(it)
                     efabPostIdea.changeVisibilityWithAnimation(it)
 

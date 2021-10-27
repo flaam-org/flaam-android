@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:contentDescription="@string/image_contentDescription"
+        android:contentDescription="@string/flaam_image"
         android:src="@mipmap/ic_launcher" />
 
     <TextView

@@ -12,7 +12,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="18dp"
         android:fontFamily="sans-serif-black"
-        android:text="Sort By"
+        android:text="@string/sort_by"
         android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="bold" />
@@ -22,29 +22,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
-        app:singleSelection="true"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipVotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:checkedIconTint="@color/secondaryColor"
             android:checkable="true"
+            android:text="@string/votes"
             app:checkedIcon="@drawable/ic_check_circle"
-            app:chipBackgroundColor="@color/filter_chip_bgcolor_selector"
-            android:text="votes"
-             />
+            app:checkedIconTint="@color/secondaryColor"
+            app:chipBackgroundColor="@color/filter_chip_bg_color_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipUpVotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upvotes"
             android:checkable="true"
+            android:text="@string/upvote_count"
             app:checkedIcon="@drawable/ic_check_circle"
             app:checkedIconTint="@color/secondaryColor"
-            app:chipBackgroundColor="@color/filter_chip_bgcolor_selector"
+            app:chipBackgroundColor="@color/filter_chip_bg_color_selector"
 
             />
 
@@ -53,34 +52,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="Latest"
             android:checkable="true"
+            android:text="@string/latest"
             app:checkedIcon="@drawable/ic_check_circle"
             app:checkedIconTint="@color/secondaryColor"
-            app:chipBackgroundColor="@color/filter_chip_bgcolor_selector" />
+            app:chipBackgroundColor="@color/filter_chip_bg_color_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipImpl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Implementations"
             android:checkable="true"
+            android:text="@string/implementations"
             app:checkedIcon="@drawable/ic_check_circle"
             app:checkedIconTint="@color/secondaryColor"
-            app:chipBackgroundColor="@color/filter_chip_bgcolor_selector"
-             />
+            app:chipBackgroundColor="@color/filter_chip_bg_color_selector" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="All"
             android:checkable="true"
+            android:checked="true"
+            android:text="@string/all"
             app:checkedIcon="@drawable/ic_check_circle"
             app:checkedIconTint="@color/secondaryColor"
-            app:chipBackgroundColor="@color/filter_chip_bgcolor_selector"
-            android:checked="true"
-            />
+            app:chipBackgroundColor="@color/filter_chip_bg_color_selector" />
     </com.google.android.material.chip.ChipGroup>
 
     <TextView
@@ -90,7 +87,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="18dp"
         android:fontFamily="sans-serif-black"
-        android:text="Tags"
+        android:text="@string/tags"
         android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="bold" />
@@ -106,7 +103,9 @@
             android:id="@+id/chip_edit2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:editable="true"
+            android:clickable="true"
+            android:cursorVisible="true"
+            android:focusable="true"
             app:chipBackgroundColor="@android:color/holo_orange_dark"
             app:chipIcon="@drawable/ic_edit_24dp"
             app:chipIconTint="@color/white" />
@@ -125,8 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="6"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="@string/name" />
 
     </LinearLayout>
 
