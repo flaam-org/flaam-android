@@ -78,6 +78,16 @@ class UserProfileFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerLayout.startShimmer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.shimmerLayout.stopShimmer()
+    }
+
     private fun initClick() {
         binding.apply {
 
@@ -125,20 +135,20 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun initObservers() {
-        val container = binding.shimmerViewContainer
-        container.startShimmer() // If auto-start is set to false
+        val shimmerLayout = binding.shimmerLayout
+        shimmerLayout.startShimmer()
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    container.stopShimmer()
-                    container.setShimmer(null)
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
                     makeToast("Unable to fetch Data!")
                 }
 
                 is ApiResponse.Success -> {
-                    container.stopShimmer()
-                    container.setShimmer(null)
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
                     binding.apply {
                         tvUserProfileFnameLname.text = resources.getString(
                             R.string.full_name,

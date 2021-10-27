@@ -26,4 +26,6 @@
 
     <color name="primaryTextColor">#0d2f49</color>
     <color name="secondaryTextColor">#f0f0f0</color>
+
+    <color name="shimmer_placeholder">#dddddd</color>
 </resources>
