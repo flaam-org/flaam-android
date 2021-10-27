@@ -4,6 +4,7 @@ import android.app.ActionBar
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.os.SystemClock.sleep
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
@@ -78,6 +79,17 @@ class EditProfileFragment : Fragment() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerLayout.startShimmer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.shimmerLayout.stopShimmer()
+    }
+
+
     private fun initOnClick() {
 
 
@@ -97,15 +109,22 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun initObserver() {
-
+        val shimmerLayout = binding.shimmerLayout
+        shimmerLayout.startShimmer()
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
+
                     makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
+
                     lifecycleScope.launch(Dispatchers.Main) {
                         binding.civEditProfileUserImage.loadSVG(it.body.avatar.toString())
                     }

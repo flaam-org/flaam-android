@@ -143,12 +143,14 @@ class UserProfileFragment : Fragment() {
                 is ApiResponse.Error -> {
                     shimmerLayout.stopShimmer()
                     shimmerLayout.visibility = View.GONE
+
                     makeToast("Unable to fetch Data!")
                 }
 
                 is ApiResponse.Success -> {
                     shimmerLayout.stopShimmer()
                     shimmerLayout.visibility = View.GONE
+
                     binding.apply {
                         tvUserProfileFnameLname.text = resources.getString(
                             R.string.full_name,
