@@ -60,7 +60,7 @@
     <string name="sort_by">Sort By</string>
     <string name="latest">Latest</string>
     <string name="all">All</string>
-    <string name="link_icon">Link Icon</string>
+    <string name="add_link_icon">Add Link Icon</string>
     <string name="close_icon">Close Icon</string>
     <string name="milestones_icon">Milestones Icon</string>
     <string name="filter_icon">Filter Icon</string>

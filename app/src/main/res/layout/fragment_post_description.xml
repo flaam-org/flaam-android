@@ -47,7 +47,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_bookmark_uncheck"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/bookmark_icon" />
             </LinearLayout>
 
 
