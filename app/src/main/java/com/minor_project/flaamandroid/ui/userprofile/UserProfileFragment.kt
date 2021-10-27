@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
+import com.facebook.shimmer.ShimmerFrameLayout
 
 
 @AndroidEntryPoint
@@ -124,16 +125,20 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun initObservers() {
-
+        val container = binding.shimmerViewContainer
+        container.startShimmer() // If auto-start is set to false
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    container.stopShimmer()
+                    container.setShimmer(null)
                     makeToast("Unable to fetch Data!")
                 }
 
                 is ApiResponse.Success -> {
-
+                    container.stopShimmer()
+                    container.setShimmer(null)
                     binding.apply {
                         tvUserProfileFnameLname.text = resources.getString(
                             R.string.full_name,
