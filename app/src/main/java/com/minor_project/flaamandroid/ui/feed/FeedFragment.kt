@@ -45,7 +45,7 @@ class FeedFragment : Fragment() {
     private var isRequestDispatched = false
 
 
-    private var order_by: String? = null
+    private var orderBy: String? = null
     private var tags = arrayListOf<Int>()
     private var searchQuery: String? = null
 
@@ -70,13 +70,14 @@ class FeedFragment : Fragment() {
         binding.apply {
 
 
-            llCardViewFeedSearchBar.setOnClickListener {
+            llFeedSearchBar.setOnClickListener {
                 collapseFilterView()
             }
 
-            tilSearch.editText?.setOnEditorActionListener { v, actionId, event ->
+            tilSearch.editText?.setOnEditorActionListener { _, actionId, _ ->
 
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    hideKeyboard()
                     searchQuery = tilSearch.editText!!.text.toString()
                     refreshFeed()
                 }
@@ -101,7 +102,7 @@ class FeedFragment : Fragment() {
                     // load more ideas if user reaches end! and when there are no pending requests!
                     if (!recyclerView.canScrollVertically(Constants.DOWN) && !feedPostAdapter.isEndReached && !isRequestDispatched) {
                         isRequestDispatched = true
-                        viewModel.getIdeas(feedPostAdapter.list.size, order_by, tags, searchQuery)
+                        viewModel.getIdeas(feedPostAdapter.list.size, orderBy, tags, searchQuery)
                     }
                 }
 
@@ -124,24 +125,24 @@ class FeedFragment : Fragment() {
             })
 
             include.cgFilter.isSingleSelection = true
-            include.cgFilter.setOnCheckedChangeListener { group, checkedId ->
+            include.cgFilter.setOnCheckedChangeListener { _, checkedId ->
                 val includedView = binding.include
 
                 when (checkedId) {
                     R.id.chipAll -> {
-                        order_by = null
+                        orderBy = null
                     }
                     R.id.chipImpl -> {
-                        order_by = "implementation_count"
+                        orderBy = "implementation_count"
                     }
                     R.id.chipLatest -> {
-                        order_by = "created_at"
+                        orderBy = "created_at"
                     }
                     R.id.chipUpVotes -> {
-                        order_by = "upvote_count"
+                        orderBy = "upvote_count"
                     }
                     R.id.chipVotes -> {
-                        order_by = "vote"
+                        orderBy = "vote"
                     }
                     -1 -> {
                         includedView.chipAll.isChecked = true
@@ -165,8 +166,8 @@ class FeedFragment : Fragment() {
 
                 initialId = startId
 
-                Timber.e(startId.toString() + "transtart")
-                Timber.e(endId.toString() + "transend")
+                Timber.e(startId.toString() + "tranStart")
+                Timber.e(endId.toString() + "tranSend")
 
             }
 
@@ -296,7 +297,7 @@ class FeedFragment : Fragment() {
         feedPostAdapter.isEndReached = false
         feedPostAdapter.notifyDataSetChanged()
         isRequestDispatched = true
-        viewModel.getIdeas(0, order_by, tags, searchQuery)
+        viewModel.getIdeas(0, orderBy, tags, searchQuery)
     }
 
     private fun toggleViewsVisibility(isVisible: Boolean) {
@@ -304,16 +305,16 @@ class FeedFragment : Fragment() {
         if (isVisible) {
             binding.apply {
                 isVisible.also {
-                    llCardViewFeedSearchBar.changeVisibilityWithAnimation(it)
-                    cardView2.changeVisibilityWithAnimation(it)
+                    llFeedSearchBar.changeVisibilityWithAnimation(it)
+                    cardViewFilter.changeVisibilityWithAnimation(it)
                     efabPostIdea.changeVisibilityWithAnimation(it)
                 }
             }
         } else {
             binding.apply {
                 isVisible.also {
-                    llCardViewFeedSearchBar.changeVisibilityWithAnimation(it)
-                    cardView2.changeVisibilityWithAnimation(it)
+                    llFeedSearchBar.changeVisibilityWithAnimation(it)
+                    cardViewFilter.changeVisibilityWithAnimation(it)
                     efabPostIdea.changeVisibilityWithAnimation(it)
 
                 }

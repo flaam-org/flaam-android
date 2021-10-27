@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:id="@+id/ll_card_view_feed_search_bar"
+        android:id="@+id/ll_feed_search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="8dp"
@@ -131,7 +131,7 @@
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+        android:id="@+id/card_view_filter"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="20dp"
