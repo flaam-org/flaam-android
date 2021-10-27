@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeasResponse
-import com.minor_project.flaamandroid.databinding.ItemFeedPostMyIdeasBinding
+import com.minor_project.flaamandroid.databinding.ItemMyIdeasBinding
 import com.minor_project.flaamandroid.ui.userprofile.tabs.MyIdeasFragment
 import com.minor_project.flaamandroid.utils.*
 import timber.log.Timber
@@ -32,7 +32,7 @@ class MyIdeasAdapter(
 
 
         return MyViewHolder(
-            ItemFeedPostMyIdeasBinding.inflate(LayoutInflater.from(context), parent, false)
+            ItemMyIdeasBinding.inflate(LayoutInflater.from(context), parent, false)
         )
     }
 
@@ -179,6 +179,6 @@ class MyIdeasAdapter(
         fragment.setOwnerAvatar(ownerAvatar, this@setOwnerAvatar)
     }
 
-    private class MyViewHolder(val binding: ItemFeedPostMyIdeasBinding) :
+    private class MyViewHolder(val binding: ItemMyIdeasBinding) :
         RecyclerView.ViewHolder(binding.root)
 }
