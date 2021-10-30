@@ -79,4 +79,7 @@
     <string name="downvote_icon">Downvote Icon</string>
     <string name="github_icon">GitHub Icon</string>
     <string name="add_implementation_icon">Add Implementation Icon</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="add_discussion">ADD DISCUSSION</string>
+    <string name="cancel_discussion">CANCEL DISCUSSION</string>
 </resources>
