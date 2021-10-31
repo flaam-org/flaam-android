@@ -9,13 +9,17 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.data.UserPreferences
+import com.minor_project.flaamandroid.data.request.CreateDiscussionRequest
 import com.minor_project.flaamandroid.databinding.FragmentPostDiscussionBinding
 import com.minor_project.flaamandroid.databinding.LayoutAddDiscussionBinding
 import com.minor_project.flaamandroid.databinding.LayoutDiscussionItemBinding
-import com.minor_project.flaamandroid.utils.makeToast
-import com.minor_project.flaamandroid.utils.showPopupDimBehind
+import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -24,6 +28,8 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
     private lateinit var binding: FragmentPostDiscussionBinding
 
     private val viewModel: PostDiscussionViewModel by viewModels()
+
+    private val mIdeaId = ideaId
 
     @Inject
     lateinit var preferences: UserPreferences
@@ -36,8 +42,51 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPostDiscussionBinding.inflate(inflater)
+        initObservers()
         initOnClick()
         return binding.root
+    }
+
+    private fun initObservers() {
+        viewModel.getUserProfile()
+        viewModel.userProfile.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to fetch User Profile!")
+                }
+
+                is ApiResponse.Success -> {
+                }
+            }
+        }
+
+
+        viewModel.createDiscussion.observe(viewLifecycleOwner) { res ->
+            when (res) {
+                is ApiResponse.Error -> {
+                    makeToast(res.message.toString())
+                }
+                is ApiResponse.Success -> {
+                    makeToast("Discussion Created Successfully!")
+                    newDiscussionBinding = LayoutDiscussionItemBinding.inflate(layoutInflater)
+                    newDiscussionBinding.apply {
+                        tvDiscussionTitle.text =
+                            popupAddDiscussionBinding.etAddDiscussionTitle.text.toString()
+                        tvDiscussionBody.text =
+                            popupAddDiscussionBinding.etAddDiscussionBody.text.toString()
+                    }
+                    val newDiscussionView = newDiscussionBinding.root
+                    val lp = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                    lp.setMargins(8, 8, 8, 8)
+                    newDiscussionView.layoutParams = lp
+                    binding.llPostDiscussions.addView(newDiscussionView)
+                }
+            }
+        }
+
     }
 
     private fun initOnClick() {
@@ -64,22 +113,14 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
         popupAddDiscussionBinding.btnAddDiscussion.setOnClickListener {
 
             if (validateCreateDiscussion()) {
-                newDiscussionBinding = LayoutDiscussionItemBinding.inflate(layoutInflater)
-                newDiscussionBinding.apply {
-                    tvDiscussionTitle.text =
+                viewModel.createDiscussion(
+                    CreateDiscussionRequest(
+                        popupAddDiscussionBinding.etAddDiscussionBody.text.toString(),
+                        true,
+                        mIdeaId,
                         popupAddDiscussionBinding.etAddDiscussionTitle.text.toString()
-                    tvDiscussionBody.text =
-                        popupAddDiscussionBinding.etAddDiscussionBody.text.toString()
-                }
-                val newDiscussionView = newDiscussionBinding.root
-                val lp = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
                 )
-                lp.setMargins(8, 8, 8, 8)
-                newDiscussionView.layoutParams = lp
-                binding.llPostDiscussions.addView(newDiscussionView)
-                //todo add the network call to create new discussion
                 popup.dismiss()
 
             } else {

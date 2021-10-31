@@ -50,5 +50,7 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun addImplementation(body: AddImplementationRequest) = api.addImplementation(body)
 
+    suspend fun createDiscussion(body: CreateDiscussionRequest) = api.createDiscussion(body)
+
 
 }

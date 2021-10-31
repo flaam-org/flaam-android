@@ -78,7 +78,7 @@ interface FlaamApi {
 
     //todo modify this method's response type (incomplete)
     @POST("discussions")
-    suspend fun createDiscussion(@Body body : CreateDiscussionRequest) : Response<Unit>
+    suspend fun createDiscussion(@Body body : CreateDiscussionRequest) : Response<CreateDiscussionResponse>
 
 
 }

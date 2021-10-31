@@ -7,11 +7,11 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CreateDiscussionRequest(
     @Json(name = "body")
-    val body: String,
+    val body: String?,
     @Json(name = "draft")
-    val draft: Boolean,
+    val draft: Boolean?,
     @Json(name = "idea")
-    val idea: Int,
+    val idea: Int?,
     @Json(name = "title")
-    val title: String
+    val title: String?
 )
