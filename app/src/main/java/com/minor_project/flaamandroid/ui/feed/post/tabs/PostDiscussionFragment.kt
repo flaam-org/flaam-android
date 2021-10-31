@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.databinding.FragmentPostDiscussionBinding
 import com.minor_project.flaamandroid.databinding.LayoutAddDiscussionBinding
+import com.minor_project.flaamandroid.databinding.LayoutDiscussionItemBinding
 import com.minor_project.flaamandroid.utils.makeToast
 import com.minor_project.flaamandroid.utils.showPopupDimBehind
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,11 +29,12 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
     lateinit var preferences: UserPreferences
 
     private lateinit var popupAddDiscussionBinding: LayoutAddDiscussionBinding
+    private lateinit var newDiscussionBinding: LayoutDiscussionItemBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPostDiscussionBinding.inflate(inflater)
         initOnClick()
         return binding.root
@@ -60,15 +62,30 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
 
 
         popupAddDiscussionBinding.btnAddDiscussion.setOnClickListener {
-            if (validateCreateDiscussion()) {
 
-                makeToast("Your Discussion will be Posted Soon!!!!!")
-//                viewModel.createNewTag(
-//                    TagsRequest(null, popupBinding.etAddSelectTag.text.toString())
-//                )
+            if (validateCreateDiscussion()) {
+                newDiscussionBinding = LayoutDiscussionItemBinding.inflate(layoutInflater)
+                newDiscussionBinding.apply {
+                    tvDiscussionTitle.text =
+                        popupAddDiscussionBinding.etAddDiscussionTitle.text.toString()
+                    tvDiscussionBody.text =
+                        popupAddDiscussionBinding.etAddDiscussionBody.text.toString()
+                }
+                val newDiscussionView = newDiscussionBinding.root
+                val lp = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                lp.setMargins(8, 8, 8, 8)
+                newDiscussionView.layoutParams = lp
+                binding.llPostDiscussions.addView(newDiscussionView)
+                //todo add the network call to create new discussion
+                popup.dismiss()
 
             } else {
+
                 makeToast("Missing Required Fields!")
+
             }
         }
 

@@ -76,4 +76,9 @@ interface FlaamApi {
     suspend fun addImplementation(@Body body: AddImplementationRequest): Response<AddImplementationResponse>
 
 
+    //todo modify this method's response type (incomplete)
+    @POST("discussions")
+    suspend fun createDiscussion(@Body body : CreateDiscussionRequest) : Response<Unit>
+
+
 }
