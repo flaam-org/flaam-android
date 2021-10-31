@@ -21,11 +21,8 @@ class PostDescriptionViewModel @Inject constructor(private val repo: FlaamReposi
     private val _getIdeaDetails = MutableLiveData<ApiResponse<IdeasResponse.Result>>()
     val ideaDetails: LiveData<ApiResponse<IdeasResponse.Result>> = _getIdeaDetails
 
-    private val _upvoteIdea = MutableLiveData<Response<Unit>>()
-    val upvoteIdea: LiveData<Response<Unit>> = _upvoteIdea
-
-    private val _downvoteIdea = MutableLiveData<Response<Unit>>()
-    val downvoteIdea: LiveData<Response<Unit>> = _downvoteIdea
+    private val _voteIdea = MutableLiveData<Int>()
+    val voteIdea: LiveData<Int> = _voteIdea
 
     fun getIdeaDetails(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -34,19 +31,16 @@ class PostDescriptionViewModel @Inject constructor(private val repo: FlaamReposi
         }
     }
 
-    fun upvoteIdea(id: String) {
+    fun voteIdea(id: Int, value: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.upvoteIdea(id)
-            _upvoteIdea.postValue(res)
+            val res = repo.voteIdea(id.toString(), value)
+            if(res.isSuccessful){
+                _voteIdea.postValue(value)
+            }
         }
     }
 
-    fun downvoteIdea(id: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.downvoteIdea(id)
-            _downvoteIdea.postValue(res)
-        }
-    }
+
 
 
 }

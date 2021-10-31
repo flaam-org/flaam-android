@@ -23,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class PostDescriptionFragment(ideaId: Int) : Fragment() {
@@ -32,7 +33,7 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
     private val viewModel: PostDescriptionViewModel by viewModels()
 
     private val mIdeaId = ideaId
-
+    private var vote by Delegates.notNull<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,51 +64,50 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                     val downvoteCount = it.body.downvoteCount ?: 0
                     val upvoteDownvoteCount = upvoteCount - downvoteCount
 
-                    val vote = it.body.vote
+                    vote = it.body.vote ?: 0
 
                     val ownerAvatar = it.body.ownerAvatar
 
                     val tagsList = it.body.tags!!
 
+
+                    binding.apply {
+                        ivUpvoteIdeaPostDescription.setOnClickListener {
+                            if(vote == 1){
+                                voteIdea(0)
+                            }else{
+                                voteIdea(1)
+                            }
+
+                        }
+
+                        ivDownvoteIdeaPostDescription.setOnClickListener {
+                            if(vote == -1){
+                                voteIdea(0)
+                            }else{
+                                voteIdea(-1)
+                            }
+                        }
+                    }
+
+
                     binding.apply {
                         when (vote) {
                             1 -> {
                                 ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
-                                disableUpvoteDownvote()
                             }
                             -1 -> {
                                 ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
-                                disableUpvoteDownvote()
                             }
                             else -> {
                                 ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_outline_24dp)
                                 ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_outline_24dp)
-
-                                ivUpvoteIdeaPostDescription.setOnClickListener {
-                                    upvoteIdea(mIdeaId)
-                                    disableUpvoteDownvote()
-                                }
-
-                                ivDownvoteIdeaPostDescription.setOnClickListener {
-                                    downvoteIdea(mIdeaId)
-                                    disableUpvoteDownvote()
-                                }
                             }
                         }
 
 
-                        val imageLoader = ImageLoader.Builder(requireContext())
-                            .componentRegistry {
-                                add(SvgDecoder(requireContext()))
-                            }
-                            .build()
-
-                        val request = ImageRequest.Builder(requireContext())
-                            .data(ownerAvatar.toString())
-                            .build()
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            val drawable = imageLoader.execute(request).drawable
-                            civUserImagePostDescription.setImageDrawable(drawable)
+                        lifecycleScope.launch {
+                            civUserImagePostDescription.loadSVG(ownerAvatar.toString())
                         }
 
                         Timber.e(tagsList.toString())
@@ -171,28 +171,47 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
         }
 
 
-        viewModel.upvoteIdea.observe(viewLifecycleOwner) {
+        viewModel.voteIdea.observe(viewLifecycleOwner){
 
-            if (it.isSuccessful) {
-                binding.ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
-                viewModel.getIdeaDetails(mIdeaId)
-                makeToast("Idea Successfully UpVoted!")
-            } else {
-                makeToast("Unable to UpVote this Idea!")
+            binding.tvUpvoteDownvotePostDescription.text = (binding.tvUpvoteDownvotePostDescription.text.toString().toInt() + it - vote).toString()
+
+
+                vote = it
+
+            binding.apply {
+
+                ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_outline_24dp)
+                ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_outline_24dp)
+
+                when (it) {
+                    1 -> {
+                        ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
+                    }
+                    -1 -> {
+                        ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
+                    }
+                }
+
+            }
+
+
+            when(it){
+                0 -> {
+
+                }
+                1 -> {
+                    makeToast("Idea Successfully UpVoted!")
+                }
+                -1 -> {
+                    makeToast("Idea Successfully DownVoted!")
+                }
             }
         }
 
 
-        viewModel.downvoteIdea.observe(viewLifecycleOwner) {
 
-            if (it.isSuccessful) {
-                binding.ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
-                viewModel.getIdeaDetails(mIdeaId)
-                makeToast("Idea Successfully DownVoted!")
-            } else {
-                makeToast("Unable to DownVote this Idea!")
-            }
-        }
+
+
     }
 
 
@@ -207,20 +226,10 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
     }
 
-    private fun upvoteIdea(id: Int) {
-        viewModel.upvoteIdea(id.toString())
+    private fun voteIdea(value: Int){
+        viewModel.voteIdea(mIdeaId, value)
     }
 
-    private fun downvoteIdea(id: Int) {
-        viewModel.downvoteIdea(id.toString())
-    }
-
-    private fun disableUpvoteDownvote() {
-        binding.apply {
-            ivUpvoteIdeaPostDescription.isClickable = false
-            ivDownvoteIdeaPostDescription.isClickable = false
-        }
-    }
 }
 
 

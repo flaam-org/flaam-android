@@ -63,8 +63,6 @@ interface FlaamApi {
     @POST("idea/{id}/vote")
     suspend fun upvoteIdea(@Path("id") id: String, @Query("value") value: Int): Response<Unit>
 
-    @POST("idea/{id}/vote")
-    suspend fun downvoteIdea(@Path("id") id: String, @Query("value") value: Int): Response<Unit>
 
     @POST("tag/{id}/favourite")
     suspend fun addTagToUsersFavouriteTags(@Path("id") id: String): Response<Unit>
