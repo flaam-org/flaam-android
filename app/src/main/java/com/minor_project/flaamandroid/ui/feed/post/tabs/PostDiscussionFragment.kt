@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.CreateDiscussionRequest
 import com.minor_project.flaamandroid.databinding.FragmentPostDiscussionBinding
@@ -18,8 +16,6 @@ import com.minor_project.flaamandroid.databinding.LayoutAddDiscussionBinding
 import com.minor_project.flaamandroid.databinding.LayoutDiscussionItemBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -74,6 +70,8 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
                             popupAddDiscussionBinding.etAddDiscussionTitle.text.toString()
                         tvDiscussionBody.text =
                             popupAddDiscussionBinding.etAddDiscussionBody.text.toString()
+
+                        tvUpvoteDownvoteDiscussion.text = (res.body.vote ?: 0).toString()
                     }
                     val newDiscussionView = newDiscussionBinding.root
                     val lp = LinearLayout.LayoutParams(

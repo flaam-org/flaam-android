@@ -76,9 +76,14 @@ interface FlaamApi {
     suspend fun addImplementation(@Body body: AddImplementationRequest): Response<AddImplementationResponse>
 
 
-    //todo modify this method's response type (incomplete)
     @POST("discussions")
-    suspend fun createDiscussion(@Body body : CreateDiscussionRequest) : Response<CreateDiscussionResponse>
+    suspend fun createDiscussion(@Body body: CreateDiscussionRequest): Response<CreateDiscussionResponse>
+
+    @GET("discussions")
+    suspend fun getDiscussionsList(@Query("idea") ideaId: String): Response<DiscussionsResponse>
+
+    @GET("discussion/{id}")
+    suspend fun getDiscussionDetails(@Path("id") id: Int): Response<DiscussionsResponse.Result>
 
 
 }
