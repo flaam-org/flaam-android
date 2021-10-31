@@ -83,4 +83,5 @@
     <string name="add_discussion">ADD DISCUSSION</string>
     <string name="cancel_discussion">CANCEL DISCUSSION</string>
     <string name="post">Post</string>
+    <string name="no_discussions_added_for_this_idea">No Discussions Added for this Idea!!</string>
 </resources>

@@ -80,10 +80,22 @@ interface FlaamApi {
     suspend fun createDiscussion(@Body body: CreateDiscussionRequest): Response<CreateDiscussionResponse>
 
     @GET("discussions")
-    suspend fun getDiscussionsList(@Query("idea") ideaId: String): Response<DiscussionsResponse>
+    suspend fun getDiscussions(@Query("idea") ideaId: String): Response<DiscussionsResponse>
 
     @GET("discussion/{id}")
     suspend fun getDiscussionDetails(@Path("id") id: Int): Response<DiscussionsResponse.Result>
+
+    @POST("discussion/{id}/vote")
+    suspend fun upvoteDiscussion(
+        @Query("value") value: Int,
+        @Path("id") discussionId: String
+    ): Response<Unit>
+
+    @POST("discussion/{id}/vote")
+    suspend fun downvoteDiscussion(
+        @Query("value") value: Int,
+        @Path("id") discussionId: String
+    ): Response<Unit>
 
 
 }

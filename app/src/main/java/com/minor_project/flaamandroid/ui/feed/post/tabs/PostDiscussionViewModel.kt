@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.minor_project.flaamandroid.data.request.CreateDiscussionRequest
 import com.minor_project.flaamandroid.data.request.CreateUpdateIdeaRequest
 import com.minor_project.flaamandroid.data.response.CreateDiscussionResponse
+import com.minor_project.flaamandroid.data.response.DiscussionsResponse
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
@@ -28,6 +29,9 @@ class PostDiscussionViewModel @Inject constructor(private val flaamRepo: FlaamRe
     private val _createDiscussion = MutableLiveData<ApiResponse<CreateDiscussionResponse>>()
     val createDiscussion: LiveData<ApiResponse<CreateDiscussionResponse>> = _createDiscussion
 
+    private val _getDiscussions = MutableLiveData<ApiResponse<DiscussionsResponse>>()
+    val getDiscussions: LiveData<ApiResponse<DiscussionsResponse>> = _getDiscussions
+
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getUserProfile()
@@ -40,6 +44,13 @@ class PostDiscussionViewModel @Inject constructor(private val flaamRepo: FlaamRe
         viewModelScope.launch {
             val res = flaamRepo.createDiscussion(body)
             _createDiscussion.postValue(handlePostResponse(res))
+        }
+    }
+
+    fun getDiscussions(ideaId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = flaamRepo.getDiscussions(ideaId)
+            _getDiscussions.postValue(handleGetResponse(res))
         }
     }
 }

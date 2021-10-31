@@ -7,41 +7,41 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class DiscussionsResponse(
     @Json(name = "count")
-    val count: Int,
+    val count: Int?,
     @Json(name = "next")
-    val next: Any,
+    val next: Any?,
     @Json(name = "previous")
-    val previous: Any,
+    val previous: Any?,
     @Json(name = "results")
-    val results: List<Result>
+    val results: List<Result>?
 ) {
     @JsonClass(generateAdapter = true)
     data class Result(
         @Json(name = "body")
-        val body: String,
+        val body: String?,
         @Json(name = "comments_count")
-        val commentsCount: Int,
+        val commentsCount: Int?,
         @Json(name = "created_at")
-        val createdAt: String,
+        val createdAt: String?,
         @Json(name = "draft")
-        val draft: Boolean,
+        val draft: Boolean?,
         @Json(name = "id")
-        val id: Int,
+        val id: Int?,
         @Json(name = "idea")
-        val idea: Int,
+        val idea: Int?,
         @Json(name = "owner")
-        val owner: Int,
+        val owner: Int?,
         @Json(name = "owner_avatar")
-        val ownerAvatar: String,
+        val ownerAvatar: String?,
         @Json(name = "owner_username")
-        val ownerUsername: String,
+        val ownerUsername: String?,
         @Json(name = "title")
-        val title: String,
+        val title: String?,
         @Json(name = "updated_at")
-        val updatedAt: String,
+        val updatedAt: String?,
         @Json(name = "viewed")
-        val viewed: Boolean,
+        val viewed: Boolean?,
         @Json(name = "vote")
-        val vote: Int
+        val vote: Int?
     )
 }

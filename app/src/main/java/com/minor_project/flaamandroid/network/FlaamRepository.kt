@@ -52,9 +52,13 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun createDiscussion(body: CreateDiscussionRequest) = api.createDiscussion(body)
 
-    suspend fun getDiscussionsList(ideaId : String) = api.getDiscussionsList(ideaId)
+    suspend fun getDiscussions(ideaId: String) = api.getDiscussions(ideaId)
 
     suspend fun getDiscussionDetails(id: Int) = api.getDiscussionDetails(id)
+
+    suspend fun upvoteDiscussion(id: String) = api.upvoteDiscussion(1, id)
+
+    suspend fun downvoteDiscussion(id: String) = api.downvoteDiscussion(-1, id)
 
 
 }

@@ -9,11 +9,12 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.fragment.app.viewModels
+import com.minor_project.flaamandroid.adapters.PostDiscussionAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.CreateDiscussionRequest
+import com.minor_project.flaamandroid.data.response.DiscussionsResponse
 import com.minor_project.flaamandroid.databinding.FragmentPostDiscussionBinding
 import com.minor_project.flaamandroid.databinding.LayoutAddDiscussionBinding
-import com.minor_project.flaamandroid.databinding.LayoutDiscussionItemBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,7 +22,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PostDiscussionFragment(ideaId: Int) : Fragment() {
 
+    private lateinit var postDiscussionAdapter: PostDiscussionAdapter
+
     private lateinit var binding: FragmentPostDiscussionBinding
+
+    private var discussionsList: ArrayList<DiscussionsResponse.Result> = ArrayList()
 
     private val viewModel: PostDiscussionViewModel by viewModels()
 
@@ -31,19 +36,26 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
     lateinit var preferences: UserPreferences
 
     private lateinit var popupAddDiscussionBinding: LayoutAddDiscussionBinding
-    private lateinit var newDiscussionBinding: LayoutDiscussionItemBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPostDiscussionBinding.inflate(inflater)
+
+        postDiscussionAdapter = PostDiscussionAdapter(this, requireContext(), discussionsList)
+        binding.rvDiscussions.setHasFixedSize(true)
+
+        binding.rvDiscussions.adapter = postDiscussionAdapter
+
         initObservers()
         initOnClick()
         return binding.root
     }
 
     private fun initObservers() {
+        postDiscussionAdapter.setToList(arrayListOf())
+        viewModel.getDiscussions(mIdeaId.toString())
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
@@ -63,24 +75,32 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
                     makeToast(res.message.toString())
                 }
                 is ApiResponse.Success -> {
+                    viewModel.getDiscussions(mIdeaId.toString())
                     makeToast("Discussion Created Successfully!")
-                    newDiscussionBinding = LayoutDiscussionItemBinding.inflate(layoutInflater)
-                    newDiscussionBinding.apply {
-                        tvDiscussionTitle.text =
-                            popupAddDiscussionBinding.etAddDiscussionTitle.text.toString()
-                        tvDiscussionBody.text =
-                            popupAddDiscussionBinding.etAddDiscussionBody.text.toString()
+                }
+            }
+        }
 
-                        tvUpvoteDownvoteDiscussion.text = (res.body.vote ?: 0).toString()
+
+        viewModel.getDiscussions.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast(it.message.toString())
+                }
+
+                is ApiResponse.Success -> {
+                    if (it.body.results.isNullOrEmpty()) {
+                        binding.tvNoDiscussionsAdded.visibility = View.VISIBLE
+                        binding.rvDiscussions.visibility = View.GONE
+                    } else {
+                        binding.tvNoDiscussionsAdded.visibility = View.GONE
+                        binding.rvDiscussions.visibility = View.VISIBLE
+
+                        postDiscussionAdapter.setToList(arrayListOf())
+
+                        postDiscussionAdapter.addToList(it.body.results as ArrayList<DiscussionsResponse.Result>)
                     }
-                    val newDiscussionView = newDiscussionBinding.root
-                    val lp = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
-                    lp.setMargins(8, 8, 8, 8)
-                    newDiscussionView.layoutParams = lp
-                    binding.llPostDiscussions.addView(newDiscussionView)
+
                 }
             }
         }
