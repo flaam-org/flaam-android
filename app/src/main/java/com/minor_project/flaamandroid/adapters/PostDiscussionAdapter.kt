@@ -3,7 +3,9 @@ package com.minor_project.flaamandroid.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.DiscussionsResponse
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.ItemDiscussionBinding
@@ -27,12 +29,33 @@ class PostDiscussionAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
-
         (holder as MyViewHolder).binding.apply {
 
             tvDiscussionTitle.text = model.title
             tvDiscussionBody.text = model.body
-            tvUpvoteDownvoteDiscussion.text = (model.vote ?: 0).toString()
+            //todo add the votes count here (upvote - downvote)
+//            tvUpvoteDownvoteDiscussion.text = (model.vote ?: 0).toString()
+            when (model.vote) {
+                -1 -> {
+                    ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_filled_24dp)
+                }
+
+                1 -> {
+                    ivUpvoteDiscussion.setImageResource(R.drawable.ic_upvote_filled_24dp)
+                }
+
+                else -> {
+                    ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_outline_24dp)
+                    ivUpvoteDiscussion.setImageResource(R.drawable.ic_upvote_outline_24dp)
+                }
+            }
+
+            ivUpvoteDiscussion.setOnClickListener {
+                ivUpvoteDiscussion.toggleVote(1, model)
+            }
+            ivDownvoteDiscussion.setOnClickListener {
+                ivDownvoteDiscussion.toggleVote(-1, model)
+            }
 
         }
 
@@ -54,6 +77,17 @@ class PostDiscussionAdapter(
     fun setToList(discussions: ArrayList<DiscussionsResponse.Result>) {
         list = discussions
         notifyDataSetChanged()
+    }
+
+
+    private fun ImageView.toggleVote(vote: Int, model: DiscussionsResponse.Result) {
+        if (vote == 1) {
+            this.setImageResource(R.drawable.ic_upvote_filled_24dp)
+            fragment.upvoteDiscussion(model.id!!)
+        } else if (vote == -1) {
+            this.setImageResource(R.drawable.ic_downvote_filled_24dp)
+            fragment.downvoteDiscussion(model.id!!)
+        }
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {

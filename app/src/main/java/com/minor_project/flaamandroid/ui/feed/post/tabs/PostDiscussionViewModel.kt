@@ -17,6 +17,7 @@ import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +32,12 @@ class PostDiscussionViewModel @Inject constructor(private val flaamRepo: FlaamRe
 
     private val _getDiscussions = MutableLiveData<ApiResponse<DiscussionsResponse>>()
     val getDiscussions: LiveData<ApiResponse<DiscussionsResponse>> = _getDiscussions
+
+    private val _upvoteDiscussion = MutableLiveData<Response<Unit>>()
+    val upvoteDiscussion: LiveData<Response<Unit>> = _upvoteDiscussion
+
+    private val _downvoteDiscussion = MutableLiveData<Response<Unit>>()
+    val downvoteDiscussion: LiveData<Response<Unit>> = _downvoteDiscussion
 
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -51,6 +58,20 @@ class PostDiscussionViewModel @Inject constructor(private val flaamRepo: FlaamRe
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getDiscussions(ideaId)
             _getDiscussions.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun upvoteDiscussion(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = flaamRepo.upvoteDiscussion(id)
+            _upvoteDiscussion.postValue(res)
+        }
+    }
+
+    fun downvoteDiscussion(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = flaamRepo.downvoteDiscussion(id)
+            _downvoteDiscussion.postValue(res)
         }
     }
 }

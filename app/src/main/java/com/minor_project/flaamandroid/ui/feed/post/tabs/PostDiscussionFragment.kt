@@ -105,6 +105,28 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
             }
         }
 
+
+        viewModel.upvoteDiscussion.observe(viewLifecycleOwner) {
+
+            if (it.isSuccessful) {
+                viewModel.getDiscussions(mIdeaId.toString())
+                makeToast("Discussion Successfully UpVoted")
+            } else {
+                makeToast("Unable to UpVote Discussion!")
+            }
+        }
+
+
+        viewModel.downvoteDiscussion.observe(viewLifecycleOwner) {
+
+            if (it.isSuccessful) {
+                viewModel.getDiscussions(mIdeaId.toString())
+                makeToast("Discussion Successfully DownVoted")
+            } else {
+                makeToast("Unable to DownVote Discussion!")
+            }
+        }
+
     }
 
     private fun initOnClick() {
@@ -157,6 +179,15 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
         popup.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
 
         popup.showPopupDimBehind()
+    }
+
+
+    fun upvoteDiscussion(discussionId: Int) {
+        viewModel.upvoteDiscussion(discussionId.toString())
+    }
+
+    fun downvoteDiscussion(discussionId: Int) {
+        viewModel.downvoteDiscussion(discussionId.toString())
     }
 
     private fun validateCreateDiscussion(): Boolean {

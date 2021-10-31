@@ -87,14 +87,16 @@ interface FlaamApi {
 
     @POST("discussion/{id}/vote")
     suspend fun upvoteDiscussion(
-        @Query("value") value: Int,
-        @Path("id") discussionId: String
+        @Path("id") discussionId: String,
+        @Query("value") value: Int
+
     ): Response<Unit>
 
     @POST("discussion/{id}/vote")
     suspend fun downvoteDiscussion(
-        @Query("value") value: Int,
-        @Path("id") discussionId: String
+        @Path("id") discussionId: String,
+        @Query("value") value: Int
+
     ): Response<Unit>
 
 

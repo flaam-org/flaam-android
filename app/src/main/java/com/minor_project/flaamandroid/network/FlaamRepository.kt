@@ -56,9 +56,9 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun getDiscussionDetails(id: Int) = api.getDiscussionDetails(id)
 
-    suspend fun upvoteDiscussion(id: String) = api.upvoteDiscussion(1, id)
+    suspend fun upvoteDiscussion(discussionId: String) = api.upvoteDiscussion(discussionId, 1)
 
-    suspend fun downvoteDiscussion(id: String) = api.downvoteDiscussion(-1, id)
+    suspend fun downvoteDiscussion(discussionId: String) = api.downvoteDiscussion(discussionId, -1)
 
 
 }
