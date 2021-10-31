@@ -1,14 +1,18 @@
 package com.minor_project.flaamandroid.adapters
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.DiscussionsResponse
 import com.minor_project.flaamandroid.databinding.ItemDiscussionBinding
 import com.minor_project.flaamandroid.ui.feed.post.tabs.PostDiscussionFragment
+import com.minor_project.flaamandroid.utils.makeToast
 
 class PostDiscussionAdapter(
     private val fragment: PostDiscussionFragment,
@@ -66,7 +70,44 @@ class PostDiscussionAdapter(
                 }
             }
 
+            etAddCommentDiscussionItem.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if (etAddCommentDiscussionItem.text.isNullOrEmpty()) {
+                        tvPostCommentDiscussionItem.setTextColor(context.getColor(android.R.color.darker_gray))
+                        tvPostCommentDiscussionItem.isClickable = false
+                        tvPostCommentDiscussionItem.isFocusable = false
+                    } else {
+                        tvPostCommentDiscussionItem.setTextColor(context.getColor(R.color.secondaryDarkColor2))
+                    }
 
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if (etAddCommentDiscussionItem.text.isNullOrEmpty()) {
+                        tvPostCommentDiscussionItem.setTextColor(context.getColor(android.R.color.darker_gray))
+                        tvPostCommentDiscussionItem.isClickable = false
+                        tvPostCommentDiscussionItem.isFocusable = false
+                    } else {
+                        tvPostCommentDiscussionItem.setTextColor(context.getColor(R.color.secondaryDarkColor2))
+                    }
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    if (etAddCommentDiscussionItem.text.isNullOrEmpty()) {
+                        tvPostCommentDiscussionItem.setTextColor(context.getColor(android.R.color.darker_gray))
+                        tvPostCommentDiscussionItem.isClickable = false
+                        tvPostCommentDiscussionItem.isFocusable = false
+                    } else {
+                        tvPostCommentDiscussionItem.setTextColor(context.getColor(R.color.secondaryDarkColor2))
+                        tvPostCommentDiscussionItem.setOnClickListener {
+                            fragment.makeToast("clicked!!!!!!")
+                            etAddCommentDiscussionItem.setText("")
+                        }
+                    }
+                }
+
+            })
         }
 
     }

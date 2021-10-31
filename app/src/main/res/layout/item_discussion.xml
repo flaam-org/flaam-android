@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="@string/post"
-                android:textColor="@color/secondaryDarkColor2" />
+                android:textColor="@android:color/darker_gray" />
         </LinearLayout>
 
 
