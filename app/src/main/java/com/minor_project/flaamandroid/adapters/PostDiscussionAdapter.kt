@@ -75,7 +75,7 @@ class PostDiscussionAdapter(
 
 
     interface OnClickListener {
-        fun onClick(ideaId: Int, model: IdeasResponse.Result)
+        fun onClick(discussionId: Int, model: DiscussionsResponse.Result)
     }
 
     fun addToList(discussions: ArrayList<DiscussionsResponse.Result>) {
