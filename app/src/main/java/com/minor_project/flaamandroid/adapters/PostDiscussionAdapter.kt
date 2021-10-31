@@ -38,24 +38,33 @@ class PostDiscussionAdapter(
             when (model.vote) {
                 -1 -> {
                     ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_filled_24dp)
+                    ivUpvoteDiscussion.isClickable = false
+                    ivDownvoteDiscussion.isClickable = false
                 }
 
                 1 -> {
                     ivUpvoteDiscussion.setImageResource(R.drawable.ic_upvote_filled_24dp)
+                    ivUpvoteDiscussion.isClickable = false
+                    ivDownvoteDiscussion.isClickable = false
                 }
 
                 else -> {
                     ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_outline_24dp)
                     ivUpvoteDiscussion.setImageResource(R.drawable.ic_upvote_outline_24dp)
+
+                    ivUpvoteDiscussion.setOnClickListener {
+                        ivUpvoteDiscussion.toggleVote(1, model)
+                        ivUpvoteDiscussion.isClickable = false
+                        ivDownvoteDiscussion.isClickable = false
+                    }
+                    ivDownvoteDiscussion.setOnClickListener {
+                        ivDownvoteDiscussion.toggleVote(-1, model)
+                        ivUpvoteDiscussion.isClickable = false
+                        ivDownvoteDiscussion.isClickable = false
+                    }
                 }
             }
 
-            ivUpvoteDiscussion.setOnClickListener {
-                ivUpvoteDiscussion.toggleVote(1, model)
-            }
-            ivDownvoteDiscussion.setOnClickListener {
-                ivDownvoteDiscussion.toggleVote(-1, model)
-            }
 
         }
 
