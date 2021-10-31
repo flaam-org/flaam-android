@@ -9,30 +9,125 @@
     app:cardCornerRadius="10dp">
 
     <LinearLayout
-        android:id="@+id/ll_discussion_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_discussion_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/secondaryColor"
-            android:textSize="16sp"
-            tools:text="Title" />
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_upvote_discussion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/upvote_icon"
+                    android:src="@drawable/ic_upvote_outline_24dp"
+                    app:tint="@color/primaryColor" />
+
+                <TextView
+                    android:id="@+id/tv_upvote_downvote_discussion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/primaryDarkColor2"
+                    android:textSize="24sp"
+                    tools:text="45" />
+
+                <ImageView
+                    android:id="@+id/iv_downvote_discussion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/downvote_icon"
+                    android:src="@drawable/ic_downvote_outline_24dp"
+                    app:tint="@color/primaryColor" />
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_discussion_body"
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_discussion_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/secondaryColor"
+                    android:textSize="16sp"
+                    tools:text="Title" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_discussion_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="@color/secondaryColor"
+                    android:textSize="16sp"
+                    tools:text="Body" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/secondaryColor"
-            android:textSize="16sp"
-            tools:text="Body" />
+            android:orientation="horizontal">
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_add_comment_discussion_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/primaryColor"
+                android:hint="@string/add_comment"
+                android:textAlignment="viewStart"
+                android:textColorHint="@color/primaryDarkColor2" />
+
+            <TextView
+                android:id="@+id/tv_post_comment_discussion_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/post"
+                android:textColor="@color/secondaryDarkColor2" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_comments_discussion_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="38dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

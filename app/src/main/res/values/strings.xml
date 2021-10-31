@@ -82,4 +82,5 @@
     <string name="add_comment">Add Comment</string>
     <string name="add_discussion">ADD DISCUSSION</string>
     <string name="cancel_discussion">CANCEL DISCUSSION</string>
+    <string name="post">Post</string>
 </resources>
