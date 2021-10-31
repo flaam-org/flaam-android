@@ -5,10 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minor_project.flaamandroid.data.request.CreateDiscussionRequest
-import com.minor_project.flaamandroid.data.request.CreateUpdateIdeaRequest
 import com.minor_project.flaamandroid.data.response.CreateDiscussionResponse
 import com.minor_project.flaamandroid.data.response.DiscussionsResponse
-import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse

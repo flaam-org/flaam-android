@@ -23,6 +23,8 @@ data class DiscussionsResponse(
         val commentsCount: Int?,
         @Json(name = "created_at")
         val createdAt: String?,
+        @Json(name = "downvote_count")
+        val downvoteCount: Int?,
         @Json(name = "draft")
         val draft: Boolean?,
         @Json(name = "id")
@@ -39,6 +41,10 @@ data class DiscussionsResponse(
         val title: String?,
         @Json(name = "updated_at")
         val updatedAt: String?,
+        @Json(name = "upvote_count")
+        val upvoteCount: Int?,
+        @Json(name = "view_count")
+        val viewCount: Int?,
         @Json(name = "viewed")
         val viewed: Boolean?,
         @Json(name = "vote")

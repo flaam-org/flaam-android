@@ -7,7 +7,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.DiscussionsResponse
-import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.ItemDiscussionBinding
 import com.minor_project.flaamandroid.ui.feed.post.tabs.PostDiscussionFragment
 
@@ -33,8 +32,10 @@ class PostDiscussionAdapter(
 
             tvDiscussionTitle.text = model.title
             tvDiscussionBody.text = model.body
-            //todo add the votes count here (upvote - downvote)
-//            tvUpvoteDownvoteDiscussion.text = (model.vote ?: 0).toString()
+            val upvoteCount = model.upvoteCount ?: 0
+            val downvoteCount = model.downvoteCount ?: 0
+            val upvoteDownvoteCount = upvoteCount - downvoteCount
+            tvUpvoteDownvoteDiscussion.text = upvoteDownvoteCount.toString()
             when (model.vote) {
                 -1 -> {
                     ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_filled_24dp)
