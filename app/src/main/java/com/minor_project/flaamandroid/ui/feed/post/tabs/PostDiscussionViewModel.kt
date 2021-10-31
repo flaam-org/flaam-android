@@ -31,11 +31,9 @@ class PostDiscussionViewModel @Inject constructor(private val flaamRepo: FlaamRe
     private val _getDiscussions = MutableLiveData<ApiResponse<DiscussionsResponse>>()
     val getDiscussions: LiveData<ApiResponse<DiscussionsResponse>> = _getDiscussions
 
-    private val _upvoteDiscussion = MutableLiveData<Response<Unit>>()
-    val upvoteDiscussion: LiveData<Response<Unit>> = _upvoteDiscussion
+    private val _voteDiscussion = MutableLiveData<Int>()
+    val voteDiscussion: LiveData<Int> = _voteDiscussion
 
-    private val _downvoteDiscussion = MutableLiveData<Response<Unit>>()
-    val downvoteDiscussion: LiveData<Response<Unit>> = _downvoteDiscussion
 
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -59,17 +57,13 @@ class PostDiscussionViewModel @Inject constructor(private val flaamRepo: FlaamRe
         }
     }
 
-    fun upvoteDiscussion(id: String) {
+    fun voteDiscussion(id: String, value: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = flaamRepo.upvoteDiscussion(id)
-            _upvoteDiscussion.postValue(res)
-        }
-    }
+            val res = flaamRepo.voteDiscussion(id, value)
+            if(res.isSuccessful){
+                _voteDiscussion.postValue(value)
+            }
 
-    fun downvoteDiscussion(id: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val res = flaamRepo.downvoteDiscussion(id)
-            _downvoteDiscussion.postValue(res)
         }
     }
 }

@@ -40,35 +40,8 @@ class PostDiscussionAdapter(
             val downvoteCount = model.downvoteCount ?: 0
             val upvoteDownvoteCount = upvoteCount - downvoteCount
             tvUpvoteDownvoteDiscussion.text = upvoteDownvoteCount.toString()
-            when (model.vote) {
-                -1 -> {
-                    ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_filled_24dp)
-                    ivUpvoteDiscussion.isClickable = false
-                    ivDownvoteDiscussion.isClickable = false
-                }
 
-                1 -> {
-                    ivUpvoteDiscussion.setImageResource(R.drawable.ic_upvote_filled_24dp)
-                    ivUpvoteDiscussion.isClickable = false
-                    ivDownvoteDiscussion.isClickable = false
-                }
-
-                else -> {
-                    ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_outline_24dp)
-                    ivUpvoteDiscussion.setImageResource(R.drawable.ic_upvote_outline_24dp)
-
-                    ivUpvoteDiscussion.setOnClickListener {
-                        ivUpvoteDiscussion.toggleVote(1, model)
-                        ivUpvoteDiscussion.isClickable = false
-                        ivDownvoteDiscussion.isClickable = false
-                    }
-                    ivDownvoteDiscussion.setOnClickListener {
-                        ivDownvoteDiscussion.toggleVote(-1, model)
-                        ivUpvoteDiscussion.isClickable = false
-                        ivDownvoteDiscussion.isClickable = false
-                    }
-                }
-            }
+            updateViewForVote(model.vote!!, model)
 
             etAddCommentDiscussionItem.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -112,6 +85,39 @@ class PostDiscussionAdapter(
 
     }
 
+    fun ItemDiscussionBinding.updateViewForVote(vote: Int, model: DiscussionsResponse.Result){
+
+        ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_outline_24dp)
+        ivUpvoteDiscussion.setImageResource(R.drawable.ic_upvote_outline_24dp)
+
+        when (vote) {
+            -1 -> {
+                ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_filled_24dp)
+            }
+
+            1 -> {
+                ivUpvoteDiscussion.setImageResource(R.drawable.ic_upvote_filled_24dp)
+            }
+        }
+
+        ivUpvoteDiscussion.setOnClickListener {
+            if(vote == 1){
+                toggleVote(0, model)
+            }else{
+                toggleVote(1, model)
+            }
+
+        }
+        ivDownvoteDiscussion.setOnClickListener {
+            if(vote == -1){
+                toggleVote(0, model)
+            }else{
+                toggleVote(-1, model)
+            }
+
+        }
+    }
+
 
     override fun getItemCount(): Int = list.size
 
@@ -131,14 +137,8 @@ class PostDiscussionAdapter(
     }
 
 
-    private fun ImageView.toggleVote(vote: Int, model: DiscussionsResponse.Result) {
-        if (vote == 1) {
-            this.setImageResource(R.drawable.ic_upvote_filled_24dp)
-            fragment.upvoteDiscussion(model.id!!)
-        } else if (vote == -1) {
-            this.setImageResource(R.drawable.ic_downvote_filled_24dp)
-            fragment.downvoteDiscussion(model.id!!)
-        }
+    private fun toggleVote(vote: Int, model: DiscussionsResponse.Result) {
+        fragment.voteDiscussion(model.id!!, vote)
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {

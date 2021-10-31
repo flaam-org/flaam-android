@@ -106,26 +106,25 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
         }
 
 
-        viewModel.upvoteDiscussion.observe(viewLifecycleOwner) {
+        viewModel.voteDiscussion.observe(viewLifecycleOwner) {
 
-            if (it.isSuccessful) {
-                viewModel.getDiscussions(mIdeaId.toString())
-                makeToast("Discussion Successfully UpVoted")
-            } else {
-                makeToast("Unable to UpVote Discussion!")
+            when(it){
+                0 -> {
+                }
+                -1 -> {
+                    makeToast("Discussion Successfully DownVoted!")
+                }
+                1 -> {
+                    makeToast("Discussion Successfully UpVoted!")
+                }
             }
+            viewModel.getDiscussions(mIdeaId.toString())
+
+
         }
 
 
-        viewModel.downvoteDiscussion.observe(viewLifecycleOwner) {
 
-            if (it.isSuccessful) {
-                viewModel.getDiscussions(mIdeaId.toString())
-                makeToast("Discussion Successfully DownVoted")
-            } else {
-                makeToast("Unable to DownVote Discussion!")
-            }
-        }
 
     }
 
@@ -182,13 +181,12 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
     }
 
 
-    fun upvoteDiscussion(discussionId: Int) {
-        viewModel.upvoteDiscussion(discussionId.toString())
+    fun voteDiscussion(discussionId: Int, value: Int) {
+        viewModel.voteDiscussion(discussionId.toString(), value)
     }
 
-    fun downvoteDiscussion(discussionId: Int) {
-        viewModel.downvoteDiscussion(discussionId.toString())
-    }
+
+
 
     private fun validateCreateDiscussion(): Boolean {
 

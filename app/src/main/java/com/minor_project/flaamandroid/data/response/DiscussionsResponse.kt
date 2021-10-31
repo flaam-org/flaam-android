@@ -48,6 +48,6 @@ data class DiscussionsResponse(
         @Json(name = "viewed")
         val viewed: Boolean?,
         @Json(name = "vote")
-        val vote: Int?
+        var vote: Int?
     )
 }
