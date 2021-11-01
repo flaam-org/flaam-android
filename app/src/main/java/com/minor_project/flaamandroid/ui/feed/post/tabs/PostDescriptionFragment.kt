@@ -73,18 +73,18 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
                     binding.apply {
                         ivUpvoteIdeaPostDescription.setOnClickListener {
-                            if(vote == 1){
+                            if (vote == 1) {
                                 voteIdea(0)
-                            }else{
+                            } else {
                                 voteIdea(1)
                             }
 
                         }
 
                         ivDownvoteIdeaPostDescription.setOnClickListener {
-                            if(vote == -1){
+                            if (vote == -1) {
                                 voteIdea(0)
-                            }else{
+                            } else {
                                 voteIdea(-1)
                             }
                         }
@@ -106,7 +106,7 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                         }
 
 
-                        lifecycleScope.launch {
+                        lifecycleScope.launch(Dispatchers.Main) {
                             civUserImagePostDescription.loadSVG(ownerAvatar.toString())
                         }
 
@@ -171,12 +171,14 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
         }
 
 
-        viewModel.voteIdea.observe(viewLifecycleOwner){
+        viewModel.voteIdea.observe(viewLifecycleOwner) {
 
-            binding.tvUpvoteDownvotePostDescription.text = (binding.tvUpvoteDownvotePostDescription.text.toString().toInt() + it - vote).toString()
+            binding.tvUpvoteDownvotePostDescription.text =
+                (binding.tvUpvoteDownvotePostDescription.text.toString()
+                    .toInt() + it - vote).toString()
 
 
-                vote = it
+            vote = it
 
             binding.apply {
 
@@ -186,30 +188,16 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                 when (it) {
                     1 -> {
                         ivUpvoteIdeaPostDescription.setImageResource(R.drawable.ic_upvote_filled_24dp)
+                        makeToast("Idea Successfully UpVoted!")
                     }
                     -1 -> {
                         ivDownvoteIdeaPostDescription.setImageResource(R.drawable.ic_downvote_filled_24dp)
+                        makeToast("Idea Successfully DownVoted!")
                     }
                 }
 
             }
-
-
-            when(it){
-                0 -> {
-
-                }
-                1 -> {
-                    makeToast("Idea Successfully UpVoted!")
-                }
-                -1 -> {
-                    makeToast("Idea Successfully DownVoted!")
-                }
-            }
         }
-
-
-
 
 
     }
@@ -226,7 +214,7 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
 
     }
 
-    private fun voteIdea(value: Int){
+    private fun voteIdea(value: Int) {
         viewModel.voteIdea(mIdeaId, value)
     }
 

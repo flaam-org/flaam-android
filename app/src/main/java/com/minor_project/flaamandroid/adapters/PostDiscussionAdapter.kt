@@ -5,8 +5,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.DiscussionsResponse
@@ -85,7 +83,10 @@ class PostDiscussionAdapter(
 
     }
 
-    fun ItemDiscussionBinding.updateViewForVote(vote: Int, model: DiscussionsResponse.Result){
+    private fun ItemDiscussionBinding.updateViewForVote(
+        vote: Int,
+        model: DiscussionsResponse.Result
+    ) {
 
         ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_outline_24dp)
         ivUpvoteDiscussion.setImageResource(R.drawable.ic_upvote_outline_24dp)
@@ -101,17 +102,17 @@ class PostDiscussionAdapter(
         }
 
         ivUpvoteDiscussion.setOnClickListener {
-            if(vote == 1){
+            if (vote == 1) {
                 toggleVote(0, model)
-            }else{
+            } else {
                 toggleVote(1, model)
             }
 
         }
         ivDownvoteDiscussion.setOnClickListener {
-            if(vote == -1){
+            if (vote == -1) {
                 toggleVote(0, model)
-            }else{
+            } else {
                 toggleVote(-1, model)
             }
 
