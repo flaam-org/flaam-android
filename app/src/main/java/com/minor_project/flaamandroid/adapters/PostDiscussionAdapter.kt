@@ -5,8 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.content.ContextCompat
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.DiscussionsResponse
@@ -46,9 +45,7 @@ class PostDiscussionAdapter(
             etAddCommentDiscussionItem.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if (etAddCommentDiscussionItem.text.isNullOrEmpty()) {
-                        tvPostCommentDiscussionItem.setTextColor(context.getColor(android.R.color.darker_gray))
-                        tvPostCommentDiscussionItem.isClickable = false
-                        tvPostCommentDiscussionItem.isFocusable = false
+                        tvPostCommentDiscussionItem.disablePostTextView()
                     } else {
                         tvPostCommentDiscussionItem.setTextColor(context.getColor(R.color.secondaryDarkColor2))
                     }
@@ -57,9 +54,7 @@ class PostDiscussionAdapter(
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if (etAddCommentDiscussionItem.text.isNullOrEmpty()) {
-                        tvPostCommentDiscussionItem.setTextColor(context.getColor(android.R.color.darker_gray))
-                        tvPostCommentDiscussionItem.isClickable = false
-                        tvPostCommentDiscussionItem.isFocusable = false
+                        tvPostCommentDiscussionItem.disablePostTextView()
                     } else {
                         tvPostCommentDiscussionItem.setTextColor(context.getColor(R.color.secondaryDarkColor2))
                     }
@@ -68,9 +63,7 @@ class PostDiscussionAdapter(
 
                 override fun afterTextChanged(p0: Editable?) {
                     if (etAddCommentDiscussionItem.text.isNullOrEmpty()) {
-                        tvPostCommentDiscussionItem.setTextColor(context.getColor(android.R.color.darker_gray))
-                        tvPostCommentDiscussionItem.isClickable = false
-                        tvPostCommentDiscussionItem.isFocusable = false
+                        tvPostCommentDiscussionItem.disablePostTextView()
                     } else {
                         tvPostCommentDiscussionItem.setTextColor(context.getColor(R.color.secondaryDarkColor2))
                         tvPostCommentDiscussionItem.setOnClickListener {
@@ -85,7 +78,10 @@ class PostDiscussionAdapter(
 
     }
 
-    fun ItemDiscussionBinding.updateViewForVote(vote: Int, model: DiscussionsResponse.Result){
+    private fun ItemDiscussionBinding.updateViewForVote(
+        vote: Int,
+        model: DiscussionsResponse.Result
+    ) {
 
         ivDownvoteDiscussion.setImageResource(R.drawable.ic_downvote_outline_24dp)
         ivUpvoteDiscussion.setImageResource(R.drawable.ic_upvote_outline_24dp)
@@ -101,21 +97,27 @@ class PostDiscussionAdapter(
         }
 
         ivUpvoteDiscussion.setOnClickListener {
-            if(vote == 1){
+            if (vote == 1) {
                 toggleVote(0, model)
-            }else{
+            } else {
                 toggleVote(1, model)
             }
 
         }
         ivDownvoteDiscussion.setOnClickListener {
-            if(vote == -1){
+            if (vote == -1) {
                 toggleVote(0, model)
-            }else{
+            } else {
                 toggleVote(-1, model)
             }
 
         }
+    }
+
+    private fun TextView.disablePostTextView() {
+        this.setTextColor(context.getColor(android.R.color.darker_gray))
+        this.isClickable = false
+        this.isFocusable = false
     }
 
 
