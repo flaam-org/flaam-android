@@ -8,10 +8,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.data.request.PostCommentRequest
+import com.minor_project.flaamandroid.data.response.CommentsForDiscussionResponse
 import com.minor_project.flaamandroid.data.response.DiscussionsResponse
 import com.minor_project.flaamandroid.databinding.ItemDiscussionBinding
 import com.minor_project.flaamandroid.ui.feed.post.tabs.PostDiscussionFragment
+import com.minor_project.flaamandroid.utils.gone
 import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.visible
 
 class PostDiscussionAdapter(
     private val fragment: PostDiscussionFragment,
@@ -20,6 +24,11 @@ class PostDiscussionAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 ) {
     private var onClickListener: OnClickListener? = null
+
+
+    // hashmap of position of discussion and its comments.
+    private var mapOfComments = hashMapOf<Int, List<CommentsForDiscussionResponse.Comments?>>()
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -33,6 +42,14 @@ class PostDiscussionAdapter(
         val model = list[position]
         (holder as MyViewHolder).binding.apply {
 
+
+            if(mapOfComments.keys.contains(position)){
+                pbLoadComments.gone()
+                tvLoadComs.gone()
+                val adapter = DiscussionCommentsAdapter(mapOfComments[position] ?: emptyList())
+                rvCommentsDiscussions.adapter = adapter
+            }
+
             tvDiscussionTitle.text = model.title
             tvDiscussionBody.text = model.body
             val upvoteCount = model.upvoteCount ?: 0
@@ -41,6 +58,12 @@ class PostDiscussionAdapter(
             tvUpvoteDownvoteDiscussion.text = upvoteDownvoteCount.toString()
 
             updateViewForVote(model.vote!!, model)
+
+            tvLoadComs.setOnClickListener {
+                pbLoadComments.visible()
+                tvLoadComs.gone()
+                fragment.getComments(model.id!!, position)
+            }
 
             etAddCommentDiscussionItem.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -68,7 +91,11 @@ class PostDiscussionAdapter(
                         tvPostCommentDiscussionItem.setTextColor(context.getColor(R.color.secondaryDarkColor2))
                         tvPostCommentDiscussionItem.setOnClickListener {
                             fragment.makeToast("clicked!!!!!!")
+                            val comment = etAddCommentDiscussionItem.text.toString()
+                            val body = PostCommentRequest(comment, model.id)
+                            fragment.postComment(body)
                             etAddCommentDiscussionItem.setText("")
+
                         }
                     }
                 }
@@ -76,6 +103,11 @@ class PostDiscussionAdapter(
             })
         }
 
+    }
+
+    fun updateCommentsForDiscussion(comments: List<CommentsForDiscussionResponse.Comments?>, position: Int){
+        mapOfComments[position] = comments
+        notifyItemChanged(position)
     }
 
     private fun ItemDiscussionBinding.updateViewForVote(

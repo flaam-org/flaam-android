@@ -97,5 +97,15 @@ interface FlaamApi {
 
     ): Response<Unit>
 
+    @GET("discussion/comments")
+    suspend fun getCommentsForDiscussion(
+        @Query("discussion") id: Int
+    ): Response<CommentsForDiscussionResponse>
+
+    @POST("discussion/comments")
+    suspend fun postCommentForDiscussion(
+        @Body body: PostCommentRequest
+    ): Response<Any>
+
 
 }
