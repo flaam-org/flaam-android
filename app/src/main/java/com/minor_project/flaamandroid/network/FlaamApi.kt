@@ -73,6 +73,9 @@ interface FlaamApi {
     @POST("implementations")
     suspend fun addImplementation(@Body body: AddImplementationRequest): Response<AddImplementationResponse>
 
+    @GET("implementations")
+    suspend fun getImplementations(@Query("owner") ownerId: String): Response<ImplementationsResponse>
+
 
     @POST("discussions")
     suspend fun createDiscussion(@Body body: CreateDiscussionRequest): Response<CreateDiscussionResponse>
