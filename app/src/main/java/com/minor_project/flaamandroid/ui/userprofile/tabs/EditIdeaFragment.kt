@@ -261,7 +261,10 @@ class EditIdeaFragment : Fragment() {
         popupBinding.btnCreateTag.setOnClickListener {
             if (validateCreateTag()) {
                 viewModel.createNewTag(
-                    TagsRequest(null, popupBinding.etAddSelectTag.text.toString())
+                    TagsRequest(
+                        popupBinding.etDescriptionAddSelectTag.text.toString(),
+                        popupBinding.etAddSelectTag.text.toString()
+                    )
                 )
 
             } else {
