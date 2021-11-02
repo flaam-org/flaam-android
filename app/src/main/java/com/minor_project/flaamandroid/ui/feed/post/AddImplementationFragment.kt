@@ -1,6 +1,8 @@
 package com.minor_project.flaamandroid.ui.feed.post
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,8 +57,6 @@ class AddImplementationFragment : Fragment() {
 
                 is ApiResponse.Success -> {
 
-                    val ownerId = it.body.id
-
                     binding.apply {
                         btnAddImplementation.setOnClickListener {
                             if (validate()) {
@@ -100,15 +100,24 @@ class AddImplementationFragment : Fragment() {
 
     private fun validate(): Boolean {
         val emptyFieldError = "This Field Can't Be Empty!"
+        val enterValidUrl = "Please enter a Valid Url!"
         binding.apply {
             if (etAddTitleAddImplementation.text.isNullOrEmpty()) {
                 etAddTitleAddImplementation.error = emptyFieldError
                 return false
             }
 
-            if (etGithubRepoLinkAddImplementation.text.isNullOrEmpty()) {
-                etGithubRepoLinkAddImplementation.error = emptyFieldError
-                return false
+            if (!etGithubRepoLinkAddImplementation.text.isNullOrEmpty()) {
+                if (Patterns.WEB_URL.matcher(etGithubRepoLinkAddImplementation.text.toString())
+                        .matches()
+                ) {
+                    makeToast("true")
+                    return true
+                } else {
+                    makeToast("false")
+                    etGithubRepoLinkAddImplementation.error = enterValidUrl
+                    return false
+                }
             }
 
             return true
