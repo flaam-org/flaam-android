@@ -10,6 +10,10 @@ import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
 import com.minor_project.flaamandroid.databinding.ItemPostImplementationBinding
 import com.minor_project.flaamandroid.ui.feed.post.tabs.PostImplementationsFragment
+import androidx.core.content.ContextCompat.startActivity
+
+import android.content.Intent
+import androidx.core.content.ContextCompat
 
 
 class PostImplementationsAdapter(
@@ -45,6 +49,10 @@ class PostImplementationsAdapter(
             tvDescriptionPostImplementation.text = model.description.toString()
             tvBodyPostImplementation.text = model.body.toString()
             val milestonesCount = model.milestones!!.size
+
+            ivGithubPostImplementation.setOnClickListener {
+                fragment.openRepository(model.repoUrl.toString())
+            }
         }
 
     }

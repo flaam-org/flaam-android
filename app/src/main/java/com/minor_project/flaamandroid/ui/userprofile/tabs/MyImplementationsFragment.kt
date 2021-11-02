@@ -1,5 +1,7 @@
 package com.minor_project.flaamandroid.ui.userprofile.tabs
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -120,6 +122,12 @@ class MyImplementationsFragment : Fragment() {
 
     fun voteImplementation(id: Int, vote: Int) {
         viewModel.voteImplementation(id.toString(), vote)
+    }
+
+    fun openRepository(repoUrl: String) {
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse(repoUrl)
+        startActivity(openURL)
     }
 
 }

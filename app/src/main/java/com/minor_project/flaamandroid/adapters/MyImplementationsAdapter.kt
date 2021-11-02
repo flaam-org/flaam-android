@@ -47,6 +47,10 @@ class MyImplementationsAdapter(
 
             tvDescriptionMyImplementations.text = model.description.toString()
             val milestonesCount = model.milestones!!.size
+
+            ivGithubMyImplementations.setOnClickListener {
+                fragment.openRepository(model.repoUrl.toString())
+            }
         }
 
     }

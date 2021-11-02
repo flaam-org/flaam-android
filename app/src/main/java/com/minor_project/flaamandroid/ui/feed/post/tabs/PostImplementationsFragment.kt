@@ -1,11 +1,14 @@
 package com.minor_project.flaamandroid.ui.feed.post.tabs
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.minor_project.flaamandroid.R
@@ -118,6 +121,12 @@ class PostImplementationsFragment(ideaId: Int) : Fragment() {
 
     fun voteImplementation(id: Int, vote: Int) {
         viewModel.voteImplementation(id.toString(), vote)
+    }
+
+    fun openRepository(repoUrl: String) {
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse(repoUrl)
+        startActivity(openURL)
     }
 
 }
