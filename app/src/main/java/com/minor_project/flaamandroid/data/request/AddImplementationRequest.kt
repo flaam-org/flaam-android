@@ -20,10 +20,8 @@ data class AddImplementationRequest(
     val isAccepted: Boolean?,
     @Json(name = "is_validated")
     val isValidated: Boolean?,
-    @Json(name = "owner")
-    val owner: Int?,
-    @Json(name = "tags")
-    val tags: List<Int>?,
+    @Json(name = "repo_url")
+    val repoUrl: String?,
     @Json(name = "title")
     val title: String?
 )

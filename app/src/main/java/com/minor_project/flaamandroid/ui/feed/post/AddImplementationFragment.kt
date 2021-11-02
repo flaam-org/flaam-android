@@ -69,8 +69,7 @@ class AddImplementationFragment : Fragment() {
                                         args.ideaId,
                                         null,
                                         null,
-                                        ownerId,
-                                        null,
+                                        etGithubRepoLinkAddImplementation.text.toString(),
                                         etAddTitleAddImplementation.text.toString()
                                     )
                                 )

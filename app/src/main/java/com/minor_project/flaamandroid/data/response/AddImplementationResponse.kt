@@ -34,8 +34,10 @@ data class AddImplementationResponse(
     val ownerAvatar: String?,
     @Json(name = "owner_username")
     val ownerUsername: String?,
+    @Json(name = "repo_url")
+    val repoUrl: String?,
     @Json(name = "tags")
-    val tags: List<Any>?,
+    val tags: List<Tag>?,
     @Json(name = "title")
     val title: String?,
     @Json(name = "updated_at")
@@ -44,4 +46,12 @@ data class AddImplementationResponse(
     val viewed: Boolean?,
     @Json(name = "vote")
     val vote: Int?
-)
+) {
+    @JsonClass(generateAdapter = true)
+    data class Tag(
+        @Json(name = "id")
+        val id: Int?,
+        @Json(name = "name")
+        val name: String?
+    )
+}
