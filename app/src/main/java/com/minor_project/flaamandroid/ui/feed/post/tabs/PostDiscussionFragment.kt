@@ -12,11 +12,13 @@ import androidx.fragment.app.viewModels
 import com.minor_project.flaamandroid.adapters.PostDiscussionAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.request.CreateDiscussionRequest
+import com.minor_project.flaamandroid.data.request.PostCommentRequest
 import com.minor_project.flaamandroid.data.response.DiscussionsResponse
 import com.minor_project.flaamandroid.databinding.FragmentPostDiscussionBinding
 import com.minor_project.flaamandroid.databinding.LayoutAddDiscussionBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.FieldPosition
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,6 +33,8 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
     private val viewModel: PostDiscussionViewModel by viewModels()
 
     private val mIdeaId = ideaId
+
+    private var positonOfDiscussion = 0
 
     @Inject
     lateinit var preferences: UserPreferences
@@ -57,6 +61,15 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
         postDiscussionAdapter.setToList(arrayListOf())
         viewModel.getDiscussions(mIdeaId.toString())
         viewModel.getUserProfile()
+
+
+        viewModel.comments.observe(viewLifecycleOwner){
+            when(it){
+                is ApiResponse.Error -> makeToast(it.message.toString())
+                is ApiResponse.Success -> postDiscussionAdapter.updateCommentsForDiscussion(it.body.results ?: emptyList(), positonOfDiscussion)
+            }
+        }
+
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
@@ -102,6 +115,13 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
                     }
 
                 }
+            }
+        }
+
+        viewModel.postCommentResult.observe(viewLifecycleOwner){ it ->
+            when(it){
+                is ApiResponse.Error -> makeToast(it.message.toString())
+                is ApiResponse.Success -> makeToast("posted!!")
             }
         }
 
@@ -195,5 +215,14 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
             return true
         }
 
+    }
+
+    fun getComments(id: Int, position: Int){
+        positonOfDiscussion = position
+        viewModel.getComments(id)
+    }
+
+    fun postComment(body: PostCommentRequest){
+        viewModel.postComment(body)
     }
 }

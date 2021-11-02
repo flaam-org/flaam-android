@@ -1,6 +1,9 @@
 package com.minor_project.flaamandroid.network
 
 import com.minor_project.flaamandroid.data.request.*
+import com.minor_project.flaamandroid.data.response.CommentsForDiscussionResponse
+import retrofit2.Response
+import retrofit2.http.Query
 
 class FlaamRepository(private val api: FlaamApi) {
 
@@ -63,6 +66,14 @@ class FlaamRepository(private val api: FlaamApi) {
         api.upvoteDiscussion(discussionId, value)
 
     suspend fun downvoteDiscussion(discussionId: String) = api.downvoteDiscussion(discussionId, -1)
+
+    suspend fun getCommentsForDiscussion(
+        id: Int
+    ) = api.getCommentsForDiscussion(id)
+
+    suspend fun postCommentForDiscussion(
+        body: PostCommentRequest
+    ) = api.postCommentForDiscussion(body)
 
 
 }
