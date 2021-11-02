@@ -6,8 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.kofigyan.stateprogressbar.StateProgressBar
+import com.minor_project.flaamandroid.R
+import com.minor_project.flaamandroid.data.response.DiscussionsResponse
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
+import com.minor_project.flaamandroid.databinding.ItemDiscussionBinding
 import com.minor_project.flaamandroid.databinding.ItemMyImplementationsBinding
 import com.minor_project.flaamandroid.ui.userprofile.tabs.MyImplementationsFragment
 
@@ -39,6 +42,8 @@ class MyImplementationsAdapter(
             val downvote = model.downvoteCount ?: 0
             val votes = upvote - downvote
             tvUpvoteDownvoteMyImplementations.text = votes.toString()
+
+            updateViewForVote(model.vote!!, model)
 
             tvDescriptionMyImplementations.text = model.description.toString()
             val milestonesCount = model.milestones!!.size
@@ -72,6 +77,46 @@ class MyImplementationsAdapter(
     private fun ImageView.setOwnerAvatar(ownerAvatar: String) {
 
         fragment.setOwnerAvatar(ownerAvatar, this@setOwnerAvatar)
+    }
+
+    private fun ItemMyImplementationsBinding.updateViewForVote(
+        vote: Int,
+        model: ImplementationsResponse.Result
+    ) {
+
+        ivDownvoteMyImplementations.setImageResource(R.drawable.ic_downvote_outline_24dp)
+        ivUpvoteMyImplementations.setImageResource(R.drawable.ic_upvote_outline_24dp)
+
+        when (vote) {
+            -1 -> {
+                ivDownvoteMyImplementations.setImageResource(R.drawable.ic_downvote_filled_24dp)
+            }
+
+            1 -> {
+                ivUpvoteMyImplementations.setImageResource(R.drawable.ic_upvote_filled_24dp)
+            }
+        }
+
+        ivUpvoteMyImplementations.setOnClickListener {
+            if (vote == 1) {
+                toggleVote(0, model)
+            } else {
+                toggleVote(1, model)
+            }
+
+        }
+        ivDownvoteMyImplementations.setOnClickListener {
+            if (vote == -1) {
+                toggleVote(0, model)
+            } else {
+                toggleVote(-1, model)
+            }
+
+        }
+    }
+
+    private fun toggleVote(vote: Int, model: ImplementationsResponse.Result) {
+        fragment.voteImplementation(model.id!!, vote)
     }
 
 

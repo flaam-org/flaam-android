@@ -25,6 +25,9 @@ class MyImplementationsViewModel @Inject constructor(private val repo: FlaamRepo
     private val _getImplementations = MutableLiveData<ApiResponse<ImplementationsResponse>>()
     val getImplementations: LiveData<ApiResponse<ImplementationsResponse>> = _getImplementations
 
+    private val _voteImplementation = MutableLiveData<Int>()
+    val voteImplementation: LiveData<Int> = _voteImplementation
+
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.getUserProfile()
@@ -36,6 +39,16 @@ class MyImplementationsViewModel @Inject constructor(private val repo: FlaamRepo
         viewModelScope.launch(Dispatchers.IO) {
             val res = repo.getImplementations(ownerId)
             _getImplementations.postValue(handleGetResponse(res))
+        }
+    }
+
+    fun voteImplementation(id: String, value: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = repo.voteImplementation(id, value)
+            if (res.isSuccessful) {
+                _voteImplementation.postValue(value)
+            }
+
         }
     }
 

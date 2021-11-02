@@ -8,16 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.adapters.MyBookmarksAdapter
 import com.minor_project.flaamandroid.adapters.MyImplementationsAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
-import com.minor_project.flaamandroid.databinding.FragmentMyBookmarksBinding
 import com.minor_project.flaamandroid.databinding.FragmentMyImplementationsBinding
-import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.loadSVG
 import com.minor_project.flaamandroid.utils.makeToast
@@ -32,7 +26,7 @@ class MyImplementationsFragment : Fragment() {
 
     private lateinit var binding: FragmentMyImplementationsBinding
 
-    private val vm: MyImplementationsViewModel by viewModels()
+    private val viewModel: MyImplementationsViewModel by viewModels()
 
     private var myImplementationsList: ArrayList<ImplementationsResponse.Result> = ArrayList()
 
@@ -59,21 +53,21 @@ class MyImplementationsFragment : Fragment() {
     private fun initObservers() {
 
         myImplementationsAdapter.setToList(arrayListOf())
-        vm.getUserProfile()
-        vm.userProfile.observe(viewLifecycleOwner) {
+        viewModel.getUserProfile()
+        viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
                     makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
-                    vm.getImplementations(it.body.id.toString())
+                    viewModel.getImplementations(it.body.id.toString())
                 }
             }
         }
 
 
-        vm.getImplementations.observe(viewLifecycleOwner) {
+        viewModel.getImplementations.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
                     makeToast(it.message.toString())
@@ -98,12 +92,34 @@ class MyImplementationsFragment : Fragment() {
         }
 
 
+        viewModel.voteImplementation.observe(viewLifecycleOwner) {
+
+            when (it) {
+                0 -> {
+                }
+                -1 -> {
+                    makeToast("Discussion Successfully DownVoted!")
+                }
+                1 -> {
+                    makeToast("Discussion Successfully UpVoted!")
+                }
+            }
+            viewModel.getUserProfile()
+
+
+        }
+
+
     }
 
     fun setOwnerAvatar(ownerAvatar: String, imageView: ImageView) {
         lifecycleScope.launch {
             imageView.loadSVG(ownerAvatar)
         }
+    }
+
+    fun voteImplementation(id: Int, vote: Int) {
+        viewModel.voteImplementation(id.toString(), vote)
     }
 
 }

@@ -73,6 +73,9 @@ interface FlaamApi {
     @POST("implementations")
     suspend fun addImplementation(@Body body: AddImplementationRequest): Response<AddImplementationResponse>
 
+    @POST("implementation/{id}/vote")
+    suspend fun voteImplementation(@Path("id") implementationId: String, @Query("value") value: Int) : Response<Unit>
+
     @GET("implementations")
     suspend fun getImplementations(@Query("owner") ownerId: String): Response<ImplementationsResponse>
 
