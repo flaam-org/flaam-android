@@ -1,10 +1,9 @@
-package com.minor_project.flaamandroid.ui.userprofile.tabs
+package com.minor_project.flaamandroid.ui.feed.post.tabs
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
@@ -16,11 +15,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyImplementationsViewModel @Inject constructor(private val repo: FlaamRepository) :
+class PostImplementationsViewModel @Inject constructor(private val flaamRepo: FlaamRepository) :
     ViewModel() {
 
-    private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
-    val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
 
     private val _getImplementations = MutableLiveData<ApiResponse<ImplementationsResponse>>()
     val getImplementations: LiveData<ApiResponse<ImplementationsResponse>> = _getImplementations
@@ -28,28 +25,23 @@ class MyImplementationsViewModel @Inject constructor(private val repo: FlaamRepo
     private val _voteImplementation = MutableLiveData<Int>()
     val voteImplementation: LiveData<Int> = _voteImplementation
 
-    fun getUserProfile() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.getUserProfile()
-            _userProfile.postValue(handleGetResponse(res))
-        }
-    }
 
-    fun getImplementations(ownerId: String) {
+    fun getImplementations(ideaId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.getImplementations(null, ownerId)
+            val res = flaamRepo.getImplementations(ideaId, null)
             _getImplementations.postValue(handleGetResponse(res))
         }
     }
 
     fun voteImplementation(id: String, value: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val res = repo.voteImplementation(id, value)
+            val res = flaamRepo.voteImplementation(id, value)
             if (res.isSuccessful) {
                 _voteImplementation.postValue(value)
             }
 
         }
     }
+
 
 }

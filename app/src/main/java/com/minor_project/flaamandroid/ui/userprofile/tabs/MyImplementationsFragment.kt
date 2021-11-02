@@ -98,10 +98,10 @@ class MyImplementationsFragment : Fragment() {
                 0 -> {
                 }
                 -1 -> {
-                    makeToast("Discussion Successfully DownVoted!")
+                    makeToast("Implementation Successfully DownVoted!")
                 }
                 1 -> {
-                    makeToast("Discussion Successfully UpVoted!")
+                    makeToast("Implementation Successfully UpVoted!")
                 }
             }
             viewModel.getUserProfile()

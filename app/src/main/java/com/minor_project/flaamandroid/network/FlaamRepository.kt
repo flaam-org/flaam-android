@@ -50,7 +50,8 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun voteImplementation(id: String, value: Int) = api.voteImplementation(id, value)
 
-    suspend fun getImplementations(ownerId: String) = api.getImplementations(ownerId)
+    suspend fun getImplementations(ideaId: String?, ownerId: String?) =
+        api.getImplementations(ideaId, ownerId)
 
     suspend fun createDiscussion(body: CreateDiscussionRequest) = api.createDiscussion(body)
 

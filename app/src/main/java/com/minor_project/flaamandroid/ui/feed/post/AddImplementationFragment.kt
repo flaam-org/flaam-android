@@ -62,7 +62,7 @@ class AddImplementationFragment : Fragment() {
                             if (validate()) {
                                 viewModel.addImplementation(
                                     AddImplementationRequest(
-                                        null,
+                                        etAddBodyAddImplementation.text.toString(),
                                         null,
                                         etAddOverviewDescriptionAddImplementation.text.toString(),
                                         true,
