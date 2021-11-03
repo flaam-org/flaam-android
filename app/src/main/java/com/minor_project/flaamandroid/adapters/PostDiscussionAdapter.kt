@@ -93,7 +93,11 @@ class PostDiscussionAdapter(
                             fragment.makeToast("clicked!!!!!!")
                             val comment = etAddCommentDiscussionItem.text.toString()
                             val body = PostCommentRequest(comment, model.id)
-                            fragment.postComment(body)
+
+                            pbLoadComments.visible()
+                            tvLoadComs.gone()
+
+                            fragment.postComment(body, position)
                             etAddCommentDiscussionItem.setText("")
 
                         }

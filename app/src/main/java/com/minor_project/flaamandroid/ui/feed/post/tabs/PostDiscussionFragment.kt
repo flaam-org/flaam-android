@@ -222,7 +222,8 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
         viewModel.getComments(id)
     }
 
-    fun postComment(body: PostCommentRequest){
+    fun postComment(body: PostCommentRequest, position: Int){
+        positonOfDiscussion = position
         viewModel.postComment(body)
     }
 }
