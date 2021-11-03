@@ -1,5 +1,6 @@
 package com.minor_project.flaamandroid.ui.feed.post
 
+import android.R
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -75,14 +76,17 @@ class AddImplementationFragment : Fragment() {
 
                     binding.listViewMilestones.choiceMode = ListView.CHOICE_MODE_MULTIPLE
 
-                    val adapter = ArrayAdapter(
+                    binding.listViewMilestones.adapter = ArrayAdapter(
                         requireContext(),
-                        com.minor_project.flaamandroid.R.layout.item_milestone_add_implementation,
-                        com.minor_project.flaamandroid.R.id.tv_milestone_item_milestone_add_implementation,
-                        milestonesList
+                        R.layout.simple_list_item_multiple_choice, milestonesList
                     )
 
-                    binding.listViewMilestones.adapter = adapter
+//                    val adapter = ArrayAdapter(
+//                        requireContext(),
+//                        com.minor_project.flaamandroid.R.layout.item_milestone_add_implementation,
+//                        com.minor_project.flaamandroid.R.id.tv_milestone_item_milestone_add_implementation,
+//                        milestonesList
+//                    )
 
 
                     binding.apply {
