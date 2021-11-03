@@ -124,19 +124,33 @@
         </LinearLayout>
 
 
-        <com.kofigyan.stateprogressbar.StateProgressBar
-            android:id="@+id/state_progress_bar_post_implementation"
+        <!--        <com.kofigyan.stateprogressbar.StateProgressBar-->
+        <!--            android:id="@+id/state_progress_bar_post_implementation"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_margin="8dp"-->
+        <!--            app:spb_animateToCurrentProgressState="true"-->
+        <!--            app:spb_checkStateCompleted="true"-->
+        <!--            app:spb_currentStateNumber="three"-->
+        <!--            app:spb_maxStateNumber="four"-->
+        <!--            app:spb_stateBackgroundColor="@color/secondaryLightColor2"-->
+        <!--            app:spb_stateForegroundColor="@color/secondaryDarkColor2"-->
+        <!--            app:spb_stateNumberBackgroundColor="@color/secondaryTextColor"-->
+        <!--            app:spb_stateNumberForegroundColor="@color/secondaryTextColor" />-->
+
+
+        <ProgressBar
+            android:id="@+id/progress_bar_post_implementation"
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:spb_animateToCurrentProgressState="true"
-            app:spb_checkStateCompleted="true"
-            app:spb_currentStateNumber="three"
-            app:spb_maxStateNumber="four"
-            app:spb_stateBackgroundColor="@color/secondaryLightColor2"
-            app:spb_stateForegroundColor="@color/secondaryDarkColor2"
-            app:spb_stateNumberBackgroundColor="@color/secondaryTextColor"
-            app:spb_stateNumberForegroundColor="@color/secondaryTextColor" />
+            android:layout_height="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:progressDrawable="@drawable/progress_bar_horizontal_round_corners"
+            tools:max="100"
+            tools:progress="45" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
