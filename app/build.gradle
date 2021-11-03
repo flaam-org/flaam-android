@@ -110,7 +110,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     //State Progress Bar
-    implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
+    implementation 'com.github.adrien1018:StateProgressBar:-SNAPSHOT'
 
     // Gradle dependency on Shimmer for Android
     implementation 'com.facebook.shimmer:shimmer:0.5.0'

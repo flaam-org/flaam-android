@@ -10,7 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="20"
+        tools:listitem="@layout/item_my_implementations"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/tv_no_implementations_added"
@@ -24,6 +27,6 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="visible"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
 </FrameLayout>
