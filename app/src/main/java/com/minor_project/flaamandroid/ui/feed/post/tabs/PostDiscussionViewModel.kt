@@ -86,6 +86,8 @@ class PostDiscussionViewModel @Inject constructor(private val flaamRepo: FlaamRe
         viewModelScope.launch {
             val res = flaamRepo.postCommentForDiscussion(body)
             _postCommentResult.postValue(handlePostResponse(res))
+
+            getComments(body.discussion!!)
         }
     }
 }
