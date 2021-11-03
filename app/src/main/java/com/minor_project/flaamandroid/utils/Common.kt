@@ -17,10 +17,7 @@ import coil.request.ImageRequest
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.ProgressRecyclerItemBinding
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import retrofit2.Response
 import timber.log.Timber
 import java.text.ParseException
@@ -107,20 +104,23 @@ fun ImageView.loadImage(image: String) {
 
 
 suspend fun ImageView.loadSVG(image: String) {
-    val context = this.context
-    val imageLoader = ImageLoader.Builder(context)
-        .componentRegistry {
-            add(SvgDecoder(context))
-        }
-        .build()
+    withContext(Dispatchers.Main){
+        val context = this@loadSVG.context
+        val imageLoader = ImageLoader.Builder(context)
+            .componentRegistry {
+                add(SvgDecoder(context))
+            }
+            .build()
 
-    val request = ImageRequest.Builder(context)
-        .data(image)
-        .build()
+        val request = ImageRequest.Builder(context)
+            .data(image)
+            .build()
 
-    val drawable = imageLoader.execute(request).drawable
+        val drawable = imageLoader.execute(request).drawable
 
-    this.setImageDrawable(drawable)
+        this@loadSVG.setImageDrawable(drawable)
+    }
+
 }
 
 fun Context.showProgressDialog() {

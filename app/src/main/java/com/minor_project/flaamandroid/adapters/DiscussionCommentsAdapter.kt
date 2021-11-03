@@ -16,7 +16,7 @@ class DiscussionCommentsAdapter(private val comments: List<CommentsForDiscussion
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(ItemCommentBinding.inflate(LayoutInflater.from(parent.context)))
+        return MyViewHolder(ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
