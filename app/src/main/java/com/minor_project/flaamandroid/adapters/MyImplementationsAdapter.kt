@@ -2,6 +2,7 @@ package com.minor_project.flaamandroid.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +49,15 @@ class MyImplementationsAdapter(
 
             tvDescriptionMyImplementations.text = model.description.toString()
             val milestonesCount = model.milestones!!.size
+            val completedMilestonesCount = model.completedMilestones!!.size
+
+            if (milestonesCount == 0) {
+                progressBarMyImplementations.visibility = View.GONE
+            } else {
+                progressBarMyImplementations.max = milestonesCount
+                progressBarMyImplementations.progress = completedMilestonesCount
+            }
+
 
             ivGithubMyImplementations.setOnClickListener {
                 fragment.openRepository(model.repoUrl.toString())

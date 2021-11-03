@@ -75,10 +75,19 @@ class AddImplementationFragment : Fragment() {
                     }
 
                     binding.listViewMilestones.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+
                     binding.listViewMilestones.adapter = ArrayAdapter(
                         requireContext(),
                         R.layout.simple_list_item_multiple_choice, milestonesList
                     )
+
+//                    val adapter = ArrayAdapter(
+//                        requireContext(),
+//                        com.minor_project.flaamandroid.R.layout.item_milestone_add_implementation,
+//                        com.minor_project.flaamandroid.R.id.tv_milestone_item_milestone_add_implementation,
+//                        milestonesList
+//                    )
+
 
                     binding.apply {
                         btnAddImplementation.setOnClickListener {

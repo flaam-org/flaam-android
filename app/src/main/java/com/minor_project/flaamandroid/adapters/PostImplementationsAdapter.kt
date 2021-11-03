@@ -13,6 +13,7 @@ import com.minor_project.flaamandroid.ui.feed.post.tabs.PostImplementationsFragm
 import androidx.core.content.ContextCompat.startActivity
 
 import android.content.Intent
+import android.view.View
 import androidx.core.content.ContextCompat
 
 
@@ -52,6 +53,14 @@ class PostImplementationsAdapter(
             tvDescriptionPostImplementation.text = model.description.toString()
             tvBodyPostImplementation.text = model.body.toString()
             val milestonesCount = model.milestones!!.size
+            val completedMilestonesCount = model.completedMilestones!!.size
+
+            if (milestonesCount == 0) {
+                progressBarPostImplementation.visibility = View.GONE
+            } else {
+                progressBarPostImplementation.max = milestonesCount
+                progressBarPostImplementation.progress = completedMilestonesCount
+            }
 
             ivGithubPostImplementation.setOnClickListener {
                 fragment.openRepository(model.repoUrl.toString())

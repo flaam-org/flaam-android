@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,17 +18,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:contentDescription="@string/milestone_list_icon"
-            android:src="@drawable/ic_bulleted_list_24dp"
-            app:tint="@color/black" />
+            android:contentDescription="@string/milestones_icon"
+            android:src="@drawable/ic_target_color_24dp" />
 
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <CheckedTextView
             android:id="@+id/tv_milestone_item_milestone_add_implementation"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="9"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center_vertical"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:textSize="18sp"
             tools:text="Milestone-1" />
     </LinearLayout>

@@ -55,6 +55,7 @@
                     android:id="@+id/iv_link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:contentDescription="@string/add_link_icon"
                     android:src="@drawable/ic_insert_link_24dp" />
 
@@ -71,7 +72,8 @@
             <ListView
                 android:id="@+id/list_view_milestones"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -80,7 +82,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_button_rounded_gradient2"
-                android:text="@string/add_implementation" />
+                android:text="@string/add_implementation"
+                android:textColor="@color/primaryTextColor" />
 
         </LinearLayout>
 
