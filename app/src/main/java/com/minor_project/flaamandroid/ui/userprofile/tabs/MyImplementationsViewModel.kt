@@ -10,6 +10,7 @@ import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
+import com.minor_project.flaamandroid.utils.handlePostResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +28,9 @@ class MyImplementationsViewModel @Inject constructor(private val repo: FlaamRepo
 
     private val _voteImplementation = MutableLiveData<Int>()
     val voteImplementation: LiveData<Int> = _voteImplementation
+
+    private val _deleteImplementation = MutableLiveData<Int>()
+    val deleteImplementation: LiveData<Int> = _deleteImplementation
 
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -49,6 +53,17 @@ class MyImplementationsViewModel @Inject constructor(private val repo: FlaamRepo
                 _voteImplementation.postValue(value)
             }
 
+        }
+    }
+
+    fun deleteImplementation(id: Int) {
+        viewModelScope.launch {
+            val res = repo.deleteImplementation(id)
+            if (res.isSuccessful) {
+                _deleteImplementation.postValue(1)
+            } else {
+                _deleteImplementation.postValue(-1)
+            }
         }
     }
 

@@ -107,8 +107,19 @@ class MyImplementationsFragment : Fragment() {
                 }
             }
             viewModel.getUserProfile()
+        }
 
+        viewModel.deleteImplementation.observe(viewLifecycleOwner) {
 
+            when (it) {
+                -1 -> {
+                    makeToast("Implementation could not be Deleted!")
+                }
+                1 -> {
+                    makeToast("Implementation Successfully Deleted!")
+                }
+            }
+            viewModel.getUserProfile()
         }
 
 
@@ -128,6 +139,10 @@ class MyImplementationsFragment : Fragment() {
         val openURL = Intent(Intent.ACTION_VIEW)
         openURL.data = Uri.parse(repoUrl)
         startActivity(openURL)
+    }
+
+    fun deleteMyImplementation(implementationId: Int) {
+        viewModel.deleteImplementation(implementationId)
     }
 
 }

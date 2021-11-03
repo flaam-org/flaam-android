@@ -5,12 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.kofigyan.stateprogressbar.StateProgressBar
 import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.data.response.DiscussionsResponse
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
-import com.minor_project.flaamandroid.databinding.ItemDiscussionBinding
 import com.minor_project.flaamandroid.databinding.ItemMyImplementationsBinding
 import com.minor_project.flaamandroid.ui.userprofile.tabs.MyImplementationsFragment
 
@@ -54,6 +51,10 @@ class MyImplementationsAdapter(
 
             ivGithubMyImplementations.setOnClickListener {
                 fragment.openRepository(model.repoUrl.toString())
+            }
+
+            ivDeleteMyImplementations.setOnClickListener {
+                fragment.deleteMyImplementation(model.id!!)
             }
         }
 

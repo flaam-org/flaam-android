@@ -37,7 +37,7 @@ interface FlaamApi {
     @DELETE("idea/{id}")
     suspend fun deleteIdea(
         @Path("id") id: Int
-    ): Response<IdeasResponse.Result>
+    ): Response<Any>
 
     @GET("ideas")
     suspend fun getIdeas(
@@ -84,6 +84,11 @@ interface FlaamApi {
         @Query("idea") ideaId: String?,
         @Query("owner") ownerId: String?
     ): Response<ImplementationsResponse>
+
+    @DELETE("implementation/{id}")
+    suspend fun deleteImplementation(
+        @Path("id") implementationId: Int
+    ): Response<Unit>
 
 
     @POST("discussions")

@@ -56,6 +56,9 @@ class FlaamRepository(private val api: FlaamApi) {
     suspend fun getImplementations(ideaId: String?, ownerId: String?) =
         api.getImplementations(ideaId, ownerId)
 
+    suspend fun deleteImplementation(implementationId: Int) =
+        api.deleteImplementation(implementationId)
+
     suspend fun createDiscussion(body: CreateDiscussionRequest) = api.createDiscussion(body)
 
     suspend fun getDiscussions(ideaId: String) = api.getDiscussions(ideaId)
