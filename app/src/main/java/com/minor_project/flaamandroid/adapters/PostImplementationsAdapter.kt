@@ -39,6 +39,9 @@ class PostImplementationsAdapter(
         (holder as MyViewHolder).binding.apply {
             civOwnerUserImagePostImplementation.setOwnerAvatar(model.ownerAvatar.toString())
             tvOwnerNamePostImplementation.text = model.ownerUsername.toString()
+
+            tvTitlePostImplementation.text = model.title.toString()
+
             val upvote = model.upvoteCount ?: 0
             val downvote = model.downvoteCount ?: 0
             val votes = upvote - downvote

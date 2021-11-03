@@ -38,10 +38,14 @@ class MyImplementationsAdapter(
         (holder as MyViewHolder).binding.apply {
             civOwnerUserImageMyImplementations.setOwnerAvatar(model.ownerAvatar.toString())
             tvOwnerNameMyImplementations.text = model.ownerUsername.toString()
+
+            tvTitleMyImplementations.text = model.title.toString()
+
             val upvote = model.upvoteCount ?: 0
             val downvote = model.downvoteCount ?: 0
             val votes = upvote - downvote
             tvUpvoteDownvoteMyImplementations.text = votes.toString()
+
 
             updateViewForVote(model.vote!!, model)
 
