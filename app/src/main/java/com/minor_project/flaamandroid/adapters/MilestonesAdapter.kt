@@ -61,9 +61,7 @@ open class MilestonesAdapter(
     private fun deleteMilestone(model: String) {
         if (fragment is PostIdeaFragment) {
             fragment.deleteMilestone(model)
-        }
-        else if(fragment is EditIdeaFragment)
-        {
+        } else if (fragment is EditIdeaFragment) {
             fragment.deleteMilestone(model)
         }
 
