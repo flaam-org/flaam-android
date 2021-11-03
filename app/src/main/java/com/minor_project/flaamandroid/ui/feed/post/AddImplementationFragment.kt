@@ -1,9 +1,12 @@
 package com.minor_project.flaamandroid.ui.feed.post
 
+import android.R
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,6 +17,10 @@ import com.minor_project.flaamandroid.databinding.FragmentAddImplementationBindi
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import android.widget.ArrayAdapter
+import androidx.core.util.forEach
+import timber.log.Timber
+
 
 @AndroidEntryPoint
 class AddImplementationFragment : Fragment() {
@@ -24,6 +31,13 @@ class AddImplementationFragment : Fragment() {
     private lateinit var binding: FragmentAddImplementationBinding
 
     private val viewModel: AddImplementationViewModel by viewModels()
+
+    private var milestonesList: ArrayList<String> = ArrayList()
+
+    private var milestonesListSh1Sum: ArrayList<String> = ArrayList()
+
+
+    private var completedMilestonesList: ArrayList<String> = ArrayList()
 
     @Inject
     lateinit var preferences: UserPreferences
@@ -46,31 +60,46 @@ class AddImplementationFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.getUserProfile()
-        viewModel.userProfile.observe(viewLifecycleOwner) {
-            when (it) {
+        viewModel.getIdeaDetails(args.ideaId)
+        viewModel.ideaDetails.observe(viewLifecycleOwner) { res ->
+            when (res) {
                 is ApiResponse.Error -> {
-                    makeToast("Unable to fetch Data!")
+                    makeToast(res.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    milestonesList = arrayListOf()
+                    res.body.milestones!!.forEach { milestone ->
+                        milestonesListSh1Sum.add(milestone[0])
+                        milestonesList.add(milestone[1])
+                    }
 
-                    val ownerId = it.body.id
+                    binding.listViewMilestones.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+                    binding.listViewMilestones.adapter = ArrayAdapter(
+                        requireContext(),
+                        R.layout.simple_list_item_multiple_choice, milestonesList
+                    )
 
                     binding.apply {
                         btnAddImplementation.setOnClickListener {
+                            completedMilestonesList = arrayListOf()
+                            binding.listViewMilestones.checkedItemPositions.forEach { key, _ ->
+                                completedMilestonesList.add(milestonesListSh1Sum[key])
+                            }
+
+
                             if (validate()) {
+                                Timber.e("COMPLETED MILESTONES" + completedMilestonesList)
                                 viewModel.addImplementation(
                                     AddImplementationRequest(
-                                        null,
-                                        null,
+                                        etAddBodyAddImplementation.text.toString(),
+                                        completedMilestonesList,
                                         etAddOverviewDescriptionAddImplementation.text.toString(),
                                         true,
                                         args.ideaId,
                                         null,
                                         null,
-                                        ownerId,
-                                        null,
+                                        etGithubRepoLinkAddImplementation.text.toString(),
                                         etAddTitleAddImplementation.text.toString()
                                     )
                                 )
@@ -81,8 +110,10 @@ class AddImplementationFragment : Fragment() {
                         }
                     }
 
+
                 }
             }
+
         }
 
         viewModel.addImplementation.observe(viewLifecycleOwner) { res ->
@@ -101,15 +132,24 @@ class AddImplementationFragment : Fragment() {
 
     private fun validate(): Boolean {
         val emptyFieldError = "This Field Can't Be Empty!"
+        val enterValidUrl = "Please enter a Valid Url!"
         binding.apply {
             if (etAddTitleAddImplementation.text.isNullOrEmpty()) {
                 etAddTitleAddImplementation.error = emptyFieldError
                 return false
             }
 
-            if (etGithubRepoLinkAddImplementation.text.isNullOrEmpty()) {
-                etGithubRepoLinkAddImplementation.error = emptyFieldError
-                return false
+            if (!etGithubRepoLinkAddImplementation.text.isNullOrEmpty()) {
+                if (Patterns.WEB_URL.matcher(etGithubRepoLinkAddImplementation.text.toString())
+                        .matches()
+                ) {
+                    makeToast("true")
+                    return true
+                } else {
+                    makeToast("false")
+                    etGithubRepoLinkAddImplementation.error = enterValidUrl
+                    return false
+                }
             }
 
             return true

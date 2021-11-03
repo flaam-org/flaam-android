@@ -68,6 +68,11 @@
 
             </LinearLayout>
 
+            <ListView
+                android:id="@+id/list_view_milestones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_add_implementation"

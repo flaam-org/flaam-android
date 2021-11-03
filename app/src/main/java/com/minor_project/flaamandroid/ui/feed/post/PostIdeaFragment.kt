@@ -68,7 +68,10 @@ class PostIdeaFragment : Fragment() {
         popupBinding.btnCreateTag.setOnClickListener {
             if (validateCreateTag()) {
                 viewModel.createNewTag(
-                    TagsRequest(null, popupBinding.etAddSelectTag.text.toString())
+                    TagsRequest(
+                        popupBinding.etDescriptionAddSelectTag.text.toString(),
+                        popupBinding.etAddSelectTag.text.toString()
+                    )
                 )
 
             } else {
@@ -192,10 +195,6 @@ class PostIdeaFragment : Fragment() {
                 }
             }
         }
-
-        var timer = Timer()
-        val delay = 800L
-
 
     }
 

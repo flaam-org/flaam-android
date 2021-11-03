@@ -37,8 +37,8 @@ class MyIdeasViewModel @Inject constructor(private val repo: FlaamRepository) : 
     private val _removeIdeaFromUsersBookmarks = MutableLiveData<Response<Unit>>()
     val removeIdeaFromUsersBookmarks: LiveData<Response<Unit>> = _removeIdeaFromUsersBookmarks
 
-    private val _deleteIdea = MutableLiveData<ApiResponse<IdeasResponse.Result>>()
-    val deleteIdea: LiveData<ApiResponse<IdeasResponse.Result>> = _deleteIdea
+    private val _deleteIdea = MutableLiveData<ApiResponse<Any>>()
+    val deleteIdea: LiveData<ApiResponse<Any>> = _deleteIdea
 
 
     fun updateIdea(body: CreateUpdateIdeaRequest, id: Int) {

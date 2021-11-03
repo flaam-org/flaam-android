@@ -8,12 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
-import com.minor_project.flaamandroid.databinding.ItemMyImplementationsBinding
-import com.minor_project.flaamandroid.ui.userprofile.tabs.MyImplementationsFragment
+import com.minor_project.flaamandroid.databinding.ItemPostImplementationBinding
+import com.minor_project.flaamandroid.ui.feed.post.tabs.PostImplementationsFragment
+import androidx.core.content.ContextCompat.startActivity
+
+import android.content.Intent
+import androidx.core.content.ContextCompat
 
 
-class MyImplementationsAdapter(
-    private val fragment: MyImplementationsFragment,
+class PostImplementationsAdapter(
+    private val fragment: PostImplementationsFragment,
     private val context: Context,
     var list: ArrayList<ImplementationsResponse.Result>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(
@@ -24,7 +28,7 @@ class MyImplementationsAdapter(
 
 
         return MyViewHolder(
-            ItemMyImplementationsBinding.inflate(LayoutInflater.from(context), parent, false)
+            ItemPostImplementationBinding.inflate(LayoutInflater.from(context), parent, false)
         )
     }
 
@@ -33,28 +37,24 @@ class MyImplementationsAdapter(
         val model = list[position]
 
         (holder as MyViewHolder).binding.apply {
-            civOwnerUserImageMyImplementations.setOwnerAvatar(model.ownerAvatar.toString())
-            tvOwnerNameMyImplementations.text = model.ownerUsername.toString()
+            civOwnerUserImagePostImplementation.setOwnerAvatar(model.ownerAvatar.toString())
+            tvOwnerNamePostImplementation.text = model.ownerUsername.toString()
 
-            tvTitleMyImplementations.text = model.title.toString()
+            tvTitlePostImplementation.text = model.title.toString()
 
             val upvote = model.upvoteCount ?: 0
             val downvote = model.downvoteCount ?: 0
             val votes = upvote - downvote
-            tvUpvoteDownvoteMyImplementations.text = votes.toString()
-
+            tvUpvoteDownvotePostImplementation.text = votes.toString()
 
             updateViewForVote(model.vote!!, model)
 
-            tvDescriptionMyImplementations.text = model.description.toString()
+            tvDescriptionPostImplementation.text = model.description.toString()
+            tvBodyPostImplementation.text = model.body.toString()
             val milestonesCount = model.milestones!!.size
 
-            ivGithubMyImplementations.setOnClickListener {
+            ivGithubPostImplementation.setOnClickListener {
                 fragment.openRepository(model.repoUrl.toString())
-            }
-
-            ivDeleteMyImplementations.setOnClickListener {
-                fragment.deleteMyImplementation(model.id!!)
             }
         }
 
@@ -88,25 +88,25 @@ class MyImplementationsAdapter(
         fragment.setOwnerAvatar(ownerAvatar, this@setOwnerAvatar)
     }
 
-    private fun ItemMyImplementationsBinding.updateViewForVote(
+    private fun ItemPostImplementationBinding.updateViewForVote(
         vote: Int,
         model: ImplementationsResponse.Result
     ) {
 
-        ivDownvoteMyImplementations.setImageResource(R.drawable.ic_downvote_outline_24dp)
-        ivUpvoteMyImplementations.setImageResource(R.drawable.ic_upvote_outline_24dp)
+        ivDownvotePostImplementation.setImageResource(R.drawable.ic_downvote_outline_24dp)
+        ivUpvotePostImplementation.setImageResource(R.drawable.ic_upvote_outline_24dp)
 
         when (vote) {
             -1 -> {
-                ivDownvoteMyImplementations.setImageResource(R.drawable.ic_downvote_filled_24dp)
+                ivDownvotePostImplementation.setImageResource(R.drawable.ic_downvote_filled_24dp)
             }
 
             1 -> {
-                ivUpvoteMyImplementations.setImageResource(R.drawable.ic_upvote_filled_24dp)
+                ivUpvotePostImplementation.setImageResource(R.drawable.ic_upvote_filled_24dp)
             }
         }
 
-        ivUpvoteMyImplementations.setOnClickListener {
+        ivUpvotePostImplementation.setOnClickListener {
             if (vote == 1) {
                 toggleVote(0, model)
             } else {
@@ -114,7 +114,7 @@ class MyImplementationsAdapter(
             }
 
         }
-        ivDownvoteMyImplementations.setOnClickListener {
+        ivDownvotePostImplementation.setOnClickListener {
             if (vote == -1) {
                 toggleVote(0, model)
             } else {
@@ -129,6 +129,6 @@ class MyImplementationsAdapter(
     }
 
 
-    private class MyViewHolder(val binding: ItemMyImplementationsBinding) :
+    private class MyViewHolder(val binding: ItemPostImplementationBinding) :
         RecyclerView.ViewHolder(binding.root)
 }

@@ -1,5 +1,7 @@
 package com.minor_project.flaamandroid.ui.userprofile.tabs
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -98,15 +100,26 @@ class MyImplementationsFragment : Fragment() {
                 0 -> {
                 }
                 -1 -> {
-                    makeToast("Discussion Successfully DownVoted!")
+                    makeToast("Implementation Successfully DownVoted!")
                 }
                 1 -> {
-                    makeToast("Discussion Successfully UpVoted!")
+                    makeToast("Implementation Successfully UpVoted!")
                 }
             }
             viewModel.getUserProfile()
+        }
 
+        viewModel.deleteImplementation.observe(viewLifecycleOwner) {
 
+            when (it) {
+                -1 -> {
+                    makeToast("Implementation could not be Deleted!")
+                }
+                1 -> {
+                    makeToast("Implementation Successfully Deleted!")
+                }
+            }
+            viewModel.getUserProfile()
         }
 
 
@@ -120,6 +133,16 @@ class MyImplementationsFragment : Fragment() {
 
     fun voteImplementation(id: Int, vote: Int) {
         viewModel.voteImplementation(id.toString(), vote)
+    }
+
+    fun openRepository(repoUrl: String) {
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse(repoUrl)
+        startActivity(openURL)
+    }
+
+    fun deleteMyImplementation(implementationId: Int) {
+        viewModel.deleteImplementation(implementationId)
     }
 
 }

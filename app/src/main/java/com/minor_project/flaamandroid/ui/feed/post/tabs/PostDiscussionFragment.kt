@@ -128,7 +128,7 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
 
         viewModel.voteDiscussion.observe(viewLifecycleOwner) {
 
-            when(it){
+            when (it) {
                 0 -> {
                 }
                 -1 -> {
@@ -142,8 +142,6 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
 
 
         }
-
-
 
 
     }
@@ -204,8 +202,6 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
     fun voteDiscussion(discussionId: Int, value: Int) {
         viewModel.voteDiscussion(discussionId.toString(), value)
     }
-
-
 
 
     private fun validateCreateDiscussion(): Boolean {
