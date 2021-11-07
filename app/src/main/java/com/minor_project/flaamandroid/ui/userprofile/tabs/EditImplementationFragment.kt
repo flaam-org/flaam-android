@@ -1,20 +1,26 @@
 package com.minor_project.flaamandroid.ui.userprofile.tabs
 
 import android.os.Bundle
+import android.util.Log
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.core.util.forEach
+import androidx.core.view.forEach
 import androidx.core.view.iterator
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.minor_project.flaamandroid.data.UserPreferences
+import com.minor_project.flaamandroid.data.request.AddUpdateImplementationRequest
 import com.minor_project.flaamandroid.databinding.FragmentEditImplementationBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,8 +37,10 @@ class EditImplementationFragment : Fragment() {
     private var milestonesList: ArrayList<String> = arrayListOf()
     private var milestonesListSha1Sum: ArrayList<String> = arrayListOf()
     private var completedMilestonesListSha1Sum: ArrayList<String> = arrayListOf()
-    var completedMilestonesListIndex: ArrayList<Int> = arrayListOf()
+    private var completedMilestonesListIndex: ArrayList<Int> = arrayListOf()
 
+
+    private var finalCompletedMilestonesListSha1Sum: ArrayList<String> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,14 +52,10 @@ class EditImplementationFragment : Fragment() {
         makeToast(args.implementationId.toString())
 
         initObservers()
-        initOnClick()
 
         return binding.root
     }
 
-    private fun initOnClick() {
-
-    }
 
     private fun initObservers() {
         viewModel.getImplementationDetails(args.implementationId)
@@ -63,16 +67,27 @@ class EditImplementationFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
+
+                    val ideaId = it.body.idea
                     milestonesList = arrayListOf()
                     milestonesListSha1Sum = arrayListOf()
                     completedMilestonesListSha1Sum = arrayListOf()
                     completedMilestonesListIndex = arrayListOf()
 
                     binding.apply {
-                        etAddTitleEditImplementation.setText(it.body.title.toString())
-                        etAddOverviewDescriptionEditImplementation.setText(it.body.description.toString())
-                        etAddBodyEditImplementation.setText(it.body.body.toString())
-                        etGithubRepoLinkEditImplementation.setText(it.body.repoUrl.toString())
+                        if (!it.body.title.isNullOrEmpty()) {
+                            etAddTitleEditImplementation.setText(it.body.title.toString())
+                        }
+                        if (!it.body.description.isNullOrEmpty()) {
+                            etAddOverviewDescriptionEditImplementation.setText(it.body.description.toString())
+                        }
+                        if (!it.body.body.isNullOrEmpty()) {
+                            etAddBodyEditImplementation.setText(it.body.body.toString())
+                        }
+                        if (!it.body.repoUrl.isNullOrEmpty()) {
+                            etGithubRepoLinkEditImplementation.setText(it.body.repoUrl.toString())
+                        }
+
 
                         it.body.milestones!!.forEach { milestone ->
                             milestonesListSha1Sum.add(milestone[0])
@@ -100,12 +115,47 @@ class EditImplementationFragment : Fragment() {
                             }
                         }
 
-                        makeToast(completedMilestonesListIndex.toString())
-                        completedMilestonesListIndex.forEach { completedMilestoneIndex ->
-                            listViewMilestonesEditImplementation.setItemChecked(
-                                completedMilestoneIndex,
-                                true
-                            )
+
+                        Timber.i("completedMilestonesListIndex $completedMilestonesListIndex")
+
+                        listViewMilestonesEditImplementation.checkCompletedMilestones(
+                            completedMilestonesListIndex
+                        )
+
+                        btnEditImplementation.setOnClickListener {
+                            finalCompletedMilestonesListSha1Sum = arrayListOf()
+
+                            for (index in 0..listViewMilestonesEditImplementation.count.minus(1)) {
+                                if (listViewMilestonesEditImplementation.isItemChecked(index)) {
+                                    finalCompletedMilestonesListSha1Sum.add(milestonesListSha1Sum[index])
+                                    makeToast(finalCompletedMilestonesListSha1Sum.toString())
+                                }
+                            }
+
+                            Timber.e("finalCompletedMilestonesListSha1Sum $finalCompletedMilestonesListSha1Sum")
+
+
+                            if (validate()) {
+                                Timber.e("FINAL COMPLETED MILESTONES" + finalCompletedMilestonesListSha1Sum)
+                                viewModel.updateImplementation(
+                                    args.implementationId,
+                                    AddUpdateImplementationRequest(
+                                        etAddBodyEditImplementation.text.toString(),
+                                        finalCompletedMilestonesListSha1Sum,
+                                        etAddOverviewDescriptionEditImplementation.text.toString(),
+                                        true,
+                                        ideaId,
+                                        null,
+                                        null,
+                                        etGithubRepoLinkEditImplementation.text.toString(),
+                                        etAddOverviewDescriptionEditImplementation.text.toString()
+                                    )
+                                )
+                            } else {
+                                makeToast("Missing Required Fields!")
+                            }
+
+
                         }
 
                     }
@@ -125,5 +175,40 @@ class EditImplementationFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun ListView.checkCompletedMilestones(list: ArrayList<Int>) {
+        list.forEach { completedMilestoneIndex ->
+            this.setItemChecked(
+                completedMilestoneIndex,
+                true
+            )
+        }
+    }
+
+    private fun validate(): Boolean {
+        val emptyFieldError = "This Field Can't Be Empty!"
+        val enterValidUrl = "Please enter a Valid Url!"
+        binding.apply {
+            if (etAddTitleEditImplementation.text.isNullOrEmpty()) {
+                etAddTitleEditImplementation.error = emptyFieldError
+                return false
+            }
+
+            if (!etGithubRepoLinkEditImplementation.text.isNullOrEmpty()) {
+                if (Patterns.WEB_URL.matcher(etGithubRepoLinkEditImplementation.text.toString())
+                        .matches()
+                ) {
+                    makeToast("true")
+                    return true
+                } else {
+                    makeToast("false")
+                    etGithubRepoLinkEditImplementation.error = enterValidUrl
+                    return false
+                }
+            }
+
+            return true
+        }
     }
 }

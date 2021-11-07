@@ -34,7 +34,7 @@ class AddImplementationFragment : Fragment() {
 
     private var milestonesList: ArrayList<String> = ArrayList()
 
-    private var milestonesListSh1Sum: ArrayList<String> = ArrayList()
+    private var milestonesListSha1Sum: ArrayList<String> = ArrayList()
 
 
     private var completedMilestonesList: ArrayList<String> = ArrayList()
@@ -70,7 +70,7 @@ class AddImplementationFragment : Fragment() {
                 is ApiResponse.Success -> {
                     milestonesList = arrayListOf()
                     res.body.milestones!!.forEach { milestone ->
-                        milestonesListSh1Sum.add(milestone[0])
+                        milestonesListSha1Sum.add(milestone[0])
                         milestonesList.add(milestone[1])
                     }
 
@@ -94,7 +94,7 @@ class AddImplementationFragment : Fragment() {
                         btnAddImplementation.setOnClickListener {
                             completedMilestonesList = arrayListOf()
                             binding.listViewMilestonesAddImplementation.checkedItemPositions.forEach { key, _ ->
-                                completedMilestonesList.add(milestonesListSh1Sum[key])
+                                completedMilestonesList.add(milestonesListSha1Sum[key])
                             }
 
 
