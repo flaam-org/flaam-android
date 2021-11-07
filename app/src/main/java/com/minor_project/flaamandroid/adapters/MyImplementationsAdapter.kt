@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kofigyan.stateprogressbar.StateProgressBar
 import com.minor_project.flaamandroid.R
@@ -60,6 +61,14 @@ class MyImplementationsAdapter(
                 stateProgressBarMyImplementations.currentStateNumber = completedMilestonesCount
             }
 
+            if (model.repoUrl.isNullOrEmpty()) {
+                ivGithubMyImplementations.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        android.R.color.darker_gray
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
+            }
 
             ivGithubMyImplementations.setOnClickListener {
                 if (!model.repoUrl.isNullOrEmpty()) {

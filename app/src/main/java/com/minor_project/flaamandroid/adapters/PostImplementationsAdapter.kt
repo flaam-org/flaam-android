@@ -63,6 +63,15 @@ class PostImplementationsAdapter(
                 stateProgressBarPostImplementation.currentStateNumber = completedMilestonesCount
             }
 
+            if (model.repoUrl.isNullOrEmpty()) {
+                ivGithubPostImplementation.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        android.R.color.darker_gray
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
+            }
+
 
             ivGithubPostImplementation.setOnClickListener {
                 if (!model.repoUrl.isNullOrEmpty()) {
