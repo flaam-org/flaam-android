@@ -28,6 +28,7 @@
                 android:layout_height="100dp"
                 android:layout_gravity="top"
                 android:layout_margin="8dp"
+                app:civ_circle_background_color="#D8FFFF"
                 tools:src="@drawable/ic_profile_image_place_holder" />
 
             <LinearLayout
@@ -94,7 +95,8 @@
             android:id="@+id/shimmerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:shimmer_auto_start="false">
+            app:shimmer_auto_start="false"
+            tools:visibility="gone">
 
             <include layout="@layout/shimmer_placeholder_user_profile_layout" />
 

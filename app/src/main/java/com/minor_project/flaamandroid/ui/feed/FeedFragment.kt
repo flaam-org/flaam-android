@@ -473,7 +473,10 @@ class FeedFragment : Fragment() {
                 timer = Timer()
                 timer.schedule(object : TimerTask() {
                     override fun run() {
-                        viewModel.getTagsForKeyword(s.toString())
+                        if(!s.isNullOrEmpty()){
+                            viewModel.getTagsForKeyword(s.toString())
+                        }
+
                     }
                 }, delay)
             }

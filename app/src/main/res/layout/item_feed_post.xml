@@ -25,6 +25,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
+                app:civ_circle_background_color="#D8FFFF"
                 tools:src="@drawable/ic_profile_image_place_holder" />
 
             <TextView

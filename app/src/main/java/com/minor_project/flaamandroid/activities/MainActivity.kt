@@ -1,5 +1,6 @@
 package com.minor_project.flaamandroid.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -8,6 +9,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.UserPreferences
+import com.minor_project.flaamandroid.data.response.RegisterLoginResponse
 import com.minor_project.flaamandroid.databinding.ActivityMainBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,16 +35,31 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         val navController = findNavController(R.id.fragmentContainerView)
 
         lifecycleScope.launch {
             delay(2000L)
 
-            if (userPrefs.accessToken.first() == null) {
-                navController.navigate(R.id.introFragment)
-            } else {
-                viewModel.refreshToken()
+
+            val tokensFromIntent = getTokensFromIntent()
+
+            if(tokensFromIntent == null){
+                if (userPrefs.accessToken.first() == null) {
+                    navController.navigate(R.id.introFragment)
+                } else {
+                    viewModel.refreshToken()
+                }
+            }else{
+
+                userPrefs.updateTokens(RegisterLoginResponse(tokensFromIntent.first, tokensFromIntent.second))
+                startActivity(Intent(this@MainActivity, MainActivity::class.java))
+                finish()
+
             }
+
+
         }
 
         viewModel.refreshTokenResult.observe(this@MainActivity) {
@@ -65,5 +82,19 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
+
+    fun getTokensFromIntent(): Pair<String, String>? {
+
+        val accesskey: String? = intent.data?.getQueryParameters("access")?.firstOrNull()
+        val refreshkey: String? = intent.data?.getQueryParameters("refresh")?.firstOrNull()
+        if(accesskey.isNullOrEmpty() || refreshkey.isNullOrEmpty() ){
+            return null
+        }else{
+            return Pair(accesskey, refreshkey)
+        }
+
+    }
+
 
 }

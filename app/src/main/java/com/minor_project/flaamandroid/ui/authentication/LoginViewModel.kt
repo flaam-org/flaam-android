@@ -27,6 +27,7 @@ class LoginViewModel @Inject constructor(
     private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
     val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
 
+
     fun postLoginRequest(data: RegisterLoginRequest) {
         viewModelScope.launch {
             val res = repo.postLogin(data)
