@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.feed.post.AddImplementationFragment">
-
+    tools:context=".ui.userprofile.tabs.EditImplementationFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -22,7 +21,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/et_add_title_add_implementation"
+                android:id="@+id/et_add_title_edit_implementation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -30,14 +29,14 @@
 
 
             <EditText
-                android:id="@+id/et_add_overview_description_add_implementation"
+                android:id="@+id/et_add_overview_description_edit_implementation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:hint="@string/add_overview_description" />
 
             <EditText
-                android:id="@+id/et_add_body_add_implementation"
+                android:id="@+id/et_add_body_edit_implementation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -61,7 +60,7 @@
 
 
                 <EditText
-                    android:id="@+id/et_github_repo_link_add_implementation"
+                    android:id="@+id/et_github_repo_link_edit_implementation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -70,19 +69,19 @@
             </LinearLayout>
 
             <ListView
-                android:id="@+id/list_view_milestones_add_implementation"
+                android:id="@+id/list_view_milestones_edit_implementation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp" />
 
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_add_implementation"
+                android:id="@+id/btn_edit_implementation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_button_rounded_gradient2"
-                android:text="@string/add_implementation"
+                android:text="@string/edit_implementation"
                 android:textColor="@color/primaryTextColor" />
 
         </LinearLayout>

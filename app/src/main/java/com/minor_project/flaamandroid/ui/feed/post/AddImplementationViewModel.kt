@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.minor_project.flaamandroid.data.request.AddImplementationRequest
+import com.minor_project.flaamandroid.data.request.AddUpdateImplementationRequest
 import com.minor_project.flaamandroid.data.response.AddImplementationResponse
 import com.minor_project.flaamandroid.data.response.IdeasResponse
-import com.minor_project.flaamandroid.data.response.ViewProfileResponse
 import com.minor_project.flaamandroid.network.FlaamRepository
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.handleGetResponse
@@ -29,7 +28,7 @@ class AddImplementationViewModel @Inject constructor(private val flaamRepo: Flaa
     val ideaDetails: LiveData<ApiResponse<IdeasResponse.Result>> = _getIdeaDetails
 
 
-    fun addImplementation(body: AddImplementationRequest) {
+    fun addImplementation(body: AddUpdateImplementationRequest) {
         viewModelScope.launch {
             val res = flaamRepo.addImplementation(body)
             _addImplementation.postValue(handlePostResponse(res))

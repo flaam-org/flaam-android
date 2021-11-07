@@ -1,9 +1,6 @@
 package com.minor_project.flaamandroid.network
 
 import com.minor_project.flaamandroid.data.request.*
-import com.minor_project.flaamandroid.data.response.CommentsForDiscussionResponse
-import retrofit2.Response
-import retrofit2.http.Query
 
 class FlaamRepository(private val api: FlaamApi) {
 
@@ -49,12 +46,21 @@ class FlaamRepository(private val api: FlaamApi) {
     suspend fun removeTagFromUsersFavouriteTags(id: String) =
         api.removeTagFromUsersFavouriteTags(id)
 
-    suspend fun addImplementation(body: AddImplementationRequest) = api.addImplementation(body)
+    suspend fun addImplementation(body: AddUpdateImplementationRequest) =
+        api.addImplementation(body)
 
     suspend fun voteImplementation(id: String, value: Int) = api.voteImplementation(id, value)
 
     suspend fun getImplementations(ideaId: String?, ownerId: String?) =
         api.getImplementations(ideaId, ownerId)
+
+    suspend fun getImplementationDetails(implementationId: Int) =
+        api.getImplementationDetails(implementationId)
+
+    suspend fun updateImplementation(
+        implementationId: Int,
+        body: AddUpdateImplementationRequest
+    ) = api.updateImplementation(implementationId, body)
 
     suspend fun deleteImplementation(implementationId: Int) =
         api.deleteImplementation(implementationId)

@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.request.AddImplementationRequest
+import com.minor_project.flaamandroid.data.request.AddUpdateImplementationRequest
 import com.minor_project.flaamandroid.databinding.FragmentAddImplementationBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,9 +74,10 @@ class AddImplementationFragment : Fragment() {
                         milestonesList.add(milestone[1])
                     }
 
-                    binding.listViewMilestones.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+                    binding.listViewMilestonesAddImplementation.choiceMode =
+                        ListView.CHOICE_MODE_MULTIPLE
 
-                    binding.listViewMilestones.adapter = ArrayAdapter(
+                    binding.listViewMilestonesAddImplementation.adapter = ArrayAdapter(
                         requireContext(),
                         R.layout.simple_list_item_multiple_choice, milestonesList
                     )
@@ -92,7 +93,7 @@ class AddImplementationFragment : Fragment() {
                     binding.apply {
                         btnAddImplementation.setOnClickListener {
                             completedMilestonesList = arrayListOf()
-                            binding.listViewMilestones.checkedItemPositions.forEach { key, _ ->
+                            binding.listViewMilestonesAddImplementation.checkedItemPositions.forEach { key, _ ->
                                 completedMilestonesList.add(milestonesListSh1Sum[key])
                             }
 
@@ -100,7 +101,7 @@ class AddImplementationFragment : Fragment() {
                             if (validate()) {
                                 Timber.e("COMPLETED MILESTONES" + completedMilestonesList)
                                 viewModel.addImplementation(
-                                    AddImplementationRequest(
+                                    AddUpdateImplementationRequest(
                                         etAddBodyAddImplementation.text.toString(),
                                         completedMilestonesList,
                                         etAddOverviewDescriptionAddImplementation.text.toString(),

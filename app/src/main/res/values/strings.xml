@@ -86,4 +86,5 @@
     <string name="no_discussions_added_for_this_idea">No Discussions Added for this Idea!!</string>
     <string name="no_user_implementations_added">You haven\'t added any Implementations Yet!</string>
     <string name="load_comments">Load Comments</string>
+    <string name="edit_implementation">EDIT IMPLEMENTATION</string>
 </resources>

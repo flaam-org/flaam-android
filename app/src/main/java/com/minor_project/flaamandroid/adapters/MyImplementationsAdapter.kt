@@ -67,6 +67,10 @@ class MyImplementationsAdapter(
             ivDeleteMyImplementations.setOnClickListener {
                 fragment.deleteMyImplementation(model.id!!)
             }
+
+            ivEditImplementationMyImplementations.setOnClickListener {
+                fragment.editImplementation(model.id!!)
+            }
         }
 
     }

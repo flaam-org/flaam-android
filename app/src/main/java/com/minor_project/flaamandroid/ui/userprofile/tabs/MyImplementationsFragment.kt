@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.minor_project.flaamandroid.adapters.MyImplementationsAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyImplementationsBinding
+import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.loadSVG
 import com.minor_project.flaamandroid.utils.makeToast
@@ -37,7 +39,7 @@ class MyImplementationsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMyImplementationsBinding.inflate(inflater)
 
         myImplementationsAdapter =
@@ -143,6 +145,14 @@ class MyImplementationsFragment : Fragment() {
 
     fun deleteMyImplementation(implementationId: Int) {
         viewModel.deleteImplementation(implementationId)
+    }
+
+    fun editImplementation(implementationId: Int) {
+        findNavController().navigate(
+            UserProfileFragmentDirections.actionUserProfileFragmentToEditImplementationFragment(
+                implementationId
+            )
+        )
     }
 
 }

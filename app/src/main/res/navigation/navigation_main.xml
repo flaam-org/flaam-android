@@ -83,6 +83,9 @@
         <action
             android:id="@+id/action_userProfileFragment_to_editIdeaFragment"
             app:destination="@id/editIdeaFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_editImplementationFragment"
+            app:destination="@id/editImplementationFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -122,6 +125,15 @@
         tools:layout="@layout/fragment_edit_idea" >
         <argument
             android:name="ideaId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/editImplementationFragment"
+        android:name="com.minor_project.flaamandroid.ui.userprofile.tabs.EditImplementationFragment"
+        android:label="fragment_edit_implementation"
+        tools:layout="@layout/fragment_edit_implementation" >
+        <argument
+            android:name="implementationId"
             app:argType="integer" />
     </fragment>
 </navigation>

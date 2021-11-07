@@ -71,7 +71,7 @@ interface FlaamApi {
     suspend fun removeTagFromUsersFavouriteTags(@Path("id") id: String): Response<Unit>
 
     @POST("implementations")
-    suspend fun addImplementation(@Body body: AddImplementationRequest): Response<AddImplementationResponse>
+    suspend fun addImplementation(@Body body: AddUpdateImplementationRequest): Response<AddImplementationResponse>
 
     @POST("implementation/{id}/vote")
     suspend fun voteImplementation(
@@ -84,6 +84,17 @@ interface FlaamApi {
         @Query("idea") ideaId: String?,
         @Query("owner") ownerId: String?
     ): Response<ImplementationsResponse>
+
+    @GET("implementation/{id}")
+    suspend fun getImplementationDetails(
+        @Path("id") implementationId: Int
+    ): Response<ImplementationsResponse.Result>
+
+    @PATCH("implementation/{id}")
+    suspend fun updateImplementation(
+        @Path("id") implementationId: Int,
+        @Body body: AddUpdateImplementationRequest
+    ): Response<ImplementationsResponse.Result>
 
     @DELETE("implementation/{id}")
     suspend fun deleteImplementation(
