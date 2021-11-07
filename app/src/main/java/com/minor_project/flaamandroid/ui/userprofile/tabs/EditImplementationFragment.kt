@@ -128,7 +128,6 @@ class EditImplementationFragment : Fragment() {
                             for (index in 0..listViewMilestonesEditImplementation.count.minus(1)) {
                                 if (listViewMilestonesEditImplementation.isItemChecked(index)) {
                                     finalCompletedMilestonesListSha1Sum.add(milestonesListSha1Sum[index])
-                                    makeToast(finalCompletedMilestonesListSha1Sum.toString())
                                 }
                             }
 
