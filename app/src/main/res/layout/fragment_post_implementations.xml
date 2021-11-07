@@ -26,7 +26,7 @@
         android:textColor="@color/primaryDarkColor"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:visibility="gone" />
 
 </FrameLayout>

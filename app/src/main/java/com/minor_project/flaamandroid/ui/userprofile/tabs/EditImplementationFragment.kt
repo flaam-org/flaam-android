@@ -69,6 +69,7 @@ class EditImplementationFragment : Fragment() {
                     milestonesListSha1Sum = arrayListOf()
                     completedMilestonesListSha1Sum = arrayListOf()
                     completedMilestonesListIndex = arrayListOf()
+                    finalCompletedMilestonesListSha1Sum = arrayListOf()
 
                     binding.apply {
                         if (!it.body.title.isNullOrEmpty()) {
@@ -131,7 +132,7 @@ class EditImplementationFragment : Fragment() {
 
 
                             if (validate()) {
-                                Timber.e("FINAL COMPLETED MILESTONES" + finalCompletedMilestonesListSha1Sum)
+                                Timber.e("FINAL COMPLETED MILESTONES $finalCompletedMilestonesListSha1Sum")
                                 viewModel.updateImplementation(
                                     args.implementationId,
                                     AddUpdateImplementationRequest(
@@ -143,7 +144,7 @@ class EditImplementationFragment : Fragment() {
                                         null,
                                         null,
                                         etGithubRepoLinkEditImplementation.text.toString(),
-                                        etAddOverviewDescriptionEditImplementation.text.toString()
+                                        etAddTitleEditImplementation.text.toString()
                                     )
                                 )
                             } else {
@@ -191,15 +192,15 @@ class EditImplementationFragment : Fragment() {
             }
 
             if (!etGithubRepoLinkEditImplementation.text.isNullOrEmpty()) {
-                if (Patterns.WEB_URL.matcher(etGithubRepoLinkEditImplementation.text.toString())
+                return if (Patterns.WEB_URL.matcher(etGithubRepoLinkEditImplementation.text.toString())
                         .matches()
                 ) {
                     makeToast("true")
-                    return true
+                    true
                 } else {
                     makeToast("false")
                     etGithubRepoLinkEditImplementation.error = enterValidUrl
-                    return false
+                    false
                 }
             }
 

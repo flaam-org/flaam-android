@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.kofigyan.stateprogressbar.StateProgressBar
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
@@ -68,6 +67,13 @@ class MyImplementationsAdapter(
                         android.R.color.darker_gray
                     ), android.graphics.PorterDuff.Mode.SRC_IN
                 )
+            } else {
+                ivGithubMyImplementations.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.primaryDarkColor2
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
             }
 
             ivGithubMyImplementations.setOnClickListener {
@@ -85,6 +91,7 @@ class MyImplementationsAdapter(
 
             ivEditImplementationMyImplementations.setOnClickListener {
                 fragment.editImplementation(model.id!!)
+                notifyItemChanged(model.id)
             }
         }
 
