@@ -140,8 +140,6 @@
             android:layout_margin="8dp"
             app:spb_animateToCurrentProgressState="true"
             app:spb_checkStateCompleted="true"
-            app:spb_currentStateNumber="3"
-            app:spb_maxStateNumber="10"
             app:spb_stateBackgroundColor="@color/secondaryLightColor2"
             app:spb_stateForegroundColor="@color/secondaryDarkColor2"
             app:spb_stateNumberBackgroundColor="@color/secondaryTextColor"

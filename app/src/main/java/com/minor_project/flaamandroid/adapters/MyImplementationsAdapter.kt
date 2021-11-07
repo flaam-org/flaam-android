@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.kofigyan.stateprogressbar.StateProgressBar
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
@@ -52,10 +53,10 @@ class MyImplementationsAdapter(
             val completedMilestonesCount = model.completedMilestones!!.size
 
             if (milestonesCount == 0) {
-                progressBarMyImplementations.visibility = View.GONE
+                stateProgressBarMyImplementations.visibility = View.GONE
             } else {
-                progressBarMyImplementations.max = milestonesCount
-                progressBarMyImplementations.progress = completedMilestonesCount
+                stateProgressBarMyImplementations.maxStateNumber = milestonesCount
+                stateProgressBarMyImplementations.currentStateNumber = completedMilestonesCount
             }
 
 

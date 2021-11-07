@@ -56,11 +56,12 @@ class PostImplementationsAdapter(
             val completedMilestonesCount = model.completedMilestones!!.size
 
             if (milestonesCount == 0) {
-                progressBarPostImplementation.visibility = View.GONE
+                stateProgressBarPostImplementation.visibility = View.GONE
             } else {
-                progressBarPostImplementation.max = milestonesCount
-                progressBarPostImplementation.progress = completedMilestonesCount
+                stateProgressBarPostImplementation.maxStateNumber = milestonesCount
+                stateProgressBarPostImplementation.currentStateNumber = completedMilestonesCount
             }
+
 
             ivGithubPostImplementation.setOnClickListener {
                 fragment.openRepository(model.repoUrl.toString())

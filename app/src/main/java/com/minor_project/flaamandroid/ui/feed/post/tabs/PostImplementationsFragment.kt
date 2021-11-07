@@ -8,19 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.minor_project.flaamandroid.R
-import com.minor_project.flaamandroid.adapters.MyImplementationsAdapter
-import com.minor_project.flaamandroid.adapters.PostDiscussionAdapter
 import com.minor_project.flaamandroid.adapters.PostImplementationsAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
-import com.minor_project.flaamandroid.data.response.DiscussionsResponse
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
-import com.minor_project.flaamandroid.databinding.FragmentPostDiscussionBinding
 import com.minor_project.flaamandroid.databinding.FragmentPostImplementationsBinding
-import com.minor_project.flaamandroid.databinding.LayoutAddDiscussionBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.loadSVG
 import com.minor_project.flaamandroid.utils.makeToast
@@ -48,7 +41,7 @@ class PostImplementationsFragment(ideaId: Int) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentPostImplementationsBinding.inflate(inflater)
 
