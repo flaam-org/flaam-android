@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat.startActivity
 import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.minor_project.flaamandroid.utils.makeToast
 
 
 class PostImplementationsAdapter(
@@ -64,7 +65,11 @@ class PostImplementationsAdapter(
 
 
             ivGithubPostImplementation.setOnClickListener {
-                fragment.openRepository(model.repoUrl.toString())
+                if (!model.repoUrl.isNullOrEmpty()) {
+                    fragment.openRepository(model.repoUrl.toString())
+                } else {
+                    fragment.makeToast("No Repository Added for this Implementation")
+                }
             }
         }
 

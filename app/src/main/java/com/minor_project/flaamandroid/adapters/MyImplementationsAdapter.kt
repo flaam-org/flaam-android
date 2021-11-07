@@ -12,6 +12,7 @@ import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
 import com.minor_project.flaamandroid.databinding.ItemMyImplementationsBinding
 import com.minor_project.flaamandroid.ui.userprofile.tabs.MyImplementationsFragment
+import com.minor_project.flaamandroid.utils.makeToast
 
 
 class MyImplementationsAdapter(
@@ -61,7 +62,12 @@ class MyImplementationsAdapter(
 
 
             ivGithubMyImplementations.setOnClickListener {
-                fragment.openRepository(model.repoUrl.toString())
+                if (!model.repoUrl.isNullOrEmpty()) {
+                    fragment.openRepository(model.repoUrl.toString())
+                } else {
+                    fragment.makeToast("No Repository Added for this Implementation")
+                }
+
             }
 
             ivDeleteMyImplementations.setOnClickListener {
