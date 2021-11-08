@@ -24,13 +24,16 @@
                 android:id="@+id/civ_owner_user_image_my_implementations"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:background="@drawable/border_profile_picture"
                 tools:src="@drawable/ic_profile_image_place_holder" />
 
             <TextView
                 android:id="@+id/tv_owner_name_my_implementations"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
                 android:layout_weight="8"
                 android:textColor="@color/secondaryDarkColor"
                 android:textSize="22sp"
@@ -39,18 +42,18 @@
 
             <ImageView
                 android:id="@+id/iv_edit_implementation_my_implementations"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_margin="2dp"
                 android:contentDescription="@string/edit_icon"
                 android:src="@drawable/ic_edit_24dp"
                 app:tint="@android:color/holo_orange_light" />
 
             <ImageView
                 android:id="@+id/iv_delete_my_implementations"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_margin="2dp"
                 android:contentDescription="@string/delete_icon"
                 android:src="@drawable/ic_delete_24dp" />
 
@@ -58,7 +61,7 @@
                 android:id="@+id/iv_github_my_implementations"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_weight="1"
+                android:layout_margin="4dp"
                 android:contentDescription="@string/github_icon"
                 android:src="@drawable/ic_github"
                 app:tint="@color/primaryDarkColor2" />

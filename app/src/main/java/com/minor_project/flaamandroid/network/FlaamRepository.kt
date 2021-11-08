@@ -39,7 +39,7 @@ class FlaamRepository(private val api: FlaamApi) {
 
     suspend fun removeIdeaFromUsersBookmarks(id: String) = api.removeIdeaFromUsersBookmarks(id)
 
-    suspend fun voteIdea(id: String, value: Int) = api.upvoteIdea(id, value)
+    suspend fun voteIdea(id: String, value: Int) = api.voteIdea(id, value)
 
     suspend fun addTagToUsersFavouriteTags(id: String) = api.addTagToUsersFavouriteTags(id)
 
@@ -72,9 +72,8 @@ class FlaamRepository(private val api: FlaamApi) {
     suspend fun getDiscussionDetails(id: Int) = api.getDiscussionDetails(id)
 
     suspend fun voteDiscussion(discussionId: String, value: Int) =
-        api.upvoteDiscussion(discussionId, value)
+        api.voteDiscussion(discussionId, value)
 
-    suspend fun downvoteDiscussion(discussionId: String) = api.downvoteDiscussion(discussionId, -1)
 
     suspend fun getCommentsForDiscussion(
         id: Int

@@ -61,7 +61,7 @@ interface FlaamApi {
     suspend fun removeIdeaFromUsersBookmarks(@Path("id") id: String): Response<Unit>
 
     @POST("idea/{id}/vote")
-    suspend fun upvoteIdea(@Path("id") id: String, @Query("value") value: Int): Response<Unit>
+    suspend fun voteIdea(@Path("id") id: String, @Query("value") value: Int): Response<Unit>
 
 
     @POST("tag/{id}/favourite")
@@ -112,18 +112,12 @@ interface FlaamApi {
     suspend fun getDiscussionDetails(@Path("id") id: Int): Response<DiscussionsResponse.Result>
 
     @POST("discussion/{id}/vote")
-    suspend fun upvoteDiscussion(
+    suspend fun voteDiscussion(
         @Path("id") discussionId: String,
         @Query("value") value: Int
 
     ): Response<Unit>
 
-    @POST("discussion/{id}/vote")
-    suspend fun downvoteDiscussion(
-        @Path("id") discussionId: String,
-        @Query("value") value: Int
-
-    ): Response<Unit>
 
     @GET("discussion/comments")
     suspend fun getCommentsForDiscussion(

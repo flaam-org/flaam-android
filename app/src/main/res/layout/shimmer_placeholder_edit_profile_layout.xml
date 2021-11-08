@@ -20,6 +20,8 @@
         android:layout_height="120dp"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
+        android:background="@drawable/border_profile_picture"
+        android:src="@color/shimmer_placeholder"
         app:civ_circle_background_color="@color/shimmer_placeholder" />
 
 
@@ -128,8 +130,7 @@
                     android:paddingBottom="8dp"
                     android:text="@string/update"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:visibility="invisible" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -187,8 +188,7 @@
                     android:layout_margin="20dp"
                     android:background="@drawable/shape_button_rounded_gradient2"
                     android:padding="8dp"
-                    android:text="@string/add_tags"
-                    android:visibility="invisible" />
+                    android:text="@string/add_tags" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
