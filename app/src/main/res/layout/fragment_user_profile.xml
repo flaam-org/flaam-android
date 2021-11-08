@@ -94,8 +94,7 @@
             android:id="@+id/shimmerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:shimmer_auto_start="false"
-            tools:visibility="gone">
+            app:shimmer_auto_start="false">
 
             <include layout="@layout/shimmer_placeholder_user_profile_layout" />
 

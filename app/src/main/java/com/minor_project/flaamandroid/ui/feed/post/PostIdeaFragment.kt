@@ -29,7 +29,9 @@ import com.minor_project.flaamandroid.databinding.LayoutAddEditTagsBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -52,77 +54,6 @@ class PostIdeaFragment : Fragment() {
 
     private lateinit var popupBinding: LayoutAddEditTagsBinding
     private lateinit var allTagsResponse: TagsResponse
-
-    private fun showAddEditTagPopup() {
-
-        popupBinding = LayoutAddEditTagsBinding.inflate(layoutInflater)
-
-        val popup = PopupWindow(
-            popupBinding.root,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            false
-        )
-
-
-        popupBinding.btnCreateTag.setOnClickListener {
-            if (validateCreateTag()) {
-                viewModel.createNewTag(
-                    TagsRequest(
-                        popupBinding.etDescriptionAddSelectTag.text.toString(),
-                        popupBinding.etAddSelectTag.text.toString()
-                    )
-                )
-
-            } else {
-                makeToast("Missing Required Fields!")
-            }
-        }
-
-        var timer = Timer()
-        val delay = 800L
-
-        popupBinding.etAddSelectTag.addTextChangedListener(object : TextWatcher {
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                timer.cancel()
-
-                timer = Timer()
-                timer.schedule(
-                    object : TimerTask() {
-                        override fun run() {
-                            viewModel.getTagsForKeyword(s.toString())
-                        }
-
-                    }, delay
-                )
-
-            }
-
-        })
-
-        popupBinding.btnCancelTag.setOnClickListener {
-            popup.dismiss()
-        }
-
-
-        popup.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
-
-        popup.showPopupDimBehind()
-
-        if (::allTagsResponse.isInitialized) {
-            showTagsMenuPopup(allTagsResponse)
-        }
-
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -150,6 +81,17 @@ class PostIdeaFragment : Fragment() {
         initOnClick()
 
         return binding.root
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerLayout.startShimmer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.shimmerLayout.stopShimmer()
     }
 
     private fun initOnClick() {
@@ -200,17 +142,22 @@ class PostIdeaFragment : Fragment() {
 
 
     private fun initObservers() {
-        requireContext().showProgressDialog()
+        val shimmerLayout = binding.shimmerLayout
+        shimmerLayout.startShimmer()
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    requireContext().hideProgressDialog()
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
+                    binding.llPostIdea.visibility = View.VISIBLE
                     makeToast("Unable to fetch Data!")
                 }
 
                 is ApiResponse.Success -> {
-                    requireContext().hideProgressDialog()
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
+                    binding.llPostIdea.visibility = View.VISIBLE
                     binding.apply {
                         lifecycleScope.launch(Dispatchers.Main) {
                             civPostIdeaUserImage.loadSVG(it.body.avatar.toString())
@@ -286,6 +233,78 @@ class PostIdeaFragment : Fragment() {
                 }
             }
         }
+
+    }
+
+
+    private fun showAddEditTagPopup() {
+
+        popupBinding = LayoutAddEditTagsBinding.inflate(layoutInflater)
+
+        val popup = PopupWindow(
+            popupBinding.root,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            false
+        )
+
+
+        popupBinding.btnCreateTag.setOnClickListener {
+            if (validateCreateTag()) {
+                viewModel.createNewTag(
+                    TagsRequest(
+                        popupBinding.etDescriptionAddSelectTag.text.toString(),
+                        popupBinding.etAddSelectTag.text.toString()
+                    )
+                )
+
+            } else {
+                makeToast("Missing Required Fields!")
+            }
+        }
+
+        var timer = Timer()
+        val delay = 800L
+
+        popupBinding.etAddSelectTag.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                timer.cancel()
+
+                timer = Timer()
+                timer.schedule(
+                    object : TimerTask() {
+                        override fun run() {
+                            viewModel.getTagsForKeyword(s.toString())
+                        }
+
+                    }, delay
+                )
+
+            }
+
+        })
+
+        popupBinding.btnCancelTag.setOnClickListener {
+            popup.dismiss()
+        }
+
+
+        popup.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
+
+        popup.showPopupDimBehind()
+
+        if (::allTagsResponse.isInitialized) {
+            showTagsMenuPopup(allTagsResponse)
+        }
+
 
     }
 
