@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.CheckedTextView
+import android.widget.CheckBox
 import android.widget.TextView
 import com.minor_project.flaamandroid.R
 
@@ -13,6 +13,7 @@ class MilestoneAddImplementationAdapter(private val dataSet: ArrayList<String>, 
     ArrayAdapter<String>(mContext, R.layout.item_milestone_add_implementation, dataSet) {
     private class ViewHolder {
         lateinit var tv: TextView
+        lateinit var cb: CheckBox
     }
 
     override fun getCount(): Int {
@@ -39,6 +40,9 @@ class MilestoneAddImplementationAdapter(private val dataSet: ArrayList<String>, 
             viewHolder.tv =
                 convertView.findViewById(R.id.tv_milestone_item_milestone_add_implementation)
 
+            viewHolder.cb =
+                convertView.findViewById(R.id.cb_milestone_item_milestone_add_implementation)
+
             result = convertView
             convertView.tag = viewHolder
         } else {
@@ -47,6 +51,7 @@ class MilestoneAddImplementationAdapter(private val dataSet: ArrayList<String>, 
         }
         val item: String = getItem(position)
         viewHolder.tv.text = item
+        viewHolder.cb.isChecked = true
         return result
     }
 }

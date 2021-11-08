@@ -1,6 +1,5 @@
 package com.minor_project.flaamandroid.ui.feed.post
 
-import android.R
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -79,7 +78,7 @@ class AddImplementationFragment : Fragment() {
 
                     binding.listViewMilestonesAddImplementation.adapter = ArrayAdapter(
                         requireContext(),
-                        R.layout.simple_list_item_multiple_choice, milestonesList
+                        android.R.layout.simple_list_item_multiple_choice, milestonesList
                     )
 
 //                    val adapter = ArrayAdapter(
@@ -88,6 +87,11 @@ class AddImplementationFragment : Fragment() {
 //                        com.minor_project.flaamandroid.R.id.tv_milestone_item_milestone_add_implementation,
 //                        milestonesList
 //                    )
+
+
+//                    val adapter =
+//                        MilestoneAddImplementationAdapter(milestonesList, requireContext())
+//                    binding.listViewMilestonesAddImplementation.adapter = adapter
 
 
                     binding.apply {
@@ -150,15 +154,15 @@ class AddImplementationFragment : Fragment() {
             }
 
             if (!etGithubRepoLinkAddImplementation.text.isNullOrEmpty()) {
-                if (Patterns.WEB_URL.matcher(etGithubRepoLinkAddImplementation.text.toString())
+                return if (Patterns.WEB_URL.matcher(etGithubRepoLinkAddImplementation.text.toString())
                         .matches()
                 ) {
                     makeToast("true")
-                    return true
+                    true
                 } else {
                     makeToast("false")
                     etGithubRepoLinkAddImplementation.error = enterValidUrl
-                    return false
+                    false
                 }
             }
 

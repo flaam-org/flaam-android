@@ -13,26 +13,31 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:contentDescription="@string/milestones_icon"
             android:src="@drawable/ic_target_color_24dp" />
 
 
-        <CheckedTextView
+        <TextView
             android:id="@+id/tv_milestone_item_milestone_add_implementation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="9"
-            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
             android:gravity="center_vertical"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
             android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:textSize="18sp"
             tools:text="Milestone-1" />
+
+        <CheckBox
+            android:id="@+id/cb_milestone_item_milestone_add_implementation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
