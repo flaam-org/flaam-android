@@ -166,7 +166,7 @@ class EditProfileFragment : Fragment() {
                             chip.chipBackgroundColor =
                                 ColorStateList.valueOf(Color.parseColor("#4fb595"))
                             chip.isCloseIconVisible = true
-
+                            chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
                             chip.setOnCloseIconClickListener {
                                 tag.id?.also {
                                     removeFromFavouriteTags(it)

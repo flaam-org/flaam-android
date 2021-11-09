@@ -217,6 +217,8 @@ class PostIdeaFragment : Fragment() {
                 is ApiResponse.Success -> {
                     val chip = Chip(requireContext())
                     chip.text = res.body.name
+                    chip.chipBackgroundColor =
+                        ColorStateList.valueOf(Color.parseColor("#4fb595"))
                     chip.isCloseIconVisible = true
                     chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
                     chip.setOnCloseIconClickListener {
@@ -349,6 +351,8 @@ class PostIdeaFragment : Fragment() {
         menuPopup.setOnMenuItemClickListener { menuItem ->
             val chip = Chip(requireContext())
             chip.text = menuItem.title
+            chip.chipBackgroundColor =
+                ColorStateList.valueOf(Color.parseColor("#4fb595"))
             binding.chipGroupPostIdeaTags.addView(chip)
             chip.isCloseIconVisible = true
             chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))

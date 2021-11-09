@@ -148,7 +148,7 @@ class EditIdeaFragment : Fragment() {
                             chip.chipBackgroundColor =
                                 ColorStateList.valueOf(Color.parseColor("#4fb595"))
                             chip.isCloseIconVisible = true
-
+                            chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
                             chip.setOnCloseIconClickListener {
                                 userTagsList.remove(tag.id)
                                 chip.gone()
@@ -216,6 +216,8 @@ class EditIdeaFragment : Fragment() {
                 is ApiResponse.Success -> {
                     val chip = Chip(requireContext())
                     chip.text = res.body.name
+                    chip.chipBackgroundColor =
+                        ColorStateList.valueOf(Color.parseColor("#4fb595"))
                     chip.isCloseIconVisible = true
                     chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
                     chip.setOnCloseIconClickListener {
@@ -330,7 +332,8 @@ class EditIdeaFragment : Fragment() {
         menuPopup.setOnMenuItemClickListener { menuItem ->
             val chip = Chip(requireContext())
             chip.text = menuItem.title
-            binding.chipGroupEditIdeaTags.addView(chip)
+            chip.chipBackgroundColor =
+                ColorStateList.valueOf(Color.parseColor("#4fb595"))
             chip.isCloseIconVisible = true
             chip.closeIconTint = ColorStateList.valueOf(Color.parseColor("#F75D59"))
             chip.setOnCloseIconClickListener {
@@ -340,6 +343,7 @@ class EditIdeaFragment : Fragment() {
                 updateTagsList()
                 chip.gone()
             }
+            binding.chipGroupEditIdeaTags.addView(chip)
 
             userTagsList.add(data.results.first {
                 it.name == chip.text
