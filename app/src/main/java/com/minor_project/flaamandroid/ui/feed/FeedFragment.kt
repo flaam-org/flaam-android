@@ -26,6 +26,7 @@ import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.FragmentFeedBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
@@ -395,6 +396,29 @@ class FeedFragment : Fragment() {
     }
 
     private fun initObservers() {
+
+
+        viewModel.getUserProfile()
+        viewModel.userProfile.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    makeToast("Unable to User Profile!")
+                }
+
+                is ApiResponse.Success -> {
+
+                    binding.apply {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            civFeedFragmentMyProfile.loadSVG(it.body.avatar.toString())
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
         isRequestDispatched = true
 
         feedPostAdapter.setToList(arrayListOf())
@@ -473,7 +497,7 @@ class FeedFragment : Fragment() {
                 timer = Timer()
                 timer.schedule(object : TimerTask() {
                     override fun run() {
-                        if(!s.isNullOrEmpty()){
+                        if (!s.isNullOrEmpty()) {
                             viewModel.getTagsForKeyword(s.toString())
                         }
 

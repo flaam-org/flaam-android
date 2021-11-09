@@ -67,9 +67,11 @@
                                 android:id="@+id/et_username_edit_profile"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:enabled="false"
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
-                                android:hint="@string/name"
+                                android:hint="@string/username"
+                                android:inputType="none"
                                 android:textSize="16sp"
                                 tools:ignore="SpeakableTextPresentCheck" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -128,10 +130,11 @@
                                 android:id="@+id/et_email_edit_profile"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:enabled="false"
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
                                 android:hint="@string/email"
-                                android:inputType="textEmailAddress"
+                                android:inputType="none"
                                 android:textSize="16sp"
                                 tools:ignore="SpeakableTextPresentCheck" />
                         </com.google.android.material.textfield.TextInputLayout>
