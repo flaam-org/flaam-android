@@ -1,5 +1,6 @@
 package com.minor_project.flaamandroid.ui.userprofile.tabs
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,6 +36,8 @@ class MyBookmarksFragment : Fragment() {
 
     private lateinit var myBookmarksAdapter: MyBookmarksAdapter
 
+    private lateinit var mProgressDialog: Dialog
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +51,7 @@ class MyBookmarksFragment : Fragment() {
 
         binding.rvMyBookmarks.adapter = myBookmarksAdapter
 
+        mProgressDialog = requireContext().progressDialog()
 
         initObservers()
 
@@ -57,19 +61,29 @@ class MyBookmarksFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Timber.i("MyBookmarks : onResume")
+        mProgressDialog.show()
         viewModel.getUserProfile()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mProgressDialog.dismiss()
     }
 
     private fun initObservers() {
         myBookmarksAdapter.setToList(arrayListOf())
+        mProgressDialog.show()
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    mProgressDialog.dismiss()
                     makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
+                    mProgressDialog.dismiss()
+                    mProgressDialog.show()
                     viewModel.getIdeas(it.body.id!!)
                 }
             }
@@ -79,10 +93,12 @@ class MyBookmarksFragment : Fragment() {
         viewModel.ideas.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    mProgressDialog.dismiss()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    mProgressDialog.dismiss()
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoUserBookmarksAdded.visibility = View.VISIBLE
                         binding.rvMyBookmarks.visibility = View.GONE

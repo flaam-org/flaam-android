@@ -105,20 +105,20 @@ fun ImageView.loadImage(image: String) {
 
 suspend fun ImageView.loadSVG(image: String) {
 
-        val context = this@loadSVG.context
-        val imageLoader = ImageLoader.Builder(context)
-            .componentRegistry {
-                add(SvgDecoder(context))
-            }
-            .build()
+    val context = this@loadSVG.context
+    val imageLoader = ImageLoader.Builder(context)
+        .componentRegistry {
+            add(SvgDecoder(context))
+        }
+        .build()
 
-        val request = ImageRequest.Builder(context)
-            .data(image)
-            .build()
+    val request = ImageRequest.Builder(context)
+        .data(image)
+        .build()
 
-        val drawable = imageLoader.execute(request).drawable
+    val drawable = imageLoader.execute(request).drawable
 
-    withContext(Dispatchers.Main){
+    withContext(Dispatchers.Main) {
         this@loadSVG.setImageDrawable(drawable)
     }
 
@@ -137,6 +137,14 @@ fun Context.showProgressDialog() {
 
 fun Context.hideProgressDialog() {
     mProgressDialog.dismiss()
+}
+
+
+fun Context.progressDialog(): Dialog {
+    val progressDialog = Dialog(this@progressDialog)
+    progressDialog.setContentView(R.layout.dialog_progress)
+
+    return progressDialog
 }
 
 fun PopupWindow.showPopupDimBehind() {
