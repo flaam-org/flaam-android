@@ -547,7 +547,7 @@ class FeedFragment : Fragment() {
     }
 
     fun setOwnerAvatar(ownerAvatar: String, imageView: ImageView) {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             imageView.loadSVG(ownerAvatar)
         }
     }

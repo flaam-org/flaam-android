@@ -104,7 +104,7 @@ fun ImageView.loadImage(image: String) {
 
 
 suspend fun ImageView.loadSVG(image: String) {
-    withContext(Dispatchers.Main){
+
         val context = this@loadSVG.context
         val imageLoader = ImageLoader.Builder(context)
             .componentRegistry {
@@ -118,6 +118,7 @@ suspend fun ImageView.loadSVG(image: String) {
 
         val drawable = imageLoader.execute(request).drawable
 
+    withContext(Dispatchers.Main){
         this@loadSVG.setImageDrawable(drawable)
     }
 

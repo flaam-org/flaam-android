@@ -99,6 +99,7 @@ class UserProfileFragment : Fragment() {
                 val menuPopup = PopupMenu(requireContext(), res)
                 menuPopup.menu.add("Log Out!")
                 menuPopup.menu.add("Reset Password")
+                menuPopup.menu.add("Edit Profile!")
 
                 menuPopup.setOnMenuItemClickListener {
 
@@ -121,6 +122,9 @@ class UserProfileFragment : Fragment() {
 
                         "Reset Password" -> {
 
+                        }
+                        "Edit Profile!" -> {
+                            findNavController().navigate(UserProfileFragmentDirections.actionUserProfileFragmentToEditProfileFragment())
                         }
                     }
 
