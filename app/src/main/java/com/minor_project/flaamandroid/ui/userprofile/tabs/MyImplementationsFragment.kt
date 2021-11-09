@@ -16,9 +16,7 @@ import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.response.ImplementationsResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyImplementationsBinding
 import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
-import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.loadSVG
-import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -55,16 +53,19 @@ class MyImplementationsFragment : Fragment() {
     }
 
     private fun initObservers() {
-
+        requireContext().showProgressDialog()
         myImplementationsAdapter.setToList(arrayListOf())
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    requireContext().hideProgressDialog()
                     makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
+                    requireContext().hideProgressDialog()
+                    requireContext().showProgressDialog()
                     viewModel.getImplementations(it.body.id.toString())
                 }
             }
@@ -74,10 +75,12 @@ class MyImplementationsFragment : Fragment() {
         viewModel.getImplementations.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    requireContext().hideProgressDialog()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    requireContext().hideProgressDialog()
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoUserImplementationsAdded.visibility = View.VISIBLE
                         binding.rvMyImplementations.visibility = View.GONE
