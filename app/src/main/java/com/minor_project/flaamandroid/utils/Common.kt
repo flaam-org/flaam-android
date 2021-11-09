@@ -64,13 +64,17 @@ fun <T> handlePostResponse(response: Response<T>): ApiResponse<T> {
 
 
 fun String.getDaysDiff(): Int {
+
+    Timber.e("$this")
+
     val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
     val diff: Int = try {
-        val date = sdf.parse(this.substring(0, this.length - 13) + this.substring(this.length - 6))
+        val date = sdf.parse(this)
         val today = Date()
 
         (((date!!.time - today.time) / (1000 * 60 * 60 * 24) % 7)).toInt()
     } catch (e: ParseException) {
+        e.printStackTrace()
         0
     }
 
