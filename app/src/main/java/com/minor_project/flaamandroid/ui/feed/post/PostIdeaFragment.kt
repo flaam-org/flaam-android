@@ -159,7 +159,7 @@ class PostIdeaFragment : Fragment() {
                     shimmerLayout.visibility = View.GONE
                     binding.llPostIdea.visibility = View.VISIBLE
                     binding.apply {
-                        lifecycleScope.launch(Dispatchers.Main) {
+                        lifecycleScope.launch(Dispatchers.IO) {
                             civPostIdeaUserImage.loadSVG(it.body.avatar.toString())
                         }
                     }

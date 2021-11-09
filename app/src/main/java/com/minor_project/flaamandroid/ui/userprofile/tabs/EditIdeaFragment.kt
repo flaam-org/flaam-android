@@ -167,7 +167,7 @@ class EditIdeaFragment : Fragment() {
                         }
                         adapter.notifyDataSetChanged()
 
-                        lifecycleScope.launch(Dispatchers.Main) {
+                        lifecycleScope.launch(Dispatchers.IO) {
                             binding.civEditIdeaUserImage.loadSVG(it.body.ownerAvatar.toString())
                         }
                     }

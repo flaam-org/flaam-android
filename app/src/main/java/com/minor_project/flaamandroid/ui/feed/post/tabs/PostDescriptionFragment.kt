@@ -122,7 +122,7 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
                         }
 
 
-                        lifecycleScope.launch(Dispatchers.Main) {
+                        lifecycleScope.launch(Dispatchers.IO) {
                             civUserImagePostDescription.loadSVG(ownerAvatar.toString())
                         }
 

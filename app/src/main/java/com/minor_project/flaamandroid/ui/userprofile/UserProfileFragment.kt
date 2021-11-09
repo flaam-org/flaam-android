@@ -167,7 +167,7 @@ class UserProfileFragment : Fragment() {
                             it.body.dateJoined.toString().getDaysDiff().toString()
                         )
 
-                        lifecycleScope.launch(Dispatchers.Main) {
+                        lifecycleScope.launch(Dispatchers.IO) {
                             civUserProfileUserImage.loadSVG(it.body.avatar.toString())
                         }
 

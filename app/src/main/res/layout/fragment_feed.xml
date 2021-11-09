@@ -45,15 +45,16 @@
 
                 <ImageView
                     android:id="@+id/iv_search"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
                     android:contentDescription="@string/search_icon"
-                    android:src="@drawable/ic_search_24dp" />
+                    android:src="@drawable/ic_search_24dp"
+                    app:tint="@color/primaryColor" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_search"
@@ -75,6 +76,7 @@
                         android:inputType="text"
                         android:paddingBottom="20dp"
                         android:textAlignment="center"
+                        android:textSize="16sp"
                         tools:ignore="RtlCompat" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -86,7 +88,7 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_profile_image_place_holder" />
+                    tools:src="@drawable/ic_profile_image_place_holder" />
 
 
             </LinearLayout>

@@ -125,7 +125,7 @@ class EditProfileFragment : Fragment() {
                     shimmerLayout.stopShimmer()
                     shimmerLayout.visibility = View.GONE
 
-                    lifecycleScope.launch(Dispatchers.Main) {
+                    lifecycleScope.launch(Dispatchers.IO) {
                         binding.civEditProfileUserImage.loadSVG(it.body.avatar.toString())
                     }
 

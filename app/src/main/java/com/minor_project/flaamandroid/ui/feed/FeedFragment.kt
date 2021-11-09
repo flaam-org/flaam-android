@@ -408,7 +408,7 @@ class FeedFragment : Fragment() {
                 is ApiResponse.Success -> {
 
                     binding.apply {
-                        lifecycleScope.launch(Dispatchers.Main) {
+                        lifecycleScope.launch(Dispatchers.IO) {
                             civFeedFragmentMyProfile.loadSVG(it.body.avatar.toString())
                         }
                     }

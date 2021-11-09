@@ -16,6 +16,7 @@ import com.minor_project.flaamandroid.databinding.FragmentMyBookmarksBinding
 import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -60,19 +61,15 @@ class MyBookmarksFragment : Fragment() {
     }
 
     private fun initObservers() {
-        requireContext().showProgressDialog()
         myBookmarksAdapter.setToList(arrayListOf())
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    requireContext().hideProgressDialog()
                     makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
-                    requireContext().hideProgressDialog()
-                    requireContext().showProgressDialog()
                     viewModel.getIdeas(it.body.id!!)
                 }
             }
@@ -82,12 +79,10 @@ class MyBookmarksFragment : Fragment() {
         viewModel.ideas.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    requireContext().hideProgressDialog()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
-                    requireContext().hideProgressDialog()
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoUserBookmarksAdded.visibility = View.VISIBLE
                         binding.rvMyBookmarks.visibility = View.GONE
@@ -146,7 +141,7 @@ class MyBookmarksFragment : Fragment() {
     }
 
     fun setOwnerAvatar(ownerAvatar: String, imageView: ImageView) {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             imageView.loadSVG(ownerAvatar)
         }
     }

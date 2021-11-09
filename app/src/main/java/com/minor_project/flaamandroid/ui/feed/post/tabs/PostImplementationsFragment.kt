@@ -18,6 +18,7 @@ import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.loadSVG
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -107,7 +108,7 @@ class PostImplementationsFragment(ideaId: Int) : Fragment() {
     }
 
     fun setOwnerAvatar(ownerAvatar: String, imageView: ImageView) {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             imageView.loadSVG(ownerAvatar)
         }
     }

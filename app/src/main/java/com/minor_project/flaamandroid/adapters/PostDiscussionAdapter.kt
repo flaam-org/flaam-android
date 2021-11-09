@@ -39,14 +39,16 @@ class PostDiscussionAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val model = list[position]
+        val model = list[holder.bindingAdapterPosition]
         (holder as MyViewHolder).binding.apply {
 
 
-            if(mapOfComments.keys.contains(position)){
+            if (mapOfComments.keys.contains(holder.bindingAdapterPosition)) {
                 pbLoadComments.gone()
                 tvLoadComs.gone()
-                val adapter = DiscussionCommentsAdapter(mapOfComments[position] ?: emptyList())
+                val adapter = DiscussionCommentsAdapter(
+                    mapOfComments[holder.bindingAdapterPosition] ?: emptyList()
+                )
                 rvCommentsDiscussions.adapter = adapter
             }
 
@@ -62,7 +64,7 @@ class PostDiscussionAdapter(
             tvLoadComs.setOnClickListener {
                 pbLoadComments.visible()
                 tvLoadComs.gone()
-                fragment.getComments(model.id!!, position)
+                fragment.getComments(model.id!!, holder.bindingAdapterPosition)
             }
 
             etAddCommentDiscussionItem.addTextChangedListener(object : TextWatcher {
@@ -97,7 +99,7 @@ class PostDiscussionAdapter(
                             pbLoadComments.visible()
                             tvLoadComs.gone()
 
-                            fragment.postComment(body, position)
+                            fragment.postComment(body, holder.bindingAdapterPosition)
                             etAddCommentDiscussionItem.setText("")
 
                         }
@@ -109,7 +111,10 @@ class PostDiscussionAdapter(
 
     }
 
-    fun updateCommentsForDiscussion(comments: List<CommentsForDiscussionResponse.Comments?>, position: Int){
+    fun updateCommentsForDiscussion(
+        comments: List<CommentsForDiscussionResponse.Comments?>,
+        position: Int
+    ) {
         mapOfComments[position] = comments
         notifyItemChanged(position)
     }

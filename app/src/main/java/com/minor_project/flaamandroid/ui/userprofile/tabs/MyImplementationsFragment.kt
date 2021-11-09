@@ -18,7 +18,9 @@ import com.minor_project.flaamandroid.databinding.FragmentMyImplementationsBindi
 import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -52,20 +54,22 @@ class MyImplementationsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        Timber.i("MyImplementations : onResume")
+        viewModel.getUserProfile()
+    }
+
     private fun initObservers() {
-        requireContext().showProgressDialog()
         myImplementationsAdapter.setToList(arrayListOf())
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    requireContext().hideProgressDialog()
                     makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
-                    requireContext().hideProgressDialog()
-                    requireContext().showProgressDialog()
                     viewModel.getImplementations(it.body.id.toString())
                 }
             }
@@ -75,12 +79,10 @@ class MyImplementationsFragment : Fragment() {
         viewModel.getImplementations.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    requireContext().hideProgressDialog()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
-                    requireContext().hideProgressDialog()
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoUserImplementationsAdded.visibility = View.VISIBLE
                         binding.rvMyImplementations.visibility = View.GONE
@@ -131,7 +133,7 @@ class MyImplementationsFragment : Fragment() {
     }
 
     fun setOwnerAvatar(ownerAvatar: String, imageView: ImageView) {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             imageView.loadSVG(ownerAvatar)
         }
     }
