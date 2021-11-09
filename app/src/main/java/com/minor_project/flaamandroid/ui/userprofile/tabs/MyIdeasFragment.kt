@@ -16,9 +16,7 @@ import com.minor_project.flaamandroid.data.request.DeleteIdeaRequest
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyIdeasBinding
 import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
-import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.loadSVG
-import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -61,15 +59,19 @@ class MyIdeasFragment : Fragment() {
     }
 
     private fun initObservers() {
+        requireContext().showProgressDialog()
         myIdeasAdapter.setToList(arrayListOf())
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    requireContext().hideProgressDialog()
                     makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
+                    requireContext().hideProgressDialog()
+                    requireContext().showProgressDialog()
                     viewModel.getIdeas(it.body.id!!)
                 }
             }
@@ -79,10 +81,12 @@ class MyIdeasFragment : Fragment() {
         viewModel.ideas.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    requireContext().hideProgressDialog()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    requireContext().hideProgressDialog()
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoUserIdeasAdded.visibility = View.VISIBLE
                         binding.rvMyIdeas.visibility = View.GONE
