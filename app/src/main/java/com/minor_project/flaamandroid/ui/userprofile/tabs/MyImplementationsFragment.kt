@@ -4,11 +4,11 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -63,13 +63,13 @@ class MyImplementationsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Timber.i("MyImplementations : onResume")
-        mProgressDialog.show()
-        viewModel.getUserProfile()
+//        mProgressDialog.show()
+//        viewModel.getUserProfile()
     }
 
     override fun onPause() {
         super.onPause()
-        mProgressDialog.dismiss()
+//        mProgressDialog.dismiss()
     }
 
     private fun initObservers() {
@@ -102,11 +102,11 @@ class MyImplementationsFragment : Fragment() {
                 is ApiResponse.Success -> {
                     mProgressDialog.dismiss()
                     if (it.body.results.isNullOrEmpty()) {
-                        binding.tvNoUserImplementationsAdded.visibility = View.VISIBLE
-                        binding.rvMyImplementations.visibility = View.GONE
+                        binding.tvNoUserImplementationsAdded.visible()
+                        binding.rvMyImplementations.gone()
                     } else {
-                        binding.tvNoUserImplementationsAdded.visibility = View.GONE
-                        binding.rvMyImplementations.visibility = View.VISIBLE
+                        binding.tvNoUserImplementationsAdded.gone()
+                        binding.rvMyImplementations.visible()
 
                         myImplementationsAdapter.setToList(arrayListOf())
 
