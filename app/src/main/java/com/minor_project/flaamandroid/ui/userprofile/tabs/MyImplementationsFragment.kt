@@ -1,5 +1,6 @@
 package com.minor_project.flaamandroid.ui.userprofile.tabs
 
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -36,6 +37,9 @@ class MyImplementationsFragment : Fragment() {
 
     private lateinit var myImplementationsAdapter: MyImplementationsAdapter
 
+    private lateinit var mProgressDialog: Dialog
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +53,8 @@ class MyImplementationsFragment : Fragment() {
 
         binding.rvMyImplementations.adapter = myImplementationsAdapter
 
+        mProgressDialog = requireContext().progressDialog()
+
         initObservers()
 
         return binding.root
@@ -57,19 +63,29 @@ class MyImplementationsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Timber.i("MyImplementations : onResume")
+        mProgressDialog.show()
         viewModel.getUserProfile()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mProgressDialog.dismiss()
     }
 
     private fun initObservers() {
         myImplementationsAdapter.setToList(arrayListOf())
+        mProgressDialog.show()
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    mProgressDialog.dismiss()
                     makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
+                    mProgressDialog.dismiss()
+                    mProgressDialog.show()
                     viewModel.getImplementations(it.body.id.toString())
                 }
             }
@@ -79,10 +95,12 @@ class MyImplementationsFragment : Fragment() {
         viewModel.getImplementations.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    mProgressDialog.dismiss()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    mProgressDialog.dismiss()
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoUserImplementationsAdded.visibility = View.VISIBLE
                         binding.rvMyImplementations.visibility = View.GONE
