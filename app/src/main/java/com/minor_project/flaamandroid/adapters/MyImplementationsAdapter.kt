@@ -13,6 +13,7 @@ import com.minor_project.flaamandroid.data.response.ImplementationsResponse
 import com.minor_project.flaamandroid.databinding.ItemMyImplementationsBinding
 import com.minor_project.flaamandroid.ui.userprofile.tabs.MyImplementationsFragment
 import com.minor_project.flaamandroid.utils.makeToast
+import timber.log.Timber
 
 
 class MyImplementationsAdapter(
@@ -52,6 +53,10 @@ class MyImplementationsAdapter(
             tvDescriptionMyImplementations.text = model.description.toString()
             val milestonesCount = model.milestones!!.size
             val completedMilestonesCount = model.completedMilestones!!.size
+
+            Timber.e("milestones : imp id${model.id.toString()}")
+            Timber.e("milestones : total$milestonesCount")
+            Timber.e("milestones : completed$completedMilestonesCount")
 
             if (milestonesCount == 0) {
                 stateProgressBarMyImplementations.visibility = View.GONE
