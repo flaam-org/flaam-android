@@ -11,9 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import coil.ImageLoader
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.databinding.FragmentPostDescriptionBinding
@@ -39,24 +36,43 @@ class PostDescriptionFragment(ideaId: Int) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        Timber.i("PostDescription : onCreateView")
         binding = FragmentPostDescriptionBinding.inflate(inflater)
         initObservers()
         return binding.root
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        Timber.i("PostDescription : onResume")
+        binding.shimmerLayout.startShimmer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.i("PostDescription : onPause")
+        binding.shimmerLayout.stopShimmer()
+    }
+
+
     private fun initObservers() {
-        requireContext().showProgressDialog()
+        val shimmerLayout = binding.shimmerLayout
+        shimmerLayout.startShimmer()
         viewModel.getIdeaDetails(mIdeaId)
         viewModel.ideaDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    requireContext().hideProgressDialog()
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
+                    binding.llPostDescription.visibility = View.VISIBLE
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
-                    requireContext().hideProgressDialog()
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
+                    binding.llPostDescription.visibility = View.VISIBLE
                     val title = it.body.title.toString()
                     val description = it.body.description.toString()
 
