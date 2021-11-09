@@ -55,7 +55,13 @@ open class FeedPostAdapter(
                 val votes = upvote - downvote
                 tvFeedPostVotes.text = votes.toString()
                 tvFeedPostImplementations.text = (model.implementationCount ?: 0).toString()
-                tvFeedPostDescription.text = model.description
+                tvFeedPostDescription.text =
+                try {
+                    (model.description?.split(" ")?.subList(0, 30)?.joinToString(" ") ?: "") + "..."
+                }catch (e: IndexOutOfBoundsException){
+                    model.description.toString()
+                }
+
 
 
                 val cgFeedPostTags = cgFeedPostTags
