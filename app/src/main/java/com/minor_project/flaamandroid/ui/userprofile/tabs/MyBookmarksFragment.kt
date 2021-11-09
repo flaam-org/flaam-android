@@ -14,9 +14,7 @@ import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.data.response.IdeasResponse
 import com.minor_project.flaamandroid.databinding.FragmentMyBookmarksBinding
 import com.minor_project.flaamandroid.ui.userprofile.UserProfileFragmentDirections
-import com.minor_project.flaamandroid.utils.ApiResponse
-import com.minor_project.flaamandroid.utils.loadSVG
-import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -62,15 +60,19 @@ class MyBookmarksFragment : Fragment() {
     }
 
     private fun initObservers() {
+        requireContext().showProgressDialog()
         myBookmarksAdapter.setToList(arrayListOf())
         viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    requireContext().hideProgressDialog()
                     makeToast("Unable to fetch your Profile!")
                 }
 
                 is ApiResponse.Success -> {
+                    requireContext().hideProgressDialog()
+                    requireContext().showProgressDialog()
                     viewModel.getIdeas(it.body.id!!)
                 }
             }
@@ -80,10 +82,12 @@ class MyBookmarksFragment : Fragment() {
         viewModel.ideas.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    requireContext().hideProgressDialog()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    requireContext().hideProgressDialog()
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoUserBookmarksAdded.visibility = View.VISIBLE
                         binding.rvMyBookmarks.visibility = View.GONE
