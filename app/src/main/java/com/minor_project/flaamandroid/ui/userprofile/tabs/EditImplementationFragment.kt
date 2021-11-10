@@ -52,18 +52,34 @@ class EditImplementationFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerLayout.startShimmer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.shimmerLayout.stopShimmer()
+    }
+
 
     private fun initObservers() {
+        val shimmerLayout = binding.shimmerLayout
+        shimmerLayout.startShimmer()
         viewModel.getImplementationDetails(args.implementationId)
-
         viewModel.getImplementationDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.gone()
+                    binding.llEditImplementation.visible()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
-
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.gone()
+                    binding.llEditImplementation.visible()
                     val ideaId = it.body.idea
                     milestonesList = arrayListOf()
                     milestonesListSha1Sum = arrayListOf()

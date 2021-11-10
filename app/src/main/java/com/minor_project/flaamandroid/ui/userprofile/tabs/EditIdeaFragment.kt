@@ -145,15 +145,15 @@ class EditIdeaFragment : Fragment() {
             when (it) {
                 is ApiResponse.Error -> {
                     shimmerLayout.stopShimmer()
-                    shimmerLayout.visibility = View.GONE
-                    binding.llEditIdea.visibility = View.VISIBLE
+                    shimmerLayout.gone()
+                    binding.llEditIdea.visible()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
                     shimmerLayout.stopShimmer()
-                    shimmerLayout.visibility = View.GONE
-                    binding.llEditIdea.visibility = View.VISIBLE
+                    shimmerLayout.gone()
+                    binding.llEditIdea.visible()
                     binding.apply {
                         etEditIdeaTitle.setText(it.body.title.toString())
 
