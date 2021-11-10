@@ -142,9 +142,10 @@ class MyImplementationsFragment : Fragment() {
                 }
                 1 -> {
                     makeToast("Implementation Successfully Deleted!")
+                    viewModel.getUserProfile()
                 }
             }
-            viewModel.getUserProfile()
+
         }
 
 

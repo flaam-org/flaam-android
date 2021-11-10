@@ -14,6 +14,7 @@ import com.minor_project.flaamandroid.databinding.FragmentPostDetailsBinding
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class PostDetailsFragment : Fragment() {
@@ -44,15 +45,20 @@ class PostDetailsFragment : Fragment() {
         binding.viewPagerPostDetails.adapter = adapter
 
 
+
         TabLayoutMediator(
             tabLayout, binding.viewPagerPostDetails
         ) { tab, position ->
             when (position) {
-                0 -> tab.text = "Description"
+                0 -> {
+                    tab.text = "Description"
+
+                }
                 1 -> tab.text = "Implementations"
                 2 -> tab.text = "Discussion"
             }
         }.attach()
+
 
         initObservers()
 
