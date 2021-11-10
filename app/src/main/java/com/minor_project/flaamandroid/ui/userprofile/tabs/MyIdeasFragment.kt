@@ -61,13 +61,12 @@ class MyIdeasFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Timber.i("MyIdeas : onResume")
-//        mProgressDialog.show()
-//        viewModel.getUserProfile()
+        viewModel.getUserProfile()
     }
 
     override fun onPause() {
         super.onPause()
-//        mProgressDialog.dismiss()
+        mProgressDialog.dismiss()
     }
 
     private fun initObservers() {
@@ -82,8 +81,6 @@ class MyIdeasFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    mProgressDialog.dismiss()
-                    mProgressDialog.show()
                     viewModel.getIdeas(it.body.id!!)
                 }
             }

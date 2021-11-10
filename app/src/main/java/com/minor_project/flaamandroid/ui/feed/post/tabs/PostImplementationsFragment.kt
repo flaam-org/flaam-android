@@ -1,5 +1,6 @@
 package com.minor_project.flaamandroid.ui.feed.post.tabs
 
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +18,7 @@ import com.minor_project.flaamandroid.databinding.FragmentPostImplementationsBin
 import com.minor_project.flaamandroid.utils.ApiResponse
 import com.minor_project.flaamandroid.utils.loadSVG
 import com.minor_project.flaamandroid.utils.makeToast
+import com.minor_project.flaamandroid.utils.progressDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,6 +40,8 @@ class PostImplementationsFragment(ideaId: Int) : Fragment() {
     @Inject
     lateinit var preferences: UserPreferences
 
+    private lateinit var mProgressDialog: Dialog
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,22 +57,32 @@ class PostImplementationsFragment(ideaId: Int) : Fragment() {
 
         binding.rvImplementations.adapter = postImplementationsAdapter
 
+        mProgressDialog = requireContext().progressDialog()
+
         initObservers()
 
         return binding.root
     }
 
+    override fun onPause() {
+        super.onPause()
+        mProgressDialog.dismiss()
+    }
+
     private fun initObservers() {
 
         postImplementationsAdapter.setToList(arrayListOf())
+        mProgressDialog.show()
         viewModel.getImplementations(mIdeaId.toString())
         viewModel.getImplementations.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    mProgressDialog.dismiss()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    mProgressDialog.dismiss()
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoImplementationsAdded.visibility = View.VISIBLE
                         binding.rvImplementations.visibility = View.GONE

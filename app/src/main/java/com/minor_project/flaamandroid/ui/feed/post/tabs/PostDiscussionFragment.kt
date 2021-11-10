@@ -1,5 +1,6 @@
 package com.minor_project.flaamandroid.ui.feed.post.tabs
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
 import androidx.fragment.app.Fragment
@@ -18,7 +19,6 @@ import com.minor_project.flaamandroid.databinding.FragmentPostDiscussionBinding
 import com.minor_project.flaamandroid.databinding.LayoutAddDiscussionBinding
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.FieldPosition
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -41,6 +41,8 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
 
     private lateinit var popupAddDiscussionBinding: LayoutAddDiscussionBinding
 
+    private lateinit var mProgressDialog: Dialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,21 +54,31 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
 
         binding.rvDiscussions.adapter = postDiscussionAdapter
 
+        mProgressDialog = requireContext().progressDialog()
+
         initObservers()
         initOnClick()
         return binding.root
     }
 
+    override fun onPause() {
+        super.onPause()
+        mProgressDialog.dismiss()
+    }
+
     private fun initObservers() {
         postDiscussionAdapter.setToList(arrayListOf())
+        mProgressDialog.show()
         viewModel.getDiscussions(mIdeaId.toString())
         viewModel.getUserProfile()
 
 
-        viewModel.comments.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.comments.observe(viewLifecycleOwner) {
+            when (it) {
                 is ApiResponse.Error -> makeToast(it.message.toString())
-                is ApiResponse.Success -> postDiscussionAdapter.updateCommentsForDiscussion(it.body.results ?: emptyList(), positonOfDiscussion)
+                is ApiResponse.Success -> postDiscussionAdapter.updateCommentsForDiscussion(
+                    it.body.results ?: emptyList(), positonOfDiscussion
+                )
             }
         }
 
@@ -98,10 +110,12 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
         viewModel.getDiscussions.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
+                    mProgressDialog.dismiss()
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    mProgressDialog.dismiss()
                     if (it.body.results.isNullOrEmpty()) {
                         binding.tvNoDiscussionsAdded.visibility = View.VISIBLE
                         binding.rvDiscussions.visibility = View.GONE
@@ -118,8 +132,8 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
             }
         }
 
-        viewModel.postCommentResult.observe(viewLifecycleOwner){ it ->
-            when(it){
+        viewModel.postCommentResult.observe(viewLifecycleOwner) { it ->
+            when (it) {
                 is ApiResponse.Error -> makeToast(it.message.toString())
                 is ApiResponse.Success -> makeToast("posted!!")
             }
@@ -217,12 +231,12 @@ class PostDiscussionFragment(ideaId: Int) : Fragment() {
 
     }
 
-    fun getComments(id: Int, position: Int){
+    fun getComments(id: Int, position: Int) {
         positonOfDiscussion = position
         viewModel.getComments(id)
     }
 
-    fun postComment(body: PostCommentRequest, position: Int){
+    fun postComment(body: PostCommentRequest, position: Int) {
         positonOfDiscussion = position
         viewModel.postComment(body)
     }

@@ -63,13 +63,11 @@ class MyImplementationsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Timber.i("MyImplementations : onResume")
-//        mProgressDialog.show()
-//        viewModel.getUserProfile()
     }
 
     override fun onPause() {
         super.onPause()
-//        mProgressDialog.dismiss()
+        mProgressDialog.dismiss()
     }
 
     private fun initObservers() {
@@ -84,8 +82,6 @@ class MyImplementationsFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    mProgressDialog.dismiss()
-                    mProgressDialog.show()
                     viewModel.getImplementations(it.body.id.toString())
                 }
             }

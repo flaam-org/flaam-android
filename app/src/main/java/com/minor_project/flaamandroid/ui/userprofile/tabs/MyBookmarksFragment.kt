@@ -61,7 +61,6 @@ class MyBookmarksFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Timber.i("MyBookmarks : onResume")
-//        mProgressDialog.show()
         viewModel.getUserProfile()
     }
 
