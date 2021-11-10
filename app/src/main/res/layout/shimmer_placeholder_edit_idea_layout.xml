@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
@@ -16,7 +15,7 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/civ_post_idea_user_image"
+            android:id="@+id/civ_edit_idea_user_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="4dp"
@@ -24,9 +23,9 @@
             android:src="@color/shimmer_placeholder" />
 
         <EditText
-            android:id="@+id/et_post_idea_title"
+            android:id="@+id/et_edit_idea_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:background="@color/shimmer_placeholder"
             android:hint="@string/add_title"
@@ -45,12 +44,12 @@
         android:orientation="horizontal">
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_post_idea_tags"
+            android:id="@+id/chip_group_edit_idea_tags"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_post_idea_add_tag"
+                android:id="@+id/chip_edit_idea_add_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_tag"
@@ -65,19 +64,17 @@
 
 
     <EditText
-        android:id="@+id/et_post_idea_description"
+        android:id="@+id/et_edit_idea_description"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="15dp"
         android:background="@color/shimmer_placeholder"
-        android:gravity="bottom"
-        android:hint="@string/add_description"
-        android:textAlignment="gravity" />
+        android:hint="@string/add_description" />
 
     <EditText
-        android:id="@+id/et_post_idea_body"
+        android:id="@+id/et_edit_idea_body"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="15dp"
@@ -85,9 +82,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="12dp"
         android:background="@color/shimmer_placeholder"
-        android:gravity="bottom"
-        android:hint="@string/add_body"
-        android:textAlignment="gravity" />
+        android:hint="@string/add_body" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:contentDescription="@string/milestones_icon"
             android:src="@drawable/ic_target_color_24dp" />
@@ -111,21 +107,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="8"
-            android:background="@android:color/transparent"
-            app:boxBackgroundColor="@android:color/transparent">
+            android:background="@color/shimmer_placeholder"
+            app:boxBackgroundColor="@color/shimmer_placeholder">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_add_milestone_post_idea"
+                android:id="@+id/et_add_milestone_edit_idea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/shimmer_placeholder"
                 android:hint="@string/add_milestone" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <Button
-            android:id="@+id/btn_add_milestone_post_idea"
+            android:id="@+id/btn_add_milestone_edit_idea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -136,18 +131,29 @@
     </LinearLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_milestones_post_idea"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="15dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="15dp"
-        android:clipToPadding="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:visibility="gone">
+        android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:background="@color/shimmer_placeholder" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:background="@color/shimmer_placeholder" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

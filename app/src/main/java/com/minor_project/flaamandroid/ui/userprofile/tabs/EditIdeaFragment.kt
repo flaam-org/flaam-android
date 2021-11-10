@@ -85,6 +85,16 @@ class EditIdeaFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerLayout.startShimmer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.shimmerLayout.stopShimmer()
+    }
+
     private fun initOnClick() {
         binding.apply {
 
@@ -127,18 +137,23 @@ class EditIdeaFragment : Fragment() {
     }
 
     private fun initObservers() {
-        requireContext().showProgressDialog()
+        val shimmerLayout = binding.shimmerLayout
+        shimmerLayout.startShimmer()
         viewModel.finalTagsList(userTagsList)
         viewModel.getIdeaDetails(args.ideaId)
         viewModel.ideaDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    requireContext().hideProgressDialog()
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
+                    binding.llEditIdea.visibility = View.VISIBLE
                     makeToast(it.message.toString())
                 }
 
                 is ApiResponse.Success -> {
-                    requireContext().hideProgressDialog()
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
+                    binding.llEditIdea.visibility = View.VISIBLE
                     binding.apply {
                         etEditIdeaTitle.setText(it.body.title.toString())
 
