@@ -129,5 +129,10 @@ interface FlaamApi {
         @Body body: PostCommentRequest
     ): Response<Any>
 
+    @GET("accounts/user/{username}")
+    suspend fun getUserProfileFromUsername(
+        @Path("username") username: String
+    ): Response<ViewProfileResponse>
+
 
 }

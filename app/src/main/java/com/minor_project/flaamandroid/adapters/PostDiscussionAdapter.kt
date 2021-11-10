@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.data.request.PostCommentRequest
@@ -47,7 +48,8 @@ class PostDiscussionAdapter(
                 pbLoadComments.gone()
                 tvLoadComs.gone()
                 val adapter = DiscussionCommentsAdapter(
-                    mapOfComments[holder.bindingAdapterPosition] ?: emptyList()
+                    mapOfComments[holder.bindingAdapterPosition] ?: emptyList(),
+                    fragment.lifecycleScope
                 )
                 rvCommentsDiscussions.adapter = adapter
             }

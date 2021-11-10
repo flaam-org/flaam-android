@@ -1,6 +1,7 @@
 package com.minor_project.flaamandroid.network
 
 import com.minor_project.flaamandroid.data.request.*
+import retrofit2.http.Path
 
 class FlaamRepository(private val api: FlaamApi) {
 
@@ -82,6 +83,10 @@ class FlaamRepository(private val api: FlaamApi) {
     suspend fun postCommentForDiscussion(
         body: PostCommentRequest
     ) = api.postCommentForDiscussion(body)
+
+    suspend fun getUserProfileFromUsername(
+        username: String
+    ) = api.getUserProfileFromUsername(username)
 
 
 }

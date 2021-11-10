@@ -11,9 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import coil.ImageLoader
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.minor_project.flaamandroid.R
 import com.minor_project.flaamandroid.activities.MainActivity
@@ -27,7 +25,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
-import com.facebook.shimmer.ShimmerFrameLayout
 
 
 @AndroidEntryPoint
@@ -39,7 +36,7 @@ class UserProfileFragment : Fragment() {
     lateinit var preferences: UserPreferences
 
     private lateinit var binding: FragmentUserProfileBinding
-
+    private val navArgs: UserProfileFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -141,7 +138,16 @@ class UserProfileFragment : Fragment() {
     private fun initObservers() {
         val shimmerLayout = binding.shimmerLayout
         shimmerLayout.startShimmer()
-        viewModel.getUserProfile()
+
+        if(navArgs.username != null){
+            viewModel.getUserProfileFromUsername(navArgs.username!!)
+        }else{
+            viewModel.getUserProfile()
+            makeToast(navArgs.username.toString())
+        }
+
+
+
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {

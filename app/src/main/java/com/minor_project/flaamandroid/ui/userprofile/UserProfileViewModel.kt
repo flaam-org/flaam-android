@@ -59,5 +59,12 @@ class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
         }
     }
 
+    fun getUserProfileFromUsername(username: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = flaamRepo.getUserProfileFromUsername(username)
+            _userProfile.postValue(handleGetResponse(res))
+        }
+    }
+
 
 }
