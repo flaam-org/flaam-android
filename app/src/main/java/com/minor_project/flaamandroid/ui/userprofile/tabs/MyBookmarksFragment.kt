@@ -62,7 +62,7 @@ class MyBookmarksFragment : Fragment() {
         super.onResume()
         Timber.i("MyBookmarks : onResume")
 //        mProgressDialog.show()
-//        viewModel.getUserProfile()
+        viewModel.getUserProfile()
     }
 
     override fun onPause() {
@@ -82,8 +82,6 @@ class MyBookmarksFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    mProgressDialog.dismiss()
-                    mProgressDialog.show()
                     viewModel.getIdeas(it.body.id!!)
                 }
             }

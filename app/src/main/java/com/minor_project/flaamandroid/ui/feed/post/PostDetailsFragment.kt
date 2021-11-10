@@ -52,7 +52,6 @@ class PostDetailsFragment : Fragment() {
             when (position) {
                 0 -> {
                     tab.text = "Description"
-
                 }
                 1 -> tab.text = "Implementations"
                 2 -> tab.text = "Discussion"
