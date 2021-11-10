@@ -96,7 +96,8 @@ class MyImplementationsAdapter(
 
             ivEditImplementationMyImplementations.setOnClickListener {
                 fragment.editImplementation(model.id!!)
-                notifyItemChanged(model.id)
+                Timber.e("MyImplementationsAdapter : Called notifyItemChanged")
+                notifyItemChanged(position)
             }
         }
 
