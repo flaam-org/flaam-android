@@ -58,15 +58,34 @@ class AddImplementationFragment : Fragment() {
         makeToast(id.toString())
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerLayout.startShimmer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.shimmerLayout.stopShimmer()
+    }
+
+
     private fun initObservers() {
+        val shimmerLayout = binding.shimmerLayout
+        shimmerLayout.startShimmer()
         viewModel.getIdeaDetails(args.ideaId)
         viewModel.ideaDetails.observe(viewLifecycleOwner) { res ->
             when (res) {
                 is ApiResponse.Error -> {
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.gone()
+                    binding.llAddImplementation.visible()
                     makeToast(res.message.toString())
                 }
 
                 is ApiResponse.Success -> {
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.gone()
+                    binding.llAddImplementation.visible()
                     milestonesList = arrayListOf()
                     res.body.milestones!!.forEach { milestone ->
                         milestonesListSha1Sum.add(milestone[0])

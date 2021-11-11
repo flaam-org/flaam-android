@@ -14,78 +14,95 @@
         android:elevation="10dp"
         app:cardCornerRadius="5dp">
 
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/et_add_title_add_implementation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:hint="@string/add_title" />
-
-
-            <EditText
-                android:id="@+id/et_add_overview_description_add_implementation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:hint="@string/add_overview_description" />
-
-            <EditText
-                android:id="@+id/et_add_body_add_implementation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:hint="@string/add_body" />
-
+            android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/ll_add_implementation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-
-                <ImageView
-                    android:id="@+id/iv_link"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:contentDescription="@string/add_link_icon"
-                    android:src="@drawable/ic_insert_link_24dp" />
+                <EditText
+                    android:id="@+id/et_add_title_add_implementation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:hint="@string/add_title" />
 
 
                 <EditText
-                    android:id="@+id/et_github_repo_link_add_implementation"
+                    android:id="@+id/et_add_overview_description_add_implementation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:hint="@string/add_overview_description" />
+
+                <EditText
+                    android:id="@+id/et_add_body_add_implementation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:hint="@string/add_body" />
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:hint="@string/repository_link" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:id="@+id/iv_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:contentDescription="@string/add_link_icon"
+                        android:src="@drawable/ic_insert_link_24dp" />
+
+
+                    <EditText
+                        android:id="@+id/et_github_repo_link_add_implementation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:hint="@string/repository_link" />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/list_view_milestones_add_implementation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" />
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_add_implementation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_button_rounded_gradient2"
+                    android:text="@string/add_implementation"
+                    android:textColor="@color/primaryTextColor" />
 
             </LinearLayout>
 
-            <ListView
-                android:id="@+id/list_view_milestones_add_implementation"
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp" />
+                android:layout_height="match_parent"
+                app:shimmer_auto_start="false">
 
+                <include layout="@layout/shimmer_placeholder_add_implementation_layout" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_add_implementation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/shape_button_rounded_gradient2"
-                android:text="@string/add_implementation"
-                android:textColor="@color/primaryTextColor" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </androidx.cardview.widget.CardView>
