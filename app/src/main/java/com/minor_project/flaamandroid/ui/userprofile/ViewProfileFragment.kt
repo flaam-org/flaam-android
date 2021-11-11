@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.minor_project.flaamandroid.data.UserPreferences
@@ -39,7 +40,16 @@ class ViewProfileFragment : Fragment() {
     ): View {
         binding = FragmentViewProfileBinding.inflate(inflater)
         initObservers()
+        initOnClick()
         return binding.root
+    }
+
+    private fun initOnClick() {
+        binding.apply {
+            ivBackViewProfile.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     override fun onResume() {
