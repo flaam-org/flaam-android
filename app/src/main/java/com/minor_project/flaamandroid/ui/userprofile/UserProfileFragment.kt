@@ -42,6 +42,8 @@ class UserProfileFragment : Fragment() {
 
     private val args: UserProfileFragmentArgs by navArgs()
 
+    private var isOwner: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,12 +83,20 @@ class UserProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.shimmerLayout.startShimmer()
+        if (isOwner) {
+            binding.shimmerLayout.startShimmer()
+        } else {
+            binding.includeViewProfileLayout.shimmerLayout.startShimmer()
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        binding.shimmerLayout.stopShimmer()
+        if (isOwner) {
+            binding.shimmerLayout.stopShimmer()
+        } else {
+            binding.includeViewProfileLayout.shimmerLayout.stopShimmer()
+        }
     }
 
     private fun initClick() {
@@ -149,11 +159,13 @@ class UserProfileFragment : Fragment() {
         val shimmerLayoutUserProfileOwner = binding.shimmerLayout
         val shimmerLayoutViewProfile = binding.includeViewProfileLayout.shimmerLayout
         if (args.username != null) {
+            isOwner = false
             binding.includeViewProfileLayout.root.visible()
             binding.llUserProfileOwner.gone()
             shimmerLayoutViewProfile.startShimmer()
             viewModel.getUserProfileFromUsername(args.username!!)
         } else {
+            isOwner = true
             binding.includeViewProfileLayout.root.gone()
             binding.llUserProfileOwner.visible()
             shimmerLayoutUserProfileOwner.startShimmer()
