@@ -66,7 +66,7 @@ class MyBookmarksFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-//        mProgressDialog.dismiss()
+        mProgressDialog.dismiss()
     }
 
     private fun initObservers() {

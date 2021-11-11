@@ -28,7 +28,10 @@ import com.minor_project.flaamandroid.R
 import timber.log.Timber
 
 
-class DiscussionCommentsAdapter(private val comments: List<CommentsForDiscussionResponse.Comments?>,private val lifecycleCoroutineScope: LifecycleCoroutineScope) :
+class DiscussionCommentsAdapter(
+    private val comments: List<CommentsForDiscussionResponse.Comments?>,
+    private val lifecycleCoroutineScope: LifecycleCoroutineScope
+) :
     RecyclerView.Adapter<DiscussionCommentsAdapter.MyViewHolder>() {
 
     class MyViewHolder(val binding: ItemCommentBinding) :
@@ -62,21 +65,21 @@ class DiscussionCommentsAdapter(private val comments: List<CommentsForDiscussion
 
     private fun TextView.getHighlightedText(comment: String): Unit? {
 
-        if(comment.split(" ").firstOrNull{ it.first().toString() == "@" }   == null){
+        if (comment.split(" ").firstOrNull { it.first().toString() == "@" } == null) {
             this.text = comment
             return null
         }
 
         val pairOfIndexes = arrayListOf<Pair<Int, Int>>()
-                val splitList = comment.split(" ")
+        val splitList = comment.split(" ")
 
         splitList.indices.forEach {
-            if(splitList[it].first().toString() == "@"){
-                if(it != 0){
+            if (splitList[it].first().toString() == "@") {
+                if (it != 0) {
                     val startIndex = splitList.subList(0, it).joinToString("").length + it
                     val endIndex = startIndex + splitList[it].length
                     pairOfIndexes.add(Pair(startIndex, endIndex))
-                }else{
+                } else {
                     val startIndex = 0
                     val endIndex = startIndex + splitList[it].length
                     pairOfIndexes.add(Pair(startIndex, endIndex))
@@ -99,12 +102,15 @@ class DiscussionCommentsAdapter(private val comments: List<CommentsForDiscussion
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
 
-            val clickableSpan = object: ClickableSpan(){
+            val clickableSpan = object : ClickableSpan() {
                 override fun onClick(widget: View) {
 
                     Timber.e("clicked !")
 
-                    findNavController().navigate(R.id.action_global_userProfileFragment, bundleOf(Pair("username", comment.substring(it.first + 1, it.second))) )
+                    findNavController().navigate(
+                        R.id.action_global_viewProfileFragment,
+                        bundleOf(Pair("username", comment.substring(it.first + 1, it.second)))
+                    )
 
                 }
             }

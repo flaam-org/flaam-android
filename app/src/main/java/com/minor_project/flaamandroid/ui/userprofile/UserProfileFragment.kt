@@ -18,6 +18,7 @@ import com.minor_project.flaamandroid.activities.MainActivity
 import com.minor_project.flaamandroid.adapters.UserProfileViewPagerAdapter
 import com.minor_project.flaamandroid.data.UserPreferences
 import com.minor_project.flaamandroid.databinding.FragmentUserProfileBinding
+import com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragmentArgs
 import com.minor_project.flaamandroid.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +37,6 @@ class UserProfileFragment : Fragment() {
     lateinit var preferences: UserPreferences
 
     private lateinit var binding: FragmentUserProfileBinding
-    private val navArgs: UserProfileFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -138,16 +138,7 @@ class UserProfileFragment : Fragment() {
     private fun initObservers() {
         val shimmerLayout = binding.shimmerLayout
         shimmerLayout.startShimmer()
-
-        if(navArgs.username != null){
-            viewModel.getUserProfileFromUsername(navArgs.username!!)
-        }else{
-            viewModel.getUserProfile()
-            makeToast(navArgs.username.toString())
-        }
-
-
-
+        viewModel.getUserProfile()
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {

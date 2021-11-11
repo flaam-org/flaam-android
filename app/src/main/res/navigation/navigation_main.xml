@@ -86,11 +86,6 @@
         <action
             android:id="@+id/action_userProfileFragment_to_editImplementationFragment"
             app:destination="@id/editImplementationFragment" />
-        <argument
-            android:name="username"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -101,7 +96,7 @@
         android:id="@+id/postDetailsFragment"
         android:name="com.minor_project.flaamandroid.ui.feed.post.PostDetailsFragment"
         android:label="fragment_post_details"
-        tools:layout="@layout/fragment_post_details" >
+        tools:layout="@layout/fragment_post_details">
         <argument
             android:name="idea_id"
             app:argType="integer" />
@@ -113,7 +108,7 @@
         android:id="@+id/addImplementationFragment"
         android:name="com.minor_project.flaamandroid.ui.feed.post.AddImplementationFragment"
         android:label="fragment_add_implementation"
-        tools:layout="@layout/fragment_add_implementation" >
+        tools:layout="@layout/fragment_add_implementation">
         <argument
             android:name="idea_id"
             app:argType="integer" />
@@ -122,12 +117,15 @@
         android:id="@+id/resetPasswordFragment"
         android:name="com.minor_project.flaamandroid.ui.reset_password.ResetPasswordFragment"
         android:label="fragment_reset_password_email"
-        tools:layout="@layout/fragment_reset_password_email" /><action android:id="@+id/action_global_resetPasswordFragment" app:destination="@id/resetPasswordFragment"/>
+        tools:layout="@layout/fragment_reset_password_email" />
+    <action
+        android:id="@+id/action_global_resetPasswordFragment"
+        app:destination="@id/resetPasswordFragment" />
     <fragment
         android:id="@+id/editIdeaFragment"
         android:name="com.minor_project.flaamandroid.ui.userprofile.tabs.EditIdeaFragment"
         android:label="fragment_edit_idea"
-        tools:layout="@layout/fragment_edit_idea" >
+        tools:layout="@layout/fragment_edit_idea">
         <argument
             android:name="ideaId"
             app:argType="integer" />
@@ -136,10 +134,22 @@
         android:id="@+id/editImplementationFragment"
         android:name="com.minor_project.flaamandroid.ui.userprofile.tabs.EditImplementationFragment"
         android:label="fragment_edit_implementation"
-        tools:layout="@layout/fragment_edit_implementation" >
+        tools:layout="@layout/fragment_edit_implementation">
         <argument
             android:name="implementationId"
             app:argType="integer" />
     </fragment>
-    <action android:id="@+id/action_global_userProfileFragment" app:destination="@id/userProfileFragment" />
+    <action
+        android:id="@+id/action_global_userProfileFragment"
+        app:destination="@id/userProfileFragment" />
+    <fragment
+        android:id="@+id/viewProfileFragment"
+        android:name="com.minor_project.flaamandroid.ui.userprofile.ViewProfileFragment"
+        android:label="fragment_view_profile"
+        tools:layout="@layout/fragment_view_profile" >
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_viewProfileFragment" app:destination="@id/viewProfileFragment" />
 </navigation>
