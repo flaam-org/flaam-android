@@ -87,4 +87,5 @@
     <string name="no_user_implementations_added">You haven\'t added any Implementations Yet!</string>
     <string name="load_comments">Load Comments</string>
     <string name="edit_implementation">EDIT IMPLEMENTATION</string>
+    <string name="user_email_hidden">Email Hidden</string>
 </resources>

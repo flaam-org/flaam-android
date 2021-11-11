@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -230,6 +231,19 @@ class UserProfileFragment : Fragment() {
                         tvUsernameFragmentViewProfile.text = it.body.username.toString()
                         tvFnameFragmentViewProfile.text = it.body.firstName.toString()
                         tvLnameFragmentViewProfile.text = it.body.lastName.toString()
+
+                        if (it.body.email.isNullOrEmpty()) {
+                            tvEmailFragmentViewProfile.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    android.R.color.holo_red_dark
+                                )
+                            )
+
+                            tvEmailFragmentViewProfile.text = getString(R.string.user_email_hidden)
+                        } else {
+                            tvEmailFragmentViewProfile.text = it.body.email.toString()
+                        }
                         viewModel.getUserFavouriteTags(it.body.id!!)
                     }
                 }

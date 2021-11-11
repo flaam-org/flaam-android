@@ -14,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_back_view_profile"
@@ -143,6 +144,35 @@
                                 tools:text="@string/last_name" />
 
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:id="@+id/tv_email_fragment_view_profile_heading"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_weight="1"
+                                android:text="@string/email"
+                                android:textColor="@color/black"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/tv_email_fragment_view_profile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_weight="1"
+                                android:textColor="@color/secondaryColor"
+                                android:textSize="20sp"
+                                tools:text="@string/email" />
+
+                        </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -204,7 +234,8 @@
             android:id="@+id/shimmerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:shimmer_auto_start="false">
+            app:shimmer_auto_start="false"
+            tools:visibility="gone">
 
             <include layout="@layout/shimmer_placeholder_view_profile_layout" />
 
