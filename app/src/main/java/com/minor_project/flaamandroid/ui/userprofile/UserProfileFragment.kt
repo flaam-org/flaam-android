@@ -222,10 +222,6 @@ class UserProfileFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    shimmerLayoutViewProfile.stopShimmer()
-                    shimmerLayoutViewProfile.gone()
-                    binding.includeViewProfileLayout.llViewProfile.visible()
-
                     binding.includeViewProfileLayout.apply {
                         lifecycleScope.launch(Dispatchers.IO) {
                             civFragmentViewProfileUserImage.loadSVG(it.body.avatar.toString())
@@ -245,13 +241,15 @@ class UserProfileFragment : Fragment() {
         { res ->
             when (res) {
                 is ApiResponse.Error -> {
-//                    shimmerLayout.stopShimmer()
-//                    shimmerLayout.visibility = View.GONE
+                    shimmerLayoutViewProfile.stopShimmer()
+                    shimmerLayoutViewProfile.gone()
+                    binding.includeViewProfileLayout.llViewProfile.visible()
                     makeToast("Unable to fetch Favourite Tags!")
                 }
                 is ApiResponse.Success -> {
-//                    shimmerLayout.stopShimmer()
-//                    shimmerLayout.visibility = View.GONE
+                    shimmerLayoutViewProfile.stopShimmer()
+                    shimmerLayoutViewProfile.gone()
+                    binding.includeViewProfileLayout.llViewProfile.visible()
                     if (res.body.results.isNullOrEmpty()) {
                         binding.includeViewProfileLayout.tvFragmentViewProfileNoUserFavouriteTagsToDisplay.visible()
 
