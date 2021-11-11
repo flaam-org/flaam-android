@@ -63,11 +63,9 @@
 
                             <TextView
                                 android:id="@+id/tv_username_fragment_view_profile_heading"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_weight="1"
+                                android:layout_marginEnd="8dp"
                                 android:text="@string/username"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
@@ -76,11 +74,10 @@
                                 android:id="@+id/tv_username_fragment_view_profile"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:gravity="end"
                                 android:textColor="@color/secondaryColor"
-                                android:textSize="20sp"
+                                android:textSize="14sp"
                                 tools:text="@string/username" />
 
                         </LinearLayout>
@@ -93,11 +90,9 @@
 
                             <TextView
                                 android:id="@+id/tv_fname_fragment_view_profile_heading"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_weight="1"
+                                android:layout_marginEnd="8dp"
                                 android:text="@string/first_name"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
@@ -106,11 +101,10 @@
                                 android:id="@+id/tv_fname_fragment_view_profile"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:gravity="end"
                                 android:textColor="@color/secondaryColor"
-                                android:textSize="20sp"
+                                android:textSize="14sp"
                                 tools:text="@string/first_name" />
 
                         </LinearLayout>
@@ -123,11 +117,9 @@
 
                             <TextView
                                 android:id="@+id/tv_lname_fragment_view_profile_heading"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_weight="1"
+                                android:layout_marginEnd="8dp"
                                 android:text="@string/last_name"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
@@ -136,11 +128,10 @@
                                 android:id="@+id/tv_lname_fragment_view_profile"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:gravity="end"
                                 android:textColor="@color/secondaryColor"
-                                android:textSize="20sp"
+                                android:textSize="14sp"
                                 tools:text="@string/last_name" />
 
                         </LinearLayout>
@@ -152,11 +143,9 @@
 
                             <TextView
                                 android:id="@+id/tv_email_fragment_view_profile_heading"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_weight="1"
+                                android:layout_marginEnd="8dp"
                                 android:text="@string/email"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
@@ -165,12 +154,11 @@
                                 android:id="@+id/tv_email_fragment_view_profile"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:gravity="end"
                                 android:textColor="@color/secondaryColor"
-                                android:textSize="20sp"
-                                tools:text="@string/email" />
+                                android:textSize="14sp"
+                                tools:text="soumyajaincarmel@gmail.com" />
 
                         </LinearLayout>
                     </LinearLayout>
