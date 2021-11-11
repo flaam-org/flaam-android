@@ -1,20 +1,19 @@
 package com.minor_project.flaamandroid.ui.userprofile
 
-import android.app.ActionBar
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.os.SystemClock.sleep
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.PopupWindow
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -29,7 +28,6 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-import com.minor_project.flaamandroid.adapters.UserFavouriteTagsAdapter
 import com.minor_project.flaamandroid.data.request.UpdateProfileRequest
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.databinding.LayoutAddEditTagsBinding
@@ -54,6 +52,8 @@ class EditProfileFragment : Fragment() {
     private lateinit var popupBinding: LayoutAddEditTagsBinding
 
     private var updateProfile = false
+
+    private var toggleEmailVisibility: Boolean? = null
 
 
     override fun onCreateView(
@@ -135,6 +135,28 @@ class EditProfileFragment : Fragment() {
                         etFnameEditProfile.setText(it.body.firstName.toString())
                         etLnameEditProfile.setText(it.body.lastName.toString())
                         etEmailEditProfile.setText(it.body.email.toString())
+
+
+                        if (it.body.showEmail == true) {
+                            etEmailEditProfile.setCompoundDrawablesWithIntrinsicBounds(
+                                null, null, ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_visibility_on_18dp
+                                ), null
+                            )
+                        } else {
+                            etEmailEditProfile.setCompoundDrawablesWithIntrinsicBounds(
+                                null, null, ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_visibility_off_18dp
+                                ), null
+                            )
+                        }
+                        val emailVisibility = it.body.showEmail
+                        etEmailEditProfile.setOnClickListener {
+                            etEmailEditProfile.toggleEmailVisibility(emailVisibility)
+                        }
+
                     }
 
                 }
@@ -189,18 +211,51 @@ class EditProfileFragment : Fragment() {
                 }
 
                 is ApiResponse.Success -> {
-                    makeToast("Updated Profile Successfully")
                     binding.apply {
                         etUsernameEditProfile.setText(it.body.username.toString())
                         etFnameEditProfile.setText(it.body.firstName.toString())
                         etLnameEditProfile.setText(it.body.lastName.toString())
                         etEmailEditProfile.setText(it.body.email.toString())
                         Timber.e(it.body.favouriteTags.toString() + "UserProfileUpdate")
+
+                        if (it.body.showEmail == true) {
+                            etEmailEditProfile.setCompoundDrawablesWithIntrinsicBounds(
+                                null, null, ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_visibility_on_18dp
+                                ), null
+                            )
+                        } else {
+                            etEmailEditProfile.setCompoundDrawablesWithIntrinsicBounds(
+                                null, null, ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_visibility_off_18dp
+                                ), null
+                            )
+                        }
+
+                        val emailVisibility = it.body.showEmail
+                        etEmailEditProfile.setOnClickListener {
+                            etEmailEditProfile.toggleEmailVisibility(emailVisibility)
+                        }
                     }
+
+
                     viewModel.getUserFavouriteTags(it.body.id!!)
                     if (updateProfile) {
+                        makeToast("Updated Profile Successfully")
                         findNavController().popBackStack()
                         updateProfile = false
+                    }
+
+                    if (toggleEmailVisibility != null) {
+                        if (toggleEmailVisibility == true) {
+                            binding.root.makeSnackBar("Email Visibility On!")
+                        } else if (toggleEmailVisibility == false) {
+                            binding.root.makeSnackBar("Email Visibility Off!")
+                        }
+
+                        toggleEmailVisibility = null
                     }
                 }
             }
@@ -403,6 +458,26 @@ class EditProfileFragment : Fragment() {
         )
     }
 
+    private fun updateUserProfileEmailVisibility(showEmail: Boolean) {
+        viewModel.updateUserProfile(
+            UpdateProfileRequest(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                showEmail,
+                null,
+                null
+            )
+        )
+    }
+
 
     private fun addToFavouriteTags(id: Int) {
         viewModel.addTagToUsersFavouriteTags(id.toString())
@@ -411,4 +486,31 @@ class EditProfileFragment : Fragment() {
     fun removeFromFavouriteTags(id: Int) {
         viewModel.removeTagFromUsersFavouriteTags(id.toString())
     }
+
+    private fun EditText.toggleEmailVisibility(emailVisibility: Boolean?) {
+
+        if (emailVisibility == true) {
+            this.setCompoundDrawablesWithIntrinsicBounds(
+                null, null, ContextCompat.getDrawable(
+                    context,
+                    R.drawable.ic_visibility_off_18dp
+                ), null
+            )
+
+            updateUserProfileEmailVisibility(false)
+            toggleEmailVisibility = false
+        } else {
+            this.setCompoundDrawablesWithIntrinsicBounds(
+                null, null, ContextCompat.getDrawable(
+                    context,
+                    R.drawable.ic_visibility_on_18dp
+                ), null
+            )
+
+            updateUserProfileEmailVisibility(true)
+            toggleEmailVisibility = true
+        }
+
+    }
 }
+

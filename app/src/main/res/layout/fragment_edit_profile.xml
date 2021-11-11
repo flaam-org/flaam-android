@@ -130,11 +130,14 @@
                                 android:id="@+id/et_email_edit_profile"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:enabled="false"
+                                android:drawableTint="@color/black"
+                                android:enabled="true"
                                 android:focusable="false"
-                                android:focusableInTouchMode="false"
+                                android:focusableInTouchMode="true"
                                 android:hint="@string/email"
                                 android:inputType="none"
+                                android:textColor="@android:color/darker_gray"
+                                android:textColorHint="@android:color/darker_gray"
                                 android:textSize="16sp"
                                 tools:ignore="SpeakableTextPresentCheck" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -225,7 +228,8 @@
             android:id="@+id/shimmerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:shimmer_auto_start="false">
+            app:shimmer_auto_start="false"
+            tools:visibility="gone">
 
             <include layout="@layout/shimmer_placeholder_edit_profile_layout" />
 
