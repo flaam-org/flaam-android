@@ -41,6 +41,18 @@ class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
     val createNewTag: LiveData<ApiResponse<TagsResponse.Result>> = _createNewTag
 
 
+    private val _userFavouriteTagsList = MutableLiveData<ApiResponse<TagsResponse>>()
+    val userFavouriteTagsList: LiveData<ApiResponse<TagsResponse>> = _userFavouriteTagsList
+
+
+    fun getUserFavouriteTags(favouritedBy: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = flaamRepo.getUserFavouriteTags(favouritedBy)
+            _userFavouriteTagsList.postValue(handleGetResponse(res))
+        }
+    }
+
+
     fun getUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getUserProfile()
@@ -56,6 +68,14 @@ class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
             Timber.e(idList.toString() + " | " + ids.toString())
             val res = flaamRepo.getTagsForKeyword(null, ids)
             _tagsListFromIds.postValue(handleGetResponse(res))
+        }
+    }
+
+
+    fun getUserProfileFromUsername(username: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = flaamRepo.getUserProfileFromUsername(username)
+            _userProfile.postValue(handleGetResponse(res))
         }
     }
 

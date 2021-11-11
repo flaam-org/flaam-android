@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.userprofile.ViewProfileFragment">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,7 +13,8 @@
             android:id="@+id/ll_view_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_back_view_profile"
@@ -204,8 +204,7 @@
             android:id="@+id/shimmerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:shimmer_auto_start="false"
-            tools:visibility="gone">
+            app:shimmer_auto_start="false">
 
             <include layout="@layout/shimmer_placeholder_view_profile_layout" />
 

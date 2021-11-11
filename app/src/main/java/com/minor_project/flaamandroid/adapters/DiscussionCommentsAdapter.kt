@@ -108,7 +108,7 @@ class DiscussionCommentsAdapter(
                     Timber.e("clicked !")
 
                     findNavController().navigate(
-                        R.id.action_global_viewProfileFragment,
+                        R.id.action_global_userProfileFragment,
                         bundleOf(Pair("username", comment.substring(it.first + 1, it.second)))
                     )
 
