@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.minor_project.flaamandroid.data.response.PublicUserProfileResponse
 import com.minor_project.flaamandroid.data.response.TagsResponse
 import com.minor_project.flaamandroid.data.response.UpdateProfileResponse
 import com.minor_project.flaamandroid.data.response.ViewProfileResponse
@@ -22,6 +23,9 @@ class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
 
     private val _userProfile = MutableLiveData<ApiResponse<ViewProfileResponse>>()
     val userProfile: LiveData<ApiResponse<ViewProfileResponse>> = _userProfile
+
+    private val _publicUserProfile = MutableLiveData<ApiResponse<PublicUserProfileResponse>>()
+    val publicUserProfile: LiveData<ApiResponse<PublicUserProfileResponse>> = _publicUserProfile
 
     private val _updateUserProfile = MutableLiveData<ApiResponse<UpdateProfileResponse>>()
     val updateUserProfile: LiveData<ApiResponse<UpdateProfileResponse>> = _updateUserProfile
@@ -75,7 +79,7 @@ class UserProfileViewModel @Inject constructor(private val flaamRepo: FlaamRepos
     fun getUserProfileFromUsername(username: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val res = flaamRepo.getUserProfileFromUsername(username)
-            _userProfile.postValue(handleGetResponse(res))
+            _publicUserProfile.postValue(handleGetResponse(res))
         }
     }
 

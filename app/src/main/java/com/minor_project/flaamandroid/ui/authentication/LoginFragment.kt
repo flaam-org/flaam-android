@@ -60,8 +60,8 @@ class LoginFragment : Fragment() {
                             null,
                             null,
                             null,
-                            null,
                             etPasswordLogin.text.toString(),
+                            null,
                             null,
                             etUsernameLogin.text.toString()
                         )

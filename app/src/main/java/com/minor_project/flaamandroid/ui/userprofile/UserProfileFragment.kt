@@ -42,8 +42,6 @@ class UserProfileFragment : Fragment() {
 
     private val args: UserProfileFragmentArgs by navArgs()
 
-    private var isOwner: Boolean = false
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -151,13 +149,11 @@ class UserProfileFragment : Fragment() {
         val shimmerLayoutUserProfileOwner = binding.shimmerLayout
         val shimmerLayoutViewProfile = binding.includeViewProfileLayout.shimmerLayout
         if (args.username != null) {
-            isOwner = false
             binding.includeViewProfileLayout.root.visible()
             binding.llUserProfileOwner.gone()
             shimmerLayoutViewProfile.startShimmer()
             viewModel.getUserProfileFromUsername(args.username!!)
         } else {
-            isOwner = true
             binding.includeViewProfileLayout.root.gone()
             binding.llUserProfileOwner.visible()
             shimmerLayoutUserProfileOwner.startShimmer()
@@ -167,60 +163,67 @@ class UserProfileFragment : Fragment() {
         viewModel.userProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Error -> {
-                    if (isOwner) {
-                        shimmerLayoutUserProfileOwner.stopShimmer()
-                        shimmerLayoutUserProfileOwner.gone()
-                        binding.llUserProfileUserDetails.visible()
-                    } else {
-                        shimmerLayoutViewProfile.stopShimmer()
-                        shimmerLayoutViewProfile.gone()
-                        binding.includeViewProfileLayout.llViewProfile.visible()
-                    }
+
+                    shimmerLayoutUserProfileOwner.stopShimmer()
+                    shimmerLayoutUserProfileOwner.gone()
+                    binding.llUserProfileUserDetails.visible()
 
                     makeToast("Unable to fetch Data!")
                 }
 
                 is ApiResponse.Success -> {
-                    if (isOwner) {
-                        shimmerLayoutUserProfileOwner.stopShimmer()
-                        shimmerLayoutUserProfileOwner.gone()
-                        binding.llUserProfileUserDetails.visible()
 
-                        binding.apply {
-                            tvUserProfileFnameLname.text = resources.getString(
-                                R.string.full_name,
-                                it.body.firstName.toString(),
-                                it.body.lastName.toString()
-                            )
+                    shimmerLayoutUserProfileOwner.stopShimmer()
+                    shimmerLayoutUserProfileOwner.gone()
+                    binding.llUserProfileUserDetails.visible()
 
-                            tvUserProfileDoj.text = resources.getString(
-                                R.string.date_joined_days_ago,
-                                it.body.dateJoined.toString().getDaysDiff().toString()
-                            )
+                    binding.apply {
+                        tvUserProfileFnameLname.text = resources.getString(
+                            R.string.full_name,
+                            it.body.firstName.toString(),
+                            it.body.lastName.toString()
+                        )
 
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                civUserProfileUserImage.loadSVG(it.body.avatar.toString())
-                            }
+                        tvUserProfileDoj.text = resources.getString(
+                            R.string.date_joined_days_ago,
+                            it.body.dateJoined.toString().getDaysDiff().toString()
+                        )
 
-
-                        }
-                    } else {
-                        shimmerLayoutViewProfile.stopShimmer()
-                        shimmerLayoutViewProfile.gone()
-                        binding.includeViewProfileLayout.llViewProfile.visible()
-
-                        binding.includeViewProfileLayout.apply {
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                civFragmentViewProfileUserImage.loadSVG(it.body.avatar.toString())
-                            }
-
-                            tvUsernameFragmentViewProfile.text = it.body.username.toString()
-                            tvFnameFragmentViewProfile.text = it.body.firstName.toString()
-                            tvLnameFragmentViewProfile.text = it.body.lastName.toString()
-                            viewModel.getUserFavouriteTags(it.body.id!!)
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            civUserProfileUserImage.loadSVG(it.body.avatar.toString())
                         }
                     }
 
+                }
+            }
+        }
+
+
+        viewModel.publicUserProfile.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    shimmerLayoutViewProfile.stopShimmer()
+                    shimmerLayoutViewProfile.gone()
+                    binding.includeViewProfileLayout.llViewProfile.visible()
+
+                    makeToast("Unable to fetch Data!")
+                }
+
+                is ApiResponse.Success -> {
+                    shimmerLayoutViewProfile.stopShimmer()
+                    shimmerLayoutViewProfile.gone()
+                    binding.includeViewProfileLayout.llViewProfile.visible()
+
+                    binding.includeViewProfileLayout.apply {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            civFragmentViewProfileUserImage.loadSVG(it.body.avatar.toString())
+                        }
+
+                        tvUsernameFragmentViewProfile.text = it.body.username.toString()
+                        tvFnameFragmentViewProfile.text = it.body.firstName.toString()
+                        tvLnameFragmentViewProfile.text = it.body.lastName.toString()
+                        viewModel.getUserFavouriteTags(it.body.id!!)
+                    }
                 }
             }
         }

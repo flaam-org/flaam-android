@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ViewProfileResponse(
+data class PublicUserProfileResponse(
     @Json(name = "avatar")
     val avatar: String?,
     @Json(name = "bookmarked_ideas")
@@ -32,8 +32,6 @@ data class ViewProfileResponse(
     val lastLogin: String?,
     @Json(name = "last_name")
     val lastName: String?,
-    @Json(name = "show_email")
-    val showEmail: Boolean?,
     @Json(name = "status")
     val status: String?,
     @Json(name = "username")

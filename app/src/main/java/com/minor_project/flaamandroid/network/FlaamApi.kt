@@ -132,7 +132,7 @@ interface FlaamApi {
     @GET("accounts/user/{username}")
     suspend fun getUserProfileFromUsername(
         @Path("username") username: String
-    ): Response<ViewProfileResponse>
+    ): Response<PublicUserProfileResponse>
 
 
 }

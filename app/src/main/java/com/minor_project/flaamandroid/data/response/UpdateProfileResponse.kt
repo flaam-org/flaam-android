@@ -9,9 +9,9 @@ data class UpdateProfileResponse(
     @Json(name = "avatar")
     val avatar: String?,
     @Json(name = "bookmarked_ideas")
-    val bookmarkedIdeas: List<Int>?,
+    val bookmarkedIdeas: List<Any>?,
     @Json(name = "bookmarked_implementations")
-    val bookmarkedImplementations: List<Int>?,
+    val bookmarkedImplementations: List<Any>?,
     @Json(name = "date_joined")
     val dateJoined: String?,
     @Json(name = "description")
@@ -19,19 +19,21 @@ data class UpdateProfileResponse(
     @Json(name = "email")
     val email: String?,
     @Json(name = "favourite_tags")
-    val favouriteTags: List<Int>?,
+    val favouriteTags: List<Any>?,
     @Json(name = "first_name")
     val firstName: String?,
     @Json(name = "followers")
-    val followers: List<Int>?,
+    val followers: List<Any>?,
     @Json(name = "following")
-    val following: List<Int>?,
+    val following: List<Any>?,
     @Json(name = "id")
     val id: Int?,
     @Json(name = "last_login")
     val lastLogin: String?,
     @Json(name = "last_name")
     val lastName: String?,
+    @Json(name = "show_email")
+    val showEmail: Boolean?,
     @Json(name = "status")
     val status: String?,
     @Json(name = "username")

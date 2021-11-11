@@ -26,6 +26,8 @@ data class UpdateProfileRequest(
     val lastName: String?,
     @Json(name = "password")
     val password: String?,
+    @Json(name = "show_email")
+    val showEmail: Boolean?,
     @Json(name = "status")
     val status: String?,
     @Json(name = "username")

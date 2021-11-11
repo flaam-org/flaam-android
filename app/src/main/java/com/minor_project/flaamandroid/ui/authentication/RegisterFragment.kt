@@ -49,9 +49,9 @@ class RegisterFragment : Fragment() {
                             null,
                             etFnameRegister.text.toString(),
                             null,
-                            null,
                             etLnameRegister.text.toString(),
                             etPasswordRegister.text.toString(),
+                            null,
                             null,
                             etUsernameRegister.text.toString()
 

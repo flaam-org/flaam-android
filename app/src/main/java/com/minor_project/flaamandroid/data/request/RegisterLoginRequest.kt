@@ -20,14 +20,14 @@ data class RegisterLoginRequest(
     val favouriteTags: List<Int>?,
     @Json(name = "first_name")
     val firstName: String?,
-    @Json(name = "followers")
-    val followers: List<Int>?,
     @Json(name = "following")
     val following: List<Int>?,
     @Json(name = "last_name")
     val lastName: String?,
     @Json(name = "password")
     val password: String?,
+    @Json(name = "show_email")
+    val showEmail: Boolean?,
     @Json(name = "status")
     val status: String?,
     @Json(name = "username")
