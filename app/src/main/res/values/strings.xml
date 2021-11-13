@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Flaam</string>
+    <string name="app_name">FLAAM</string>
     <string name="image_contentDescription">image</string>
     <string name="let_s_get_started_text">Let\'s Get started</string>
     <string name="intro_text_description">Collaborate and Plan Together Across Multiple Devices on Flaam’s Minimalist Interface.</string>
@@ -88,4 +88,5 @@
     <string name="load_comments">Load Comments</string>
     <string name="edit_implementation">EDIT IMPLEMENTATION</string>
     <string name="user_email_hidden">Email Hidden</string>
+    <string name="flaam_icon_with_text">FLAAM Icon with Text</string>
 </resources>

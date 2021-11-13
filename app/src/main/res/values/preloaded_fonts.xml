@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/candal</item>
+        <item>@font/cantarell_bold</item>
+        <item>@font/fjalla_one</item>
         <item>@font/roboto</item>
     </array>
 </resources>
