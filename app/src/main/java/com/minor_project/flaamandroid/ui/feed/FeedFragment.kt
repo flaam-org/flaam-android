@@ -462,9 +462,9 @@ class FeedFragment : Fragment() {
 
             if (it.isSuccessful) {
                 refreshFeed()
-                makeToast("Idea Successfully Added to My Bookmarks!")
+                binding.root.makeSnackBar("Idea Successfully Added to My Bookmarks!")
             } else {
-                makeToast("Unable to Add Idea to My Bookmarks!")
+                binding.root.makeSnackBar("Unable to Add Idea to My Bookmarks!")
             }
         }
 
@@ -473,9 +473,9 @@ class FeedFragment : Fragment() {
 
             if (it.isSuccessful) {
                 refreshFeed()
-                makeToast("Idea Successfully Removed to My Bookmarks!")
+                binding.root.makeSnackBar("Idea Successfully Removed from My Bookmarks!")
             } else {
-                makeToast("Unable to Remove Idea from My Bookmarks!")
+                binding.root.makeSnackBar("Unable to Remove Idea from My Bookmarks!")
             }
         }
 
