@@ -65,13 +65,8 @@ jobs:
           mkdir -p ~/.android
           echo "${{ secrets.DEBUG_KEYSTORE }}" | base64 -d > ~/.android/debug.keystore
 
-      - name: Build app
-        uses: gradle/gradle-command-action@v1
-        with:
-          arguments: assembleDebug
-          distributions-cache-enabled: true
-          dependencies-cache-enabled: true
-          configuration-cache-enabled: true
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       # - name: Delete previous continuous release
       #   if: "contains(github.event.head_commit.message, '#genapk')"
