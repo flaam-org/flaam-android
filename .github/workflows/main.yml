@@ -69,7 +69,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Delete previous continuous release
-        if: "contains(github.event.head_commit.message, '#genapk')"
         run: |
           if git show-ref --tags | egrep -q "refs/tags/continuous"
           then
@@ -88,7 +87,6 @@ jobs:
               echo "tag not found"
           fi
       - name: Create Release
-        if: "contains(github.event.head_commit.message, '#genapk')"
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -100,7 +98,6 @@ jobs:
           prerelease: true
 
       - name: Upload Release Asset
-        if: "contains(github.event.head_commit.message, '#genapk')"
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
@@ -112,7 +109,6 @@ jobs:
           asset_content_type: application/zip
 
       - name: Send a message about the release
-        if: "contains(github.event.head_commit.message, '#genapk')"
         run: |
           curl \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
