@@ -67,6 +67,9 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+        
+      - name: Build debug apk
+        run:  chmod +x gradlew && ./gradlew assembleDebug --stacktrace
 
       - name: Delete previous continuous release
         run: |
