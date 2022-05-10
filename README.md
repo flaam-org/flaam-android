@@ -1,7 +1,7 @@
 # flaam-android
 Flaam - An open source collaboration platform for Developers and Ideators.
 
-
+</br></br>
 
 ![](https://imgur.com/7pSG9zV.png)
 
@@ -17,3 +17,7 @@ Flaam - An open source collaboration platform for Developers and Ideators.
 
 # backend source
 https://github.com/flaam-org/flaam-api
+
+</br></br></br>
+
+<a href="https://github.com/flaam-org/flaam-android/releases/download/continuous/app-debug.apk"><img src="https://imgur.com/sGZFFB7.png" alt="Download Apk" style="width:400px;"></a>
