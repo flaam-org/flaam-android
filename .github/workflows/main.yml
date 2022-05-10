@@ -65,68 +65,62 @@ jobs:
           mkdir -p ~/.android
           echo "${{ secrets.DEBUG_KEYSTORE }}" | base64 -d > ~/.android/debug.keystore
 
-      - name: Build app
-        uses: gradle/gradle-command-action@v1
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        
+      - name: Build debug apk
+        run:  chmod +x gradlew && ./gradlew assembleDebug --stacktrace
+
+      - name: Delete previous continuous release
+        run: |
+          if git show-ref --tags | egrep -q "refs/tags/continuous"
+          then
+              release_query=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s \
+              https://api.github.com/repos/${{ github.repository }}/releases \
+              | jq '. | map(select(.tag_name == "continuous"))[0]')
+              curl -i -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X DELETE \
+              https://api.github.com/repos/${{ github.repository }}/releases/assets/$(echo $release_query | jq .assets[0].id)
+              curl -i -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X DELETE \
+              https://api.github.com/repos/${{ github.repository }}/releases/$(echo $release_query | jq .id)
+              git tag -d continuous
+              curl -i -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X DELETE \
+              https://api.github.com/repos/${{ github.repository }}/git/refs/tags/continuous
+              sleep 1 #required else next action will fail
+          else 
+              echo "tag not found"
+          fi
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          arguments: assembleDebug
-          distributions-cache-enabled: true
-          dependencies-cache-enabled: true
-          configuration-cache-enabled: true
+          tag_name: continuous
+          release_name: continuous-build-r${{ steps.commit_info.outputs.commit_count }}
+          draft: false
+          prerelease: true
 
-      # - name: Delete previous continuous release
-      #   if: "contains(github.event.head_commit.message, '#genapk')"
-      #   run: |
-      #     if git show-ref --tags | egrep -q "refs/tags/continuous"
-      #     then
-      #         release_query=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s \
-      #         https://api.github.com/repos/${{ github.repository }}/releases \
-      #         | jq '. | map(select(.tag_name == "continuous"))[0]')
-      #         curl -i -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X DELETE \
-      #         https://api.github.com/repos/${{ github.repository }}/releases/assets/$(echo $release_query | jq .assets[0].id)
-      #         curl -i -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X DELETE \
-      #         https://api.github.com/repos/${{ github.repository }}/releases/$(echo $release_query | jq .id)
-      #         git tag -d continuous
-      #         curl -i -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X DELETE \
-      #         https://api.github.com/repos/${{ github.repository }}/git/refs/tags/continuous
-      #         sleep 1 #required else next action will fail
-      #     else 
-      #         echo "tag not found"
-      #     fi
-      # - name: Create Release
-      #   if: "contains(github.event.head_commit.message, '#genapk')"
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: continuous
-      #     release_name: continuous-build-r${{ steps.commit_info.outputs.commit_count }}
-      #     draft: false
-      #     prerelease: true
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/debug/app-debug.apk
+          asset_name: app-debug.apk
+          asset_content_type: application/zip
 
-      # - name: Upload Release Asset
-      #   if: "contains(github.event.head_commit.message, '#genapk')"
-      #   id: upload-release-asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./app/build/outputs/apk/debug/app-debug.apk
-      #     asset_name: app-debug.apk
-      #     asset_content_type: application/zip
-
-      # - name: Send a message about the release
-      #   if: "contains(github.event.head_commit.message, '#genapk')"
-      #   run: |
-      #     curl \
-      #     -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-      #     -d disable_notification=true \
-      #     -d parse_mode=HTML \
-      #     -d text=\
-      #     "📱 <b>Debug Apk released</b>%0A\
-      #     url: https://github.com/${{ github.repository }}/releases/tag/continuous" \
-      #     "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
+      - name: Send a message about the release
+        run: |
+          curl \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d disable_notification=true \
+          -d parse_mode=HTML \
+          -d text=\
+          "📱 <b>Debug Apk released</b>%0A\
+          url: https://github.com/${{ github.repository }}/releases/tag/continuous" \
+          "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
 
       - name: Send apk to chat
         if: contains(github.event.head_commit.message, 'tgapk') || github.event_name == 'workflow_dispatch'

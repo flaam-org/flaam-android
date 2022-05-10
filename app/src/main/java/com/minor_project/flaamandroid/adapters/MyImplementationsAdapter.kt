@@ -51,8 +51,8 @@ class MyImplementationsAdapter(
             updateViewForVote(model.vote!!, model)
 
             tvDescriptionMyImplementations.text = model.description.toString()
-            val milestonesCount = model.milestones!!.size
-            val completedMilestonesCount = model.completedMilestones!!.size
+            val milestonesCount = model.milestones?.size
+            val completedMilestonesCount = model.completedMilestones?.size
 
             Timber.e("milestones : imp id${model.id.toString()}")
             Timber.e("milestones : total$milestonesCount")
@@ -61,8 +61,8 @@ class MyImplementationsAdapter(
             if (milestonesCount == 0) {
                 stateProgressBarMyImplementations.visibility = View.GONE
             } else {
-                stateProgressBarMyImplementations.maxStateNumber = milestonesCount
-                stateProgressBarMyImplementations.currentStateNumber = completedMilestonesCount
+                stateProgressBarMyImplementations.maxStateNumber = milestonesCount!!
+                stateProgressBarMyImplementations.currentStateNumber = completedMilestonesCount!!
             }
 
             if (model.repoUrl.isNullOrEmpty()) {
