@@ -1,3 +1,6 @@
+
+<p align = "center"><img src="https://imgur.com/Pgx05dn.png"></p>
+
 <h1 align="center"> Flaam</h1>
 
 <h3 align="center">
@@ -64,3 +67,14 @@ This app bridges the gap between the people who have ideas and the people who ha
 ## backend source
 https://github.com/flaam-org/flaam-api
 
+
+[contributors-shield]: https://img.shields.io/github/contributors/flaam-org/flaam-android.svg?style=for-the-badge
+[contributors-url]: https://github.com/flaam-org/flaam-android/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/flaam-org/flaam-android.svg?style=for-the-badge
+[forks-url]: https://github.com/flaam-org/flaam-android/network/members
+[stars-shield]: https://img.shields.io/github/stars/flaam-org/flaam-android.svg?style=for-the-badge
+[stars-url]: https://github.com/flaam-org/flaam-android/stargazers
+[issues-shield]: https://img.shields.io/github/issues/flaam-org/flaam-android.svg?style=for-the-badge
+[issues-url]: https://github.com/flaam-org/flaam-android/issues
+[license-shield]: https://img.shields.io/github/license/flaam-org/flaam-android.svg?style=for-the-badge
+[license-url]: https://github.com/flaam-org/flaam-android/blob/master/LICENSE.txt
