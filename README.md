@@ -1,8 +1,10 @@
 <h1 align="center"> Flaam</h1>
 
 <h3 align="center">
-An open source collaboration platform for Developers and Ideators.</h3>
-<br/>
+An open source collaboration platform for Developers and Ideators.
+</h3>
+
+<br>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
