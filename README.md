@@ -4,7 +4,6 @@
 An open source collaboration platform for Developers and Ideators.
 </h3>
 
-<br>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
