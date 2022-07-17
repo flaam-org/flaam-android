@@ -6,14 +6,6 @@
 <h3 align="center">
 An open source collaboration platform for Developers and Ideators.
 </h3>
-
-
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-
-
 <p align="center"><a href="https://github.com/flaam-org/flaam-android/releases/download/continuous/app-debug.apk"><img src="https://imgur.com/fsKjoYf.png" alt="Download Apk" style="width:300px;"></a>
 </p>
 </br>
@@ -67,15 +59,3 @@ This app bridges the gap between the people who have ideas and the people who ha
 
 ## backend source
 https://github.com/flaam-org/flaam-api
-
-
-[contributors-shield]: https://img.shields.io/github/contributors/flaam-org/flaam-android.svg?style=for-the-badge
-[contributors-url]: https://github.com/flaam-org/flaam-android/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/flaam-org/flaam-android.svg?style=for-the-badge
-[forks-url]: https://github.com/flaam-org/flaam-android/network/members
-[stars-shield]: https://img.shields.io/github/stars/flaam-org/flaam-android.svg?style=for-the-badge
-[stars-url]: https://github.com/flaam-org/flaam-android/stargazers
-[issues-shield]: https://img.shields.io/github/issues/flaam-org/flaam-android.svg?style=for-the-badge
-[issues-url]: https://github.com/flaam-org/flaam-android/issues
-[license-shield]: https://img.shields.io/github/license/flaam-org/flaam-android.svg?style=for-the-badge
-[license-url]: https://github.com/flaam-org/flaam-android/blob/master/LICENSE.txt
