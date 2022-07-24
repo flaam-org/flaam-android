@@ -33,7 +33,7 @@ This app bridges the gap between the people who have ideas and the people who ha
 ## Browse and post ideas
 <p float="left">
 <img src="https://imgur.com/7pSG9zV.png" alt="drawing" width="260"/>
-<img src="https://imgur.com/5ue36tx.png" alt="drawing" width="260"/>
+<img src="https://imgur.com/Shsiv0e.png" alt="drawing" width="260"/>
 </p>
 
 
@@ -45,7 +45,7 @@ This app bridges the gap between the people who have ideas and the people who ha
 
 <p float="left">
 <img src="https://imgur.com/wOnO7gj.png" alt="drawing" width="260"/>
-<img src="https://imgur.com/st1xDMw.png" alt="drawing" width="260"/>
+<img src="https://imgur.com/st1xDMw.jpeg" alt="drawing" width="260"/>
 </p>
 
 ## post ideas
